@@ -2723,6 +2723,11 @@ color-convert@^2.0.1:
   dependencies:
     color-name "~1.1.4"
 
+color-name-list@^10.24.2:
+  version "10.24.2"
+  resolved "https://registry.npmjs.org/color-name-list/-/color-name-list-10.24.2.tgz"
+  integrity sha512-gDzSFn7x6ODKsU0kKsrMEC0f7PVqFif30m9PMEjBFuKSZdekeZPCALhU4K6WY0xTTTrmdsTt8IhtO7uaSLQ8Ew==
+
 color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
@@ -5179,6 +5184,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+nearest-color@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.npmjs.org/nearest-color/-/nearest-color-0.4.4.tgz"
+  integrity sha512-orhcaIORC10tf41Ld2wwlcC+FaAavHG87JHWB3eHH5p7v2k9Tzym2XNEZzLAm5YJwGv6Q38WWc7SOb+Qfu/4NQ==
+
 negotiator@0.6.3:
   version "0.6.3"
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
@@ -5671,10 +5681,17 @@ react-native-reanimated@*:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
-react-native-vision-camera@^4.5.1:
+react-native-vision-camera@^4.5.1, react-native-vision-camera@>=4.0.1:
   version "4.5.1"
   resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-4.5.1.tgz"
   integrity sha512-ob7gfBYin4lG2zlzRr5y4rYJN3NCCyJotFX1z3ul8V0N2GwkCGh31cko6hF9DXG4VocSPVYKt+K5W0CWLp3y0g==
+
+react-native-worklets-core@*, react-native-worklets-core@^1.3.3, react-native-worklets-core@>=1.2.0:
+  version "1.3.3"
+  resolved "https://registry.npmjs.org/react-native-worklets-core/-/react-native-worklets-core-1.3.3.tgz"
+  integrity sha512-wlkuhpUo4Wd9WBcnKuXWv775rYNYMfDxUySCZYxd3VDtwnF8PHPqAJllVIlHjamPNKpcitFvAgQa/C3YOsJwgQ==
+  dependencies:
+    string-hash-64 "^1.0.3"
 
 react-native@*, react-native@0.75.1:
   version "0.75.1"
@@ -6243,6 +6260,11 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
+string-hash-64@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/string-hash-64/-/string-hash-64-1.0.3.tgz"
+  integrity sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw==
+
 string-length@^4.0.1:
   version "4.0.2"
   resolved "https://registry.npmjs.org/string-length/-/string-length-4.0.2.tgz"
@@ -6646,6 +6668,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vision-camera-resize-plugin@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/vision-camera-resize-plugin/-/vision-camera-resize-plugin-3.1.0.tgz"
+  integrity sha512-KKW5c5GCP+SCr4r8O3cg14lqDe4OSWAmRoY1YICYuv01wRVlDTavEmkWfuqjtcSAgU8EAXL76gM9GVCyWme6KQ==
 
 vlq@^1.0.0:
   version "1.0.1"
