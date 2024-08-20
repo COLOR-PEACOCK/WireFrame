@@ -10,8 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^4.6.4",
     "react": "18.3.1",
-    "react-native": "0.75.1"
+    "react-native": "0.75.1",
+    "react-native-gesture-handler": "^2.18.1",
+    "react-native-reanimated": "^3.15.0",
+    "react-native-svg": "^15.5.0",
+    "react-native-svg-transformer": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -32,6 +37,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "yarn@3.6.4"
+  }
 }
