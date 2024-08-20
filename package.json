@@ -18,7 +18,10 @@
     "react-native-image-picker": "^7.1.2",
     "react-native-reanimated": "^3.15.0",
     "react-native-svg-transformer": "^1.5.0",
-    "react-native-webview": "^13.10.5"
+    "react-native-webview": "^13.10.5",
+    "@google/generative-ai": "^0.16.0",
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
