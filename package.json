@@ -12,6 +12,8 @@
   "dependencies": {
     "@google/generative-ai": "^0.16.0",
     "@gorhom/bottom-sheet": "^4.6.4",
+    "@react-navigation/native-stack": "^6.11.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "nearest-color": "^0.4.4",
