@@ -20,7 +20,7 @@ export const CustomText = ({ style, ...rest }) => {
 	const customStyle = {
 		fontFamily: 'Pretendard-Regular',
 		fontSize: 14,
-		color: COLOR.BLACK,
+		color: COLOR.GRAY_9,
 	};
 
 	return <Text style={[customStyle, style]} {...rest} />;
