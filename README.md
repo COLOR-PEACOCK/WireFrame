@@ -1,80 +1,235 @@
-테스트 성민~
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
+# Git Workflow 및 코드 컨벤션
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## 브랜치 전략
 
-## Step 1: Start the Metro Server
+### `main`
+- **기본 브랜치**
+- 배포 가능한 안정된 버전의 코드가 존재하는 브랜치입니다.
+- PR(Pull Request)을 통해서만 변경이 가능합니다.
+- 모든 팀원이 배포 전 이 브랜치의 코드를 기준으로 작업합니다.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### `feature/<feature-name>`
+- **기능 브랜치**
+- 새로운 기능을 개발할 때 사용하는 브랜치입니다.
+- 각 기능별로 독립된 브랜치를 생성하여 작업합니다.
+---
 
-To start Metro, run the following command from the _root_ of your React Native project:
+# 코드 컨벤션
 
-```bash
-# using npm
-npm start
+### 1. Prettier
+- **자동 코드 포매터 사용**: VSCode 확장을 통해 Prettier를 설치합니다.
+- **Prettier의 장점**:
+  - 일관성 유지: 팀원들 간의 코드 스타일 차이를 없애고, 일관된 포맷을 유지합니다.
+  - 자동화: 코드 작성 시 자동으로 포맷팅되므로, 수동으로 스타일을 맞출 필요가 없습니다.
+  - 시간 절약: 코드 스타일에 신경 쓰기보다는 로직에 집중할 수 있게 해 줍니다.
 
-# OR using Yarn
-yarn start
+### 2. 네이밍 컨벤션
+
+#### 1. 카멜케이스 (camelCase)
+- **일반 함수와 변수명**에 사용됩니다.
+- 첫 글자는 소문자이고, 이후 각 단어의 첫 글자는 대문자입니다.
+
+```javascript
+// 예시
+function calculateSum() {}
+let totalCount = 0;
 ```
 
-## Step 2: Start your Application
+#### 2. 파스칼케이스 (PascalCase)
+- **클래스명 또는 생성자 함수명**에 사용됩니다.
+- 첫 글자는 대문자로 시작하고, 이후 각 단어의 첫 글자도 대문자로 합니다.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```javascript
+// 예시
+class UserProfile {}
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
 ```
 
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+### 3. 스타일 시트 네이밍 컨벤션
+- **케밥케이스 (kebab-case)**:
+  - CSS 클래스명은 모든 글자를 소문자로 작성하고, 단어 사이에는 하이픈(-)을 사용합니다.
+  
+```css
+/* 예시 */
+.main-header {}
+.button-primary {}
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### 4. 주석
+- **들여쓰기**: 주석은 설명하려는 구문에 맞춰 들여쓰기 합니다.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+```javascript
+// Good
+function someFunction() {
+  // statement에 관한 주석
+  statements;
+}
+```
+---
+# 커밋 메시지 컨벤션
 
-## Step 3: Modifying your App
+### 커밋 타입
+| 타입    | 설명                                  |
+|---------|---------------------------------------|
+| Feat    | 새로운 기능 추가                       |
+| Fix     | 버그 수정                              |
+| Docs    | 문서 수정                              |
+| Style   | 코드 포매팅 (세미콜론 누락 등 코드 자체의 변경이 없는 경우) |
+| Refactor| 코드 리팩토링                         |
+| Test    | 테스트 코드 추가 또는 수정            |
+| Chore   | 패키지 매니저 수정, 기타 수정 (ex. `.gitignore`) |
+| Design  | CSS 등 사용자 UI 디자인 변경          |
+| Comment | 필요한 주석 추가 및 변경              |
+| Rename  | 파일 또는 폴더 명을 수정하거나 옮기는 작업만인 경우 |
+| Remove  | 파일을 삭제하는 작업만 수행한 경우   |
+| !BREAKING CHANGE | 커다란 API 변경의 경우     |
+| !HOTFIX | 급하게 치명적인 버그를 고쳐야 하는 경우 |
 
-Now that you have successfully run the app, let's modify it.
+### 커밋 메시지 작성 규칙
+- 제목과 본문을 빈행으로 분리
+- 커밋 유형 이후 제목과 본문은 한글로 작성하여 내용이 잘 전달될 수 있도록 할 것
+- 본문에는 변경한 내용과 이유 설명 (어떻게보다는 무엇 & 왜를 설명)
+- 제목 첫 글자는 대문자로, 끝에는 마침표 금지
+- 제목은 영문 기준 50자 이내로 할 것 (의논)
+- 여러 가지 항목이 있다면 글머리 기호를 통해 가독성 높이기
+- 한 커밋에는 한 가지 문제만 포함하여 추적 가능하게 유지
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+### 커밋 메시지 형식
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+```plaintext
+<타입>: <간결한 설명>
+<필요시 상세 설명>
+```
 
-## Congratulations! :tada:
+#### 예시
 
-You've successfully run and modified your React Native App. :partying_face:
+```plaintext
+Feat: 사용자 로그인 기능 추가
+- 버튼 클릭 시 사용자 로그인 요청을 서버로 보냄
+- 로그인 성공 시 사용자 정보를 로컬 스토리지에 저장
+```
 
-### Now what?
+### 좋은 커밋 메시지를 작성해야 하는 이유
+- 팀원과의 소통을 원활하게 합니다.
+- 편리하게 과거 추적 기능을 사용할 수 있습니다.
+- 나중에 실무에서 익숙해지기 위해 중요합니다.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+---
 
-# Troubleshooting
+# PR (Pull Request) 프로세스
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### PR 제목
+- **형식**: `[타입] 간결한 변경 내용`
+- **예시**: `[feat] 사용자 프로필 페이지 추가`
 
-# Learn More
+### PR 본문
+- 변경 사항에 대한 상세한 설명, 관련 이슈 번호, 테스트 방법 등을 포함합니다.
+- **예시**: 
+  ```
+  로그인한 사용자가 자신의 프로필을 볼 수 있도록 프로필 페이지를 추가했습니다. 이 PR은 #45 이슈와 관련되어 있습니다.
+  ```
 
-To learn more about React Native, take a look at the following resources:
+### PR 리뷰 및 병합 절차
+- **리뷰어 지정**: 최소 1명 이상의 팀원을 리뷰어로 지정하고, 모든 리뷰어의 승인을 받은 후에만 PR을 병합합니다.
+- **머지 전 확인 사항**:
+  - 모든 테스트가 성공적으로 통과되었는지 확인합니다.
+  - PR에 연관된 모든 이슈가 해결되었는지 확인합니다.
+  
+### PR 프로세스 예시
+1. **PR 생성**: 기능이나 버그 수정을 완료하면, 기능 브랜치(`feature/<feature-name>`)에서 메인 브랜치(`main`) 또는 개발 브랜치(`develop`)로 풀 리퀘스트를 생성합니다.
+2. **명확한 제목과 설명 작성**: 제목은 `[타입]` 형식을 사용하고, 변경 사항에 대한 명확하고 간결한 설명을 작성합니다. 관련된 이슈가 있다면 연결합니다.
+3. **리뷰어 지정**: 한 명 이상의 리뷰어를 PR에 추가합니다. 리뷰어가 PR을 승인하기 전까지는 병합할 수 없습니다.
+4. **피드백 반영**: 리뷰어가 변경을 요청하면, 코드에 필요한 수정을 한 후 변경 사항을 푸시합니다. PR은 자동으로 새로운 커밋으로 업데이트됩니다.
+5. **PR 병합**: 모든 리뷰어가 PR을 승인하고, 모든 테스트가 통과한 후에 PR을 대상 브랜치로 병합합니다. 필요하다면 "Squash and merge"를 사용하여 모든 커밋을 하나로 합칠 수 있습니다.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+---
+
+# 안전한 작업 동기화 및 병합 절차
+
+이 작업 흐름은 원격 `main` 브랜치가 업데이트된 후, 로컬에서 안전하게 작업을 동기화하고 병합하는 방법을 단계별로 설명합니다. 이를 통해 작업 중인 브랜치와 원격 `main` 브랜치 간의 충돌을 최소화하고, 변경 사항을 안전하게 병합할 수 있습니다.
+
+## 작업 흐름 단계별 설명
+
+### 1. 로컬 브랜치에서 작업 중인 내용 Stash
+현재 작업 중인 로컬 브랜치의 변경 사항을 `stash`에 임시 저장합니다. 이는 작업 내용을 안전하게 보존하면서 다른 브랜치로 전환할 수 있도록 해줍니다.
+
+```bash
+git stash
+```
+
+### 2. 로컬 `main` 브랜치로 체크아웃
+이제 로컬 `main` 브랜치로 전환합니다. 이 작업은 원격 `main` 브랜치의 변경 사항을 가져오기 위한 준비 단계입니다.
+
+```bash
+git checkout main
+```
+
+### 3. 원격 `main` 브랜치의 변경 사항을 Fetch 및 Pull
+원격 `main` 브랜치의 최신 변경 사항을 가져와 로컬 `main` 브랜치와 동기화합니다.
+
+```bash
+git fetch origin
+git pull origin main
+```
+
+이 작업으로 로컬 `main` 브랜치가 원격 `main` 브랜치와 동기화됩니다.
+
+### 4. 작업 중인 로컬 브랜치로 돌아가기
+이제 원래 작업하던 로컬 브랜치로 다시 전환합니다.
+
+```bash
+git checkout <your-branch-name>
+```
+
+예를 들어, 작업하던 브랜치 이름이 `feature-branch`라면:
+
+```bash
+git checkout feature-branch
+```
+
+### 5. 로컬 `main` 브랜치와 작업 중인 브랜치를 병합
+동기화된 로컬 `main` 브랜치의 변경 사항을 작업 중인 브랜치에 병합합니다.
+
+```bash
+git merge main
+```
+
+### 6. Stash한 작업 내용 복원 (Pop)
+병합이 완료되면, `stash`에 저장해 둔 작업 내용을 복원합니다.
+
+```bash
+git stash pop
+```
+
+### 7. 변경 사항 커밋 및 푸시
+병합된 결과와 복원된 작업 내용을 커밋하고, 원격 저장소로 푸시합니다.
+
+```bash
+git add .
+git commit -m "Merge main into feature-branch and apply stashed changes"
+git push origin <your-branch-name>
+```
+
+예를 들어, 작업 브랜치가 `feature-branch`라면:
+
+```bash
+git push origin feature-branch
+```
+
+## 전체 작업 흐름 요약
+
+1. 로컬 브랜치의 작업 내용을 `stash`로 저장.
+2. 로컬 `main` 브랜치로 전환.
+3. 원격 `main` 브랜치의 최신 변경 사항을 fetch하고 pull하여 동기화.
+4. 원래 작업하던 로컬 브랜치로 돌아가기.
+5. 로컬 `main` 브랜치의 내용을 작업 브랜치에 병합.
+6. `stash`한 작업 내용을 pop하여 복원.
+7. 변경 사항을 커밋하고 원격 저장소로 푸시.
+
+## 결론
+이 작업 흐름은 원격 `main` 브랜치와 동기화된 상태에서 작업을 이어나갈 수 있는 안전하고 효율적인 방법입니다. 작업 중인 브랜치와 원격 `main` 브랜치 간의 충돌을 최소화하고, 변경 사항을 안전하게 병합할 수 있습니다. 이 과정에서는 충돌이 발생할 수 있으며, 발생 시 충돌을 해결하고 병합을 진행해야 합니다.
+
