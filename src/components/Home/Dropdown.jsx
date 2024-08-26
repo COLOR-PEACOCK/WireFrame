@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLOR } from '@styles/color';
-import { ListValue }from '@components/Home';
+import { ListValue } from '@components/Home';
 import useModal from '@hooks/useModal';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
@@ -86,7 +86,7 @@ const Dropdown = ({
 							disabled: true,
 							label: placeholder,
 						})}
-					onClickHandler={handleOpenModal}
+					onPressLabel={handleOpenModal}
 				/>
 				<Icon name={'expand-more'} size={24} />
 			</TouchableOpacity>
@@ -116,7 +116,7 @@ const Dropdown = ({
 								{list.map(l => (
 									<ListValue
 										key={l}
-										onClickHandler={label => {
+										onPressLabel={label => {
 											handleCloseModal();
 											if (onLabelClickHandler) {
 												onLabelClickHandler(label);
@@ -146,4 +146,3 @@ const styles = StyleSheet.create({
 });
 
 export default Dropdown;
-
