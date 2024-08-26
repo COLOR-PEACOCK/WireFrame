@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import {
 	View,
 	StyleSheet,
-	Button,
+	TouchableOpacity,
 	Platform,
 	PermissionsAndroid,
 	Alert,
@@ -14,7 +14,7 @@ import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
 
 const ImageScreen = () => {
-	const [color, setColor] = useState('#000000');
+	const [color, setColor] = useState('#A4B5C9');
 	const [imageDataUrl, setImageDataUrl] = useState(null);
 
 	const requestStoragePermission = async () => {
@@ -44,24 +44,20 @@ const ImageScreen = () => {
 		try {
 			const response = await launchImageLibrary({ mediaType: 'photo' });
 			if (response.didCancel) {
-				console.log('User cancelled image picker');
+				Alert.alert('Notification', 'Image selection canceled.');
 			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
 				Alert.alert('Error', response.error);
 			} else if (response.assets && response.assets[0].uri) {
 				const uri = response.assets[0].uri;
-				console.log('Selected image URI:', uri);
 				try {
 					const base64Image = await RNFS.readFile(uri, 'base64');
 					const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-					console.log('Converted Base64 Data URL:', dataUrl);
 					setImageDataUrl(dataUrl);
 				} catch (error) {
-					console.error('Failed to convert image to Base64', error);
+					Alert.alert('Error', 'Failed to convert image to Base64');
 				}
 			}
 		} catch (error) {
-			console.log('Error in selectImage:', error);
 			Alert.alert(
 				'Error',
 				`An unexpected error occurred while picking the image: ${error.message}`,
@@ -84,17 +80,19 @@ const ImageScreen = () => {
           margin: 0;
           padding: 0;
           overflow: hidden;
+          background-color: #333;
         }
         #canvas {
-          border: 1px solid black;
+          width: 100%;
+          height: auto;
+          max-height: 100%;
         }
         #crosshair {
           position: absolute;
           width: 30px;
           height: 30px;
-          border: 3px solid red;
+          border: 3px solid white;
           border-radius: 50%;
-          box-shadow: 0 0 0 1px black;
           cursor: pointer;
           transform: translate(-50%, -50%);
         }
@@ -112,7 +110,7 @@ const ImageScreen = () => {
           const canvas = document.getElementById('canvas');
           const ctx = canvas.getContext('2d');
           const maxWidth = window.innerWidth;
-          const maxHeight = window.innerHeight;
+          const maxHeight = window.innerHeight * 0.6;
           const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
           canvas.width = img.width * ratio;
           canvas.height = img.height * ratio;
@@ -169,28 +167,42 @@ const ImageScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<BasicHeader title="이미지" />
-			<Button title="Select Image" onPress={selectImage} />
-			{imageDataUrl && (
-				<WebView
-					source={{ html: getHtmlContent(imageDataUrl) }}
-					onMessage={onMessage}
-					style={styles.webview}
-					onLoad={() =>
-						console.log(
-							'WebView loaded with imageDataUrl:',
-							imageDataUrl,
-						)
-					}
-					onError={error => console.error('WebView error:', error)}
-				/>
-			)}
-			<View style={styles.colorBox}>
+			<View style={styles.headerContainer}>
+				<BasicHeader title="이미지" />
+				<TouchableOpacity
+					style={styles.selectImageBox}
+					onPress={selectImage}>
+					<Text>변경</Text>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.colorInfoBox}>
 				<View
 					style={[styles.colorIndicator, { backgroundColor: color }]}
 				/>
-				<Text style={styles.colorText}>{color}</Text>
+				<View style={styles.colorDetails}>
+					<Text style={styles.colorName}>연한파랑</Text>
+					<Text style={styles.colorHex}>{color}</Text>
+					<Text style={styles.colorHsl}>hsl: 18.5, 5.2%, 48.8%</Text>
+				</View>
 			</View>
+			<View style={styles.imageContainer}>
+				{imageDataUrl ? (
+					<WebView
+						source={{ html: getHtmlContent(imageDataUrl) }}
+						onMessage={onMessage}
+						style={styles.webview}
+					/>
+				) : (
+					<TouchableOpacity
+						style={styles.placeholder}
+						onPress={selectImage}>
+						<Text style={styles.placeholderText}>이미지 선택</Text>
+					</TouchableOpacity>
+				)}
+			</View>
+			<TouchableOpacity style={styles.recommendationButton}>
+				<Text style={styles.recommendationButtonText}>색상 추천</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -198,25 +210,80 @@ const ImageScreen = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#fff',
 	},
-	webview: {
-		flex: 0.5,
+	headerContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingRight: 40,
 	},
-	colorBox: {
-		height: 50,
+	changeButton: {
+		backgroundColor: '#f0f0f0',
+		padding: 10,
+		borderRadius: 8,
+	},
+	changeButtonText: {
+		color: '#6200EA',
+		fontWeight: 'bold',
+	},
+	colorInfoBox: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#f0f0f0',
+		padding: 10,
+		backgroundColor: '#333',
 	},
 	colorIndicator: {
-		width: 30,
-		height: 30,
-		borderRadius: 15,
+		width: 40,
+		height: 40,
+		borderRadius: 4,
+		backgroundColor: '#A4B5C9',
 		marginRight: 10,
 	},
-	colorText: {
-		fontSize: 16,
+	colorDetails: {
+		flex: 1,
+	},
+	colorName: {
+		color: '#fff',
+		fontWeight: 'bold',
+	},
+	colorHex: {
+		color: '#ccc',
+	},
+	colorHsl: {
+		color: '#ccc',
+	},
+	imageContainer: {
+		flex: 3,
+		width: '100%',
+		height: '50%',
+	},
+	placeholder: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#f0f0f0',
+		borderRadius: 8,
+	},
+	placeholderText: {
+		color: '#888',
+		fontSize: 18,
+	},
+	webview: {
+		width: '100%',
+		height: '100%',
+	},
+	recommendationButton: {
+		backgroundColor: '#6200EA',
+		padding: 15,
+		borderRadius: 8,
+		alignItems: 'center',
+		margin: 20,
+	},
+	recommendationButtonText: {
+		color: '#fff',
+		fontSize: 18,
+		fontWeight: 'bold',
 	},
 });
 
