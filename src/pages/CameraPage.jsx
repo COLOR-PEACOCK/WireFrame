@@ -97,7 +97,7 @@ const CameraPage = ({ navigation }) => {
 				{/* 조준점 */}
 				<View
 					style={[
-						styles.crosshair,
+						styles.outerborder,
 						{
 							top: parentHeight / 2 - 17.5,
 							left: parentWidth / 2 - 17.5,
@@ -108,15 +108,7 @@ const CameraPage = ({ navigation }) => {
 							styles.crosshairbg,
 							{ borderColor: extColor.bgColor },
 						]}>
-						<View
-							style={{
-								width: 20,
-								height: 20,
-								borderRadius: 18,
-								borderWidth: 1,
-								borderColor: COLOR.WHITE,
-							}}
-						/>
+						<View style={styles.innerborder} />
 					</View>
 				</View>
 			</View>
@@ -174,12 +166,7 @@ const CameraPage = ({ navigation }) => {
 								prevType === 'back' ? 'front' : 'back',
 							)
 						}
-						style={{
-							width: 86,
-							height: 42,
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}>
+						style={styles.cameraswitchbutton}>
 						<Text style={{ fontSize: 20 }}>전환</Text>
 					</TouchableOpacity>
 					{/* 색 추출 버튼 */}
@@ -190,22 +177,10 @@ const CameraPage = ({ navigation }) => {
 								hex: extColor.hexColor,
 							})
 						}
-						style={{
-							width: 70,
-							height: 70,
-							borderRadius: 50,
-							borderWidth: 1.5,
-							borderColor: COLOR.GRAY_10,
-						}}
+						style={styles.extcolorbutton}
 					/>
 					{/* 추천 화면 이동 버튼 */}
-					<TouchableOpacity
-						style={{
-							flexDirection: 'row',
-							alignItems: 'center',
-							width: 86,
-							height: 42,
-						}}>
+					<TouchableOpacity style={styles.nextbutton}>
 						<Text style={{ fontSize: 20, color: COLOR.GRAY_10 }}>
 							다음
 						</Text>
@@ -243,7 +218,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 8,
 	},
-	crosshair: {
+	outerborder: {
 		position: 'absolute',
 		width: 35,
 		height: 35,
@@ -261,6 +236,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	innerborder: {
+		width: 20,
+		height: 20,
+		borderRadius: 18,
+		borderWidth: 1,
+		borderColor: COLOR.WHITE,
+	},
 	bottomcontainer: {
 		flex: 0.25,
 		backgroundColor: COLOR.WHITE,
@@ -271,13 +253,31 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 8,
 	},
-
 	bottombar: {
 		flex: 0.47,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		paddingHorizontal: 18,
+	},
+	cameraswitchbutton: {
+		width: 86,
+		height: 42,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	extcolorbutton: {
+		width: 70,
+		height: 70,
+		borderRadius: 50,
+		borderWidth: 1.5,
+		borderColor: COLOR.GRAY_10,
+	},
+	nextbutton: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: 86,
+		height: 42,
 	},
 });
 
