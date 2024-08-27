@@ -12,6 +12,7 @@ import { COLOR } from '@styles/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BasicHeader from '@components/common/BasicHeader';
 import CameraRender from '@components/camerapage/CameraRender';
+import ColorInfo from '@components/camerapage/ColorInfo';
 
 const CameraPage = ({ navigation }) => {
 	const { hasPermission, requestPermission } = useCameraPermission();
@@ -51,6 +52,9 @@ const CameraPage = ({ navigation }) => {
 		setParentHeight(height);
 		setParentWidth(width);
 	};
+
+	const cameraswitch = () =>
+		setCameraType(prevType => (prevType === 'back' ? 'front' : 'back'));
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -116,56 +120,13 @@ const CameraPage = ({ navigation }) => {
 			{/* 하단 영역 */}
 			<View style={styles.bottomcontainer}>
 				{/* 색상 정보 */}
-				{selectedColor ? (
-					<View style={styles.infowrapper}>
-						<View
-							style={{
-								width: 74,
-								height: 74,
-								backgroundColor: selectedColor.rgb,
-								marginLeft: 42,
-							}}
-						/>
-						<View>
-							<Text
-								style={{ color: COLOR.GRAY_10, fontSize: 16 }}>
-								연한 파랑
-							</Text>
-							<Text
-								style={{ color: COLOR.GRAY_10, fontSize: 16 }}>
-								Light Blue
-							</Text>
-							<Text style={{ color: COLOR.GRAY_8, fontSize: 14 }}>
-								HEX:{selectedColor.hex}
-							</Text>
-						</View>
-					</View>
-				) : (
-					<View
-						style={[
-							styles.infowrapper,
-							{ justifyContent: 'center' },
-						]}>
-						<Text
-							style={{
-								color: COLOR.GRAY_10,
-								fontSize: 18,
-								fontFamily: 'Pretendard-Bold',
-							}}>
-							선택하신 색상이 아직 없습니다.
-						</Text>
-					</View>
-				)}
+				<ColorInfo selectedColor={selectedColor} />
 
 				{/* 하단 버튼 모음*/}
 				<View style={styles.bottombar}>
 					{/* 카메라 전환 */}
 					<TouchableOpacity
-						onPress={() =>
-							setCameraType(prevType =>
-								prevType === 'back' ? 'front' : 'back',
-							)
-						}
+						onPress={cameraswitch}
 						style={styles.cameraswitchbutton}>
 						<Text style={{ fontSize: 20 }}>전환</Text>
 					</TouchableOpacity>
@@ -246,12 +207,6 @@ const styles = StyleSheet.create({
 	bottomcontainer: {
 		flex: 0.25,
 		backgroundColor: COLOR.WHITE,
-	},
-	infowrapper: {
-		flex: 0.53,
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 8,
 	},
 	bottombar: {
 		flex: 0.47,
