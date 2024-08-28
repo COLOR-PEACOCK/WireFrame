@@ -44,13 +44,14 @@ const getColorInfo = hexVal => {
 
 	const nearestMatch = nearest(`#${hexVal}`);
 
-	const rgbArray = convert.hex.rgb(nearestMatch.value.replace('#', ''));
-	const hslArray = convert.hex.hsl(nearestMatch.value.replace('#', ''));
-	const cmykArray = convert.hex.cmyk(nearestMatch.value.replace('#', ''));
+	const rgbArray = convert.hex.rgb(hexVal.replace('#', ''));
+	const hslArray = convert.hex.hsl(hexVal.replace('#', ''));
+	const cmykArray = convert.hex.cmyk(hexVal.replace('#', ''));
+	// TODO: cmyk 정확도 확인해야함
 
 	return {
 		engName: nearestMatch.name || 'Unknown Color',
-		hexVal: nearestMatch.value,
+		hexVal: `#${hexVal}`,
 		rgbVal: `rgb(${rgbArray.join(', ')})`,
 		hslVal: `hsl(${hslArray[0]}, ${hslArray[1]}%, ${hslArray[2]}%)`,
 		cmykVal: `CMYK(${cmykArray.join('%, ')}%)`,
@@ -133,17 +134,18 @@ const ColorRecommendScreen = ({ mainColor }) => {
 						]}>
 						{colorInfo.engName}
 					</Text>
-					<Text style={[styles.text, { color: textColor }]}>
-						{colorInfo.hexVal}
-					</Text>
+
 					<Text style={[styles.text, { color: textColor }]}>
 						{colorInfo.rgbVal}
 					</Text>
 					<Text style={[styles.text, { color: textColor }]}>
-						{colorInfo.cmykVal}
+						{colorInfo.hexVal}
 					</Text>
 					<Text style={[styles.text, { color: textColor }]}>
 						{colorInfo.hslVal}
+					</Text>
+					<Text style={[styles.text, { color: textColor }]}>
+						{colorInfo.cmykVal}
 					</Text>
 				</View>
 				<TouchableOpacity

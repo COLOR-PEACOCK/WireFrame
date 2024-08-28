@@ -9,7 +9,7 @@ export function getComplementaryColor(hsl) {
 // 유사색 조합: 메인 컬러 포함 3가지
 export function getAnalogousColors(hsl) {
 	return [
-		`#${convert.hsl.hex([(hsl[0] - 18) % 360, hsl[1], hsl[2]])}`,
+		`#${convert.hsl.hex([(hsl[0] + 360 - 18) % 360, hsl[1], hsl[2]])}`,
 		`#${convert.hsl.hex([(hsl[0] + 18) % 360, hsl[1], hsl[2]])}`,
 	];
 }
@@ -43,7 +43,7 @@ export function getMonochromaticColors(hsl) {
 export function getTetradicColors(hsl) {
 	return [
 		`#${convert.hsl.hex([(hsl[0] + 270) % 360, hsl[1], hsl[2]])}`,
-		`#${convert.hsl.hex([(hsl[0] + 162) % 360, hsl[1], hsl[2]])}`,
-		`#${convert.hsl.hex([(hsl[0] + 54) % 360, hsl[1], hsl[2]])}`,
+		`#${convert.hsl.hex([(hsl[0] + 180) % 360, hsl[1], hsl[2]])}`,
+		`#${convert.hsl.hex([(hsl[0] + 90) % 360, hsl[1], hsl[2]])}`,
 	];
 }
