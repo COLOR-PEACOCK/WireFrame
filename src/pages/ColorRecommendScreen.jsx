@@ -57,9 +57,16 @@ const getColorInfo = hexVal => {
 	};
 };
 
-const ColorPalette = ({ title, colors, textColor }) => (
+const ColorPalette = ({ titleKor, titleEng, colors, textColor }) => (
 	<View style={styles.paletteContainer}>
-		<Text style={[styles.paletteTitle, { color: textColor }]}>{title}</Text>
+		<View style={styles.paletteName}>
+			<Text style={[styles.paletteTitle, { color: textColor }]}>
+				{titleKor}
+			</Text>
+			<Text style={[styles.paletteTitleEng, { color: textColor }]}>
+				{titleEng}
+			</Text>
+		</View>
 		<View style={styles.colorRow}>
 			{colors.map((color, index) => (
 				<View
@@ -148,20 +155,36 @@ const ColorRecommendScreen = ({ mainColor }) => {
 
 			<ScrollView>
 				<ColorPalette
-					title="보색 팔레트"
+					titleKor="단색"
+					titleEng="Monochromatic color"
+					colors={monochromaticColors}
+				/>
+				<ColorPalette
+					titleKor="보색"
+					titleEng="Complementary color"
 					colors={complementaryColors}
 				/>
-				<ColorPalette title="유사색 팔레트" colors={analogousColors} />
-				<ColorPalette title="3색 조화 팔레트" colors={triadicColors} />
 				<ColorPalette
-					title="분할 보색 팔레트"
+					titleKor="유사색"
+					titleEng="Analogous colors"
+					colors={analogousColors}
+				/>
+				<ColorPalette
+					titleKor="분할 보색"
+					titleEng="Split complementary colors"
 					colors={splitComplementaryColors}
 				/>
 				<ColorPalette
-					title="단색 팔레트"
-					colors={monochromaticColors}
+					titleKor="3가지 색상 조화"
+					titleEng="Three colors harmony"
+					colors={triadicColors}
 				/>
-				<ColorPalette title="4색 조화 팔레트" colors={tetradicColors} />
+
+				<ColorPalette
+					titleKor="4가지 색상 조화"
+					titleEng="Four colors harmony"
+					colors={tetradicColors}
+				/>
 			</ScrollView>
 
 			{isPickerVisible && (
@@ -270,29 +293,33 @@ const styles = StyleSheet.create({
 		marginLeft: 'auto',
 	},
 	paletteContainer: {
-		marginVertical: 10,
-		padding: 10,
-		borderRadius: 8,
+		marginVertical: 8,
+		padding: 8,
+	},
+	paletteName: {
+		flexDirection: 'row',
 	},
 	paletteTitle: {
 		fontSize: 18,
 		fontWeight: 'bold',
 		marginBottom: 5,
+		marginHorizontal: 4,
+	},
+	paletteTitleEng: {
+		marginTop: 6,
 	},
 	colorRow: {
 		flexDirection: 'row',
-		marginVertical: 5,
+		marginVertical: 4,
 	},
 	colorBox: {
 		flex: 1,
 		height: 50,
-		borderRadius: 5,
-		marginHorizontal: 5,
 	},
 });
 
 const ParentComponent = () => {
-	const dummyMainColor = '#8E6E97';
+	const dummyMainColor = '#635143';
 
 	return <ColorRecommendScreen mainColor={{ hexVal: dummyMainColor }} />;
 };
