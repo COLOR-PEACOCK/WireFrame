@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
 		setCurrentIndex(currentIndex);
 	};
 
-    const handleSearch = () => setIsModalVisible(true);
+	const handleSearch = () => setIsModalVisible(true);
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
@@ -101,7 +101,7 @@ const Home = ({ navigation }) => {
 					/>
 				</View>
 				<View style={styles.carouselContainer}>
-                    {/* carousel 라이브러리 찾아보기 */}
+					{/* carousel 라이브러리 찾아보기 */}
 					<FlatList
 						automaticallyAdjustContentInsets={false}
 						contentContainerStyle={{
