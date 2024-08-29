@@ -19,7 +19,7 @@ const SCROLL_VIEW_MAX_HEIGHT = 240;
 const Dropdown = ({
 	list,
 	selectedLabel = '',
-	onLabelClickHandler,
+	onClickDropdown,
 	layoutStyle,
 	disabled,
 	placeholder,
@@ -50,7 +50,7 @@ const Dropdown = ({
 							)) >
 					10
 				) {
-					setDropdownTop(pageY + height);
+					setDropdownTop(pageY + height + 12);
 				} else {
 					setDropdownTop(
 						pageY -
@@ -60,6 +60,13 @@ const Dropdown = ({
 			},
 		);
 	}, [isModalVisible]);
+
+	const handlePressLabel = label => {
+		handleCloseModal();
+		if (onClickDropdown) {
+			onClickDropdown(label);
+		}
+	};
 
 	return (
 		<View style={layoutStyle}>
@@ -100,29 +107,21 @@ const Dropdown = ({
 						}}>
 						<View
 							style={[
+								styles.modalContainer,
 								{
 									width,
-									position: 'absolute',
-									zIndex: 10,
 									top: dropdownTop,
 									left: dropdownLeft,
-									borderRadius: 8,
-									backgroundColor: COLOR.WHITE,
 									maxHeight: SCROLL_VIEW_MAX_HEIGHT,
-									elevation: 4,
 								},
 							]}>
 							<ScrollView showsVerticalScrollIndicator={false}>
 								{list.map(l => (
 									<ListValue
 										key={l}
-										onPressLabel={label => {
-											handleCloseModal();
-											if (onLabelClickHandler) {
-												onLabelClickHandler(label);
-											}
-										}}
 										label={l}
+										isActive={l === selectedLabel}
+										onPressLabel={handlePressLabel}
 									/>
 								))}
 							</ScrollView>
@@ -136,12 +135,18 @@ const Dropdown = ({
 
 const styles = StyleSheet.create({
 	fieldContainer: {
-		height: 48,
 		flexDirection: 'row',
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: COLOR.GRAY_5,
+		justifyContent: 'space-between',
 		alignItems: 'center',
+	},
+	modalContainer: {
+		position: 'absolute',
+		zIndex: 10,
+		borderWidth: 2,
+		borderRadius: 8,
+		borderColor: COLOR.GRAY_3,
+		backgroundColor: COLOR.WHITE,
+		elevation: 4,
 	},
 });
 
