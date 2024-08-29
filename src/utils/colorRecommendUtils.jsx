@@ -1,6 +1,8 @@
-import convert from 'color-convert'; // hex, hsl, cmyk, rgb 변환
-// 메인 컬러는 스크린 쪽에 있음
-// 보색 조합: 메인 컬러 포함 2가지
+import convert from 'color-convert';
+import nearestColor from 'nearest-color';
+import colorNames from './Best_of_names_subset.json';
+
+// 색상 조합 추천 계산 식
 export function getComplementaryColor(hsl) {
 	const complementaryHSL = [(hsl[0] + 180) % 360, hsl[1], hsl[2]];
 	return `#${convert.hsl.hex(complementaryHSL)}`;
@@ -47,3 +49,30 @@ export function getTetradicColors(hsl) {
 		`#${convert.hsl.hex([(hsl[0] + 90) % 360, hsl[1], hsl[2]])}`,
 	];
 }
+
+// 색상 정보 출력
+const colors = colorNames.reduce((acc, { name, hex }) => {
+	acc[name.toUpperCase()] = hex.slice(0, 7);
+	return acc;
+}, {});
+
+const nearest = nearestColor.from(colors);
+
+export const getColorInfo = hexVal => {
+	hexVal = hexVal.length > 6 ? hexVal.slice(1, 7) : hexVal;
+
+	const nearestMatch = nearest(`#${hexVal}`);
+
+	const rgbArray = convert.hex.rgb(hexVal.replace('#', ''));
+	const hslArray = convert.hex.hsl(hexVal.replace('#', ''));
+	const cmykArray = convert.hex.cmyk(hexVal.replace('#', ''));
+	// TODO: cmyk 정확도 확인해야함
+
+	return {
+		engName: nearestMatch.name || 'Unknown Color',
+		hexVal: `#${hexVal}`,
+		rgbVal: `rgb(${rgbArray.join(', ')})`,
+		hslVal: `hsl(${hslArray[0]}, ${hslArray[1]}%, ${hslArray[2]}%)`,
+		cmykVal: `CMYK(${cmykArray.join('%, ')}%)`,
+	};
+};
