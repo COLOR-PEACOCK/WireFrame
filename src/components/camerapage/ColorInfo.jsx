@@ -44,43 +44,37 @@ const ColorInfo = ({ selectedColor, parentlayout, setIsOpen, isOpen }) => {
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<BottomSheet
 				ref={bottomSheetRef}
-				snapPoints={[140, 240]}
+				snapPoints={[40, 140]}
 				onChange={handleSheetChanges}
 				handleComponent={CustomHandle}
-				// enableHandlePanningGesture={false}
-				// enableContentPanningGesture={false}
 				backgroundComponent={null}>
 				<BottomSheetView style={styles.contentContainer}>
-					{isOpen ? (
-						<View style={styles.infowrapper}>
-							<View
+					<View style={styles.infowrapper}>
+						<View
+							style={{
+								width: 74,
+								height: 74,
+								backgroundColor: selectedColor?.rgb,
+								marginLeft: 70,
+							}}
+						/>
+						<View>
+							<Text style={styles.engcolors}>Light Blue</Text>
+							<Text
 								style={{
-									width: 74,
-									height: 74,
-									backgroundColor: selectedColor?.rgb,
-									marginLeft: 70,
-								}}
-							/>
-							<View>
-								<Text style={styles.engcolors}>Light Blue</Text>
-								<Text
-									style={{
-										color: COLOR.WHITE,
-										fontSize: 12,
-									}}>
-									≈연한 파랑
-								</Text>
-								<Text style={styles.codecolors}>
-									HEX:{selectedColor?.hex}
-								</Text>
-								<Text style={styles.codecolors}>
-									HSL: 18.5, 5.2%, 48.8%
-								</Text>
-							</View>
+									color: COLOR.WHITE,
+									fontSize: 12,
+								}}>
+								≈연한 파랑
+							</Text>
+							<Text style={styles.codecolors}>
+								HEX:{selectedColor?.hex}
+							</Text>
+							<Text style={styles.codecolors}>
+								HSL: 18.5, 5.2%, 48.8%
+							</Text>
 						</View>
-					) : (
-						<View />
-					)}
+					</View>
 				</BottomSheetView>
 			</BottomSheet>
 		</GestureHandlerRootView>

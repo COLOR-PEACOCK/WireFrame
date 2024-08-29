@@ -31,7 +31,7 @@ const CameraPage = ({ navigation }) => {
 		hexColor: '#000000',
 	});
 	const [selectedColor, setSelectedColor] = useState();
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(0);
 	const [zoomLevel, setZoomLevel] = useState(1);
 
 	const parentRef = useRef();
@@ -67,7 +67,7 @@ const CameraPage = ({ navigation }) => {
 			rgb: extColor.bgColor,
 			hex: extColor.hexColor,
 		});
-		setIsOpen(true);
+		setIsOpen(1);
 	};
 	// 줌 버튼 이벤트
 	const zoomButtonEvent = () => {
@@ -104,12 +104,20 @@ const CameraPage = ({ navigation }) => {
 			{/* 하단 영역 */}
 			<View style={styles.bottomcontainer}>
 				{/* 색상 정보 */}
-				<ColorInfo
-					selectedColor={selectedColor}
-					parentlayout={parentlayout}
-					isOpen={isOpen}
-					setIsOpen={setIsOpen}
-				/>
+				<View
+					style={{
+						height: 150,
+						width: '100%',
+						bottom: 100,
+						justifyContent: 'flex-end',
+					}}>
+					<ColorInfo
+						selectedColor={selectedColor}
+						parentlayout={parentlayout}
+						isOpen={isOpen}
+						setIsOpen={setIsOpen}
+					/>
+				</View>
 
 				{/* 하단 버튼 모음*/}
 				<View style={styles.bottombar}>
