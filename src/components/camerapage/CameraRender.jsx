@@ -8,7 +8,7 @@ import {
 import { Worklets } from 'react-native-worklets-core';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
 
-const CameraRender = ({ extColor, cameraType }) => {
+const CameraRender = ({ extColor, cameraType, zoomLevel }) => {
 	const device = useCameraDevice(cameraType);
 	const { resize } = useResizePlugin();
 
@@ -61,6 +61,7 @@ const CameraRender = ({ extColor, cameraType }) => {
 			device={device}
 			isActive={true}
 			frameProcessor={frameProcessor}
+			zoom={zoomLevel}
 		/>
 	);
 };
