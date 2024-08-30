@@ -25,6 +25,7 @@ const AiResponseScreen = ({ route }) => {
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
+	const [itemColor, setItemColor] = useState(null);
 
 	const defaultColors = [
 		'#FF5733',
@@ -81,12 +82,15 @@ const AiResponseScreen = ({ route }) => {
 					if (
 						responseJson &&
 						responseJson.image_explain &&
+						responseJson.item_color &&
 						responseJson.recommended_colors &&
 						Array.isArray(responseJson.recommended_colors)
 					) {
-						// 이미지 설명을 포함한 전체 설명을 설정
+						setItemColor(responseJson.item_color.hex_code);
+
 						const explanations = [
 							`이미지 설명: ${responseJson.image_explain}`,
+							`선택한 아이템 - ${responseJson.item_color.color_name}: ${responseJson.item_color.description}`,
 							...responseJson.recommended_colors.map(
 								color =>
 									`${color.color_name}: ${color.description}`,
@@ -98,7 +102,10 @@ const AiResponseScreen = ({ route }) => {
 						);
 
 						setResponseExplanation(explanations);
-						setColors(hexColors);
+						setColors([
+							responseJson.item_color.hex_code,
+							...hexColors,
+						]);
 					} else {
 						console.error(
 							'Invalid responseText format:',
@@ -212,6 +219,7 @@ const AiResponseScreen = ({ route }) => {
 						onClose={closeModal}
 						colorInfo={selectedColor || {}}
 						selectedColor={selectedColor?.hexVal || '#000'}
+						allColors={colors}
 					/>
 				</View>
 			</View>
