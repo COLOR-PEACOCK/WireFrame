@@ -12,7 +12,7 @@ import BasicHeader from '@components/common/BasicHeader';
 import { COLOR } from '@styles/color';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
-import { getColorInfo } from '@utils/colorRecommendUtils'; // 여기에 import가 위치해야 합니다.
+import { getColorInfo } from '@utils/colorRecommendUtils';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
@@ -32,16 +32,27 @@ const AiResponseScreen = ({ route }) => {
 		'#3357FF',
 		'#F1C40F',
 		'#9B59B6',
-	]; // ai 응답 오류 시 팔레트 테스트용
+	];
 
 	useEffect(() => {
 		const runAIModel = async () => {
-			const prompt = `너에게 제공된 이미지에서 ${itemInImage}와 어울리는 ${itemToRecommend} 색상을 5가지 이내로 추천하고, 각각의 색의 효과에 1500자이내로 설명해줘. 추천한 색상의 헥스코드들을 JSON으로 응답할 때 카테고리 분리 없이 recommeneded_color_list의 밸류에 배열로 나열해줘:
-            { 'type': 'object',
-            'properties': {
-                'recommeneded_color_explain': { 'type': 'string' },
-                'recommeneded_color_list' : {'type':'array'}
-            }}`;
+			const prompt = `너에게 제공된 이미지에서 ${itemInImage}에 대한 색상과 분위기에 대한 설명과 해당 컬러 헥스 코드를 추출해주고, 그리고 그 아이템과 어울리는 ${itemToRecommend} 색상을 5가지 이내로 한국말로 추천해줘. 각 색상의 효과를 포함하여 JSON 형식으로 응답해줘. JSON 응답의 형식은 아래와 같아야 해:
+
+{
+  "image_explain": "string",
+  "item_color": {
+    "color_name": "string",
+    "hex_code": "string",
+    "description": "string"
+  },
+  "recommended_colors": [
+    {
+      "color_name": "string",
+      "hex_code": "string",
+      "description": "string"
+    }
+  ]
+}`;
 
 			try {
 				const imagePart = {
@@ -52,7 +63,7 @@ const AiResponseScreen = ({ route }) => {
 				};
 
 				const model = genAI.getGenerativeModel({
-					model: 'gemini-1.5-pro',
+					model: 'gemini-1.5-flash',
 					generationConfig: {
 						responseMimeType: 'application/json',
 					},
@@ -62,23 +73,32 @@ const AiResponseScreen = ({ route }) => {
 				const response = await result.response;
 				const text = await response.text();
 
-				const safeResponseText = text.replace(/#/g, '\\u0023');
+				console.log('Raw Response Text:', text);
 
 				try {
-					const responseJson = JSON.parse(safeResponseText);
+					const responseJson = JSON.parse(text);
 
 					if (
 						responseJson &&
-						responseJson.properties &&
-						responseJson.properties.recommeneded_color_explain &&
-						responseJson.properties.recommeneded_color_list
+						responseJson.image_explain &&
+						responseJson.recommended_colors &&
+						Array.isArray(responseJson.recommended_colors)
 					) {
-						setResponseExplanation(
-							responseJson.properties.recommeneded_color_explain,
+						// 이미지 설명을 포함한 전체 설명을 설정
+						const explanations = [
+							`이미지 설명: ${responseJson.image_explain}`,
+							...responseJson.recommended_colors.map(
+								color =>
+									`${color.color_name}: ${color.description}`,
+							),
+						].join('\n\n');
+
+						const hexColors = responseJson.recommended_colors.map(
+							color => color.hex_code,
 						);
-						setColors(
-							responseJson.properties.recommeneded_color_list,
-						);
+
+						setResponseExplanation(explanations);
+						setColors(hexColors);
 					} else {
 						console.error(
 							'Invalid responseText format:',
@@ -87,11 +107,15 @@ const AiResponseScreen = ({ route }) => {
 						setResponseExplanation('AI 응답이 올바르지 않습니다.');
 					}
 				} catch (error) {
-					console.error('Error parsing responseText:', error);
+					console.error(
+						'Error parsing JSON:',
+						error,
+						'with text:',
+						text,
+					);
 					setResponseExplanation(
 						'AI 응답을 처리하는 중 오류가 발생했습니다.',
 					);
-					// 테스트용 : AI 응답 오류 시 기본 색상 사용
 					setColors(defaultColors);
 				} finally {
 					setIsLoading(false);
@@ -100,7 +124,6 @@ const AiResponseScreen = ({ route }) => {
 				console.error('Error generating content:', error);
 				setIsLoading(false);
 				setResponseExplanation('AI 응답 생성 중 오류가 발생했습니다.');
-				// 테스트용 : AI 응답 오류 시 기본 색상 사용
 				setColors(defaultColors);
 			}
 		};
@@ -122,7 +145,6 @@ const AiResponseScreen = ({ route }) => {
 	const handleColorChange = () => {
 		setIsButtonPressed(true);
 		console.log(colors);
-		// TODO: 오브젝트 화면이랑 연결
 		setTimeout(() => {
 			setIsButtonPressed(false);
 		}, 100);
