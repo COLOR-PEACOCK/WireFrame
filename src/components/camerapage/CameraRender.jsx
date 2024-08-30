@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Camera,
 	runAtTargetFps,
@@ -7,15 +7,17 @@ import {
 } from 'react-native-vision-camera';
 import { Worklets } from 'react-native-worklets-core';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
+import useColorName from '@hooks/useColorName';
 
 const CameraRender = ({ extColor, cameraType, zoomLevel }) => {
+	const [rgbColor, setRgbColor] = useState({ r: 0, g: 0, b: 0 });
+	const { getKorColorName, getEngColorNameLocal } = useColorName();
 	const device = useCameraDevice(cameraType);
 	const { resize } = useResizePlugin();
 
-	// 색 추출 + 헥스 코드 변환
+	// 추출 색 rgb
 	const updateColorJS = Worklets.createRunOnJS((r, g, b) => {
-		const hex = rgbToHex(r, g, b);
-		extColor({ bgColor: `rgb(${r}, ${g}, ${b})`, hexColor: hex });
+		setRgbColor({ r, g, b });
 	});
 
 	// rgb 값 헥스코드 변환 함수
@@ -28,10 +30,24 @@ const CameraRender = ({ extColor, cameraType, zoomLevel }) => {
 				.toUpperCase()
 		);
 	};
+
+	// 색상 업데이트
+	useEffect(() => {
+		const { r, g, b } = rgbColor;
+		const bgColor = `rgb(${r}, ${g}, ${b})`;
+		const hexColor = rgbToHex(r, g, b);
+		extColor({
+			bgColor,
+			hexColor,
+			engName: getEngColorNameLocal(hexColor),
+			korName: getKorColorName(hexColor),
+		});
+	}, [rgbColor]);
+
 	//실시간 프레임 처리
 	const frameProcessor = useFrameProcessor(frame => {
 		'worklet';
-		runAtTargetFps(10, () => {
+		runAtTargetFps(8, () => {
 			'worklet';
 			if (frame.pixelFormat === 'yuv') {
 				const resized = resize(frame, {

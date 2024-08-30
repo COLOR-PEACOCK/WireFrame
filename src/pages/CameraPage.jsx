@@ -29,6 +29,8 @@ const CameraPage = ({ navigation }) => {
 	const [extColor, setExtColor] = useState({
 		bgColor: `rgb(0,0,0)`,
 		hexColor: '#000000',
+		engName: '',
+		korName: '',
 	});
 	const [selectedColor, setSelectedColor] = useState();
 	const [isOpen, setIsOpen] = useState(0);
