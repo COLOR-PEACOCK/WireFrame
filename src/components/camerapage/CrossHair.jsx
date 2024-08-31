@@ -8,8 +8,8 @@ const CrossHair = ({ extColor, parentlayout }) => {
 			style={[
 				styles.outerblackborder,
 				{
-					top: parentlayout.height / 2 - 17.5,
-					left: parentlayout.width / 2 - 17.5,
+					top: parentlayout.height / 2 - 23.5,
+					left: parentlayout.width / 2 - 23.5,
 				},
 			]}>
 			<View style={[styles.betweenbg, { borderColor: extColor.bgColor }]}>
@@ -29,26 +29,26 @@ const CrossHair = ({ extColor, parentlayout }) => {
 const styles = StyleSheet.create({
 	outerblackborder: {
 		position: 'absolute',
-		width: 35,
-		height: 35,
-		borderRadius: 18,
+		width: 47,
+		height: 47,
+		borderRadius: 50,
 		borderWidth: 1,
 		borderColor: COLOR.BLACK,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	betweenbg: {
-		width: 33,
-		height: 33,
-		borderRadius: 18,
-		borderWidth: 6,
+		width: 46,
+		height: 46,
+		borderRadius: 50,
+		borderWidth: 8,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	outerwhiteborder: {
-		width: 20,
-		height: 20,
-		borderRadius: 18,
+		width: 33,
+		height: 33,
+		borderRadius: 50,
 		borderWidth: 1,
 		borderColor: COLOR.WHITE,
 		justifyContent: 'center',

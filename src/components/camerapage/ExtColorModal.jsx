@@ -1,5 +1,5 @@
 import { COLOR } from '@styles/color';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const cameraswitch = require('@icons/camera-switch.png');
@@ -22,12 +22,13 @@ const ExtColorModal = ({ parentlayout, extColor, setCameraType }) => {
 					height: 78,
 					backgroundColor: extColor.bgColor,
 					marginLeft: 70,
+					borderRadius: 8,
 				}}
 			/>
 			<View>
-				<Text style={styles.engcolors}>Light Blue</Text>
+				<Text style={styles.korcolors}>≈{extColor.korName}</Text>
 				<Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
-					≈연한 파랑
+					{extColor.engName}
 				</Text>
 				<Text style={styles.codecolors}>HEX:{extColor.hexColor}</Text>
 				<Text style={styles.codecolors}>HSL: 18.5, 5.2%, 48.8%</Text>
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 16,
 	},
-	engcolors: {
+	korcolors: {
 		color: COLOR.WHITE,
 		fontSize: 14,
 		fontWeight: '700',
@@ -66,10 +67,11 @@ const styles = StyleSheet.create({
 	switchbuttonwrapper: {
 		width: 48,
 		height: 48,
+		position: 'absolute',
 		backgroundColor: COLOR.GRAY_9,
 		borderRadius: 50,
-		top: 80,
-		right: -16,
+		top: 108,
+		right: 8,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

@@ -68,6 +68,8 @@ const CameraPage = ({ navigation }) => {
 		setSelectedColor({
 			rgb: extColor.bgColor,
 			hex: extColor.hexColor,
+			engName: extColor.engName,
+			korName: extColor.korName,
 		});
 		setIsOpen(1);
 	};
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		paddingHorizontal: 18,
-		backgroundColor: 'rgba(0, 0, 0, 0.8)',
+		backgroundColor: 'rgba(0, 0, 0, 0.9)',
 	},
 	zoombutton: {
 		width: 48,

@@ -56,16 +56,19 @@ const ColorInfo = ({ selectedColor, parentlayout, setIsOpen, isOpen }) => {
 								height: 74,
 								backgroundColor: selectedColor?.rgb,
 								marginLeft: 70,
+								borderRadius: 8,
 							}}
 						/>
 						<View>
-							<Text style={styles.engcolors}>Light Blue</Text>
+							<Text style={styles.korcolors}>
+								≈{selectedColor?.korName}
+							</Text>
 							<Text
 								style={{
 									color: COLOR.WHITE,
 									fontSize: 12,
 								}}>
-								≈연한 파랑
+								{selectedColor?.engName}
 							</Text>
 							<Text style={styles.codecolors}>
 								HEX:{selectedColor?.hex}
@@ -82,8 +85,9 @@ const ColorInfo = ({ selectedColor, parentlayout, setIsOpen, isOpen }) => {
 };
 const styles = StyleSheet.create({
 	customHandle: {
-		width: 35,
-		height: 35,
+		marginTop: 6,
+		width: 28,
+		height: 28,
 		right: '50%',
 		backgroundColor: COLOR.GRAY_9,
 		alignItems: 'center',
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 16,
 	},
-	engcolors: {
+	korcolors: {
 		color: COLOR.WHITE,
 		fontSize: 14,
 		fontWeight: '700',
