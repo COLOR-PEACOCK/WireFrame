@@ -41,10 +41,18 @@ const SearchModal = ({
 			case '색상 이름':
 				return setInputColorValue(inputValues.part1);
 			case 'HEX':
-				return setInputColorValue(inputValues.part1);
+				return setInputColorValue('#' + inputValues.part1);
 			case 'RGB':
 				return setInputColorValue(
 					`rgb(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
+				);
+			case 'HSL':
+				return setInputColorValue(
+					`HSL(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
+				);
+			case 'CMYK':
+				return setInputColorValue(
+					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}%)`,
 				);
 			default:
 				return setInputColorValue(inputValues);

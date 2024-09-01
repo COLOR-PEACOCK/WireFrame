@@ -1,12 +1,7 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import {
-	forwardRef,
-	useEffect,
-	useImperativeHandle,
-	useRef,
-} from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 	const initValue = {
@@ -79,7 +74,7 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 						inputValues.part3,
 					]}
 					onChangeTexts={[handleInput1, handleInput2, handleInput3]}
-					inputCommon={TextInputCommonProps}
+					TextInputCommonProps={TextInputCommonProps}
 				/>
 			);
 		case 'HSL':
@@ -196,12 +191,16 @@ const ColorValueForm = forwardRef(
 					<Pressable
 						key={index}
 						style={[styles.inputForm, { width: unitWidth }]}
-						onPress={() => inputRefs.current[index + 1].focus()}>
+						onPress={() => inputRefs.current[index].focus()}>
 						<Text style={{ fontSize: 16 }}> {label} :</Text>
 						<TextInput
 							ref={el => (inputRefs.current[index] = el)}
 							value={values[index]}
 							onChangeText={onChangeTexts[index]}
+							onSubmitEditing={() =>
+								index < 2 &&
+								inputRefs.current[index + 1].focus()
+							}
 							{...TextInputCommonProps}
 						/>
 						{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
@@ -234,16 +233,22 @@ const CMYKForm = forwardRef(
 		});
 
 		const renderInputField = (label, index) => (
-			<View key={index} style={[styles.inputForm, { width: unitWidth }]}>
+			<Pressable
+				key={index}
+				style={[styles.inputForm, { width: unitWidth }]}
+				onPress={() => inputRefs.current[index].focus()}>
 				<Text style={{ fontSize: 16 }}> {label} :</Text>
 				<TextInput
 					ref={el => (inputRefs.current[index] = el)}
 					value={values[index]}
 					onChangeText={onChangeTexts[index]}
+					onSubmitEditing={() =>
+						index < 3 && inputRefs.current[index + 1].focus()
+					}
 					{...TextInputCommonProps}
 				/>
 				<Text style={{ fontSize: 16 }}>{unit}</Text>
-			</View>
+			</Pressable>
 		);
 		return (
 			<View style={{ gap: 10, width: '75%' }}>
