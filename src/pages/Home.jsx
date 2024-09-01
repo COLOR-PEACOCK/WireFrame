@@ -13,7 +13,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-
 import {
 	PressButton,
 	OutlinedText,
@@ -22,6 +21,10 @@ import {
 	SearchInputForm,
 } from '@components/Home';
 import useBackHandler from '@hooks/useBackHandler';
+import SearchModal from '@components/Home/SearchModal';
+import useModal from '@hooks/useModal';
+
+const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
@@ -29,10 +32,12 @@ const Home = ({ navigation }) => {
 	const gap = 18;
 	const pageWidth = width - (gap + offset) * 2;
 	const [currentIndex, setCurrentIndex] = useState(0);
+
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const handleCilckDropdown = label => setSelectedLabel(label);
 
 	const [isSearchVisible, setIsSearchVisible] = useState(false);
+	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 	const handleScroll = e => {
 		const currentIndex = Math.round(
 			e.nativeEvent.contentOffset.x / (pageWidth + gap),
@@ -40,14 +45,14 @@ const Home = ({ navigation }) => {
 		setCurrentIndex(currentIndex);
 	};
 	const handlePressLogo = () => setIsSearchVisible(false);
-	const handleSearch = () => setIsSearchVisible(true);
-	const handleSubmit = async () => {};
+	const handlePressLabel = (label) => setSelectedLabel(label) 
+	const handleSearch = () => {};
 	const handleSelectCamera = () => navigation.navigate('CameraPage');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
 
 	// splash로 뒤로가기 방지 및 앱종료 모달
-	useBackHandler();
+	// useBackHandler();
 
 	const renderItem = ({ item }) => {
 		return (
@@ -73,7 +78,7 @@ const Home = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+			
 				<View style={styles.container}>
 					<View style={styles.header}>
 						<View
@@ -87,13 +92,19 @@ const Home = ({ navigation }) => {
 								onPress={handlePressLogo}>
 								<Image
 									style={{ width: '100%', height: '100%' }}
-									source={require('@icons/logo.png')}
+									source={logoIcon}
 								/>
 							</Pressable>
-							{!isSearchVisible ? (
 								<Text style={styles.title}>COLOR PEACOCK</Text>
-							) : (
-								<View style={styles.searchContainer}>
+							<SearchModal
+								visible={isModalVisible}
+								selectedLabel={selectedLabel}
+								list={dummy_list}
+								handleCloseModal={handleCloseModal}
+								onPressLabel={handlePressLabel}
+								onPressSearch={handleSearch}
+							/>
+								{/* <View style={styles.searchContainer}>
 									<Dropdown
 										list={dummy_list}
 										onClickDropdown={handleCilckDropdown}
@@ -106,25 +117,16 @@ const Home = ({ navigation }) => {
 										}}
 										selectedLabel={selectedLabel}
 									/>
-									<SearchInputForm
-										selectedLabel={selectedLabel}
-									/>
-								</View>
-							)}
+									
+								</View> */}
+							
 						</View>
-						{!isSearchVisible ? (
-							<TouchableOpacity
-								style={styles.searchIconWrapper}
-								onPress={handleSearch}>
-								<Icon name={'search'} size={48} />
-							</TouchableOpacity>
-						) : (
-							<TouchableOpacity
-								style={styles.searchIconWrapper}
-								onPress={handleSubmit}>
-								<Icon name={'menu'} size={48} />
-							</TouchableOpacity>
-						)}
+						<TouchableOpacity
+							style={styles.searchIconWrapper}
+							onPress={handleOpenModal}>
+							<Icon name={'search'} size={48} />
+						</TouchableOpacity>
+						
 					</View>
 					<View style={styles.buttonContainer}>
 						<PressButton
@@ -167,7 +169,6 @@ const Home = ({ navigation }) => {
 						/>
 					</View>
 				</View>
-			</Pressable>
 		</SafeAreaView>
 	);
 };
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: 18,
+		paddingHorizontal: '5%',
 		height: 84,
 		elevation: 5,
 	},
