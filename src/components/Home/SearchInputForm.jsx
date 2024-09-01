@@ -6,27 +6,25 @@ import {
 	useEffect,
 	useImperativeHandle,
 	useRef,
-	useState,
 } from 'react';
 
-const SearchInputForm = ({ selectedLabel, onPressSearch }) => {
+const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 	const initValue = {
 		part1: '',
 		part2: '',
 		part3: '',
 		part4: '',
 	};
-	const [inputValues, setInputValue] = useState(initValue);
-	const inputRef = useRef(null);
 
+	const inputRef = useRef(null);
 	useEffect(() => {
-		setInputValue(initValue);
+		setInputValues(initValue);
 		inputRef.current.input1.focus();
 	}, [selectedLabel]);
 
 	const isPartialInput = ['RGB', 'HSL', 'CMYK'];
 	const handleTextChange = (part, text, nextInput) => {
-		setInputValue({ ...inputValues, [part]: text });
+		setInputValues({ ...inputValues, [part]: text });
 		if (
 			isPartialInput.includes(selectedLabel) &&
 			text.length >= 3 &&
@@ -35,7 +33,6 @@ const SearchInputForm = ({ selectedLabel, onPressSearch }) => {
 			inputRef.current[nextInput].focus();
 		}
 	};
-
 	const handleInput1 = text => handleTextChange('part1', text, 'input2');
 	const handleInput2 = text => handleTextChange('part2', text, 'input3');
 	const handleInput3 = text =>
@@ -44,9 +41,8 @@ const SearchInputForm = ({ selectedLabel, onPressSearch }) => {
 			text,
 			selectedLabel === 'CMYK' ? 'input4' : null,
 		);
-	const handleInput4 = text => {
-		handleTextChange('part4', text, null);
-	};
+	const handleInput4 = text => handleTextChange('part4', text, null);
+
 	const TextInputCommonProps = {
 		placeholderTextColor: COLOR.GRAY_6,
 		keyboardType: 'number-pad',
@@ -250,7 +246,7 @@ const CMYKForm = forwardRef(
 			</View>
 		);
 		return (
-			<View style={{ gap: 10, width: '75%',}}>
+			<View style={{ gap: 10, width: '75%' }}>
 				{labels.slice(0, 2).map((label, index) => (
 					<View key={`row1-${index}`} style={styles.inputContainer}>
 						{renderInputField(label, index)}

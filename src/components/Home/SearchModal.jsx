@@ -1,15 +1,8 @@
 import { COLOR } from '@styles/color';
-import {
-	FlatList,
-	Keyboard,
-	Modal,
-	Pressable,
-	StyleSheet,
-	TextInput,
-	View,
-} from 'react-native';
+import { FlatList, Modal, Pressable, StyleSheet, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { SearchInputForm, ListValue } from '@components/Home';
+import { useEffect, useState } from 'react';
 
 const SearchModal = ({
 	list,
@@ -18,7 +11,15 @@ const SearchModal = ({
 	handleCloseModal,
 	onPressLabel,
 	onPressSearch,
+	inputColorValue,
+	setInputColorValue,
 }) => {
+	const [inputValues, setInputValues] = useState({
+		part1: '',
+		part2: '',
+		part3: '',
+		part4: '',
+	});
 	const renderItem = ({ item }) => {
 		return (
 			<View style={{ width: '100%' }}>
@@ -35,6 +36,23 @@ const SearchModal = ({
 			</View>
 		);
 	};
+	const handlePressSearch = () => {
+		switch (selectedLabel) {
+			case '색상 이름':
+				return setInputColorValue(inputValues.part1);
+			case 'HEX':
+				return setInputColorValue(inputValues.part1);
+			case 'RGB':
+				return setInputColorValue(
+					`rgb(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
+				);
+			default:
+				return setInputColorValue(inputValues);
+		}
+	};
+	useEffect(() => {
+		onPressSearch();
+	}, [inputColorValue]);
 	const isCMYK = selectedLabel === 'CMYK';
 	return (
 		<View>
@@ -71,25 +89,26 @@ const SearchModal = ({
 							style={{
 								gap: '25%',
 								flexDirection: isCMYK ? 'row' : 'column',
-								justifyContent: 'space-between'
+								justifyContent: 'space-between',
 							}}>
-							<SearchInputForm selectedLabel={selectedLabel} />
-							
-								<Pressable
-									style={[
-										styles.searchButton,
-										{
-											width: isCMYK ? '20%' : '30%',
-											height: isCMYK ? 90 : 40,
-											left: isCMYK ? 0 : '70%'
-										},
-									]}
-									onPress={onPressSearch}>
-									<Text style={{ color: COLOR.WHITE }}>
-										검색
-									</Text>
-								</Pressable>
-							
+							<SearchInputForm
+								selectedLabel={selectedLabel}
+								inputValues={inputValues}
+								setInputValues={setInputValues}
+							/>
+
+							<Pressable
+								style={[
+									styles.searchButton,
+									{
+										width: isCMYK ? '20%' : '30%',
+										height: isCMYK ? 90 : 40,
+										left: isCMYK ? 0 : '70%',
+									},
+								]}
+								onPress={handlePressSearch}>
+								<Text style={{ color: COLOR.WHITE }}>검색</Text>
+							</Pressable>
 						</View>
 					</View>
 				</View>

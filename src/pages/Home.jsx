@@ -32,21 +32,19 @@ const Home = ({ navigation }) => {
 	const gap = 18;
 	const pageWidth = width - (gap + offset) * 2;
 	const [currentIndex, setCurrentIndex] = useState(0);
-
+	const [inputColorValue, setInputColorValue] = useState();
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
-	const handleCilckDropdown = label => setSelectedLabel(label);
-
-	const [isSearchVisible, setIsSearchVisible] = useState(false);
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
+
 	const handleScroll = e => {
 		const currentIndex = Math.round(
 			e.nativeEvent.contentOffset.x / (pageWidth + gap),
 		);
 		setCurrentIndex(currentIndex);
 	};
-	const handlePressLogo = () => setIsSearchVisible(false);
-	const handlePressLabel = (label) => setSelectedLabel(label) 
-	const handleSearch = () => {};
+	const handlePressLogo = () => {};
+	const handlePressLabel = label => setSelectedLabel(label);
+	const handleSearch = () => console.log(inputColorValue);
 	const handleSelectCamera = () => navigation.navigate('CameraPage');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
@@ -78,33 +76,34 @@ const Home = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			
-				<View style={styles.container}>
-					<View style={styles.header}>
-						<View
-							style={{
-								flexDirection: 'row',
-								alignItems: 'center',
-								gap: 8,
-							}}>
-							<Pressable
-								style={{ width: 48, height: 48 }}
-								onPress={handlePressLogo}>
-								<Image
-									style={{ width: '100%', height: '100%' }}
-									source={logoIcon}
-								/>
-							</Pressable>
-								<Text style={styles.title}>COLOR PEACOCK</Text>
-							<SearchModal
-								visible={isModalVisible}
-								selectedLabel={selectedLabel}
-								list={dummy_list}
-								handleCloseModal={handleCloseModal}
-								onPressLabel={handlePressLabel}
-								onPressSearch={handleSearch}
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<View
+						style={{
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: 8,
+						}}>
+						<Pressable
+							style={{ width: 48, height: 48 }}
+							onPress={handlePressLogo}>
+							<Image
+								style={{ width: '100%', height: '100%' }}
+								source={logoIcon}
 							/>
-								{/* <View style={styles.searchContainer}>
+						</Pressable>
+						<Text style={styles.title}>COLOR PEACOCK</Text>
+						<SearchModal
+							visible={isModalVisible}
+							selectedLabel={selectedLabel}
+							list={dummy_list}
+							handleCloseModal={handleCloseModal}
+							onPressLabel={handlePressLabel}
+							onPressSearch={handleSearch}
+							inputColorValue={inputColorValue}
+							setInputColorValue={setInputColorValue}
+						/>
+						{/* <View style={styles.searchContainer}>
 									<Dropdown
 										list={dummy_list}
 										onClickDropdown={handleCilckDropdown}
@@ -119,56 +118,54 @@ const Home = ({ navigation }) => {
 									/>
 									
 								</View> */}
-							
-						</View>
-						<TouchableOpacity
-							style={styles.searchIconWrapper}
-							onPress={handleOpenModal}>
-							<Icon name={'search'} size={48} />
-						</TouchableOpacity>
-						
 					</View>
-					<View style={styles.buttonContainer}>
-						<PressButton
-							iconName={'camera'}
-							onPress={handleSelectCamera}
-							text={'SELECT TO CAMERA'}
-						/>
-						<PressButton
-							iconName={'image-search'}
-							onPress={handleSelectAlbum}
-							text={'SELECT TO ALBUM'}
-						/>
-						<PressButton
-							iconName={'motion-photos-auto'}
-							onPress={handleSelectAI}
-							text={'SELECT TO AI'}
-						/>
-					</View>
-					<View style={styles.carouselContainer}>
-						{/* carousel 라이브러리 찾아보기 */}
-						<FlatList
-							automaticallyAdjustContentInsets={false}
-							contentContainerStyle={{
-								paddingHorizontal: offset + gap / 2,
-							}}
-							data={dummy_trendColor}
-							decelerationRate={2}
-							horizontal
-							keyExtractor={item => `page_${item.color}`}
-							onScroll={handleScroll}
-							pagingEnabled
-							renderItem={renderItem}
-							snapToInterval={pageWidth + gap}
-							snapToAlignment="start"
-							showsHorizontalScrollIndicator={false}
-						/>
-						<Indicator
-							length={dummy_trendColor.length}
-							currentIndex={currentIndex}
-						/>
-					</View>
+					<TouchableOpacity
+						style={styles.searchIconWrapper}
+						onPress={handleOpenModal}>
+						<Icon name={'search'} size={48} />
+					</TouchableOpacity>
 				</View>
+				<View style={styles.buttonContainer}>
+					<PressButton
+						iconName={'camera'}
+						onPress={handleSelectCamera}
+						text={'SELECT TO CAMERA'}
+					/>
+					<PressButton
+						iconName={'image-search'}
+						onPress={handleSelectAlbum}
+						text={'SELECT TO ALBUM'}
+					/>
+					<PressButton
+						iconName={'motion-photos-auto'}
+						onPress={handleSelectAI}
+						text={'SELECT TO AI'}
+					/>
+				</View>
+				<View style={styles.carouselContainer}>
+					{/* carousel 라이브러리 찾아보기 */}
+					<FlatList
+						automaticallyAdjustContentInsets={false}
+						contentContainerStyle={{
+							paddingHorizontal: offset + gap / 2,
+						}}
+						data={dummy_trendColor}
+						decelerationRate={2}
+						horizontal
+						keyExtractor={item => `page_${item.color}`}
+						onScroll={handleScroll}
+						pagingEnabled
+						renderItem={renderItem}
+						snapToInterval={pageWidth + gap}
+						snapToAlignment="start"
+						showsHorizontalScrollIndicator={false}
+					/>
+					<Indicator
+						length={dummy_trendColor.length}
+						currentIndex={currentIndex}
+					/>
+				</View>
+			</View>
 		</SafeAreaView>
 	);
 };
