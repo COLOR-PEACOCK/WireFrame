@@ -3,7 +3,7 @@ import { Pressable } from 'react-native';
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
 
-const ListValue = ({ label, isActive, disabled, onPressLabel }) => {
+const ListValue = ({ label, textStyle, isActive, disabled, onPressLabel }) => {
 	const handlePressLabel = () => {
 		if (onPressLabel) onPressLabel(label);
 	};
@@ -35,7 +35,7 @@ const ListValue = ({ label, isActive, disabled, onPressLabel }) => {
 				backgroundColor: getBackgroundColor(),
 			}}
 			onPress={handlePressLabel}>
-			<Text style={{ color: getTextColor() }}>{label}</Text>
+			<Text style={[textStyle, { color: getTextColor() }]}>{label}</Text>
 		</Pressable>
 	);
 };

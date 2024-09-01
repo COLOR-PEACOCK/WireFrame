@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 	button: {
 		width: '90%',
 		height: 84,
-		marginHorizontal: 18,
+		marginHorizontal: '5%',
 		borderRadius: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
