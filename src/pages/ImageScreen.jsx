@@ -386,14 +386,16 @@ const styles = StyleSheet.create({
 	colorInfoBox: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		padding: 10,
-		backgroundColor: COLOR.GRAY_9,
+		height: 100,
+		gap: 16,
+		backgroundColor: COLOR.GRAY_10,
 	},
 	colorIndicator: {
 		width: 75,
 		height: 75,
-		borderRadius: 4,
+		borderRadius: 8,
 		marginRight: 10,
+		marginLeft: 70,
 	},
 	colorDetails: {
 		flex: 1,
