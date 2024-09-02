@@ -98,7 +98,6 @@ const CameraPage = ({ navigation }) => {
 				<ExtColorModal
 					parentlayout={parentlayout}
 					extColor={extColor}
-					setCameraType={setCameraType}
 				/>
 
 				{/* 조준점 */}
@@ -110,7 +109,7 @@ const CameraPage = ({ navigation }) => {
 				{/* 색상 정보 */}
 				<View
 					style={{
-						height: 150,
+						height: 160,
 						width: '100%',
 						bottom: 100,
 						justifyContent: 'flex-end',
@@ -120,6 +119,7 @@ const CameraPage = ({ navigation }) => {
 						parentlayout={parentlayout}
 						isOpen={isOpen}
 						setIsOpen={setIsOpen}
+						setCameraType={setCameraType}
 					/>
 				</View>
 
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		paddingHorizontal: 18,
-		backgroundColor: 'rgba(0, 0, 0, 0.9)',
+		backgroundColor: '#0B0B0B',
 	},
 	zoombutton: {
 		width: 48,

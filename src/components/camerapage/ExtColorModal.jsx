@@ -1,13 +1,8 @@
 import { COLOR } from '@styles/color';
-import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-const cameraswitch = require('@icons/camera-switch.png');
-
-const ExtColorModal = ({ parentlayout, extColor, setCameraType }) => {
-	const cameraSwitch = () =>
-		setCameraType(prevType => (prevType === 'back' ? 'front' : 'back'));
-
+const ExtColorModal = ({ parentlayout, extColor }) => {
 	return (
 		<View
 			style={[
@@ -33,14 +28,6 @@ const ExtColorModal = ({ parentlayout, extColor, setCameraType }) => {
 				<Text style={styles.codecolors}>HEX:{extColor.hexColor}</Text>
 				<Text style={styles.codecolors}>HSL: 18.5, 5.2%, 48.8%</Text>
 			</View>
-			<TouchableOpacity
-				onPress={cameraSwitch}
-				style={styles.switchbuttonwrapper}>
-				<Image
-					source={cameraswitch}
-					style={{ width: 28, height: 28 }}
-				/>
-			</TouchableOpacity>
 		</View>
 	);
 };
@@ -63,17 +50,6 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Light',
-	},
-	switchbuttonwrapper: {
-		width: 48,
-		height: 48,
-		position: 'absolute',
-		backgroundColor: COLOR.GRAY_9,
-		borderRadius: 50,
-		top: 108,
-		right: 8,
-		justifyContent: 'center',
-		alignItems: 'center',
 	},
 });
 export default ExtColorModal;

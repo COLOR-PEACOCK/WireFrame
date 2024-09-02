@@ -1,12 +1,22 @@
 import { COLOR } from '@styles/color';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ColorInfo = ({ selectedColor, parentlayout, setIsOpen, isOpen }) => {
+const cameraswitch = require('@icons/camera-switch.png');
+
+const ColorInfo = ({
+	selectedColor,
+	parentlayout,
+	setIsOpen,
+	isOpen,
+	setCameraType,
+}) => {
 	const bottomSheetRef = useRef(null);
+	const cameraSwitch = () =>
+		setCameraType(prevType => (prevType === 'back' ? 'front' : 'back'));
 
 	useEffect(() => {
 		isOpen
@@ -26,18 +36,32 @@ const ColorInfo = ({ selectedColor, parentlayout, setIsOpen, isOpen }) => {
 	// };
 
 	const CustomHandle = () => (
-		<TouchableOpacity
-			// onPress={tapAction}
-			style={[
-				styles.customHandle,
-				{ left: parentlayout.width / 2 - 17.5 },
-			]}>
-			{isOpen ? (
-				<Icon name={'angle-down'} color={COLOR.PRIMARY} size={24} />
-			) : (
-				<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />
-			)}
-		</TouchableOpacity>
+		<View>
+			<TouchableOpacity
+				// onPress={tapAction}
+				style={[
+					styles.customHandle,
+					{ left: parentlayout.width / 2 - 17.5 },
+				]}>
+				{isOpen ? (
+					<Icon name={'angle-down'} color={COLOR.PRIMARY} size={24} />
+				) : (
+					<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />
+				)}
+			</TouchableOpacity>
+
+			<TouchableOpacity
+				// onPress={cameraSwitch}
+				onPress={() => {
+					console.log('됨?');
+				}}
+				style={styles.switchbuttonwrapper}>
+				<Image
+					source={cameraswitch}
+					style={{ width: 28, height: 28 }}
+				/>
+			</TouchableOpacity>
+		</View>
 	);
 
 	return (
@@ -95,10 +119,21 @@ const styles = StyleSheet.create({
 		borderRadius: 50 / 2,
 		marginBottom: 6,
 	},
+	switchbuttonwrapper: {
+		width: 48,
+		height: 48,
+		position: 'absolute',
+		backgroundColor: COLOR.GRAY_9,
+		borderRadius: 50,
+		top: -16,
+		right: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 
 	contentContainer: {
 		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.8)',
+		backgroundColor: 'rgba(11, 11, 11, 0.85)',
 	},
 
 	infowrapper: {
