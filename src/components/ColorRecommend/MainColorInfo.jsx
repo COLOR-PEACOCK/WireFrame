@@ -6,8 +6,6 @@ const extractNumbers = str => {
 };
 
 const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
-	// console.log(colorInfo);
-
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
 	const hexNumbers = colorInfo.hexVal.slice(1, 8);
 	const hslNumbers = extractNumbers(colorInfo.hslVal);

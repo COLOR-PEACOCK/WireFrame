@@ -3,8 +3,6 @@ import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 const ColorPickerModal = ({
 	isVisible,
 	tempColor,
@@ -97,6 +95,8 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: 'center',
 		overflow: 'hidden',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 1,
 	},
 	colorPicker: {
 		width: '100%',
@@ -154,12 +154,12 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	colorText: {
-		color: '#333',
 		textAlign: 'center',
 		lineHeight: 18,
 		fontWeight: 'bold',
 		fontSize: 12,
 	},
+
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
 	},
 	cancelButton: {
 		backgroundColor: COLOR.GRAY_6,
+		flexDirection: 'row',
 	},
 	saveButton: {
 		backgroundColor: COLOR.PRIMARY,
@@ -182,6 +183,11 @@ const styles = StyleSheet.create({
 		color: COLOR.WHITE,
 		fontWeight: 'bold',
 		fontSize: 14,
+	},
+	icon: {
+		width: 16,
+		height: 16,
+		marginRight: 8,
 	},
 });
 
