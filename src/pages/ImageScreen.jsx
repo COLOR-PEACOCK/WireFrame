@@ -326,12 +326,14 @@ const ImageScreen = () => {
 					style={[styles.colorIndicator, { backgroundColor: color }]}
 				/>
 				<View style={styles.colorDetails}>
-					<Text style={styles.colorName}>≈색상 이름</Text>
-					<Text style={styles.colorName}>color name</Text>
+					<View>
+						<Text style={styles.korName}>≈색상 이름</Text>
+						<Text style={styles.engName}>color name</Text>
+					</View>
+
 					<Text style={styles.colorHex}>
-						hex: {color.toLocaleUpperCase()}
+						HEX: {color.toLocaleUpperCase()}
 					</Text>
-					<Text style={styles.colorHsl}>hsl: 18.5, 5.2%, 48.8%</Text>
 				</View>
 			</View>
 			<View style={styles.imageContainer}>
@@ -384,31 +386,34 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	colorInfoBox: {
+		flex: 0.65,
 		flexDirection: 'row',
 		alignItems: 'center',
-		height: 100,
+		justifyContent: 'center',
 		gap: 16,
 		backgroundColor: COLOR.GRAY_10,
 	},
 	colorIndicator: {
-		width: 75,
-		height: 75,
+		width: 64,
+		height: 64,
 		borderRadius: 8,
-		marginRight: 10,
-		marginLeft: 70,
 	},
 	colorDetails: {
-		flex: 1,
+		gap: 6,
+		flex: 0.55,
+		backgroundColor: 'red',
 	},
-	colorName: {
+	korName: {
 		color: COLOR.WHITE,
-		fontWeight: 'medium',
+		fontSize: 14,
+		fontWeight: '700',
 	},
+	engName: { color: COLOR.WHITE, fontSize: 12 },
+
 	colorHex: {
 		color: COLOR.GRAY_6,
-	},
-	colorHsl: {
-		color: COLOR.GRAY_6,
+		fontSize: 12,
+		fontFamily: 'Pretendard-Light',
 	},
 	imageContainer: {
 		flex: 3,
