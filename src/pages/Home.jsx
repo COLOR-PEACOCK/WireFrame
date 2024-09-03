@@ -42,10 +42,11 @@ const Home = ({ navigation }) => {
 		);
 		setCurrentIndex(currentIndex);
 	};
+
 	const handlePressLogo = () => {};
 	const handlePressLabel = label => setSelectedLabel(label);
 	const handleSearch = () => console.log(inputColorValue);
-	const handleSelectCamera = () => navigation.navigate('CameraPage');
+	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
 
