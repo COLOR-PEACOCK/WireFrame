@@ -80,6 +80,8 @@ const Dropdown = ({
 					{
 						...(isModalVisible && {
 							borderColor: COLOR.PRIMARY,
+							borderWidth: 2,
+							borderRadius: 8,
 						}),
 						...(disabled && {
 							borderColor: COLOR.GRAY_5,
@@ -97,25 +99,17 @@ const Dropdown = ({
 				/>
 				<Icon name={'expand-more'} size={24} />
 			</TouchableOpacity>
-			<Modal visible={isModalVisible} transparent animationType="fade">
+			{isModalVisible && (
 				<Pressable onPress={handleCloseModal}>
 					<View
 						style={{
 							width: '100%',
-							height: '100%',
 							alignItems: 'center',
 						}}>
-						<View
-							style={[
-								styles.modalContainer,
-								{
-									width,
-									top: dropdownTop,
-									left: dropdownLeft,
-									maxHeight: SCROLL_VIEW_MAX_HEIGHT,
-								},
-							]}>
-							<ScrollView showsVerticalScrollIndicator={false}>
+						<View style={[styles.modalContainer, { width }]}>
+							<ScrollView
+								showsVerticalScrollIndicator={false}
+								keyboardShouldPersistTaps={'always'}>
 								{list.map(l => (
 									<ListValue
 										key={l}
@@ -128,19 +122,22 @@ const Dropdown = ({
 						</View>
 					</View>
 				</Pressable>
-			</Modal>
+			)}
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	fieldContainer: {
+		height: 48,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 2,
+		borderRadius: 8,
 	},
 	modalContainer: {
-		position: 'absolute',
 		zIndex: 10,
 		borderWidth: 2,
 		borderRadius: 8,

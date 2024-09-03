@@ -1,345 +1,206 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import {
-	forwardRef,
-	useEffect,
-	useImperativeHandle,
-	useRef,
-	useState,
-} from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
-const SearchInputForm = ({ selectedLabel }) => {
-	const [inputValue, setInputValue] = useState('');
-	const [inputPart1, setInputPart1] = useState('');
-	const [inputPart2, setInputPart2] = useState('');
-	const [inputPart3, setInputPart3] = useState('');
-	const [inputPart4, setInputPart4] = useState('');
+const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
+	const initValue = {
+		part1: '',
+		part2: '',
+		part3: '',
+		part4: '',
+	};
 
 	const inputRef = useRef(null);
-
 	useEffect(() => {
-		setInputPart1('');
-		setInputPart2('');
-		setInputPart3('');
-		setInputPart4('');
+		setInputValues(initValue);
+		inputRef.current.input1.focus();
 	}, [selectedLabel]);
 
-	const handleChangeValue = text => setInputValue(text);
+	const isPartialInput = ['RGB', 'HSL', 'CMYK'];
+	const handleTextChange = (part, text, nextInput) => {
+		setInputValues({ ...inputValues, [part]: text });
+		if (
+			isPartialInput.includes(selectedLabel) &&
+			text.length >= 3 &&
+			nextInput
+		) {
+			inputRef.current[nextInput].focus();
+		}
+	};
+	const handleInput1 = text => handleTextChange('part1', text, 'input2');
+	const handleInput2 = text => handleTextChange('part2', text, 'input3');
+	const handleInput3 = text =>
+		handleTextChange(
+			'part3',
+			text,
+			selectedLabel === 'CMYK' ? 'input4' : null,
+		);
+	const handleInput4 = text => handleTextChange('part4', text, null);
 
-	const handleInput1 = text => {
-		setInputPart1(text);
-		if (selectedLabel === 'RGB' || selectedLabel === 'HSL' || selectedLabel === 'CMYK') {
-			if (text.length >= 3) inputRef.current.input2.focus();
-		}
-	};
-	const handleInput2 = text => {
-		setInputPart2(text);
-		if (selectedLabel === 'RGB' || selectedLabel === 'HSL' || selectedLabel === 'CMYK') {
-			if (text.length >= 3) inputRef.current.input3.focus();
-		}
-	};
-	const handleInput3 = text => {
-		setInputPart3(text);
-		if (selectedLabel === 'CMYK') {
-			if (text.length >= 3) inputRef.current.input4.focus();
-		}
-	};
-	const handleInput4 = text => {
-		setInputPart4(text);
+	const TextInputCommonProps = {
+		placeholderTextColor: COLOR.GRAY_6,
+		keyboardType: 'number-pad',
+		maxLength: 3,
+		returnKeyType: 'next',
 	};
 
 	switch (selectedLabel) {
 		case '색상 이름':
 			return (
-				<NameForm
+				<ColorInputForm
 					ref={inputRef}
-					value={inputPart1}
-					onChangeText={handleInput1}
+					labels={['입력']}
+					values={[inputValues.part1]}
+					onChangeTexts={[handleInput1]}
 				/>
 			);
 		case 'HEX':
 			return (
-				<HexForm
+				<ColorInputForm
 					ref={inputRef}
-					value={inputPart1}
-					onChangeText={handleInput1}
+					labels={['#']}
+					values={[inputValues.part1]}
+					onChangeTexts={[handleInput1]}
+					maxLength={6}
 				/>
 			);
 		case 'RGB':
 			return (
-				<RGBForm
+				<ColorInputForm
 					ref={inputRef}
-					input1Props={{
-						value: inputPart1,
-						onChangeText: handleInput1,
-					}}
-					input2Props={{
-						value: inputPart2,
-						onChangeText: handleInput2,
-					}}
-					input3Props={{
-						value: inputPart3,
-						onChangeText: handleInput3,
-					}}
-				/>
-			);
-		case 'CMYK':
-			return (
-				<CMYKForm
-					ref={inputRef}
-					input1Props={{
-						value: inputPart1,
-						onChangeText: handleInput1,
-					}}
-					input2Props={{
-						value: inputPart2,
-						onChangeText: handleInput2,
-					}}
-					input3Props={{
-						value: inputPart3,
-						onChangeText: handleInput3,
-					}}
-					input4Props={{
-						value: inputPart4,
-						onChangeText: handleInput4,
-					}}
+					labels={['R', 'G', 'B']}
+					values={[
+						inputValues.part1,
+						inputValues.part2,
+						inputValues.part3,
+					]}
+					onChangeTexts={[handleInput1, handleInput2, handleInput3]}
+					TextInputCommonProps={TextInputCommonProps}
 				/>
 			);
 		case 'HSL':
 			return (
-				<HSLForm
+				<ColorInputForm
 					ref={inputRef}
-					input1Props={{
-						value: inputPart1,
-						onChangeText: handleInput1,
-					}}
-					input2Props={{
-						value: inputPart2,
-						onChangeText: handleInput2,
-					}}
-					input3Props={{
-						value: inputPart3,
-						onChangeText: handleInput3,
-					}}
+					labels={['H', 'S', 'L']}
+					values={[
+						inputValues.part1,
+						inputValues.part2,
+						inputValues.part3,
+					]}
+					onChangeTexts={[handleInput1, handleInput2, handleInput3]}
+					TextInputCommonProps={TextInputCommonProps}
 				/>
 			);
+		case 'CMYK':
+			return (
+				<ColorInputForm
+					ref={inputRef}
+					labels={['C', 'M', 'Y', 'K']}
+					unit="%"
+					values={[
+						inputValues.part1,
+						inputValues.part2,
+						inputValues.part3,
+						inputValues.part4,
+					]}
+					onChangeTexts={[
+						handleInput1,
+						handleInput2,
+						handleInput3,
+						handleInput4,
+					]}
+					TextInputCommonProps={TextInputCommonProps}
+				/>
+			);
+
 		default:
-			<NameForm />;
+			<ColorInputForm />;
 	}
 };
 
-const NameForm = forwardRef((props, ref) => {
-	useEffect(() => {
-		inputRef1.current.focus();
-	}, []);
-	const inputRef1 = useRef(null);
-
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-	}));
-
-	return (
-		<View style={styles.inputContainer}>
-			<TextInput
-				ref={inputRef1}
-				style={[styles.inputForm, { width: '80%' }]}
-				placeholder={'(한글, 영어)'}
-				placeholderTextColor={COLOR.GRAY_6}
-				{...props}
-			/>
-		</View>
-	);
-});
-
-const HexForm = forwardRef((props, ref) => {
-	return (
-		<View style={styles.inputContainer}>
-			<Text>#</Text>
-			<TextInput
-				ref={ref}
-				style={[styles.inputForm, { width: '80%' }]}
-				placeholder={'ffffff'}
-				placeholderTextColor={COLOR.GRAY_6}
-				maxLength={6}
-			/>
-		</View>
-	);
-});
-
-const RGBForm = forwardRef((props, ref) => {
-	useEffect(() => {
-		inputRef1.current.focus();
-	}, []);
-	const inputRef1 = useRef(null);
-	const inputRef2 = useRef(null);
-	const inputRef3 = useRef(null);
-
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-		input2: inputRef2.current,
-		input3: inputRef3.current,
-	}));
+const ColorInputForm = forwardRef((props, ref) => {
+	const {
+		labels,
+		values,
+		onChangeTexts,
+		TextInputCommonProps,
+		maxLength,
+		unit,
+	} = props;
+	const inputRefs = useRef([]);
+	useImperativeHandle(ref, () => {
+		return labels.reduce((acc, _, index) => {
+			acc[`input${index + 1}`] = inputRefs.current[index];
+			return acc;
+		}, {});
+	});
 
 	return (
 		<View style={styles.inputContainer}>
-			<TextInput
-				ref={inputRef1}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'R'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input1Props}
-			/>
-			<TextInput
-				ref={inputRef2}
-				style={[styles.inputForm, { width: '25%' }]}
-				key={'G'}
-				placeholder={'G'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input2Props}
-			/>
-			<TextInput
-				ref={inputRef3}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'B'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input3Props}
-			/>
+			{labels.map((label, index) => (
+				<Pressable
+					key={index}
+					style={[styles.inputForm, { width: '100%' }]}
+					onPress={() => inputRefs.current[index].focus()}>
+					<View style={styles.inputLabel}>
+						<Text style={styles.labelText}>{label}</Text>
+					</View>
+					<View style={styles.textInput}>
+						<TextInput
+							ref={el => (inputRefs.current[index] = el)}
+							value={values[index]}
+							onChangeText={onChangeTexts[index]}
+							onSubmitEditing={() =>
+								index < 2 &&
+								inputRefs.current[index + 1].focus()
+							}
+							maxLength={maxLength}
+							{...TextInputCommonProps}
+						/>
+						{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
+					</View>
+				</Pressable>
+			))}
 		</View>
 	);
 });
-
-const CMYKForm = forwardRef((props, ref) => {
-	useEffect(() => {
-		inputRef1.current.focus();
-	}, []);
-	const inputRef1 = useRef(null);
-	const inputRef2 = useRef(null);
-	const inputRef3 = useRef(null);
-	const inputRef4 = useRef(null);
-
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-		input2: inputRef2.current,
-		input3: inputRef3.current,
-		input4: inputRef4.current,
-	}));
-	return (
-		<View style={styles.inputContainer}>
-			<TextInput
-				ref={inputRef1}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'C'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input1Props}
-			/>
-			<TextInput
-				ref={inputRef2}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'M'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input2Props}
-			/>
-			<TextInput
-				ref={inputRef3}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'Y'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input3Props}
-			/>
-			<TextInput
-				ref={inputRef4}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'K'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType="number-pad"
-				maxLength={3}
-				{...props.input4Props}
-			/>
-		</View>
-	);
-});
-
-const HSLForm = forwardRef((props, ref) => {
-	useEffect(() => {
-		inputRef1.current.focus();
-	}, []);
-	const inputRef1 = useRef(null);
-	const inputRef2 = useRef(null);
-	const inputRef3 = useRef(null);
-
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-		input2: inputRef2.current,
-		input3: inputRef3.current,
-	}));
-	return (
-		<View style={styles.inputContainer}>
-			<TextInput
-				ref={inputRef1}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'H'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType={'number-pad'}
-				maxLength={3}
-				{...props.input1Props}
-			/>
-			<TextInput
-				ref={inputRef2}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'S'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType={'number-pad'}
-				maxLength={3}
-				{...props.input2Props}
-			/>
-			<TextInput
-				ref={inputRef3}
-				style={[styles.inputForm, { width: '25%' }]}
-				placeholder={'L'}
-				placeholderTextColor={COLOR.GRAY_6}
-				keyboardType={'number-pad'}
-				maxLength={3}
-				{...props.input3Props}
-			/>
-		</View>
-	);
-});
-
-const NumberInput = ({ style, ...rest }) => {
-	return (
-		<TextInput
-			style={style}
-			placeholderTextColor={COLOR.GRAY_6}
-			keyboardType={'number-pad'}
-			maxLength={3}
-			{...rest}
-		/>
-	);
-};
 
 const styles = StyleSheet.create({
 	inputContainer: {
-		width: 205,
-		flexDirection: 'row',
+		width: '100%',
+		justifyContent: 'space-between',
 		alignItems: 'center',
+		gap: 10,
+		zIndex: 11,
+	},
+	inputLabel: {
+		width: 48,
+		height: 48,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRightColor: COLOR.GRAY_3,
+		borderRightWidth: 1,
+	},
+	labelText: {
+		fontFamily: 'Pretendard-Bold',
+		fontSize: 16,
+		color: COLOR.PRIMARY,
 	},
 	inputForm: {
-		borderBottomWidth: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
 		borderRadius: 8,
-		borderColor: COLOR.GRAY_8,
+		borderColor: COLOR.GRAY_6,
+		borderWidth: 1,
+	},
+	textInput: {
+		width: '75%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginLeft: 10,
 	},
 });
 
