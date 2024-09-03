@@ -13,6 +13,7 @@ import { COLOR } from '@styles/color';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
 import { getColorInfo } from '@utils/colorRecommendUtils';
+import useColorName from '@hooks/useColorName';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
@@ -26,6 +27,8 @@ const AiResponseScreen = ({ route }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
 	const [itemColor, setItemColor] = useState(null);
+	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
+		useColorName();
 
 	const defaultColors = [
 		'#FF5733',
@@ -138,9 +141,19 @@ const AiResponseScreen = ({ route }) => {
 		runAIModel();
 	}, [itemInImage, itemToRecommend, base64Image]);
 
-	const handleColorPress = color => {
-		const colorInfo = getColorInfo(color);
-		setSelectedColor(colorInfo);
+	const handleColorPress = async color => {
+		const colorData = getColorInfo(color.replace('#', ''));
+		const engName = await getEngColorNameLocal(color);
+		const korName = await getKorColorName(color);
+
+		setSelectedColor({
+			korName: korName,
+			engName: engName,
+			hexVal: colorData.hexVal,
+			rgbVal: colorData.rgbVal,
+			hslVal: colorData.hslVal,
+			cmykVal: colorData.cmykVal,
+		});
 		setIsModalVisible(true);
 	};
 
@@ -214,13 +227,15 @@ const AiResponseScreen = ({ route }) => {
 						/>
 					</TouchableOpacity>
 
-					<ColorInfoModal
-						isVisible={isModalVisible}
-						onClose={closeModal}
-						colorInfo={selectedColor || {}}
-						selectedColor={selectedColor?.hexVal || '#000'}
-						allColors={colors}
-					/>
+					{selectedColor && (
+						<ColorInfoModal
+							isVisible={isModalVisible}
+							onClose={closeModal}
+							colorInfo={selectedColor}
+							selectedColor={selectedColor?.hexVal}
+							allColors={colors}
+						/>
+					)}
 				</View>
 			</View>
 		</SafeAreaView>
