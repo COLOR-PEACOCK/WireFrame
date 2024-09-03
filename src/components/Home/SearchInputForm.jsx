@@ -48,26 +48,28 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 	switch (selectedLabel) {
 		case '색상 이름':
 			return (
-				<NameForm
+				<ColorInputForm
 					ref={inputRef}
-					value={inputValues.part1}
-					onChangeText={handleInput1}
+					labels={['입력']}
+					values={[inputValues.part1]}
+					onChangeTexts={[handleInput1]}
 				/>
 			);
 		case 'HEX':
 			return (
-				<HexForm
+				<ColorInputForm
 					ref={inputRef}
-					value={inputValues.part1}
-					onChangeText={handleInput1}
+					labels={['#']}
+					values={[inputValues.part1]}
+					onChangeTexts={[handleInput1]}
+					maxLength={6}
 				/>
 			);
 		case 'RGB':
 			return (
-				<ColorValueForm
+				<ColorInputForm
 					ref={inputRef}
 					labels={['R', 'G', 'B']}
-					unitWidth={'30%'}
 					values={[
 						inputValues.part1,
 						inputValues.part2,
@@ -79,10 +81,9 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 			);
 		case 'HSL':
 			return (
-				<ColorValueForm
+				<ColorInputForm
 					ref={inputRef}
 					labels={['H', 'S', 'L']}
-					unitWidth={'30%'}
 					values={[
 						inputValues.part1,
 						inputValues.part2,
@@ -94,10 +95,9 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 			);
 		case 'CMYK':
 			return (
-				<CMYKForm
+				<ColorInputForm
 					ref={inputRef}
 					labels={['C', 'M', 'Y', 'K']}
-					unitWidth={'45%'}
 					unit="%"
 					values={[
 						inputValues.part1,
@@ -116,83 +116,38 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 			);
 
 		default:
-			<NameForm />;
+			<ColorInputForm />;
 	}
 };
 
-const NameForm = forwardRef((props, ref) => {
-	const inputRef1 = useRef(null);
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-	}));
+const ColorInputForm = forwardRef((props, ref) => {
+	const {
+		labels,
+		values,
+		onChangeTexts,
+		TextInputCommonProps,
+		maxLength,
+		unit,
+	} = props;
+	const inputRefs = useRef([]);
+	useImperativeHandle(ref, () => {
+		return labels.reduce((acc, _, index) => {
+			acc[`input${index + 1}`] = inputRefs.current[index];
+			return acc;
+		}, {});
+	});
+
 	return (
 		<View style={styles.inputContainer}>
-			<View style={[styles.inputForm, { width: '100%' }]}>
-				<TextInput
-					ref={inputRef1}
-					placeholder={'(한글, 영어)'}
-					placeholderTextColor={COLOR.GRAY_6}
-					{...props}
-				/>
-			</View>
-		</View>
-	);
-});
-
-const HexForm = forwardRef((props, ref) => {
-	const inputRef1 = useRef(null);
-	useImperativeHandle(ref, () => ({
-		input1: inputRef1.current,
-	}));
-	return (
-		<View style={styles.inputContainer}>
-			<View style={[styles.inputForm, { width: '100%' }]}>
-				<Text> #</Text>
-				<TextInput
-					ref={inputRef1}
-					placeholder={'ffffff'}
-					placeholderTextColor={COLOR.GRAY_6}
-					maxLength={6}
-					{...props}
-				/>
-			</View>
-		</View>
-	);
-});
-
-const ColorValueForm = forwardRef(
-	(
-		{
-			labels,
-			unitWidth,
-			values,
-			onChangeTexts,
-			TextInputCommonProps,
-			unit,
-		},
-		ref,
-	) => {
-		const inputRefs = useRef([]);
-
-		useImperativeHandle(ref, () => {
-			return labels.reduce((acc, _, index) => {
-				acc[`input${index + 1}`] = inputRefs.current[index];
-				return acc;
-			}, {});
-		});
-
-		return (
-			<View
-				style={[
-					styles.inputContainer,
-					{ justifyContent: 'space-between' },
-				]}>
-				{labels.map((label, index) => (
-					<Pressable
-						key={index}
-						style={[styles.inputForm, { width: unitWidth }]}
-						onPress={() => inputRefs.current[index].focus()}>
-						<Text style={{ fontSize: 16 }}> {label} :</Text>
+			{labels.map((label, index) => (
+				<Pressable
+					key={index}
+					style={[styles.inputForm, { width: '100%' }]}
+					onPress={() => inputRefs.current[index].focus()}>
+					<View style={styles.inputLabel}>
+						<Text style={styles.labelText}>{label}</Text>
+					</View>
+					<View style={styles.textInput}>
 						<TextInput
 							ref={el => (inputRefs.current[index] = el)}
 							value={values[index]}
@@ -201,83 +156,51 @@ const ColorValueForm = forwardRef(
 								index < 2 &&
 								inputRefs.current[index + 1].focus()
 							}
+							maxLength={maxLength}
 							{...TextInputCommonProps}
 						/>
 						{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
-					</Pressable>
-				))}
-			</View>
-		);
-	},
-);
-
-const CMYKForm = forwardRef(
-	(
-		{
-			labels,
-			unitWidth,
-			values,
-			onChangeTexts,
-			TextInputCommonProps,
-			unit,
-		},
-		ref,
-	) => {
-		const inputRefs = useRef([]);
-
-		useImperativeHandle(ref, () => {
-			return labels.reduce((acc, _, index) => {
-				acc[`input${index + 1}`] = inputRefs.current[index];
-				return acc;
-			}, {});
-		});
-
-		const renderInputField = (label, index) => (
-			<Pressable
-				key={index}
-				style={[styles.inputForm, { width: unitWidth }]}
-				onPress={() => inputRefs.current[index].focus()}>
-				<Text style={{ fontSize: 16 }}> {label} :</Text>
-				<TextInput
-					ref={el => (inputRefs.current[index] = el)}
-					value={values[index]}
-					onChangeText={onChangeTexts[index]}
-					onSubmitEditing={() =>
-						index < 3 && inputRefs.current[index + 1].focus()
-					}
-					{...TextInputCommonProps}
-				/>
-				<Text style={{ fontSize: 16 }}>{unit}</Text>
-			</Pressable>
-		);
-		return (
-			<View style={{ gap: 10, width: '75%' }}>
-				{labels.slice(0, 2).map((label, index) => (
-					<View key={`row1-${index}`} style={styles.inputContainer}>
-						{renderInputField(label, index)}
-						{renderInputField(labels[index + 2], index + 2)}
 					</View>
-				))}
-			</View>
-		);
-	},
-);
+				</Pressable>
+			))}
+		</View>
+	);
+});
 
 const styles = StyleSheet.create({
 	inputContainer: {
 		width: '100%',
-		height: 40,
-		flexDirection: 'row',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 		gap: 10,
 		zIndex: 11,
 	},
+	inputLabel: {
+		width: 48,
+		height: 48,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRightColor: COLOR.GRAY_3,
+		borderRightWidth: 1,
+	},
+	labelText: {
+		fontFamily: 'Pretendard-Bold',
+		fontSize: 16,
+		color: COLOR.PRIMARY,
+	},
 	inputForm: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		borderRadius: 5,
-		borderColor: COLOR.GRAY_10,
+		borderRadius: 8,
+		borderColor: COLOR.GRAY_6,
 		borderWidth: 1,
+	},
+	textInput: {
+		width: '75%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginLeft: 10,
 	},
 });
 
