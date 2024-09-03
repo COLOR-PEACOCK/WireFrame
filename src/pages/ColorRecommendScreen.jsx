@@ -123,7 +123,12 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					labelColor={labelColor}
 				/>
 				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
-					<Icon name="sliders" size={24} color={textColor} />
+					<Icon
+						name="sliders"
+						size={38}
+						color={labelColor}
+						style={{ marginVertical: 9 }}
+					/>
 				</TouchableOpacity>
 			</View>
 			<ScrollView>
