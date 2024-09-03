@@ -5,7 +5,9 @@ import { CustomText as Text } from '@components/common/CustomText';
 const Splash = ({ navigation }) => {
 	useEffect(() => {
 		setTimeout(() => {
-			navigation.navigate('Home');
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: '#635143' },
+			});
 		}, 1000);
 	}, []);
 

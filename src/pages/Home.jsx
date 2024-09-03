@@ -30,9 +30,9 @@ const Home = ({ navigation }) => {
 		);
 		setCurrentIndex(currentIndex);
 	};
-	const handlePressLogo = () => setIsSearchVisible(false);
-	const handleSearch = () => setIsSearchVisible(true);
-	const handleSelectCamera = () => navigation.navigate('CameraPage');
+
+	const handleSearch = () => setIsModalVisible(true);
+	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
 
