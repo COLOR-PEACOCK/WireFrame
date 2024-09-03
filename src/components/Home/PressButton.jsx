@@ -7,20 +7,20 @@ const PressButton = ({ iconName, onPress, text }) => {
 	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
 	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
 
-	const onTouchStart = () => {
+	const handleTouchStart = () => {
 		setContentColor(COLOR.WHITE);
 		setButtonColor(COLOR.PRIMARY);
 	};
 
-	const onTouchEnd = () => {
+	const handleTouchEnd = () => {
 		setContentColor(COLOR.GRAY_9);
 		setButtonColor(COLOR.WHITE);
 	};
 	return (
 		<Pressable
 			onPress={onPress}
-			onTouchStart={onTouchStart}
-			onTouchEnd={onTouchEnd}
+			onTouchStart={handleTouchStart}
+			onTouchEnd={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
 			<Icon

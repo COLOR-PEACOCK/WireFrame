@@ -7,15 +7,11 @@ import {
 	SafeAreaView,
 	FlatList,
 	useWindowDimensions,
-	Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import { OutlinedText } from '@components/Home/OutlinedText';
-import Indicator from '@components/Home/Indicator';
-import PressButton from '@components/Home/PressButton';
-import SearchModal from '@components/Home/SearchModal';
+import { PressButton, OutlinedText, Indicator, Dropdown } from '@components/Home';
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
@@ -23,7 +19,10 @@ const Home = ({ navigation }) => {
 	const gap = 18;
 	const pageWidth = width - (gap + offset) * 2;
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [selectedLabel, setSelectedLabel] = useState('색이름');
+	const handleLabelCilck = (label) => setSelectedLabel(label);
+
+	const [isSearchVisible, setIsSearchVisible] = useState(false);
 
 	const handleScroll = e => {
 		const currentIndex = Math.round(
@@ -70,18 +69,26 @@ const Home = ({ navigation }) => {
 							gap: 8,
 						}}>
 						{/* 로고, 폰트 바꾸기 */}
-						<Icon name={'menu'} size={48} />
-						<Text style={styles.title}>COLOR PEACOCK</Text>
+						<Icon name={'menu'} size={48} onPress={handlePressLogo} />
+						{!isSearchVisible ? (
+							<Text style={styles.title}>COLOR PEACOCK</Text>
+						) : (
+							<Dropdown
+								list={dummy_list}
+								onLabelClickHandler={handleLabelCilck}
+								layoutStyle={{
+									width: 275,
+									backgroundColor: COLOR.WHITE,
+								}}
+								selectedLabel={selectedLabel}
+							/>
+						)}
 					</View>
 					<TouchableOpacity
 						style={styles.searchWrapper}
 						onPress={handleSearch}>
 						<Icon name={'search'} size={48} />
 					</TouchableOpacity>
-					<SearchModal
-						visible={isModalVisible}
-						setIsModalVisible={setIsModalVisible}
-					/>
 				</View>
 				<View style={styles.buttonContainer}>
 					<PressButton
@@ -146,7 +153,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: 'bold',
+		fontFamily: 'CookieRun-Bold',
 		color: COLOR.PRIMARY,
 	},
 	searchWrapper: {
@@ -169,6 +176,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 });
+
+const dummy_list = ['색이름', 'HEX', 'RGB', 'CMYK', 'HSL'];
 
 const dummy_trendColor = [
 	{
