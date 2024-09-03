@@ -1,7 +1,14 @@
 import { COLOR } from '@styles/color';
-import { FlatList, Modal, Pressable, StyleSheet, View } from 'react-native';
+import {
+	FlatList,
+	Modal,
+	Pressable,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
-import { SearchInputForm, ListValue } from '@components/Home';
+import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { useEffect, useState } from 'react';
 
 const SearchModal = ({
@@ -20,22 +27,7 @@ const SearchModal = ({
 		part3: '',
 		part4: '',
 	});
-	const renderItem = ({ item }) => {
-		return (
-			<View style={{ width: '100%' }}>
-				<ListValue
-					textStyle={{
-						fontFamily: 'Pretendard-Medium',
-						fontSize: 16,
-					}}
-					key={item}
-					label={item}
-					isActive={item === selectedLabel}
-					onPressLabel={onPressLabel}
-				/>
-			</View>
-		);
-	};
+
 	const handlePressSearch = () => {
 		switch (selectedLabel) {
 			case '색상 이름':
@@ -52,7 +44,7 @@ const SearchModal = ({
 				);
 			case 'CMYK':
 				return setInputColorValue(
-					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}%)`,
+					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}% ${inputValues.part4}%)`,
 				);
 			default:
 				return setInputColorValue(inputValues);
@@ -61,7 +53,7 @@ const SearchModal = ({
 	useEffect(() => {
 		onPressSearch();
 	}, [inputColorValue]);
-	const isCMYK = selectedLabel === 'CMYK';
+
 	return (
 		<View>
 			<Modal
@@ -71,53 +63,44 @@ const SearchModal = ({
 				onRequestClose={handleCloseModal}>
 				<Pressable
 					style={styles.modalOverlay}
-					onPress={() => {
-						handleCloseModal();
-					}}></Pressable>
+					onPress={handleCloseModal}></Pressable>
 				<View style={styles.modalView}>
-					<Pressable
-						style={styles.closeButton}
-						onPress={() => {
-							handleCloseModal();
-						}}>
-						<Text>X</Text>
-					</Pressable>
-					{/* <View style={styles.modalHeader}>
+					<View style={styles.modalHeader}>
 						<Text style={styles.modalHeaderText}>
-							Modal Header Text
+							원하시는 색상을 검색해서 추천하는 색상 조합을
+							받아보세요!
 						</Text>
-					</View> */}
+					</View>
 					<View style={styles.modalBody}>
-						<FlatList
-							data={list}
-							renderItem={renderItem}
-							keyboardShouldPersistTaps={'always'}
+						<Dropdown
+							list={list}
+							onClickDropdown={onPressLabel}
+							layoutStyle={{
+								width: '100%',
+								justifyContent: 'center',
+							}}
+							selectedLabel={selectedLabel}
 						/>
-						<View
-							style={{
-								gap: '25%',
-								flexDirection: isCMYK ? 'row' : 'column',
-								justifyContent: 'space-between',
-							}}>
+						<View style={{}}>
 							<SearchInputForm
 								selectedLabel={selectedLabel}
 								inputValues={inputValues}
 								setInputValues={setInputValues}
 							/>
-
-							<Pressable
-								style={[
-									styles.searchButton,
-									{
-										width: isCMYK ? '20%' : '30%',
-										height: isCMYK ? 90 : 40,
-										left: isCMYK ? 0 : '70%',
-									},
-								]}
-								onPress={handlePressSearch}>
-								<Text style={{ color: COLOR.WHITE }}>검색</Text>
-							</Pressable>
 						</View>
+					</View>
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity
+							style={styles.cancelButton}
+							onPress={handleCloseModal}>
+							<Text style={{ color: COLOR.WHITE }}>이전으로</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							style={styles.searchButton}
+							onPress={handlePressSearch}>
+							<Text style={{ color: COLOR.WHITE }}>검색하기</Text>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
@@ -128,14 +111,13 @@ const SearchModal = ({
 const styles = StyleSheet.create({
 	modalView: {
 		width: '85%',
-		marginTop: 200,
+		marginTop: 150,
 		marginHorizontal: 'auto',
-		paddingVertical: 24,
+		paddingTop: 18,
 		zIndex: 5,
 		backgroundColor: COLOR.WHITE,
 		borderRadius: 8,
-		borderWidth: 1,
-		borderColor: COLOR.PRIMARY,
+
 		elevation: 5,
 		shadowColor: COLOR.BLACK,
 		shadowOffset: {
@@ -165,25 +147,41 @@ const styles = StyleSheet.create({
 	},
 	modalHeader: {
 		width: '100%',
-		paddingBottom: 24,
+		paddingBottom: 18,
 		marginBottom: 10,
 		borderBottomWidth: 1,
-		borderBottomColor: COLOR.BLACK,
+		borderBottomColor: COLOR.GRAY_3,
 	},
 	modalHeaderText: {
 		fontFamily: 'Pretendard-Bold',
 		textAlign: 'center',
-		fontSize: 18,
+		color: COLOR.GRAY_6,
+		fontSize: 12,
 	},
 	modalBody: {
-		marginHorizontal: 50,
-		gap: 10,
+		marginHorizontal: 18,
+		gap: 18,
 	},
-	searchButton: {
+	buttonContainer: {
+		height: 64,
+		marginTop: 18,
+		flexDirection: 'row',
+	},
+	cancelButton: {
+		width: '50%',
+		height: '100%',
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: COLOR.SECONDARY,
-		borderRadius: 5,
+		backgroundColor: COLOR.GRAY_6,
+		borderBottomLeftRadius: 8,
+	},
+	searchButton: {
+		width: '50%',
+		height: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLOR.PRIMARY,
+		borderBottomRightRadius: 8,
 	},
 });
 

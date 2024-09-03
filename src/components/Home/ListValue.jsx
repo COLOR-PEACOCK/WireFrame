@@ -22,7 +22,6 @@ const ListValue = ({ label, textStyle, isActive, disabled, onPressLabel }) => {
 		if (isActive) {
 			return COLOR.PRIMARY;
 		} else {
-			return COLOR.WHITE;
 		}
 	};
 
@@ -31,7 +30,6 @@ const ListValue = ({ label, textStyle, isActive, disabled, onPressLabel }) => {
 			style={{
 				paddingLeft: 8,
 				paddingVertical: 8,
-				borderRadius: 4,
 				backgroundColor: getBackgroundColor(),
 			}}
 			onPress={handlePressLabel}>
