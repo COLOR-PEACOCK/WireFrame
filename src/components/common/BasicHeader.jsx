@@ -73,7 +73,7 @@ const BasicHeader = ({
 				<Text style={styles.engTitle}>{engTitle}</Text>
 			</View>
 
-            {/* right button */}
+			{/* right button */}
 			{isInfo ? (
 				<TouchableOpacity
 					ref={infoButtonRef}
@@ -82,17 +82,18 @@ const BasicHeader = ({
 					<Icon name={rightIcon} color={COLOR.GRAY_5} size={20} />
 				</TouchableOpacity>
 			) : (
-				rightIcon && (
-					<TouchableOpacity
-						style={styles.headerButton}
-						onPress={onPressRight}>
-						<Icon
-							name={rightIcon}
-							color={COLOR.PRIMARY}
-							size={30}
-						/>
-					</TouchableOpacity>
-				)
+				<TouchableOpacity
+					style={[
+						styles.headerButton,
+						rightIcon && {
+							borderColor: COLOR.GRAY_3,
+							borderWidth: 2,
+							borderRadius: 8,
+						},
+					]}
+					onPress={onPressRight}>
+					<Icon name={rightIcon} color={COLOR.PRIMARY} size={30} />
+				</TouchableOpacity>
 			)}
 			{/* info Modal */}
 			{isInfoVisible && (
@@ -111,7 +112,7 @@ const BasicHeader = ({
 						},
 					]}>
 					<View ref={infoModalRef} style={styles.infoModalSquare}>
-						<Text>{infoText}</Text>
+						<Text style={{ fontSize: 12 }}>{infoText}</Text>
 					</View>
 				</View>
 			)}
@@ -154,11 +155,9 @@ const styles = StyleSheet.create({
 		height: 48,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderColor: COLOR.GRAY_3,
-		borderWidth: 2,
-		borderRadius: 8,
 	},
 	infoButton: {
+		marginHorizontal: 12,
 		width: 24,
 		height: 24,
 		justifyContent: 'center',
