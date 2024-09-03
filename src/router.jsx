@@ -4,7 +4,7 @@ import Splash from '@pages/Splash';
 import Home from '@pages/Home';
 import AiScreen from '@pages/AiScreen';
 import ImageScreen from '@pages/ImageScreen';
-import CameraPage from '@pages/CameraPage';
+import CameraScreen from '@pages/CameraScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,7 @@ const Router = () => {
 			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="AiScreen" component={AiScreen} />
 			<Stack.Screen name="ImageScreen" component={ImageScreen} />
-			<Stack.Screen name="CameraPage" component={CameraPage} />
+			<Stack.Screen name="CameraScreen" component={CameraScreen} />
 		</Stack.Navigator>
 	);
 };
