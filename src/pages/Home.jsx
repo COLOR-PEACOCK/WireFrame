@@ -7,19 +7,12 @@ import {
 	SafeAreaView,
 	FlatList,
 	useWindowDimensions,
-	Keyboard,
 	Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import {
-	PressButton,
-	OutlinedText,
-	Indicator,
-	Dropdown,
-	SearchInputForm,
-} from '@components/Home';
+import { PressButton, OutlinedText, Indicator } from '@components/Home';
 import useBackHandler from '@hooks/useBackHandler';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
@@ -104,21 +97,6 @@ const Home = ({ navigation }) => {
 							inputColorValue={inputColorValue}
 							setInputColorValue={setInputColorValue}
 						/>
-						{/* <View style={styles.searchContainer}>
-									<Dropdown
-										list={dummy_list}
-										onClickDropdown={handleCilckDropdown}
-										layoutStyle={{
-											width: 90,
-											height: 35,
-											borderColor: COLOR.GRAY_6,
-											borderRightWidth: 1,
-											marginRight: 5,
-										}}
-										selectedLabel={selectedLabel}
-									/>
-									
-								</View> */}
 					</View>
 					<TouchableOpacity
 						style={styles.searchIconWrapper}

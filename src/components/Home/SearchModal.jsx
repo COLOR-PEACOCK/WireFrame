@@ -10,6 +10,7 @@ import {
 import { CustomText as Text } from '@components/common/CustomText';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { useEffect, useState } from 'react';
+import { cmykToHex, hslToHex, rgbToHex } from '@utils/convertToHex';
 
 const SearchModal = ({
 	list,
@@ -29,26 +30,18 @@ const SearchModal = ({
 	});
 
 	const handlePressSearch = () => {
-		switch (selectedLabel) {
-			case '색상 이름':
-				return setInputColorValue(inputValues.part1);
-			case 'HEX':
-				return setInputColorValue('#' + inputValues.part1);
-			case 'RGB':
-				return setInputColorValue(
-					`rgb(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
-				);
-			case 'HSL':
-				return setInputColorValue(
-					`HSL(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
-				);
-			case 'CMYK':
-				return setInputColorValue(
-					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}% ${inputValues.part4}%)`,
-				);
-			default:
-				return setInputColorValue(inputValues);
-		}
+		const converters = {
+			'HEX': (values) => `#${values.part1}`,
+			'RGB': (values) => rgbToHex(values.part1, values.part2, values.part3),
+			'HSL': (values) => hslToHex(values.part1, values.part2, values.part3),
+			'CMYK': (values) => cmykToHex(values.part1, values.part2, values.part3, values.part4),
+			'색상 이름': (values) => values.part1,
+		};
+	
+		const convertToHex = converters[selectedLabel] || ((values) => values);
+	
+		const hexValue = convertToHex(inputValues);
+		setInputColorValue(hexValue);
 	};
 	useEffect(() => {
 		onPressSearch();
