@@ -2,6 +2,18 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/CookieRun-Black.ttf",
+      "sha1": "0e4a1523c5bc0e016d77102a3d74f6d155bdcd74"
+    },
+    {
+      "path": "src/assets/fonts/CookieRun-Bold.ttf",
+      "sha1": "9dd77465b7bbdb84d8d3ef417fa261a7855378e6"
+    },
+    {
+      "path": "src/assets/fonts/CookieRun-Regular.ttf",
+      "sha1": "686100f288362722b98db8175cd14358d3afab58"
+    },
+    {
       "path": "src/assets/fonts/Pretendard-Black.otf",
       "sha1": "b9162985d25a21b393185c6139d283fba46fd739"
     },
