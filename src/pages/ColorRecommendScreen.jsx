@@ -65,6 +65,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	}, [tempColor]);
 
 	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
+	const labelColor = tinycolor(color).isLight() ? COLOR.BLACK : COLOR.WHITE;
 
 	const saveColor = () => {
 		setColor(tempColor);
@@ -116,7 +117,11 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title={'색상 추천 화면'} />
 			<View style={[styles.colorBox, { backgroundColor: color }]}>
-				<MainColorInfo colorInfo={colorInfo} textColor={textColor} />
+				<MainColorInfo
+					colorInfo={colorInfo}
+					textColor={textColor}
+					labelColor={labelColor}
+				/>
 				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
 					<Icon name="sliders" size={24} color={textColor} />
 				</TouchableOpacity>
@@ -173,9 +178,12 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	colorBox: {
 		flexDirection: 'row',
-		margin: 28,
-		justifyContent: 'space-between',
-		padding: 20,
+		width: 376,
+		height: 214,
+		marginHorizontal: 18,
+		marginVertical: 24,
+		paddingHorizontal: 18,
+		paddingVertical: 12,
 		borderRadius: 10,
 	},
 });
