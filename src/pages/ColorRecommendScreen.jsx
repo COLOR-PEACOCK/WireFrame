@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
 	SafeAreaView,
 	View,
-	ScrollView,
 	TouchableOpacity,
 	StyleSheet,
+	ScrollView,
 } from 'react-native';
 import {
 	getComplementaryColor,
@@ -15,28 +15,53 @@ import {
 	getTetradicColors,
 } from '@utils/colorRecommendUtils';
 import { getColorInfo } from '@utils/colorRecommendUtils';
+import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
 import convert from 'color-convert';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import BasicHeader from '@components/common/BasicHeader';
-import ColorPalette from '@components/ColorRecommend/ColorPalette';
 import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
-import ColorInfo from '@components/ColorRecommend/ColorInfo';
+import ColorPalette from '@components/ColorRecommend/ColorPalette';
+import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
 import { COLOR } from '@styles/color';
 
-const ColorRecommendScreen = ({
-	mainColor = { hexVal: '#E6E6E6' },
-	navigation,
-}) => {
+const ColorRecommendScreen = ({ route, navigation }) => {
+	const { mainColor } = route.params;
 	const [color, setColor] = useState(mainColor.hexVal);
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
 	const [tempColor, setTempColor] = useState(mainColor.hexVal);
-	const [colorInfo, setColorInfo] = useState(
-		getColorInfo(tempColor.replace('#', '')),
-	);
+	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
+		useColorName();
+
+	const [colorInfo, setColorInfo] = useState(() => {
+		const colorData = getColorInfo(tempColor.replace('#', ''));
+		return {
+			engName: getEngColorNameLocal(tempColor),
+			korName: getKorColorName(tempColor),
+			hexVal: colorData.hexVal,
+			rgbVal: colorData.rgbVal,
+			hslVal: colorData.hslVal,
+			cmykVal: colorData.cmykVal,
+		};
+	});
 
 	useEffect(() => {
-		setColorInfo(getColorInfo(tempColor.replace('#', '')));
+		const updateColorInfo = async () => {
+			const colorData = getColorInfo(tempColor.replace('#', ''));
+			const engName = await getEngColorNameLocal(tempColor);
+			const korName = await getKorColorName(tempColor);
+
+			setColorInfo({
+				engName: engName,
+				korName: korName,
+				hexVal: colorData.hexVal,
+				rgbVal: colorData.rgbVal,
+				hslVal: colorData.hslVal,
+				cmykVal: colorData.cmykVal,
+			});
+		};
+
+		updateColorInfo();
 	}, [tempColor]);
 
 	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
@@ -47,8 +72,8 @@ const ColorRecommendScreen = ({
 	};
 
 	const handleColorSelect = selectedColors => {
-		console.log('넘길 색상', selectedColors);
-		// TODO: 오브젝트 화면 넘기기
+		console.log('선택 팔레트', selectedColors);
+		// TODO: 선택 팔레트 넘겨주기
 	};
 
 	const hslColor = convert.hex.hsl(color.replace('#', ''));
@@ -87,12 +112,11 @@ const ColorRecommendScreen = ({
 		() => [color, ...getTetradicColors(hslColor)],
 		[color, hslColor],
 	);
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title={'색상 추천 화면'} />
 			<View style={[styles.colorBox, { backgroundColor: color }]}>
-				<ColorInfo colorInfo={colorInfo} textColor={textColor} />
+				<MainColorInfo colorInfo={colorInfo} textColor={textColor} />
 				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
 					<Icon name="sliders" size={24} color={textColor} />
 				</TouchableOpacity>

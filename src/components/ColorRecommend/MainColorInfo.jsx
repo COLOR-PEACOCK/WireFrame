@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ColorInfo = ({ colorInfo, textColor }) => (
+const MainColorInfo = ({ colorInfo, textColor }) => (
 	<View style={styles.colorInfoContainer}>
+		<Text style={[styles.colorName, { color: textColor }]}>
+			{colorInfo.korName}
+		</Text>
 		<Text style={[styles.colorName, { color: textColor }]}>
 			{colorInfo.engName}
 		</Text>
@@ -34,4 +37,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ColorInfo;
+export default MainColorInfo;

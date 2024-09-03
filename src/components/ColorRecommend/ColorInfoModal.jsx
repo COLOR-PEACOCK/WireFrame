@@ -16,7 +16,7 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => (
 						{ backgroundColor: selectedColor },
 					]}
 				/>
-
+				<Text style={styles.colorName}>{colorInfo.korName}</Text>
 				<Text style={styles.colorName}>{colorInfo.engName}</Text>
 				<Text style={styles.colorInfo}>{colorInfo.rgbVal}</Text>
 				<Text style={styles.colorInfo}>{colorInfo.hexVal}</Text>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { getColorInfo } from '@utils/colorRecommendUtils';
+import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
 import HangerIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
@@ -10,6 +11,39 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [colorInfo, setColorInfo] = useState({
+		engName: '',
+		korName: '',
+		hexVal: '',
+		rgbVal: '',
+		hslVal: '',
+		cmykVal: '',
+	});
+
+	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
+		useColorName();
+
+	useEffect(() => {
+		if (selectedColor) {
+			const updateColorInfo = async () => {
+				const colorKey = selectedColor.replace('#', '');
+				const colorData = getColorInfo(colorKey) || {};
+				const engName = await getEngColorNameLocal(selectedColor);
+				const korName = await getKorColorName(selectedColor);
+
+				setColorInfo({
+					engName,
+					korName,
+					hexVal: colorData.hexVal,
+					rgbVal: colorData.rgbVal,
+					hslVal: colorData.hslVal,
+					cmykVal: colorData.cmykVal,
+				});
+			};
+
+			updateColorInfo();
+		}
+	}, [selectedColor]);
 
 	const handleColorPress = color => {
 		setSelectedColor(color);
@@ -20,8 +54,6 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 		setIsModalVisible(false);
 		setSelectedColor(null);
 	};
-
-	const colorInfo = selectedColor ? getColorInfo(selectedColor) : {};
 
 	return (
 		<View style={styles.container}>
@@ -63,6 +95,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 					/>
 				</TouchableOpacity>
 			</View>
+
 			<ColorInfoModal
 				isVisible={isModalVisible}
 				onClose={closeModal}
