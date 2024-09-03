@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2';
 import HangerIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
 import { CustomText as Text } from '@components/common/CustomText';
+import { COLOR } from '@styles/color';
 
 const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
@@ -63,24 +64,49 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 			</View>
 			<View style={styles.paletteContainer}>
 				<View style={styles.colorRow}>
-					{colors.map((color, index) => (
-						<TouchableOpacity
-							key={index}
-							style={[
-								styles.colorBox,
-								{
-									backgroundColor:
+					{colors.map((color, index) => {
+						const borderRadiusStyle =
+							index === 0
+								? {
+										borderTopLeftRadius: 8,
+										borderBottomLeftRadius: 8,
+								  }
+								: index === colors.length - 1
+								? {
+										borderTopRightRadius: 8,
+										borderBottomRightRadius: 8,
+								  }
+								: {};
+
+						return (
+							<TouchableOpacity
+								key={index}
+								style={[
+									styles.colorBox,
+									{
+										backgroundColor:
+											tinycolor(color).toHexString(),
+									},
+									borderRadiusStyle,
+								]}
+								onPress={() =>
+									handleColorPress(
 										tinycolor(color).toHexString(),
-								},
-							]}
-							onPress={() =>
-								handleColorPress(tinycolor(color).toHexString())
-							}
-						/>
-					))}
+									)
+								}
+							/>
+						);
+					})}
 				</View>
 				<TouchableOpacity
-					style={styles.iconContainer}
+					style={[
+						styles.iconContainer,
+						{
+							backgroundColor: isButtonPressed
+								? COLOR.PRIMARY
+								: COLOR.WHITE,
+						},
+					]}
 					onPress={() => {
 						setIsButtonPressed(!isButtonPressed);
 						onColorSelect(
@@ -90,8 +116,8 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 					}}>
 					<HangerIcon
 						name="hanger"
-						size={50}
-						color={isButtonPressed ? '#6200EE' : '#AAA'}
+						size={20}
+						color={isButtonPressed ? COLOR.WHITE : COLOR.PRIMARY}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -113,22 +139,29 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		flexDirection: 'row',
-		marginBottom: 10,
+		marginHorizontal: 18,
+		marginBottom: 3,
 	},
 	titleKor: {
-		color: '#333',
+		color: COLOR.BLACK,
 		fontSize: 18,
 		fontWeight: 'bold',
 		marginHorizontal: 4,
 	},
 	titleEng: {
-		color: '#333',
-		fontSize: 14,
-		marginHorizontal: 4,
+		color: COLOR.GRAY_6,
+		fontSize: 12,
+		marginHorizontal: 6,
 		alignSelf: 'flex-end',
 	},
 	paletteContainer: {
 		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		height: 50,
+		paddingHorizontal: 18,
+		alignSelf: 'center',
 	},
 	colorRow: {
 		flexDirection: 'row',
@@ -138,14 +171,21 @@ const styles = StyleSheet.create({
 	colorBox: {
 		flex: 1,
 		height: 50,
-		borderRadius: 4,
-		marginRight: 2,
 	},
 	iconContainer: {
 		width: 50,
 		height: 50,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: 8,
+		shadowColor: COLOR.GRAY_3,
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
 	},
 });
 
