@@ -22,13 +22,10 @@ const CameraRender = ({ extColor, cameraType, zoomLevel }) => {
 
 	// rgb 값 헥스코드 변환 함수
 	const rgbToHex = (r, g, b) => {
-		return (
-			'#' +
-			((1 << 24) + (r << 16) + (g << 8) + b)
-				.toString(16)
-				.slice(1)
-				.toUpperCase()
-		);
+		return ((1 << 24) + (r << 16) + (g << 8) + b)
+			.toString(16)
+			.slice(1)
+			.toUpperCase();
 	};
 
 	// 색상 업데이트

@@ -13,20 +13,23 @@ const ExtColorModal = ({ parentlayout, extColor }) => {
 			]}>
 			<View
 				style={{
-					width: 78,
-					height: 78,
+					width: 64,
+					height: 64,
 					backgroundColor: extColor.bgColor,
-					marginLeft: 70,
 					borderRadius: 8,
 				}}
 			/>
-			<View>
-				<Text style={styles.korcolors}>≈{extColor.korName}</Text>
-				<Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
-					{extColor.engName}
-				</Text>
-				<Text style={styles.codecolors}>HEX:{extColor.hexColor}</Text>
-				<Text style={styles.codecolors}>HSL: 18.5, 5.2%, 48.8%</Text>
+			<View
+				style={{
+					gap: 6,
+					width: parentlayout.width / 2.314,
+				}}>
+				<View>
+					<Text style={styles.korcolors}>≈{extColor.korName}</Text>
+					<Text style={styles.engcolors}>{extColor.engName}</Text>
+				</View>
+
+				<Text style={styles.hexcolors}>HEX:{extColor.hexColor}</Text>
 			</View>
 		</View>
 	);
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(11, 11, 11, 0.8)',
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 		gap: 16,
 	},
 	korcolors: {
@@ -46,7 +50,8 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		fontWeight: '700',
 	},
-	codecolors: {
+	engcolors: { color: COLOR.WHITE, fontSize: 12 },
+	hexcolors: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Light',

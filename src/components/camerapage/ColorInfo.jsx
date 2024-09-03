@@ -83,22 +83,22 @@ const ColorInfo = ({
 								borderRadius: 8,
 							}}
 						/>
-						<View>
-							<Text style={styles.korcolors}>
-								≈{selectedColor?.korName}
-							</Text>
-							<Text
-								style={{
-									color: COLOR.WHITE,
-									fontSize: 12,
-								}}>
-								{selectedColor?.engName}
-							</Text>
-							<Text style={styles.codecolors}>
+						<View
+							style={{
+								gap: 6,
+								width: parentlayout.width / 2.314,
+							}}>
+							<View>
+								<Text style={styles.korcolors}>
+									≈{selectedColor?.korName}
+								</Text>
+								<Text style={styles.engcolors}>
+									{selectedColor?.engName}
+								</Text>
+							</View>
+
+							<Text style={styles.hexcolors}>
 								HEX:{selectedColor?.hex}
-							</Text>
-							<Text style={styles.codecolors}>
-								HSL: 18.5, 5.2%, 48.8%
 							</Text>
 						</View>
 					</View>
@@ -147,7 +147,11 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		fontWeight: '700',
 	},
-	codecolors: {
+	engcolors: {
+		color: COLOR.WHITE,
+		fontSize: 12,
+	},
+	hexcolors: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Light',
