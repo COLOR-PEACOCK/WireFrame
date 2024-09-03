@@ -11,7 +11,10 @@ const extractNumbers = str => {
 };
 
 const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
-	const textColor = tinycolor(selectedColor).isLight()
+	const korTextColor = tinycolor(selectedColor).isLight()
+		? COLOR.BLACK
+		: COLOR.WHITE;
+	const engTextColor = tinycolor(selectedColor).isLight()
 		? COLOR.GRAY_9
 		: COLOR.GRAY_2;
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
@@ -33,14 +36,14 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 								<Text
 									style={[
 										styles.korColorName,
-										{ color: textColor },
+										{ color: korTextColor },
 									]}>
 									≈{colorInfo.korName}
 								</Text>
 								<Text
 									style={[
 										styles.engColorName,
-										{ color: textColor },
+										{ color: engTextColor },
 									]}>
 									{colorInfo.engName}
 								</Text>
@@ -156,12 +159,13 @@ const styles = StyleSheet.create({
 		marginLeft: 8,
 	},
 	valueContainer: {
-		marginTop: 16,
-		marginLeft: 18,
+		marginTop: 12,
+		marginLeft: 9,
 		alignItems: 'flex-start',
 		width: '100%',
 	},
 	valueRow: {
+		marginLeft: 9,
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
@@ -170,11 +174,13 @@ const styles = StyleSheet.create({
 	label: {
 		width: 50,
 		fontSize: 16,
+		color: COLOR.GRAY_8,
 		fontWeight: 'bold',
 	},
 	colorDetails: {
 		fontSize: 16,
 		marginLeft: 12,
+		color: COLOR.GRAY_6,
 	},
 });
 
