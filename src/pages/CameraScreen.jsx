@@ -19,7 +19,7 @@ import ExtColorModal from '@components/camerapage/ExtColorModal';
 
 const extbutton = require('@icons/circle__lock__btn.png');
 
-const CameraPage = ({ navigation }) => {
+const CameraScreen = ({ navigation }) => {
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [cameraType, setCameraType] = useState('back');
 	const [parentlayout, setParentlayout] = useState({
@@ -215,4 +215,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default CameraPage;
+export default CameraScreen;
