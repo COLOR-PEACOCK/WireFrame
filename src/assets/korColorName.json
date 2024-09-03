@@ -1,0 +1,707 @@
+[
+  {
+    "name": "aliceblue",
+    "hex": "#F0F8FF",
+    "korean_name": "앨리스 블루"
+  },
+  {
+    "name": "antiquewhite",
+    "hex": "#FAEBD7",
+    "korean_name": "앤티크 화이트"
+  },
+  {
+    "name": "aqua",
+    "hex": "#00FFFF",
+    "korean_name": "아쿠아"
+  },
+  {
+    "name": "aquamarine",
+    "hex": "#7FFFD4",
+    "korean_name": "아쿠아마린"
+  },
+  {
+    "name": "azure",
+    "hex": "#F0FFFF",
+    "korean_name": "아주르"
+  },
+  {
+    "name": "beige",
+    "hex": "#F5F5DC",
+    "korean_name": "베이지"
+  },
+  {
+    "name": "bisque",
+    "hex": "#FFE4C4",
+    "korean_name": "비스킷"
+  },
+  {
+    "name": "black",
+    "hex": "#000000",
+    "korean_name": "검은색"
+  },
+  {
+    "name": "blanchedalmond",
+    "hex": "#FFEBCD",
+    "korean_name": "블랜치드 아몬드"
+  },
+  {
+    "name": "blue",
+    "hex": "#0000FF",
+    "korean_name": "파란색"
+  },
+  {
+    "name": "blueviolet",
+    "hex": "#8A2BE2",
+    "korean_name": "블루바이올렛"
+  },
+  {
+    "name": "brown",
+    "hex": "#A52A2A",
+    "korean_name": "갈색"
+  },
+  {
+    "name": "burlywood",
+    "hex": "#DEB887",
+    "korean_name": "버리우드"
+  },
+  {
+    "name": "cadetblue",
+    "hex": "#5F9EA0",
+    "korean_name": "카디널 블루"
+  },
+  {
+    "name": "chartreuse",
+    "hex": "#7FFF00",
+    "korean_name": "샤르트뢰즈"
+  },
+  {
+    "name": "chocolate",
+    "hex": "#D2691E",
+    "korean_name": "초콜릿"
+  },
+  {
+    "name": "coral",
+    "hex": "#FF7F50",
+    "korean_name": "코랄"
+  },
+  {
+    "name": "cornflowerblue",
+    "hex": "#6495ED",
+    "korean_name": "콘플라워 블루"
+  },
+  {
+    "name": "cornsilk",
+    "hex": "#FFF8DC",
+    "korean_name": "콘실크"
+  },
+  {
+    "name": "crimson",
+    "hex": "#DC143C",
+    "korean_name": "크림슨"
+  },
+  {
+    "name": "cyan",
+    "hex": "#00FFFF",
+    "korean_name": "청록"
+  },
+  {
+    "name": "darkblue",
+    "hex": "#00008B",
+    "korean_name": "다크 블루"
+  },
+  {
+    "name": "darkcyan",
+    "hex": "#008B8B",
+    "korean_name": "다크 시안"
+  },
+  {
+    "name": "darkgoldenrod",
+    "hex": "#B8860B",
+    "korean_name": "황토색"
+  },
+  {
+    "name": "darkgray",
+    "hex": "#A9A9A9",
+    "korean_name": "어두운 회색"
+  },
+  {
+    "name": "darkgreen",
+    "hex": "#006400",
+    "korean_name": "암녹색"
+  },
+  {
+    "name": "darkkhaki",
+    "hex": "#BDB76B",
+    "korean_name": "다크 카키"
+  },
+  {
+    "name": "darkmagenta",
+    "hex": "#8B008B",
+    "korean_name": "다크 마젠타"
+  },
+  {
+    "name": "darkolivegreen",
+    "hex": "#556B2F",
+    "korean_name": "다크 올리브 그린"
+  },
+  {
+    "name": "darkorange",
+    "hex": "#FF8C00",
+    "korean_name": "다크 오렌지"
+  },
+  {
+    "name": "darkorchid",
+    "hex": "#9932CC",
+    "korean_name": "다크 오키드"
+  },
+  {
+    "name": "darkred",
+    "hex": "#8B0000",
+    "korean_name": "다크 레드"
+  },
+  {
+    "name": "darksalmon",
+    "hex": "#E9967A",
+    "korean_name": "다크 살몬"
+  },
+  {
+    "name": "darkseagreen",
+    "hex": "#8FBC8F",
+    "korean_name": "어두운 해록색"
+  },
+  {
+    "name": "darkslateblue",
+    "hex": "#483D8B",
+    "korean_name": "다크 슬레이트 블루"
+  },
+  {
+    "name": "darkslategray",
+    "hex": "#2F4F4F",
+    "korean_name": "다크 슬레이트 그레이"
+  },
+  {
+    "name": "darkturquoise",
+    "hex": "#00CED1",
+    "korean_name": "어두운 터키옥색"
+  },
+  {
+    "name": "darkviolet",
+    "hex": "#9400D3",
+    "korean_name": "다크 바이올렛"
+  },
+  {
+    "name": "deeppink",
+    "hex": "#FF1493",
+    "korean_name": "딥핑크"
+  },
+  {
+    "name": "deepskyblue",
+    "hex": "#00BFFF",
+    "korean_name": "바다색"
+  },
+  {
+    "name": "dimgray",
+    "hex": "#696969",
+    "korean_name": "딤 그레이"
+  },
+  {
+    "name": "dodgerblue",
+    "hex": "#1E90FF",
+    "korean_name": "도저 블루"
+  },
+  {
+    "name": "firebrick",
+    "hex": "#B22222",
+    "korean_name": "파이어브릭"
+  },
+  {
+    "name": "floralwhite",
+    "hex": "#FFFAF0",
+    "korean_name": "플로럴 화이트"
+  },
+  {
+    "name": "forestgreen",
+    "hex": "#228B22",
+    "korean_name": "포레스트 그린"
+  },
+  {
+    "name": "fuchsia",
+    "hex": "#FF00FF",
+    "korean_name": "퓨시아"
+  },
+  {
+    "name": "gainsboro",
+    "hex": "#DCDCDC",
+    "korean_name": "게인스보로"
+  },
+  {
+    "name": "ghostwhite",
+    "hex": "#F8F8FF",
+    "korean_name": "고스트 화이트"
+  },
+  {
+    "name": "gold",
+    "hex": "#FFD700",
+    "korean_name": "금색"
+  },
+  {
+    "name": "goldenrod",
+    "hex": "#DAA520",
+    "korean_name": "골든로드"
+  },
+  {
+    "name": "gray",
+    "hex": "#808080",
+    "korean_name": "회색"
+  },
+  {
+    "name": "green",
+    "hex": "#008000",
+    "korean_name": "초록색"
+  },
+  {
+    "name": "greenyellow",
+    "hex": "#ADFF2F",
+    "korean_name": "연두색"
+  },
+  {
+    "name": "honeydew",
+    "hex": "#F0FFF0",
+    "korean_name": "허니듀"
+  },
+  {
+    "name": "hotpink",
+    "hex": "#FF69B4",
+    "korean_name": "핫핑크"
+  },
+  {
+    "name": "indianred",
+    "hex": "#CD5C5C",
+    "korean_name": "인디언 레드"
+  },
+  {
+    "name": "indigo",
+    "hex": "#4B0082",
+    "korean_name": "인디고"
+  },
+  {
+    "name": "ivory",
+    "hex": "#FFFFF0",
+    "korean_name": "아이보리"
+  },
+  {
+    "name": "khaki",
+    "hex": "#F0E68C",
+    "korean_name": "카키"
+  },
+  {
+    "name": "lavender",
+    "hex": "#E6E6FA",
+    "korean_name": "라벤더"
+  },
+  {
+    "name": "lavenderblush",
+    "hex": "#FFF0F5",
+    "korean_name": "라벤더 블러쉬"
+  },
+  {
+    "name": "lawngreen",
+    "hex": "#7CFC00",
+    "korean_name": "잔디색"
+  },
+  {
+    "name": "lemonchiffon",
+    "hex": "#FFFACD",
+    "korean_name": "레몬 시폰"
+  },
+  {
+    "name": "lightblue",
+    "hex": "#ADD8E6",
+    "korean_name": "밝은 파란색"
+  },
+  {
+    "name": "lightcoral",
+    "hex": "#F08080",
+    "korean_name": "라이트 코랄"
+  },
+  {
+    "name": "lightcyan",
+    "hex": "#E0FFFF",
+    "korean_name": "라이트 시안"
+  },
+  {
+    "name": "lightgoldenrodyellow",
+    "hex": "#FAFAD2",
+    "korean_name": "라이트 골든로드 옐로우"
+  },
+  {
+    "name": "lightgray",
+    "hex": "#D3D3D3",
+    "korean_name": "밝은 회색"
+  },
+  {
+    "name": "lightgreen",
+    "hex": "#90EE90",
+    "korean_name": "밝은 초록색"
+  },
+  {
+    "name": "lightpink",
+    "hex": "#FFB6C1",
+    "korean_name": "밝은 분홍색"
+  },
+  {
+    "name": "lightsalmon",
+    "hex": "#FFA07A",
+    "korean_name": "살구색"
+  },
+  {
+    "name": "lightseagreen",
+    "hex": "#20B2AA",
+    "korean_name": "라이트 시안 그린"
+  },
+  {
+    "name": "lightskyblue",
+    "hex": "#87CEFA",
+    "korean_name": "밝은 하늘색"
+  },
+  {
+    "name": "lightslategray",
+    "hex": "#778899",
+    "korean_name": "라이트 슬레이트 그레이"
+  },
+  {
+    "name": "lightsteelblue",
+    "hex": "#B0C4DE",
+    "korean_name": "라이트 스틸 블루"
+  },
+  {
+    "name": "lightyellow",
+    "hex": "#FFFFE0",
+    "korean_name": "라이트 옐로우"
+  },
+  {
+    "name": "lime",
+    "hex": "#00FF00",
+    "korean_name": "라임"
+  },
+  {
+    "name": "limegreen",
+    "hex": "#32CD32",
+    "korean_name": "라임 그린"
+  },
+  {
+    "name": "linen",
+    "hex": "#FAF0E6",
+    "korean_name": "리넨"
+  },
+  {
+    "name": "magenta",
+    "hex": "#FF00FF",
+    "korean_name": "자홍색"
+  },
+  {
+    "name": "maroon",
+    "hex": "#800000",
+    "korean_name": "밤색"
+  },
+  {
+    "name": "mediumaquamarine",
+    "hex": "#66CDAA",
+    "korean_name": "미디엄 아쿠아마린"
+  },
+  {
+    "name": "mediumblue",
+    "hex": "#0000CD",
+    "korean_name": "미디엄 블루"
+  },
+  {
+    "name": "mediumorchid",
+    "hex": "#BA55D3",
+    "korean_name": "미디엄 오키드"
+  },
+  {
+    "name": "mediumpurple",
+    "hex": "#9370DB",
+    "korean_name": "미디엄 퍼플"
+  },
+  {
+    "name": "mediumseagreen",
+    "hex": "#3CB371",
+    "korean_name": "미디엄 시안 그린"
+  },
+  {
+    "name": "mediumslateblue",
+    "hex": "#7B68EE",
+    "korean_name": "미디엄 슬레이트 블루"
+  },
+  {
+    "name": "mediumspringgreen",
+    "hex": "#00FA9A",
+    "korean_name": "미디엄 스프링 그린"
+  },
+  {
+    "name": "mediumturquoise",
+    "hex": "#48D1CC",
+    "korean_name": "미디엄 터키석"
+  },
+  {
+    "name": "mediumvioletred",
+    "hex": "#C71585",
+    "korean_name": "미디엄 바이올렛 레드"
+  },
+  {
+    "name": "midnightblue",
+    "hex": "#191970",
+    "korean_name": "미드나잇 블루"
+  },
+  {
+    "name": "mintcream",
+    "hex": "#F5FFFA",
+    "korean_name": "민트 크림"
+  },
+  {
+    "name": "mistyrose",
+    "hex": "#FFE4E1",
+    "korean_name": "미스티 로즈"
+  },
+  {
+    "name": "moccasin",
+    "hex": "#FFE4B5",
+    "korean_name": "모카신"
+  },
+  {
+    "name": "navajowhite",
+    "hex": "#FFDEAD",
+    "korean_name": "나바호 화이트"
+  },
+  {
+    "name": "navy",
+    "hex": "#000080",
+    "korean_name": "남색"
+  },
+  {
+    "name": "oldlace",
+    "hex": "#FDF5E6",
+    "korean_name": "올드 레이스"
+  },
+  {
+    "name": "olive",
+    "hex": "#808000",
+    "korean_name": "올리브"
+  },
+  {
+    "name": "olivedrab",
+    "hex": "#6B8E23",
+    "korean_name": "올리브 드랩"
+  },
+  {
+    "name": "orange",
+    "hex": "#FFA500",
+    "korean_name": "오렌지"
+  },
+  {
+    "name": "orangered",
+    "hex": "#FF4500",
+    "korean_name": "오렌지 레드"
+  },
+  {
+    "name": "orchid",
+    "hex": "#DA70D6",
+    "korean_name": "오키드"
+  },
+  {
+    "name": "palegoldenrod",
+    "hex": "#EEE8AA",
+    "korean_name": "페일 골든로드"
+  },
+  {
+    "name": "palegreen",
+    "hex": "#98FB98",
+    "korean_name": "연한 녹색"
+  },
+  {
+    "name": "paleturquoise",
+    "hex": "#AFEEEE",
+    "korean_name": "페일 터키석"
+  },
+  {
+    "name": "palevioletred",
+    "hex": "#D87093",
+    "korean_name": "페일 바이올렛 레드"
+  },
+  {
+    "name": "papayawhip",
+    "hex": "#FFEFD5",
+    "korean_name": "파파야 휘프"
+  },
+  {
+    "name": "peachpuff",
+    "hex": "#FFDAB9",
+    "korean_name": "피치 퍼프"
+  },
+  {
+    "name": "peru",
+    "hex": "#CD853F",
+    "korean_name": "페루"
+  },
+  {
+    "name": "pink",
+    "hex": "#FFC0CB",
+    "korean_name": "분홍색"
+  },
+  {
+    "name": "plum",
+    "hex": "#DDA0DD",
+    "korean_name": "플럼"
+  },
+  {
+    "name": "powderblue",
+    "hex": "#B0E0E6",
+    "korean_name": "파우더 블루"
+  },
+  {
+    "name": "purple",
+    "hex": "#800080",
+    "korean_name": "보라색"
+  },
+  {
+    "name": "rebeccapurple",
+    "hex": "#663399",
+    "korean_name": "레베카 퍼플"
+  },
+  {
+    "name": "red",
+    "hex": "#FF0000",
+    "korean_name": "빨간색"
+  },
+  {
+    "name": "rosybrown",
+    "hex": "#BC8F8F",
+    "korean_name": "로지 브라운"
+  },
+  {
+    "name": "royalblue",
+    "hex": "#4169E1",
+    "korean_name": "로열 블루"
+  },
+  {
+    "name": "saddlebrown",
+    "hex": "#8B4513",
+    "korean_name": "새들 브라운"
+  },
+  {
+    "name": "salmon",
+    "hex": "#FA8072",
+    "korean_name": "살몬"
+  },
+  {
+    "name": "sandybrown",
+    "hex": "#F4A460",
+    "korean_name": "샌디 브라운"
+  },
+  {
+    "name": "seagreen",
+    "hex": "#2E8B57",
+    "korean_name": "해록색"
+  },
+  {
+    "name": "seashell",
+    "hex": "#FFF5EE",
+    "korean_name": "시쉘"
+  },
+  {
+    "name": "sienna",
+    "hex": "#A0522D",
+    "korean_name": "시에나"
+  },
+  {
+    "name": "silver",
+    "hex": "#C0C0C0",
+    "korean_name": "은색"
+  },
+  {
+    "name": "skyblue",
+    "hex": "#87CEEB",
+    "korean_name": "하늘색"
+  },
+  {
+    "name": "slateblue",
+    "hex": "#6A5ACD",
+    "korean_name": "슬레이트 블루"
+  },
+  {
+    "name": "slategray",
+    "hex": "#708090",
+    "korean_name": "쥐색"
+  },
+  {
+    "name": "snow",
+    "hex": "#FFFAFA",
+    "korean_name": "스노우"
+  },
+  {
+    "name": "springgreen",
+    "hex": "#00FF7F",
+    "korean_name": "춘록색"
+  },
+  {
+    "name": "steelblue",
+    "hex": "#4682B4",
+    "korean_name": "강청색"
+  },
+  {
+    "name": "tan",
+    "hex": "#D2B48C",
+    "korean_name": "사막색"
+  },
+  {
+    "name": "teal",
+    "hex": "#008080",
+    "korean_name": "틸"
+  },
+  {
+    "name": "thistle",
+    "hex": "#D8BFD8",
+    "korean_name": "시슬"
+  },
+  {
+    "name": "tomato",
+    "hex": "#FF6347",
+    "korean_name": "토마토"
+  },
+  {
+    "name": "turquoise",
+    "hex": "#40E0D0",
+    "korean_name": "터키옥색"
+  },
+  {
+    "name": "violet",
+    "hex": "#EE82EE",
+    "korean_name": "바이올렛"
+  },
+  {
+    "name": "wheat",
+    "hex": "#F5DEB3",
+    "korean_name": "위트"
+  },
+  {
+    "name": "white",
+    "hex": "#FFFFFF",
+    "korean_name": "흰색"
+  },
+  {
+    "name": "whitesmoke",
+    "hex": "#F5F5F5",
+    "korean_name": "화이트 스모크"
+  },
+  {
+    "name": "yellow",
+    "hex": "#FFFF00",
+    "korean_name": "노란색"
+  },
+  {
+    "name": "yellowgreen",
+    "hex": "#9ACD32",
+    "korean_name": "부드러운 연두색"
+  }
+]
