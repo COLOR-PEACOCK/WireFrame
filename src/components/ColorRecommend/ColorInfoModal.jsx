@@ -13,11 +13,11 @@ const extractNumbers = str => {
 
 const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 	const korTextColor = tinycolor(selectedColor).isLight()
-		? COLOR.BLACK
+		? COLOR.GRAY_10
 		: COLOR.WHITE;
 	const engTextColor = tinycolor(selectedColor).isLight()
-		? COLOR.GRAY_9
-		: COLOR.GRAY_2;
+		? COLOR.GRAY_8
+		: COLOR.GRAY_6;
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
 	const hexNumbers = colorInfo.hexVal.slice(1, 8);
 	const hslNumbers = extractNumbers(colorInfo.hslVal);
