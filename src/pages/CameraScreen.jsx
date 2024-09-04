@@ -74,8 +74,13 @@ const CameraScreen = ({ navigation }) => {
 		setParentlayout({ height: height, width: width });
 	};
 
+	// 줌 버튼 이벤트
+	const handlePressZoom = () => {
+		zoomLevel === 1 ? setZoomLevel(2) : setZoomLevel(1);
+	};
+
 	// 추출 버튼 이벤트
-	const extButtonEvent = () => {
+	const handlePressExt = () => {
 		setSelectedColor({
 			rgb: extColor.bgColor,
 			hex: extColor.hexColor,
@@ -84,11 +89,13 @@ const CameraScreen = ({ navigation }) => {
 		});
 		setIsOpen(1);
 	};
-	// 줌 버튼 이벤트
-	const zoomButtonEvent = () => {
-		zoomLevel === 1 ? setZoomLevel(2) : setZoomLevel(1);
-	};
 
+	const handlePressNext = () => {
+		selectedColor &&
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: selectedColor.hex },
+			});
+	};
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title="카메라" />
@@ -140,7 +147,7 @@ const CameraScreen = ({ navigation }) => {
 					{/* 줌 버튼 */}
 					<TouchableOpacity
 						style={styles.zoombutton}
-						onPress={zoomButtonEvent}>
+						onPress={handlePressZoom}>
 						<Text style={{ fontSize: 16, color: COLOR.WHITE }}>
 							{zoomLevel === 1 ? '2X' : '1X'}
 						</Text>
@@ -148,13 +155,18 @@ const CameraScreen = ({ navigation }) => {
 
 					{/* 색 추출 버튼 */}
 					<TouchableOpacity
-						onPress={extButtonEvent}
+						onPress={handlePressExt}
 						style={styles.extcolorbutton}>
 						<Image source={extbutton} style={styles.innercircle} />
 					</TouchableOpacity>
 
 					{/* 추천 화면 이동 버튼 */}
-					<TouchableOpacity style={styles.nextbutton}>
+					<TouchableOpacity
+						onPress={handlePressNext}
+						style={[
+							styles.nextbutton,
+							!selectedColor && { opacity: 0.4 },
+						]}>
 						<Icon
 							name={'arrow-right'}
 							color={COLOR.WHITE}
