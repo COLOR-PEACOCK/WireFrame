@@ -27,9 +27,9 @@ import { COLOR } from '@styles/color';
 
 const ColorRecommendScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
-	const [color, setColor] = useState(mainColor.hexVal);
+	const [color, setColor] = useState(mainColor);
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
-	const [tempColor, setTempColor] = useState(mainColor.hexVal);
+	const [tempColor, setTempColor] = useState(mainColor);
 	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
 		useColorName();
 
@@ -46,22 +46,24 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	});
 
 	useEffect(() => {
-		const updateColorInfo = async () => {
-			const colorData = getColorInfo(tempColor.replace('#', ''));
-			const engName = await getEngColorNameLocal(tempColor);
-			const korName = await getKorColorName(tempColor);
+		if (tempColor) {
+			const updateColorInfo = async () => {
+				const colorData = getColorInfo(tempColor.replace('#', ''));
+				const engName = await getEngColorNameLocal(tempColor);
+				const korName = await getKorColorName(tempColor);
 
-			setColorInfo({
-				engName: engName,
-				korName: korName,
-				hexVal: colorData.hexVal,
-				rgbVal: colorData.rgbVal,
-				hslVal: colorData.hslVal,
-				cmykVal: colorData.cmykVal,
-			});
-		};
+				setColorInfo({
+					engName: engName,
+					korName: korName,
+					hexVal: colorData.hexVal,
+					rgbVal: colorData.rgbVal,
+					hslVal: colorData.hslVal,
+					cmykVal: colorData.cmykVal,
+				});
+			};
 
-		updateColorInfo();
+			updateColorInfo();
+		}
 	}, [tempColor]);
 
 	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;

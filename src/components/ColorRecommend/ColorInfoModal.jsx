@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+// import Icon from 'react-native-vector-icons/FontAwesome6';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const extractNumbers = str => {
 	if (!str) return '';

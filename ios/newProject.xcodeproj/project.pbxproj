@@ -24,9 +24,15 @@
 		515C09F0C88C4E6FBEFAECFB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 029B11CB85E64B6F96192441 /* Pretendard-Regular.otf */; };
 		A148ED98253B47B98F8EBE8C /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D4B3C1415EE543C4B8CE5110 /* Pretendard-SemiBold.otf */; };
 		FE52738160FA435294E45EA0 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACB27D22F5D140CC8442391C /* Pretendard-Thin.otf */; };
+<<<<<<< HEAD
 		B062F87A91954B6FBBB6A976 /* CookieRun-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5C085D45B474098A812C6FC /* CookieRun-Black.ttf */; };
 		23F44B46992F4CBBB3B1B4C3 /* CookieRun-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C27F202069604993920D5D92 /* CookieRun-Bold.ttf */; };
 		F35C194B81184DAD8B3D22A1 /* CookieRun-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 022AB384238F44F3AB51E3EB /* CookieRun-Regular.ttf */; };
+=======
+		7CED9AFE49854CE1BA9AEC10 /* CookieRun-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 428A61BB84F24BACBF173017 /* CookieRun-Black.ttf */; };
+		616E225CEFE345BC95CBFAB9 /* CookieRun-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6872C010F64640C086B801EE /* CookieRun-Bold.ttf */; };
+		A9357C0968FD45D982B29895 /* CookieRun-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAD64459238E4BE09E8F3632 /* CookieRun-Regular.ttf */; };
+>>>>>>> main
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,9 +74,15 @@
 		029B11CB85E64B6F96192441 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; name = "Pretendard-Regular.otf"; path = "../src/assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D4B3C1415EE543C4B8CE5110 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; name = "Pretendard-SemiBold.otf"; path = "../src/assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		ACB27D22F5D140CC8442391C /* Pretendard-Thin.otf */ = {isa = PBXFileReference; name = "Pretendard-Thin.otf"; path = "../src/assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+<<<<<<< HEAD
 		C5C085D45B474098A812C6FC /* CookieRun-Black.ttf */ = {isa = PBXFileReference; name = "CookieRun-Black.ttf"; path = "../src/assets/fonts/CookieRun-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		C27F202069604993920D5D92 /* CookieRun-Bold.ttf */ = {isa = PBXFileReference; name = "CookieRun-Bold.ttf"; path = "../src/assets/fonts/CookieRun-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		022AB384238F44F3AB51E3EB /* CookieRun-Regular.ttf */ = {isa = PBXFileReference; name = "CookieRun-Regular.ttf"; path = "../src/assets/fonts/CookieRun-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+=======
+		428A61BB84F24BACBF173017 /* CookieRun-Black.ttf */ = {isa = PBXFileReference; name = "CookieRun-Black.ttf"; path = "../src/assets/fonts/CookieRun-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6872C010F64640C086B801EE /* CookieRun-Bold.ttf */ = {isa = PBXFileReference; name = "CookieRun-Bold.ttf"; path = "../src/assets/fonts/CookieRun-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DAD64459238E4BE09E8F3632 /* CookieRun-Regular.ttf */ = {isa = PBXFileReference; name = "CookieRun-Regular.ttf"; path = "../src/assets/fonts/CookieRun-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+>>>>>>> main
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,9 +202,15 @@
 				029B11CB85E64B6F96192441 /* Pretendard-Regular.otf */,
 				D4B3C1415EE543C4B8CE5110 /* Pretendard-SemiBold.otf */,
 				ACB27D22F5D140CC8442391C /* Pretendard-Thin.otf */,
+<<<<<<< HEAD
 				C5C085D45B474098A812C6FC /* CookieRun-Black.ttf */,
 				C27F202069604993920D5D92 /* CookieRun-Bold.ttf */,
 				022AB384238F44F3AB51E3EB /* CookieRun-Regular.ttf */,
+=======
+				428A61BB84F24BACBF173017 /* CookieRun-Black.ttf */,
+				6872C010F64640C086B801EE /* CookieRun-Bold.ttf */,
+				DAD64459238E4BE09E8F3632 /* CookieRun-Regular.ttf */,
+>>>>>>> main
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -303,9 +321,15 @@
 				515C09F0C88C4E6FBEFAECFB /* Pretendard-Regular.otf in Resources */,
 				A148ED98253B47B98F8EBE8C /* Pretendard-SemiBold.otf in Resources */,
 				FE52738160FA435294E45EA0 /* Pretendard-Thin.otf in Resources */,
+<<<<<<< HEAD
 				B062F87A91954B6FBBB6A976 /* CookieRun-Black.ttf in Resources */,
 				23F44B46992F4CBBB3B1B4C3 /* CookieRun-Bold.ttf in Resources */,
 				F35C194B81184DAD8B3D22A1 /* CookieRun-Regular.ttf in Resources */,
+=======
+				7CED9AFE49854CE1BA9AEC10 /* CookieRun-Black.ttf in Resources */,
+				616E225CEFE345BC95CBFAB9 /* CookieRun-Bold.ttf in Resources */,
+				A9357C0968FD45D982B29895 /* CookieRun-Regular.ttf in Resources */,
+>>>>>>> main
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

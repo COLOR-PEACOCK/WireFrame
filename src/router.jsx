@@ -6,6 +6,7 @@ import AiScreen from '@pages/AiScreen';
 import ImageScreen from '@pages/ImageScreen';
 import AiResponseScreen from '@pages/AiResponseScreen';
 import ColorRecommendScreen from '@pages/ColorRecommendScreen';
+import CameraScreen from '@pages/CameraScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const Router = () => {
 				name="ColorRecommendScreen"
 				component={ColorRecommendScreen}
 			/>
+			<Stack.Screen name="CameraScreen" component={CameraScreen} />
 		</Stack.Navigator>
 	);
 };
