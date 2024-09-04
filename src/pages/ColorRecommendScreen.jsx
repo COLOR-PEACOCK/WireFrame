@@ -18,7 +18,7 @@ import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
 import convert from 'color-convert';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import SliderIcon from 'react-native-vector-icons/FontAwesome6';
 import BasicHeader from '@components/common/BasicHeader';
 import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
 import ColorPalette from '@components/ColorRecommend/ColorPalette';
@@ -66,8 +66,8 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 		}
 	}, [tempColor]);
 
-	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
-	const labelColor = tinycolor(color).isLight() ? COLOR.BLACK : COLOR.WHITE;
+	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_6;
+	const labelColor = tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
 
 	const saveColor = () => {
 		setColor(tempColor);
@@ -125,7 +125,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					labelColor={labelColor}
 				/>
 				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
-					<Icon
+					<SliderIcon
 						name="sliders"
 						size={38}
 						color={labelColor}

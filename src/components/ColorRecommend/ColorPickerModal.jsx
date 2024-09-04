@@ -3,6 +3,8 @@ import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
+import GoBackIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const ColorPickerModal = ({
 	isVisible,
 	tempColor,
@@ -66,6 +68,10 @@ const ColorPickerModal = ({
 						<TouchableOpacity
 							style={[styles.button, styles.cancelButton]}
 							onPress={onCancel}>
+							<GoBackIcon
+								name="arrow-u-left-top"
+								style={styles.buttonText}
+							/>
 							<Text style={styles.buttonText}>이전으로</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -114,12 +120,13 @@ const styles = StyleSheet.create({
 	hueSliderContainer: {
 		alignItems: 'center',
 		width: '100%',
+		borderRadius: 30,
 	},
 	hueSlider: {
 		width: 306,
-		// height: 18,
+		height: 18,
 		marginBottom: 9,
-		borderRadius: 8,
+		borderRadius: 30,
 		opacity: 1,
 		alignSelf: 'center',
 	},

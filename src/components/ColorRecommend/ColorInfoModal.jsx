@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome6';
+import GoBackIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -81,7 +81,7 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 						<TouchableOpacity
 							style={[styles.button, styles.cancelButton]}
 							onPress={onClose}>
-							<Icon
+							<GoBackIcon
 								name="arrow-left"
 								size={16}
 								color={COLOR.WHITE}

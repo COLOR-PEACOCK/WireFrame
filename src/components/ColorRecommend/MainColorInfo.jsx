@@ -34,7 +34,7 @@ const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
 					<Text style={[styles.label, { color: labelColor }]}>
 						HEX
 					</Text>
-					<Text style={[styles.colorDetails, { color: labelColor }]}>
+					<Text style={[styles.colorDetails, { color: textColor }]}>
 						{hexNumbers}
 					</Text>
 				</View>
