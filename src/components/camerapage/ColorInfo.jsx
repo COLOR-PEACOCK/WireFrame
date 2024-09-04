@@ -29,16 +29,13 @@ const ColorInfo = ({
 		setIsOpen(index);
 	}, []);
 
-	//터치가 잘 안돼서 일단 유기
-	// const tapAction = () => {
-	// 	bottomSheetRef.current?.snapToIndex(0);
-	// 	console.log('work');
-	// };
+	const handleTouchEvent = () => {
+		setIsOpen(!isOpen);
+	};
 
 	const CustomHandle = () => (
 		<View>
-			<TouchableOpacity
-				// onPress={tapAction}
+			<View
 				style={[
 					styles.customHandle,
 					{ left: parentlayout.width / 2 - 17.5 },
@@ -48,26 +45,42 @@ const ColorInfo = ({
 				) : (
 					<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />
 				)}
-			</TouchableOpacity>
+			</View>
 
-			<TouchableOpacity
-				onPress={cameraSwitch}
-				style={styles.switchbuttonwrapper}>
+			<View onPress={cameraSwitch} style={styles.switchbuttonwrapper}>
 				<Image
 					source={cameraswitch}
 					style={{ width: 28, height: 28 }}
 				/>
-			</TouchableOpacity>
+			</View>
 		</View>
 	);
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
+			<TouchableOpacity
+				onPress={cameraSwitch}
+				style={[
+					styles.switchbuttonevent,
+					isOpen ? { top: 4 } : { top: 104 },
+				]}
+			/>
+			<TouchableOpacity
+				onPress={handleTouchEvent}
+				style={[
+					styles.handlerbuttonevent,
+					{ left: parentlayout.width / 2 - 17.5 },
+					isOpen ? { top: 25 } : { top: 125 },
+				]}
+			/>
+
 			<BottomSheet
 				ref={bottomSheetRef}
 				snapPoints={[40, 140]}
 				onChange={handleSheetChanges}
 				handleComponent={CustomHandle}
+				enableHandlePanningGesture={false}
+				enableContentPanningGesture={false}
 				backgroundComponent={null}>
 				<BottomSheetView style={styles.contentContainer}>
 					{selectedColor ? (
@@ -133,6 +146,25 @@ const styles = StyleSheet.create({
 		right: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	switchbuttonevent: {
+		width: 48,
+		height: 48,
+		position: 'absolute',
+		borderRadius: 50,
+		right: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 1000,
+	},
+	handlerbuttonevent: {
+		width: 28,
+		height: 28,
+		position: 'absolute',
+		borderRadius: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 1000,
 	},
 
 	contentContainer: {
