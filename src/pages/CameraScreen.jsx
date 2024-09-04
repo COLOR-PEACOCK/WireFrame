@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -16,11 +16,13 @@ import CameraRender from '@components/camerapage/CameraRender';
 import ColorInfo from '@components/camerapage/ColorInfo';
 import CrossHair from '@components/camerapage/CrossHair';
 import ExtColorModal from '@components/camerapage/ExtColorModal';
+import { useFocusEffect } from '@react-navigation/native';
 
 const extbutton = require('@icons/circle__lock__btn.png');
 
 const CameraScreen = ({ navigation }) => {
 	const { hasPermission, requestPermission } = useCameraPermission();
+	const [isActive, setIsActive] = useState(false);
 	const [cameraType, setCameraType] = useState('back');
 	const [parentlayout, setParentlayout] = useState({
 		height: 0,
@@ -35,7 +37,6 @@ const CameraScreen = ({ navigation }) => {
 	const [selectedColor, setSelectedColor] = useState();
 	const [isOpen, setIsOpen] = useState(0);
 	const [zoomLevel, setZoomLevel] = useState(1);
-
 	const parentRef = useRef();
 
 	// 카메라 권한
@@ -56,6 +57,16 @@ const CameraScreen = ({ navigation }) => {
 			}
 		})();
 	}, [hasPermission, requestPermission]);
+
+	// 카메라 활성화 관리
+	useFocusEffect(
+		useCallback(() => {
+			setIsActive(true);
+			return () => {
+				setIsActive(false);
+			};
+		}, []),
+	);
 
 	// 크기 정보
 	const onLayout = event => {
@@ -92,6 +103,7 @@ const CameraScreen = ({ navigation }) => {
 					extColor={setExtColor}
 					cameraType={cameraType}
 					zoomLevel={zoomLevel}
+					isActive={isActive}
 				/>
 
 				{/* 추출 색상 정보 모달 */}
