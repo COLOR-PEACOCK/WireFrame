@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 	},
 	modalContent: {
 		width: 342,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 	panelContainer: {
 		width: '100%',
 		height: 347.69,
-		marginBottom: 9,
+		marginBottom: 6,
 	},
 	panel: {
 		flex: 1,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
 	},
 	hueSlider: {
 		width: 306,
-		height: 18,
+		height: 30,
 		marginBottom: 9,
 		borderRadius: 30,
 		opacity: 1,
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		width: 306,
+		marginBottom: 3,
 	},
 	korTitle: {
 		fontSize: 12,
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
 	},
 	colorPreview: {
 		height: 30,
-		borderRadius: 8,
+		borderRadius: 30,
 		width: 306,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -166,7 +167,6 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 12,
 	},
-
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
