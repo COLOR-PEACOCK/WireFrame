@@ -51,10 +51,7 @@ const ColorInfo = ({
 			</TouchableOpacity>
 
 			<TouchableOpacity
-				// onPress={cameraSwitch}
-				onPress={() => {
-					console.log('됨?');
-				}}
+				onPress={cameraSwitch}
 				style={styles.switchbuttonwrapper}>
 				<Image
 					source={cameraswitch}
@@ -73,35 +70,42 @@ const ColorInfo = ({
 				handleComponent={CustomHandle}
 				backgroundComponent={null}>
 				<BottomSheetView style={styles.contentContainer}>
-					<View style={styles.infowrapper}>
-						<View
-							style={{
-								width: 74,
-								height: 74,
-								backgroundColor: selectedColor?.rgb,
-								marginLeft: 70,
-								borderRadius: 8,
-							}}
-						/>
-						<View
-							style={{
-								gap: 6,
-								width: parentlayout.width / 2.314,
-							}}>
-							<View>
-								<Text style={styles.korcolors}>
-									≈{selectedColor?.korName}
-								</Text>
-								<Text style={styles.engcolors}>
-									{selectedColor?.engName}
+					{selectedColor ? (
+						<View style={styles.infowrapper}>
+							<View
+								style={{
+									width: 74,
+									height: 74,
+									backgroundColor: selectedColor?.rgb,
+									borderRadius: 8,
+								}}
+							/>
+							<View
+								style={{
+									gap: 6,
+									width: parentlayout.width / 2.314,
+								}}>
+								<View>
+									<Text style={styles.korcolors}>
+										≈{selectedColor?.korName}
+									</Text>
+									<Text style={styles.engcolors}>
+										{selectedColor?.engName}
+									</Text>
+								</View>
+
+								<Text style={styles.hexcolors}>
+									HEX:{selectedColor?.hex}
 								</Text>
 							</View>
-
-							<Text style={styles.hexcolors}>
-								HEX:{selectedColor?.hex}
+						</View>
+					) : (
+						<View style={styles.infowrapper}>
+							<Text style={styles.korcolors}>
+								선택된 색상이 없습니다.
 							</Text>
 						</View>
-					</View>
+					)}
 				</BottomSheetView>
 			</BottomSheet>
 		</GestureHandlerRootView>
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		height: 100,
 		alignItems: 'center',
+		justifyContent: 'center',
 		gap: 16,
 	},
 	korcolors: {

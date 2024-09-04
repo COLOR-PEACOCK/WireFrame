@@ -30,7 +30,7 @@ const CameraScreen = ({ navigation }) => {
 	});
 	const [extColor, setExtColor] = useState({
 		bgColor: `rgb(0,0,0)`,
-		hexColor: '#000000',
+		hexColor: '000000',
 		engName: '',
 		korName: '',
 	});
@@ -93,7 +93,7 @@ const CameraScreen = ({ navigation }) => {
 	const handlePressNext = () => {
 		selectedColor &&
 			navigation.navigate('ColorRecommendScreen', {
-				mainColor: { hexVal: selectedColor.hex },
+				mainColor: { hexVal: '#' + selectedColor.hex },
 			});
 	};
 	return (
