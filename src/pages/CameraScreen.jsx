@@ -89,7 +89,7 @@ const CameraScreen = ({ navigation }) => {
 		});
 		setIsOpen(1);
 	};
-
+	//다음 버튼 이벤트
 	const handlePressNext = () => {
 		selectedColor &&
 			navigation.navigate('ColorRecommendScreen', {
@@ -98,7 +98,7 @@ const CameraScreen = ({ navigation }) => {
 	};
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<BasicHeader title="카메라" />
+			<BasicHeader title="카메라" titleIcon="camera" subTitle="camera" />
 
 			{/* 카메라 영역 */}
 			<View
