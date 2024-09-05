@@ -14,6 +14,7 @@ import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
 import useColorName from '@hooks/useColorName';
+import _ from 'lodash';
 
 const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
@@ -48,7 +49,7 @@ const ImageScreen = ({ navigation }) => {
 	const selectImage = async () => {
 		try {
 			const response = await launchImageLibrary({ mediaType: 'photo' });
-			if (response.didCancel) {
+			if (response.didCancel && !imageDataUrl) {
 				navigation.goBack();
 				Alert.alert('알림', '사진을 선택 해주세요.');
 			} else if (response.error) {
@@ -71,9 +72,12 @@ const ImageScreen = ({ navigation }) => {
 		}
 	};
 
-	const onMessage = useCallback(event => {
-		setColor(event.nativeEvent.data);
-	}, []);
+	const onMessage = useCallback(
+		_.throttle(event => {
+			setColor(event.nativeEvent.data);
+		}, 100),
+		[],
+	);
 
 	const handleColorRecommend = () =>
 		navigation.navigate('ColorRecommendScreen', {
@@ -325,9 +329,11 @@ const ImageScreen = ({ navigation }) => {
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
 				<BasicHeader
-					title="이미지"
-					rightIcon={'image'}
-					onPressRight={selectImage}
+					titleIcon={'camera'}
+					title={'이미지'}
+					subTitle={'images'}
+					rightIcon={'info'}
+					infoText={'infomation text'}
 				/>
 			</View>
 			<View style={styles.colorInfoBox}>
@@ -397,12 +403,13 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	colorInfoBox: {
-		flex: 0.65,
+		paddingVertical: 18,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 16,
 		backgroundColor: COLOR.GRAY_10,
+		zIndex: -1,
 	},
 	colorIndicator: {
 		width: 64,
@@ -455,11 +462,13 @@ const styles = StyleSheet.create({
 	aiButton: {
 		backgroundColor: COLOR.GRAY_10,
 		width: '40%',
+		height: 78,
 		marginVertical: 24,
 		paddingVertical: 24,
 		borderRadius: 8,
 		borderColor: COLOR.PRIMARY,
 		borderWidth: 1,
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -471,9 +480,11 @@ const styles = StyleSheet.create({
 	recommendationButton: {
 		backgroundColor: COLOR.PRIMARY,
 		width: '40%',
+		height: 78,
 		marginVertical: 24,
 		paddingVertical: 24,
 		borderRadius: 8,
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
