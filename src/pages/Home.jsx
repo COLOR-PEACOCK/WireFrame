@@ -20,7 +20,6 @@ import {
 	Dropdown,
 	SearchInputForm,
 } from '@components/Home';
-import useBackHandler from '@hooks/useBackHandler';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
 
@@ -48,7 +47,7 @@ const Home = ({ navigation }) => {
 	const handleSearch = () => console.log(inputColorValue);
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
-	const handleSelectAI = () => navigation.navigate('AiScreen');
+	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
 	// splash로 뒤로가기 방지 및 앱종료 모달
 	// useBackHandler();

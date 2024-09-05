@@ -66,11 +66,18 @@ const AiScreen = ({ navigation }) => {
 			});
 		}
 	};
+	const infoText =
+		'사진 속 선정 아이템 기반으로 추천받을 아이템 색상 추천 목록을 제공합니다.';
 
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="padding">
-			<BasicHeader title="색상 추천 화면" />
-
+			<BasicHeader
+				titleIcon={'iamge'}
+				title={'AI 추천'}
+				engTitle={'ai recs'}
+				rightIcon={'info'}
+				infoText={infoText}
+			/>
 			<View style={styles.imageContainer}>
 				{imageUri ? (
 					<Image source={{ uri: imageUri }} style={styles.image} />
