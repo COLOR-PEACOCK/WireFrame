@@ -124,9 +124,19 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 		[hslColor],
 	);
 
+	const infoText =
+		'추출 색상을 기반하여 색상 추천 목록을 자세히 제공. 개체를 이용해 사용자에게 색상에 대해 미리보기 또한 선사합니다.';
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<BasicHeader title={'색상 추천 화면'} />
+			<BasicHeader
+				titleIcon={'picture'}
+				title={'색상 추천'}
+				engTitle={'color palette'}
+				rightIcon={'info'}
+				infoText={infoText}
+			/>
+
 			<View style={[styles.colorBox, { backgroundColor: color }]}>
 				<MainColorInfo
 					colorInfo={colorInfo}
