@@ -13,6 +13,8 @@ import {
 	getSplitComplementaryColors,
 	getMonochromaticColors,
 	getTetradicColors,
+	getTintColors,
+	getShadowColors,
 } from '@utils/colorRecommendUtils';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
@@ -82,39 +84,46 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	const hslColor = convert.hex.hsl(color.replace('#', ''));
 
 	const complementaryColors = useMemo(
-		() => [color, getComplementaryColor(hslColor)],
-		[color, hslColor],
+		() => [...getComplementaryColor(hslColor)],
+		[hslColor],
 	);
 
 	const analogousColors = useMemo(
-		() => [color, ...getAnalogousColors(hslColor)],
-		[color, hslColor],
+		() => [...getAnalogousColors(hslColor)],
+		[hslColor],
 	);
 
 	const triadicColors = useMemo(
 		() => [
-			color,
 			...getTriadicColors(hslColor).map(hsl =>
 				tinycolor(hsl).toHexString(),
 			),
 		],
-		[color, hslColor],
+		[hslColor],
 	);
 
 	const splitComplementaryColors = useMemo(
-		() => [color, ...getSplitComplementaryColors(hslColor)],
-		[color, hslColor],
+		() => [...getSplitComplementaryColors(hslColor)],
+		[hslColor],
 	);
 
 	const monochromaticColors = useMemo(
-		() => [color, ...getMonochromaticColors(hslColor)],
-		[color, hslColor],
+		() => [...getMonochromaticColors(hslColor)],
+		[hslColor],
 	);
 
 	const tetradicColors = useMemo(
-		() => [color, ...getTetradicColors(hslColor)],
-		[color, hslColor],
+		() => [...getTetradicColors(hslColor)],
+		[hslColor],
 	);
+
+	const tintColors = useMemo(() => [...getTintColors(hslColor)], [hslColor]);
+
+	const shadowColors = useMemo(
+		() => [...getShadowColors(hslColor)],
+		[hslColor],
+	);
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title={'색상 추천 화면'} />
@@ -168,6 +177,18 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					titleKor="4가지 색상 조화"
 					titleEng="Four colors harmony"
 					colors={tetradicColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
+					titleKor="밝게"
+					titleEng="Tint"
+					colors={tintColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
+					titleKor="어둡게"
+					titleEng="Shade"
+					colors={shadowColors}
 					onColorSelect={handleColorSelect}
 				/>
 			</ScrollView>

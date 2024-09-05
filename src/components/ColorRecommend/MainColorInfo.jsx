@@ -35,7 +35,7 @@ const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
 						HEX
 					</Text>
 					<Text style={[styles.colorDetails, { color: textColor }]}>
-						{hexNumbers}
+						{hexNumbers.toUpperCase()}
 					</Text>
 				</View>
 				<View style={styles.valueRow}>

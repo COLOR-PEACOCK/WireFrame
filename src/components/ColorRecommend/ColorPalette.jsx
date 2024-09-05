@@ -94,6 +94,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 										tinycolor(color).toHexString(),
 									)
 								}
+								activeOpacity={0.9}
 							/>
 						);
 					})}
@@ -107,6 +108,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 								: COLOR.WHITE,
 						},
 					]}
+					activeOpacity={1}
 					onPress={() => {
 						setIsButtonPressed(!isButtonPressed);
 						onColorSelect(
@@ -134,16 +136,15 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginVertical: 10,
 		padding: 10,
 	},
 	header: {
 		flexDirection: 'row',
-		marginHorizontal: 18,
+		marginHorizontal: 9,
 		marginBottom: 3,
 	},
 	titleKor: {
-		color: COLOR.BLACK,
+		color: COLOR.GRAY_10,
 		fontSize: 18,
 		fontWeight: 'bold',
 		marginHorizontal: 4,
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		height: 50,
-		paddingHorizontal: 18,
+		paddingHorizontal: 9,
 		alignSelf: 'center',
 	},
 	colorRow: {
@@ -171,6 +172,10 @@ const styles = StyleSheet.create({
 	colorBox: {
 		flex: 1,
 		height: 50,
+		marginHorizontal: -1, // 팔레트 칩 사이 간격 최소화
+		marginVertical: 0,
+		borderWidth: 0,
+		padding: 0,
 	},
 	iconContainer: {
 		width: 50,
@@ -186,6 +191,9 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		elevation: 5,
+		backgroundColor: 'rgba(255, 255, 255, 1)',
+		borderWidth: 2,
+		borderColor: 'rgba(224, 224, 224, 1)',
 	},
 });
 

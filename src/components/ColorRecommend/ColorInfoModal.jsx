@@ -60,7 +60,7 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 							<View style={styles.valueRow}>
 								<Text style={styles.label}>HEX</Text>
 								<Text style={styles.colorDetails}>
-									{hexNumbers}
+									{hexNumbers.toUpperCase()}
 								</Text>
 							</View>
 							<View style={styles.valueRow}>
