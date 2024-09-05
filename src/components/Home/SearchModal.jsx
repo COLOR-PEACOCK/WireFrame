@@ -1,120 +1,123 @@
 import { COLOR } from '@styles/color';
-import { Modal, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import {
+	FlatList,
+	Modal,
+	Pressable,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
+import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
+import { useEffect, useState } from 'react';
 
-const SearchModal = ({ visible, setIsModalVisible }) => {
-	const handleModalClose = () => setIsModalVisible(false);
+const SearchModal = ({
+	list,
+	visible,
+	selectedLabel,
+	handleCloseModal,
+	onPressLabel,
+	onPressSearch,
+	inputColorValue,
+	setInputColorValue,
+}) => {
+	const [inputValues, setInputValues] = useState({
+		part1: '',
+		part2: '',
+		part3: '',
+		part4: '',
+	});
+
+	const handlePressSearch = () => {
+		switch (selectedLabel) {
+			case '색상 이름':
+				return setInputColorValue(inputValues.part1);
+			case 'HEX':
+				return setInputColorValue('#' + inputValues.part1);
+			case 'RGB':
+				return setInputColorValue(
+					`rgb(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
+				);
+			case 'HSL':
+				return setInputColorValue(
+					`HSL(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
+				);
+			case 'CMYK':
+				return setInputColorValue(
+					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}% ${inputValues.part4}%)`,
+				);
+			default:
+				return setInputColorValue(inputValues);
+		}
+	};
+	useEffect(() => {
+		onPressSearch();
+	}, [inputColorValue]);
 
 	return (
-		<Modal
-			animationType={'fade'}
-			visible={visible}
-			transparent={true}
-			onRequestClose={handleModalClose}>
-			<View style={styles.modalView}>
-				<View style={styles.modalHeader}>
-					<Text style={styles.modalHeaderText}>
-						색상 이름 또는 색상 코드로 찾아보세요!
-					</Text>
-				</View>
-				<View style={styles.inputContainer}>
-					<Text style={{ fontSize: 18, marginRight: 16 }}>
-						색이름
-					</Text>
-					<TextInput
-						style={[styles.inputForm, { width: '60%' }]}
-						placeholder={'(한글, 영어)'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-				</View>
-				<View style={styles.inputContainer}>
-					<Text style={{ fontSize: 18, marginRight: 28 }}>HEX</Text>
-					<TextInput
-						style={[styles.inputForm, { width: '60%' }]}
-						placeholder={'#ffffff'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-				</View>
-				<View style={styles.inputContainer}>
-					<Text style={{ fontSize: 18, marginRight: 28 }}>RGB</Text>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'R'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'G'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'B'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-				</View>
-				<View style={styles.inputContainer}>
-					<Text style={{ fontSize: 18, marginRight: 12 }}>CMYK</Text>
-					<TextInput
-						style={[styles.inputForm, { width: '15%' }]}
-						placeholder={'C'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '15%' }]}
-						placeholder={'M'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '15%' }]}
-						placeholder={'Y'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '15%' }]}
-						placeholder={'Y'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-				</View>
-				<View style={styles.inputContainer}>
-					<Text style={{ fontSize: 18, marginRight: 28 }}>HSL</Text>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'H'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'S'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-					<TextInput
-						style={[styles.inputForm, { width: '20%' }]}
-						placeholder={'L'}
-						placeholderTextColor={COLOR.GRAY_6}
-					/>
-				</View>
+		<View>
+			<Modal
+				animationType={'fade'}
+				visible={visible}
+				transparent={true}
+				onRequestClose={handleCloseModal}>
+				<Pressable
+					style={styles.modalOverlay}
+					onPress={handleCloseModal}></Pressable>
+				<View style={styles.modalView}>
+					<View style={styles.modalHeader}>
+						<Text style={styles.modalHeaderText}>
+							원하시는 색상을 검색해서 추천하는 색상 조합을
+							받아보세요!
+						</Text>
+					</View>
+					<View style={styles.modalBody}>
+						<Dropdown
+							list={list}
+							onClickDropdown={onPressLabel}
+							layoutStyle={{
+								width: '100%',
+								justifyContent: 'center',
+							}}
+							selectedLabel={selectedLabel}
+						/>
+						<View style={{}}>
+							<SearchInputForm
+								selectedLabel={selectedLabel}
+								inputValues={inputValues}
+								setInputValues={setInputValues}
+							/>
+						</View>
+					</View>
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity
+							style={styles.cancelButton}
+							onPress={handleCloseModal}>
+							<Text style={{ color: COLOR.WHITE }}>이전으로</Text>
+						</TouchableOpacity>
 
-				<View style={styles.buttonContainer}>
-					<Pressable onPress={handleModalClose}>
-						<Text>검색</Text>
-					</Pressable>
-					<Pressable onPress={handleModalClose}>
-						<Text>취소</Text>
-					</Pressable>
+						<TouchableOpacity
+							style={styles.searchButton}
+							onPress={handlePressSearch}>
+							<Text style={{ color: COLOR.WHITE }}>검색하기</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
-		</Modal>
+			</Modal>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	modalView: {
-		marginTop: 230,
-		marginHorizontal: 18,
+		width: '85%',
+		marginTop: 150,
+		marginHorizontal: 'auto',
+		paddingTop: 18,
+		zIndex: 5,
 		backgroundColor: COLOR.WHITE,
-		borderRadius: 24,
-		alignItems: 'center',
+		borderRadius: 8,
+
 		elevation: 5,
 		shadowColor: COLOR.BLACK,
 		shadowOffset: {
@@ -124,35 +127,61 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
 	},
+	modalOverlay: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+	},
+	closeButton: {
+		position: 'absolute',
+		zIndex: 10,
+		top: 0,
+		right: 0,
+		width: 48,
+		height: 48,
+		borderColor: COLOR.BLACK,
+		borderWidth: 1,
+		borderRadius: 8,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 	modalHeader: {
 		width: '100%',
-		paddingVertical: 24,
-		marginBottom: 26,
+		paddingBottom: 18,
+		marginBottom: 10,
 		borderBottomWidth: 1,
-		borderBottomColor: COLOR.GRAY_5,
+		borderBottomColor: COLOR.GRAY_3,
 	},
 	modalHeaderText: {
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 		textAlign: 'center',
-		fontSize: 18,
+		color: COLOR.GRAY_6,
+		fontSize: 12,
 	},
-	inputContainer: {
-		width: '100%',
-		flexDirection: 'row',
-		alignItems: 'center',
-		marginLeft: 50,
-	},
-	inputForm: {
-		borderBottomWidth: 1,
-		borderRadius: 8,
-		borderColor: COLOR.GRAY_8,
+	modalBody: {
+		marginHorizontal: 18,
+		gap: 18,
 	},
 	buttonContainer: {
-		padding: 24,
+		height: 64,
+		marginTop: 18,
 		flexDirection: 'row',
-		justifyContent: 'center',
+	},
+	cancelButton: {
+		width: '50%',
+		height: '100%',
 		alignItems: 'center',
-		gap: 80,
+		justifyContent: 'center',
+		backgroundColor: COLOR.GRAY_6,
+		borderBottomLeftRadius: 8,
+	},
+	searchButton: {
+		width: '50%',
+		height: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLOR.PRIMARY,
+		borderBottomRightRadius: 8,
 	},
 });
 

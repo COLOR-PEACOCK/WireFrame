@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -7,15 +7,24 @@ import {
 	SafeAreaView,
 	FlatList,
 	useWindowDimensions,
-	Modal,
+	Keyboard,
+	Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import { OutlinedText } from '@components/Home/OutlinedText';
-import Indicator from '@components/Home/Indicator';
-import PressButton from '@components/Home/PressButton';
+import {
+	PressButton,
+	OutlinedText,
+	Indicator,
+	Dropdown,
+	SearchInputForm,
+} from '@components/Home';
+import useBackHandler from '@hooks/useBackHandler';
 import SearchModal from '@components/Home/SearchModal';
+import useModal from '@hooks/useModal';
+
+const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
@@ -23,7 +32,9 @@ const Home = ({ navigation }) => {
 	const gap = 18;
 	const pageWidth = width - (gap + offset) * 2;
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [inputColorValue, setInputColorValue] = useState();
+	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
+	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 
 	const handleScroll = e => {
 		const currentIndex = Math.round(
@@ -32,10 +43,15 @@ const Home = ({ navigation }) => {
 		setCurrentIndex(currentIndex);
 	};
 
-    const handleSearch = () => setIsModalVisible(true);
+	const handlePressLogo = () => {};
+	const handlePressLabel = label => setSelectedLabel(label);
+	const handleSearch = () => console.log(inputColorValue);
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
+
+	// splash로 뒤로가기 방지 및 앱종료 모달
+	// useBackHandler();
 
 	const renderItem = ({ item }) => {
 		return (
@@ -69,19 +85,46 @@ const Home = ({ navigation }) => {
 							alignItems: 'center',
 							gap: 8,
 						}}>
-						{/* 로고, 폰트 바꾸기 */}
-						<Icon name={'menu'} size={48} />
+						<Pressable
+							style={{ width: 48, height: 48 }}
+							onPress={handlePressLogo}>
+							<Image
+								style={{ width: '100%', height: '100%' }}
+								source={logoIcon}
+							/>
+						</Pressable>
 						<Text style={styles.title}>COLOR PEACOCK</Text>
+						<SearchModal
+							visible={isModalVisible}
+							selectedLabel={selectedLabel}
+							list={dummy_list}
+							handleCloseModal={handleCloseModal}
+							onPressLabel={handlePressLabel}
+							onPressSearch={handleSearch}
+							inputColorValue={inputColorValue}
+							setInputColorValue={setInputColorValue}
+						/>
+						{/* <View style={styles.searchContainer}>
+									<Dropdown
+										list={dummy_list}
+										onClickDropdown={handleCilckDropdown}
+										layoutStyle={{
+											width: 90,
+											height: 35,
+											borderColor: COLOR.GRAY_6,
+											borderRightWidth: 1,
+											marginRight: 5,
+										}}
+										selectedLabel={selectedLabel}
+									/>
+									
+								</View> */}
 					</View>
 					<TouchableOpacity
-						style={styles.searchWrapper}
-						onPress={handleSearch}>
+						style={styles.searchIconWrapper}
+						onPress={handleOpenModal}>
 						<Icon name={'search'} size={48} />
 					</TouchableOpacity>
-					<SearchModal
-						visible={isModalVisible}
-						setIsModalVisible={setIsModalVisible}
-					/>
 				</View>
 				<View style={styles.buttonContainer}>
 					<PressButton
@@ -101,7 +144,7 @@ const Home = ({ navigation }) => {
 					/>
 				</View>
 				<View style={styles.carouselContainer}>
-                    {/* carousel 라이브러리 찾아보기 */}
+					{/* carousel 라이브러리 찾아보기 */}
 					<FlatList
 						automaticallyAdjustContentInsets={false}
 						contentContainerStyle={{
@@ -140,16 +183,24 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: 18,
+		paddingHorizontal: '5%',
 		height: 84,
 		elevation: 5,
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: 'bold',
+		fontFamily: 'CookieRun-Bold',
 		color: COLOR.PRIMARY,
 	},
-	searchWrapper: {
+	searchContainer: {
+		width: 280,
+		flexDirection: 'row',
+		alignItems: 'center',
+		borderRadius: 4,
+		borderWidth: 1,
+		borderColor: COLOR.PRIMARY,
+	},
+	searchIconWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -169,6 +220,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 });
+
+const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
 
 const dummy_trendColor = [
 	{

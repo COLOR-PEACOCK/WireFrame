@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 
-export const OutlinedText = ({ strokeColor, textColor, fontSize, text }) => {
+const OutlinedText = ({ strokeColor, textColor, fontSize, text }) => {
 	const weight = 1;
 	const styles = StyleSheet.create({
 		paragraph: {
@@ -49,3 +49,5 @@ export const OutlinedText = ({ strokeColor, textColor, fontSize, text }) => {
 		</>
 	);
 };
+
+export default OutlinedText;
