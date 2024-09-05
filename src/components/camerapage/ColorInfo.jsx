@@ -24,11 +24,6 @@ const ColorInfo = ({
 			: bottomSheetRef.current?.snapToIndex(0);
 	}, [isOpen]);
 
-	const handleSheetChanges = useCallback(index => {
-		//index는 0,1값만 가짐
-		setIsOpen(index);
-	}, []);
-
 	const handleTouchEvent = () => {
 		setIsOpen(!isOpen);
 	};
@@ -77,7 +72,6 @@ const ColorInfo = ({
 			<BottomSheet
 				ref={bottomSheetRef}
 				snapPoints={[40, 140]}
-				onChange={handleSheetChanges}
 				handleComponent={CustomHandle}
 				enableHandlePanningGesture={false}
 				enableContentPanningGesture={false}
