@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
 
-const PressButton = ({ iconName, onPress, text }) => {
+import SVGIcon from '@components/common/SVGIcon';
+
+const PressButton = ({ iconName, onPress, engText,text }) => {
 	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
 	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
 
@@ -23,14 +24,19 @@ const PressButton = ({ iconName, onPress, text }) => {
 			onTouchEnd={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
-			<Icon
-				name={iconName}
-				size={48}
-				style={[styles.icon, { color: contentColor }]}
-			/>
-			<Text style={[styles.buttonText, { color: contentColor }]}>
-				{text}
-			</Text>
+			<SVGIcon name={iconName} color={contentColor} style={styles.icon} />
+			<View style={{}}>
+				<Text
+					style={[
+						styles.buttonEngText,
+						{ color: contentColor + 70 },
+					]}>
+					{engText}
+				</Text>
+				<Text style={[styles.buttonText, { color: contentColor }]}>
+					{text}
+				</Text>
+			</View>
 		</Pressable>
 	);
 };
@@ -54,11 +60,13 @@ const styles = StyleSheet.create({
 		shadowColor: COLOR.BLACK,
 		shadowOpacity: 0.25,
 	},
-	icon: {
-		marginLeft: '12.5%',
+	icon: { marginLeft: '12.5%' },
+	buttonEngText: {
+		fontFamily: 'Pretendard-Medium',
+		fontSize: 12,
 	},
 	buttonText: {
-		fontFamily: 'Pretendard-Medium',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 16,
 	},
 });
