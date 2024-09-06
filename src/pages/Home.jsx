@@ -22,7 +22,7 @@ import {
 	Extrapolation,
 } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
-
+import { SearchSVG } from '@icons';
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
@@ -138,7 +138,7 @@ const Home = ({ navigation }) => {
 					<TouchableOpacity
 						style={styles.searchIconWrapper}
 						onPress={handleOpenModal}>
-						<Icon name={'search'} size={40} />
+						<SearchSVG />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.buttonContainer}>
@@ -247,9 +247,14 @@ const styles = StyleSheet.create({
 		borderColor: COLOR.PRIMARY,
 	},
 	searchIconWrapper: {
+		width: 48,
+		height: 48,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 1,
+		borderRadius: 8
 	},
 	buttonContainer: {
 		marginTop: 18,
