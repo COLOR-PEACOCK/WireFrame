@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import nearestColor from 'nearest-color';
-import { getColorNameInfo } from '@libs/api';
 import colorNameList from '../assets/korColorName.json';
 import engColorNameList from '../assets/Best_of_names_subset.json';
+import { getLevenshteinDistance } from '@utils/levenshteinDistance';
 
 /**
  * @returns isLoding, getEngColorName getKorColorName
@@ -36,13 +36,7 @@ const useColorName = () => {
 	 * const engColorName = await getEngColorName('0d0d0f')
 	 * ```
 	 */
-	const getEngColorName = async value => {
-		setIsLoding(true);
-		const data = await getColorNameInfo(value);
-		setIsLoding(false);
-		const colorName = data.name;
-		return colorName;
-	};
+	const getEngColorName = async value => {};
 
 	/**
 	 * @returns color name from local file
@@ -74,7 +68,31 @@ const useColorName = () => {
 		return response.name;
 	};
 
-	return { isLoding, getEngColorName, getKorColorName, getEngColorNameLocal };
+	const getSortedSearchColorList = (list, key, keyword) => {
+		return list
+			.filter(v => {
+				return key === 'name'
+					? v[key].toLocaleUpperCase().includes(keyword)
+					: v[key].includes(keyword);
+			})
+			.map(v => ({
+				...v,
+				distance: getLevenshteinDistance(
+					key === 'name' ? v[key].toLocaleUpperCase() : v[key],
+					keyword,
+				),
+			}))
+			.sort((a, b) => a.distance - b.distance)
+			.slice(0, 5);
+	};
+
+	const getSearchColorList = (key, keyword) => {
+		return key === 'name'
+			? getSortedSearchColorList(engColorNameList, key, keyword)
+			: getSortedSearchColorList(colorNameList, key, keyword);
+	};
+
+	return { isLoding, getEngColorName, getKorColorName, getEngColorNameLocal, getSearchColorList };
 };
 
 export default useColorName;
