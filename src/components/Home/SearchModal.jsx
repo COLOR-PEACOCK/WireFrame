@@ -33,8 +33,6 @@ const SearchModal = ({
 	});
 	const [searchNameList, setSearchNameList] = useState([]);
 	const { getSearchColorList } = useColorName();
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
-		usePressButtonState();
 
 	// 입력 정보 처리
 	const handlePressSearch = () => {
