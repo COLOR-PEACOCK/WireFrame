@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -12,33 +12,70 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import { PressButton, OutlinedText, Indicator } from '@components/Home';
-import useBackHandler from '@hooks/useBackHandler';
+import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
+import {
+	runOnJS,
+	useSharedValue,
+	interpolate,
+	Extrapolation,
+} from 'react-native-reanimated';
+import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
-	const offset = 36;
+
+	const offset = 0;
 	const gap = 18;
-	const pageWidth = width - (gap + offset) * 2;
+	const pageWidth = width - (gap + offset);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const ref = useRef(null);
+	const progress = useSharedValue(0);
+
+	const handleGetCurrentIndex = useCallback(() => {
+		'worklet';
+		if (ref.current) {
+			const index = ref.current.getCurrentIndex();
+			runOnJS(setCurrentIndex)(index);
+		}
+	}, []);
+
+	const onPressNext = useCallback(() => {
+		'worklet';
+		if (ref.current?.next) {
+			ref.current.next();
+		}
+	}, []);
+
+	const onPressPagination = useCallback(
+		index => {
+			'worklet';
+			if (ref.current?.scrollTo) {
+				ref.current.scrollTo({
+					count: index - progress.value,
+					animated: true,
+				});
+			}
+		},
+		[progress],
+	);
+
 	const [inputColorValue, setInputColorValue] = useState();
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-	const handleScroll = e => {
-		const currentIndex = Math.round(
-			e.nativeEvent.contentOffset.x / (pageWidth + gap),
-		);
-		setCurrentIndex(currentIndex);
-	};
-
 	const handlePressLogo = () => {};
 	const handlePressLabel = label => setSelectedLabel(label);
-	const handleSearch = () => console.log(inputColorValue);
+	const handleSearch = () => {
+		if (inputColorValue){
+			handleCloseModal();
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: inputColorValue },
+			});}
+	};
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
@@ -50,9 +87,9 @@ const Home = ({ navigation }) => {
 		return (
 			<Pressable
 				style={{
-					width: pageWidth,
+					width: 280,
 					height: 214,
-					marginHorizontal: gap / 2,
+					marginHorizontal: 'auto',
 					backgroundColor: item.color,
 					borderRadius: 24,
 					justifyContent: 'center',
@@ -101,47 +138,78 @@ const Home = ({ navigation }) => {
 					<TouchableOpacity
 						style={styles.searchIconWrapper}
 						onPress={handleOpenModal}>
-						<Icon name={'search'} size={48} />
+						<Icon name={'search'} size={40} />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.buttonContainer}>
 					<PressButton
 						iconName={'camera'}
 						onPress={handleSelectCamera}
-						text={'SELECT TO CAMERA'}
+						engText={'SELECT FROM CAMERA'}
+						text={'카메라로 색상 추천 받기'}
 					/>
 					<PressButton
-						iconName={'image-search'}
+						iconName={'image'}
 						onPress={handleSelectAlbum}
-						text={'SELECT TO ALBUM'}
+						engText={'SELECT TO ALBUM'}
+						text={'이미지로 색상 추천 받기'}
 					/>
 					<PressButton
-						iconName={'motion-photos-auto'}
+						iconName={'AI'}
 						onPress={handleSelectAI}
-						text={'SELECT TO AI'}
+						engText={'SELECT TO AI'}
+						text={'AI로 색상 추천 받기'}
 					/>
 				</View>
 				<View style={styles.carouselContainer}>
-					{/* carousel 라이브러리 찾아보기 */}
-					<FlatList
-						automaticallyAdjustContentInsets={false}
-						contentContainerStyle={{
-							paddingHorizontal: offset + gap / 2,
+					<Carousel
+						ref={ref}
+						width={width}
+						mode={'horizontal-stack'}
+						modeConfig={{
+							snapDirection: 'left',
+							stackInterval: 18,
 						}}
 						data={dummy_trendColor}
-						decelerationRate={2}
-						horizontal
-						keyExtractor={item => `page_${item.color}`}
-						onScroll={handleScroll}
-						pagingEnabled
+						onSnapToItem={handleGetCurrentIndex}
+						onProgressChange={progress}
 						renderItem={renderItem}
-						snapToInterval={pageWidth + gap}
-						snapToAlignment="start"
-						showsHorizontalScrollIndicator={false}
 					/>
-					<Indicator
-						length={dummy_trendColor.length}
-						currentIndex={currentIndex}
+					<Pagination.Custom
+						progress={progress}
+						data={dummy_trendColor}
+						animValue={10}
+						dotStyle={{
+							backgroundColor: COLOR.PRIMARY + 50,
+							borderRadius: 50,
+						}}
+						activeDotStyle={{
+							width: 20,
+							backgroundColor: COLOR.PRIMARY,
+							overflow: 'hidden',
+							borderRadius: 50,
+						}}
+						containerStyle={{ gap: 5, marginBottom: 10 }}
+						onPress={onPressPagination}
+						customReanimatedStyle={(progress, index, length) => {
+							let val = Math.abs(progress - index);
+							if (index === 0 && progress > length - 1) {
+								val = Math.abs(progress - length);
+							}
+
+							return {
+								transform: [
+									{
+										translateY: interpolate(
+											val,
+											[0, 1],
+											[0, 0],
+											Extrapolation.CLAMP,
+										),
+									},
+								],
+							};
+						}}
 					/>
 				</View>
 			</View>
