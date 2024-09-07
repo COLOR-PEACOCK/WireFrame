@@ -166,6 +166,18 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					onColorSelect={handleColorSelect}
 				/>
 				<ColorPalette
+					titleKor="밝게"
+					titleEng="Tint"
+					colors={tintColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
+					titleKor="어둡게"
+					titleEng="Shade"
+					colors={shadowColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
 					titleKor="유사색"
 					titleEng="Analogous colors"
 					colors={analogousColors}
@@ -187,18 +199,6 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					titleKor="4가지 색상 조화"
 					titleEng="Four colors harmony"
 					colors={tetradicColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="밝게"
-					titleEng="Tint"
-					colors={tintColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="어둡게"
-					titleEng="Shade"
-					colors={shadowColors}
 					onColorSelect={handleColorSelect}
 				/>
 			</ScrollView>
