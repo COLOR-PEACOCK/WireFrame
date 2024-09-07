@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
@@ -9,9 +9,10 @@ const ColorPickerModal = ({
 	isVisible,
 	tempColor,
 	setTempColor,
-	onSave,
 	onCancel,
+	setIsPickerVisible,
 }) => {
+	const [currentColor, setCurrentColor] = useState(tempColor);
 	const textColor = tinycolor(tempColor).isLight()
 		? COLOR.GRAY_9
 		: COLOR.GRAY_2;
@@ -24,9 +25,9 @@ const ColorPickerModal = ({
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
 					<ColorPicker
-						value={tempColor}
+						value={currentColor}
 						onComplete={selectedColor =>
-							setTempColor(selectedColor.hex)
+							setCurrentColor(selectedColor.hex)
 						}
 						style={styles.colorPicker}>
 						<View style={styles.panelContainer}>
@@ -51,14 +52,14 @@ const ColorPickerModal = ({
 							<View
 								style={[
 									styles.colorPreview,
-									{ backgroundColor: tempColor },
+									{ backgroundColor: currentColor },
 								]}>
 								<Text
 									style={[
 										styles.colorText,
 										{ color: textColor },
 									]}>
-									{tempColor.toUpperCase()}
+									{currentColor.toUpperCase()}
 								</Text>
 							</View>
 						</View>
@@ -76,7 +77,10 @@ const ColorPickerModal = ({
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={[styles.button, styles.saveButton]}
-							onPress={onSave}>
+							onPress={() => {
+								setIsPickerVisible(false);
+								setTempColor(currentColor);
+							}}>
 							<Text style={styles.buttonText}>저장하기</Text>
 						</TouchableOpacity>
 					</View>

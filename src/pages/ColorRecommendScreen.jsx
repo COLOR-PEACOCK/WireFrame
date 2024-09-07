@@ -68,20 +68,19 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 		}
 	}, [tempColor]);
 
-	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_6;
-	const labelColor = tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
-
-	const saveColor = () => {
-		setColor(tempColor);
-		setIsPickerVisible(false);
-	};
+	const textColor = tinycolor(tempColor).isLight()
+		? COLOR.GRAY_8
+		: COLOR.GRAY_6;
+	const labelColor = tinycolor(tempColor).isLight()
+		? COLOR.GRAY_10
+		: COLOR.WHITE;
 
 	const handleColorSelect = selectedColors => {
 		console.log('선택 팔레트', selectedColors);
 		// TODO: 선택 팔레트 넘겨주기
 	};
 
-	const hslColor = convert.hex.hsl(color.replace('#', ''));
+	const hslColor = convert.hex.hsl(tempColor.replace('#', ''));
 
 	const complementaryColors = useMemo(
 		() => [...getComplementaryColor(hslColor)],
@@ -137,7 +136,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 				infoText={infoText}
 			/>
 
-			<View style={[styles.colorBox, { backgroundColor: color }]}>
+			<View style={[styles.colorBox, { backgroundColor: tempColor }]}>
 				<MainColorInfo
 					colorInfo={colorInfo}
 					textColor={textColor}
@@ -206,7 +205,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 				isVisible={isPickerVisible}
 				tempColor={tempColor}
 				setTempColor={setTempColor}
-				onSave={saveColor}
+				setIsPickerVisible={setIsPickerVisible}
 				onCancel={() => setIsPickerVisible(false)}
 			/>
 		</SafeAreaView>
