@@ -11,8 +11,8 @@ export function getComplementaryColor(hsl) {
 // 유사색 조합: 메인 컬러 포함 3가지
 export function getAnalogousColors(hsl) {
 	return [
-		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2]])}`,
 		`#${convert.hsl.hex([(hsl[0] + 360 - 18) % 360, hsl[1], hsl[2]])}`,
+		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2]])}`,
 		`#${convert.hsl.hex([(hsl[0] + 18) % 360, hsl[1], hsl[2]])}`,
 	];
 }
@@ -203,11 +203,11 @@ export function getTintColors(hsl) {
 	const lightnessDivideHigh = Math.floor(lightnessDiff / 5); // 부동소수점으로 인한 에러를 막기위한 내림 처리
 	const lightnessPiece = Math.min(lightnessDivideHigh, basicLightnessPiece);
 	return [
+		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2]])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] + lightnessPiece])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] + lightnessPiece * 2])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] + lightnessPiece * 3])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] + lightnessPiece * 4])}`,
-		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] + lightnessPiece * 5])}`,
 	];
 }
 
@@ -217,11 +217,11 @@ export function getShadowColors(hsl) {
 	const lightnessDivideLow = Math.floor(hsl[2] / 5); // 부동소수점으로 인한 에러를 막기위한 내림 처리
 	const lightnessPiece = Math.min(lightnessDivideLow, basicLightnessPiece); // 간격이 확보가 되면 12 간격을 사용하지만 간격이 좁은 경우 좁은 간격을 계산해서 적용
 	return [
+		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2]])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] - lightnessPiece])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] - lightnessPiece * 2])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] - lightnessPiece * 3])}`,
 		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] - lightnessPiece * 4])}`,
-		`#${convert.hsl.hex([hsl[0], hsl[1], hsl[2] - lightnessPiece * 5])}`,
 	];
 }
 
