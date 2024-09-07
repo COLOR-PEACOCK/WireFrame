@@ -136,23 +136,28 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 10,
+		// padding: 10,
+		marginHorizontal: 18,
+		marginVertical: 6,
 	},
 	header: {
 		flexDirection: 'row',
-		marginHorizontal: 9,
+		// marginHorizontal: 9,
 		marginBottom: 3,
 	},
 	titleKor: {
 		color: COLOR.GRAY_10,
 		fontSize: 18,
-		fontWeight: 'bold',
-		marginHorizontal: 4,
+		// fontWeight: 'medium',
+		fontFamily: 'Pretendard-medium',
+		// marginHorizontal: 4,
 	},
 	titleEng: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		marginHorizontal: 6,
+		fontFamily: 'Pretendard-medium',
+
 		alignSelf: 'flex-end',
 	},
 	paletteContainer: {
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		height: 50,
-		paddingHorizontal: 9,
+		// paddingHorizontal: 9,
 		alignSelf: 'center',
 	},
 	colorRow: {
