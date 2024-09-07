@@ -20,7 +20,7 @@ import {
 	Dropdown,
 	SearchInputForm,
 } from '@components/Home';
-import useBackHandler from '@hooks/useBackHandler';
+// import useBackHandler from '@hooks/useBackHandler';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
 
