@@ -1,4 +1,4 @@
-import { COLOR } from '@styles/color';
+import React, { useState, useEffect } from 'react';
 import {
 	Modal,
 	Pressable,
@@ -7,189 +7,135 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+
+import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
-import { SearchInputForm, ListValue, Dropdown, PressButton } from '@components/Home';
-import { useEffect, useState } from 'react';
-import { cmykToHex, hslToHex, rgbToHex } from '@utils/convertToHex';
-import { ArrowGoBackSVG, Formkit_submitSVG } from '@icons';
-import { isValidHexCode, isValidKorean } from '@utils/inputValidation';
+import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
+import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
+
 import useColorName from '@hooks/useColorName';
+import { cmykToHex, hslToHex, rgbToHex, isValidHexCode, isValidKorean, INPUT_TYPES } from '@utils/home';
+
+const colorConverter = {
+	[INPUT_TYPES.HEX]: values => (isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null),
+	[INPUT_TYPES.RGB]: values => rgbToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.HSL]: values => hslToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.CMYK]: values => cmykToHex(values.part1, values.part2, values.part3, values.part4) ?? null,
+	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
+		const matchedColor = searchNameList.find(
+			color =>
+				color.name?.toUpperCase() === values.part1?.toUpperCase() ||
+				color.korean_name === values.part1,
+		);
+		return matchedColor ? matchedColor.hex : null;
+	},
+};
 
 const SearchModal = ({
-	list,
 	visible,
-	selectedLabel,
 	handleCloseModal,
-	onPressLabel,
 	onPressSearch,
-	inputColorValue,
-	setInputColorValue,
 }) => {
-	const [inputValues, setInputValues] = useState({
-		part1: '',
-		part2: '',
-		part3: '',
-		part4: '',
-	});
+	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
+	const handlePressLabel = label => setSelectedLabel(label);
+	const [inputValues, setInputValues] = useState({ part1: '', part2: '', part3: '', part4: '' });
 	const [searchNameList, setSearchNameList] = useState([]);
 	const { getSearchColorList } = useColorName();
 
-	// 입력 정보 처리
-	const handlePressSearch = () => {
-		const converters = {
-			HEX: values =>
-				isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null,
-			RGB: values => rgbToHex(values.part1, values.part2, values.part3),
-			HSL: values => hslToHex(values.part1, values.part2, values.part3),
-			CMYK: values =>
-				cmykToHex(
-					values.part1,
-					values.part2,
-					values.part3,
-					values.part4,
-				),
-			'색상 이름': values => {
-				if (isMatch(values)) return searchNameList[0]?.hex;
-				else return null;
-			},
+	// 검색어 입력 시 색상 리스트 업데이트
+	useEffect(() => {
+		const updateSearchList = () => {
+			const keyword = inputValues.part1;
+			if (!keyword) {
+				setSearchNameList([]);
+				return;
+			}
+			const searchKey = isValidKorean(keyword) ? 'korean_name' : 'name';
+			setSearchNameList(getSearchColorList(searchKey, keyword));
 		};
 
-		const convertToHex = converters[selectedLabel] || (values => values);
-
-		const hexValue = convertToHex(inputValues);
-		setInputColorValue(hexValue);
-	};
-
-	const isMatch = values => {
-		return (
-			searchNameList[0]?.name.toLocaleUpperCase() ===
-				values.part1.toLocaleUpperCase() ||
-			searchNameList[0]?.korean_name === values.part1
-		);
-	};
-
-	// inputColorValue가 변경됐다는 건 검색 버튼이 눌렸다는 것
-	useEffect(() => {
-		if (inputColorValue) onPressSearch();
-		setInputColorValue('');
-	}, [inputColorValue]);
-
-	// 파일 내 색상 이름 검색
-	const searchInputColorName = keyword => {
-		if (!keyword) {
-			setSearchNameList([]);
-			return;
-		}
-
-		if (isValidKorean(keyword)) {
-			setSearchNameList(getSearchColorList('korean_name', keyword));
-		} else {
-			setSearchNameList(
-				getSearchColorList('name', keyword.toLocaleUpperCase()),
-			);
-		}
-	};
-
-	// 자동완성 검색 리스트 찾기
-	useEffect(() => {
 		if (selectedLabel === '색상 이름') {
-			searchInputColorName(inputValues.part1);
+			updateSearchList();
+		} else {
+			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
 		}
-	}, [inputValues.part1]);
+	}, [inputValues.part1, selectedLabel]); 
 
-	// 자동완성 검색 리스트 터치시
-	const handlePressSearchList = label =>{
-		setInputValues({ ...inputValues, part1: label })
-		setSearchNameList([]);
+	// 검색 버튼 터치 시 
+	const handlePressSearch = () => {
+		const convertColorToHex = colorConverter[selectedLabel] || (values => values);
+		const hexValue = convertColorToHex(inputValues, searchNameList); 
+		if (hexValue)
+			onPressSearch(hexValue);
+		else console.log('fail')
 	};
 
-	// 자동완성 검색 리스트 초기화
-	useEffect(() => {
-		setSearchNameList([]);
-	}, [selectedLabel]);
+	// 자동완성 검색 리스트 터치 시
+	const handlePressSearchList = label => {
+		setInputValues({ ...{part1: label} });
+		
+		// 터치하고 자동완성 숨기기
+	};
 
 	return (
 		<View>
 			<Modal
-				animationType={'fade'}
+				animationType="fade"
 				visible={visible}
-				transparent={true}
-				onRequestClose={handleCloseModal}>
-				<Pressable
-					style={styles.modalOverlay}
-					onPress={handleCloseModal}></Pressable>
+				transparent
+				onRequestClose={handleCloseModal}
+			>
+				<Pressable style={styles.modalOverlay} onPress={handleCloseModal} />
 				<View style={styles.modalView}>
 					<View style={styles.modalHeader}>
 						<Text style={styles.modalHeaderText}>
-							원하시는 색상을 검색해서 추천하는 색상 조합을
-							받아보세요!
+							원하시는 색상을 검색해서 추천하는 색상 조합을 받아보세요!
 						</Text>
 					</View>
 					<View style={styles.modalBody}>
 						<Dropdown
-							list={list}
-							onClickDropdown={onPressLabel}
-							layoutStyle={{
-								width: '100%',
-								justifyContent: 'center',
-							}}
+							list={dummy_list}
+							onClickDropdown={handlePressLabel}
+							layoutStyle={{ width: '100%', justifyContent: 'center' }}
 							selectedLabel={selectedLabel}
 						/>
-						<View style={{}}>
+						<View>
 							<SearchInputForm
 								selectedLabel={selectedLabel}
 								inputValues={inputValues}
 								setInputValues={setInputValues}
 							/>
-
-							{/* 자동완성 추천 검색어 */}
-							{searchNameList.length > 0 &&
-								!(searchNameList.length == 1 && isMatch(inputValues)) && (
-									<ScrollView
-										style={{
-											borderColor: COLOR.GRAY_6,
-											borderRadius: 8,
-											borderWidth: 1,
-										}}
-										showsVerticalScrollIndicator={false}
-										keyboardShouldPersistTaps={'always'}>
-										{searchNameList.map(l => (
-											<ListValue
-												key={l.hex}
-												label={l.korean_name || l.name}
-												onPressLabel={
-													handlePressSearchList
-												}
-											/>
-										))}
-									</ScrollView>
-								)}
+							{/* 자동완성 검색어 리스트 */}
+							{searchNameList.length > 0 && (
+								<ScrollView
+									style={styles.searchResults}
+									showsVerticalScrollIndicator={false}
+									keyboardShouldPersistTaps="always" 
+								>
+									{searchNameList.map(item => (
+										<ListValue
+											key={item.hex}
+											label={item.korean_name || item.name}
+											onPressLabel={() => handlePressSearchList(item.korean_name || item.name)} 
+										/>
+									))}
+								</ScrollView>
+							)}
 						</View>
 					</View>
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity
-							style={[
-								styles.modalButton,
-								{
-									backgroundColor: COLOR.GRAY_6,
-									borderBottomLeftRadius: 8,
-								},
-							]}
-							onPress={handleCloseModal}>
+							style={[styles.modalButton, styles.closeButton]}
+							onPress={handleCloseModal}
+						>
 							<ArrowGoBackSVG color={COLOR.WHITE} />
 							<Text style={styles.buttonText}> 이전으로</Text>
 						</TouchableOpacity>
-
 						<TouchableOpacity
-							style={[
-								styles.modalButton,
-								{
-									backgroundColor: COLOR.PRIMARY,
-									borderBottomRightRadius: 8,
-								},
-							]}
-							onPress={handlePressSearch}>
-							<Formkit_submitSVG color={COLOR.WHITE} />
+							style={[styles.modalButton, styles.searchButton]}
+							onPress={handlePressSearch}
+						>
+							<FormkitSubmitSVG color={COLOR.WHITE} />
 							<Text style={styles.buttonText}> 검색하기</Text>
 						</TouchableOpacity>
 					</View>
@@ -198,6 +144,8 @@ const SearchModal = ({
 		</View>
 	);
 };
+
+const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
 
 const styles = StyleSheet.create({
 	modalView: {
@@ -208,13 +156,9 @@ const styles = StyleSheet.create({
 		zIndex: 5,
 		backgroundColor: COLOR.WHITE,
 		borderRadius: 8,
-
 		elevation: 5,
 		shadowColor: COLOR.BLACK,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
+		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
 	},
@@ -222,19 +166,6 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		width: '100%',
 		height: '100%',
-	},
-	closeButton: {
-		position: 'absolute',
-		zIndex: 10,
-		top: 0,
-		right: 0,
-		width: 48,
-		height: 48,
-		borderColor: COLOR.BLACK,
-		borderWidth: 1,
-		borderRadius: 8,
-		alignItems: 'center',
-		justifyContent: 'center',
 	},
 	modalHeader: {
 		width: '100%',
@@ -253,6 +184,11 @@ const styles = StyleSheet.create({
 		marginHorizontal: 18,
 		gap: 18,
 	},
+	searchResults: {
+		borderColor: COLOR.GRAY_6,
+		borderRadius: 8,
+		borderWidth: 1,
+	},
 	buttonContainer: {
 		height: 64,
 		marginTop: 18,
@@ -264,6 +200,14 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	closeButton: {
+		backgroundColor: COLOR.GRAY_6,
+		borderBottomLeftRadius: 8,
+	},
+	searchButton: {
+		backgroundColor: COLOR.PRIMARY,
+		borderBottomRightRadius: 8,
 	},
 	buttonText: {
 		fontFamily: 'Pretendard-Bold',

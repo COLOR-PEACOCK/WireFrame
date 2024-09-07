@@ -1,169 +1,75 @@
+import React, { forwardRef, useEffect } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { useInputState } from '@hooks/home';
 
-const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
-	const initValue = {
-		part1: '',
-		part2: '',
-		part3: '',
-		part4: '',
-	};
-
-	const inputRef = useRef(null);
-	useEffect(() => {
-		setInputValues(initValue);
-		inputRef.current.input1.focus();
-	}, [selectedLabel]);
-
-	const isPartialInput = ['RGB', 'HSL', 'CMYK'];
-	const handleTextChange = (part, text, nextInput) => {
-		setInputValues({ ...inputValues, [part]: text });
-		if (
-			isPartialInput.includes(selectedLabel) &&
-			text.length >= 3 &&
-			nextInput
-		) {
-			inputRef.current[nextInput].focus();
-		}
-	};
-	const handleInput1 = text => handleTextChange('part1', text, 'input2');
-	const handleInput2 = text => handleTextChange('part2', text, 'input3');
-	const handleInput3 = text =>
-		handleTextChange(
-			'part3',
-			text,
-			selectedLabel === 'CMYK' ? 'input4' : null,
-		);
-	const handleInput4 = text => handleTextChange('part4', text, null);
-
-	const TextInputCommonProps = {
-		placeholderTextColor: COLOR.GRAY_6,
-		keyboardType: 'number-pad',
-		maxLength: 3,
-		returnKeyType: 'next',
-	};
-
-	switch (selectedLabel) {
-		case '색상 이름':
-			return (
-				<ColorInputForm
-					ref={inputRef}
-					labels={['입력']}
-					values={[inputValues.part1]}
-					onChangeTexts={[handleInput1]}
-				/>
-			);
-		case 'HEX':
-			return (
-				<ColorInputForm
-					ref={inputRef}
-					labels={['#']}
-					values={[inputValues.part1]}
-					onChangeTexts={[handleInput1]}
-					maxLength={6}
-				/>
-			);
-		case 'RGB':
-			return (
-				<ColorInputForm
-					ref={inputRef}
-					labels={['R', 'G', 'B']}
-					values={[
-						inputValues.part1,
-						inputValues.part2,
-						inputValues.part3,
-					]}
-					onChangeTexts={[handleInput1, handleInput2, handleInput3]}
-					TextInputCommonProps={TextInputCommonProps}
-				/>
-			);
-		case 'HSL':
-			return (
-				<ColorInputForm
-					ref={inputRef}
-					labels={['H', 'S', 'L']}
-					values={[
-						inputValues.part1,
-						inputValues.part2,
-						inputValues.part3,
-					]}
-					onChangeTexts={[handleInput1, handleInput2, handleInput3]}
-					TextInputCommonProps={TextInputCommonProps}
-				/>
-			);
-		case 'CMYK':
-			return (
-				<ColorInputForm
-					ref={inputRef}
-					labels={['C', 'M', 'Y', 'K']}
-					unit="%"
-					values={[
-						inputValues.part1,
-						inputValues.part2,
-						inputValues.part3,
-						inputValues.part4,
-					]}
-					onChangeTexts={[
-						handleInput1,
-						handleInput2,
-						handleInput3,
-						handleInput4,
-					]}
-					TextInputCommonProps={TextInputCommonProps}
-				/>
-			);
-
-		default:
-			<ColorInputForm />;
-	}
+const initValue = {
+	part1: '',
+	part2: '',
+	part3: '',
+	part4: '',
 };
 
-const ColorInputForm = forwardRef((props, ref) => {
+const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
+	const handleTextChange = (index, text) => {
+		setInputValues(prevValues => ({
+			...prevValues,
+			[`part${index + 1}`]: text,
+		}));
+	};
+
+	useEffect(() => {
+		setInputValues(initValue);
+	}, [selectedLabel]);
+
 	const {
-		labels,
-		values,
-		onChangeTexts,
-		TextInputCommonProps,
-		maxLength,
-		unit,
-	} = props;
-	const inputRefs = useRef([]);
-	useImperativeHandle(ref, () => {
-		return labels.reduce((acc, _, index) => {
-			acc[`input${index + 1}`] = inputRefs.current[index];
-			return acc;
-		}, {});
-	});
+		inputOption,
+		inputRef,
+		handleFocusNext,
+		handleAutoFocus,
+		handlePressInputForm,
+	} = useInputState(selectedLabel);
 
 	return (
 		<View style={styles.inputContainer}>
-			{labels.map((label, index) => (
-				<Pressable
+			{inputOption.labels.map((label, index) => (
+				<InputForm
 					key={index}
-					style={[styles.inputForm, { width: '100%' }]}
-					onPress={() => inputRefs.current[index].focus()}>
-					<View style={styles.inputLabel}>
-						<Text style={styles.labelText}>{label}</Text>
-					</View>
-					<View style={styles.textInput}>
-						<TextInput
-							ref={el => (inputRefs.current[index] = el)}
-							value={values[index]}
-							onChangeText={onChangeTexts[index]}
-							onSubmitEditing={() =>
-								index < 2 &&
-								inputRefs.current[index + 1].focus()
-							}
-							maxLength={maxLength}
-							{...TextInputCommonProps}
-						/>
-						{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
-					</View>
-				</Pressable>
+					ref={element => (inputRef.current[index] = element)}
+					value={inputValues[`part${index + 1}`]}
+					label={label}
+					placeholder={inputOption.placeholders?.[index]}
+					placeholderTextColor={COLOR.GRAY_6}
+					unit={inputOption.unit?.[index]}
+					maxLength={inputOption.maxLength}
+					onPress={() => handlePressInputForm(index)}
+					onChangeText={text => {
+						handleTextChange(index, text);
+						handleAutoFocus(index, text);
+					}}
+					onSubmitEditing={() => handleFocusNext(index)}
+					keyboardType={inputOption.keyboardType}
+					returnKeyType={'next'}
+				/>
 			))}
 		</View>
+	);
+};
+
+const InputForm = forwardRef(({ label, unit, onPress, ...rest }, ref) => {
+	return (
+		<Pressable
+			style={[styles.inputForm, { width: '100%' }]}
+			onPress={onPress}>
+			<View style={styles.inputLabel}>
+				<Text style={styles.labelText}>{label}</Text>
+			</View>
+			<View style={styles.textInput}>
+				<TextInput ref={ref} {...rest} />
+				{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
+			</View>
+		</Pressable>
 	);
 });
 
