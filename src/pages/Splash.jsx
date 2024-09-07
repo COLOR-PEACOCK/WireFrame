@@ -3,7 +3,7 @@ import { View, SafeAreaView, Animated, Easing } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import logoPeacock from '@components/Splash/ColorPeacock_logo.png';
 
-// 스플래시 화면 텍스트에 색 지나가는 애니메이션
+// 스플래시 화면 텍스트에 색 지나가는 애니메이션.
 const WaveText = ({ text, colors }) => {
 	const animations = useRef(
 		text.split('').map(() => new Animated.Value(0)),
