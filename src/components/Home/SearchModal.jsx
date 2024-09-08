@@ -50,11 +50,11 @@ const SearchModal = ({
 				setSearchNameList([]);
 				return;
 			}
-			const searchKey = isValidKorean(keyword) ? 'korean_name' : 'name';
-			setSearchNameList(getSearchColorList(searchKey, keyword));
+			const isKorean = isValidKorean(keyword);
+			setSearchNameList(getSearchColorList(isKorean, keyword));
 		};
 
-		if (selectedLabel === '색상 이름') {
+		if (selectedLabel === INPUT_TYPES.COLOR_NAME) {
 			updateSearchList();
 		} else {
 			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
@@ -73,7 +73,6 @@ const SearchModal = ({
 	// 자동완성 검색 리스트 터치 시
 	const handlePressSearchList = label => {
 		setInputValues({ ...{part1: label} });
-		
 		// 터치하고 자동완성 숨기기
 	};
 
