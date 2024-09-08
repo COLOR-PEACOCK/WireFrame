@@ -1,77 +1,197 @@
-import React from 'react';
-import {
-	SafeAreaView,
-	Text,
-	TouchableOpacity,
-	StyleSheet,
-	View,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
+import { CustomText as Text } from '@components/common/CustomText';
+import SVGIcon from './SVGIcon';
 
 /**
- * @param title Header Title
- * @param leftIcon default chevron-left
- * @param onPressLeft default goback()
- * @param rightIcon default null
- * @param onPressRight default null
- * @example
+ * @param {string} leftIcon 왼쪽 버튼 아이콘, default: arrowleft
+ * @param onPressLeft 왼쪽 버튼 이벤트, default: goback()
+ * @param titleIcon 유효한 값: 'camera', 'image', 'AI', 'report', 'palette'
+ * @param title default color: COLOR.PRIMARY
+ * @param subTitle default color: COLOR.GRAY6
+ * @param rightIcon 오른쪽 버튼, default: null
+ * @param onPressRight 오른쪽 버튼 이벤트, default: null
+ * @see 왼쪽, 오른쪽 아이콘 https://oblador.github.io/react-native-vector-icons/#AntDesign
+ * @example 모든 파라미터는 생략 가능합니다.
  * ```
- * <BasicHeader title={'title'} />
+<BasicHeader
+    titleIcon={'iamge'}
+    title={'이미지'} engTitle={'images'} rightIcon={'info'}
+    infoText={infotext}
+/>
+const infoText = 'infomation text'
  * ```
+ * infoText가 다른 컴포넌트에 가려지는 경우 텍스트를 가린 컴포넌트의 zIndex를 -1로 지정 해보세요.
  */
 const BasicHeader = ({
+	leftIcon = 'arrowleft',
+	onPressLeft = null,
+	titleIcon,
 	title,
-	leftIcon = 'chevron-left',
-	onPressLeft,
+	subTitle,
 	rightIcon = null,
 	onPressRight,
+	infoText,
 }) => {
 	const navigate = useNavigation();
+	const isInfo = rightIcon === 'info';
+	const [infoButtonLayout, setInfoButtonLayout] = useState();
+	const infoButtonRef = useRef(null);
+	const infoModalRef = useRef(null);
+	const [infoTextWidth, setInfoTextWidth] = useState(0);
+	const [isInfoVisible, setIsInfoVisible] = useState();
+
+	useEffect(() => {
+		if (!isInfo) return;
+		infoButtonRef.current?.measure(
+			(_x, _y, width, height, pageX, pageY) => {
+				setInfoButtonLayout({
+					width: width,
+					height: height,
+					left: pageX,
+					top: pageY,
+				});
+			},
+		);
+		infoModalRef.current?.measure((_x, _y, width, height, pageX, pageY) => {
+			setInfoTextWidth(width);
+		});
+	}, [isInfoVisible]);
+
 	return (
-		<SafeAreaView
-			style={{
-				flexDirection: 'row',
-				justifyContent: 'space-between',
-				paddingHorizontal: 10,
-				paddingVertical: 10,
-				alignItems: 'center',
-			}}>
-			<View style={{ width: '5%' }}>
+		<View style={styles.headerContainer}>
+			{/* left button */}
+			<TouchableOpacity
+				style={[
+					styles.headerButton,
+					{
+						borderColor: COLOR.GRAY_3,
+						borderWidth: 2,
+						borderRadius: 8,
+					},
+				]}
+				onPress={onPressLeft ? onPressLeft : () => navigate.goBack()}>
+				<Icon name={leftIcon} color={COLOR.PRIMARY} size={30}></Icon>
+			</TouchableOpacity>
+			{/* title */}
+			<View style={styles.titleContainer}>
+				<SVGIcon
+					name={titleIcon}
+					width={25}
+					height={25}
+					color={COLOR.PRIMARY}
+				/>
+				<Text style={styles.title}>{title}</Text>
+				<Text style={styles.engTitle}>{subTitle}</Text>
+			</View>
+
+			{/* right button */}
+			{isInfo ? (
 				<TouchableOpacity
-					onPress={
-						onPressLeft ? onPressLeft : () => navigate.goBack()
-					}>
-					<Icon name={leftIcon} color={COLOR.BLACK} size={20}></Icon>
+					ref={infoButtonRef}
+					style={styles.infoButton}
+					onPress={() => setIsInfoVisible(!isInfoVisible)}>
+					<Icon name={rightIcon} color={COLOR.GRAY_5} size={20} />
 				</TouchableOpacity>
-			</View>
-			<View
-				style={{
-					justifyContent: 'center',
-					alignItems: 'center',
-					width: '90%',
-				}}>
-				<Text
-					style={{
-						fontFamily: 'Pretendard-Bold',
-						fontSize: 18,
-						color: COLOR.BLACK,
-						textAlign: 'center',
-						lineHeight: 20,
-					}}>
-					{title}
-				</Text>
-			</View>
-			<View style={{ width: '6%' }}>
-				<TouchableOpacity onPress={onPressRight ? onPressRight : null}>
-					<Icon name={rightIcon} color={COLOR.BLACK} size={20}></Icon>
+			) : (
+				<TouchableOpacity
+					style={[
+						styles.headerButton,
+						rightIcon && {
+							borderColor: COLOR.GRAY_3,
+							borderWidth: 2,
+							borderRadius: 8,
+						},
+					]}
+					onPress={onPressRight}>
+					<Icon name={rightIcon} color={COLOR.PRIMARY} size={30} />
 				</TouchableOpacity>
-			</View>
-		</SafeAreaView>
+			)}
+			{/* info Modal */}
+			{isInfoVisible && infoText && (
+				<View
+					style={[
+						styles.infoModalWrap,
+						{
+							left:
+								infoButtonLayout.left -
+								infoTextWidth +
+								infoButtonLayout.width * 1.3,
+							top:
+								infoButtonLayout.top +
+								infoButtonLayout.height +
+								10,
+						},
+					]}>
+					<View ref={infoModalRef} style={styles.infoModalSquare}>
+						<Text style={{ fontSize: 12 }}>{infoText}</Text>
+					</View>
+				</View>
+			)}
+		</View>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	headerContainer: {
+		width: '100%',
+		height: 64,
+		flexDirection: 'row',
+		paddingHorizontal: 18,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		elevation: 5,
+		backgroundColor: COLOR.WHITE,
+	},
+	titleContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'row',
+	},
+
+	title: {
+		fontFamily: 'CookieRun-Regular',
+		fontSize: 20,
+		color: COLOR.PRIMARY,
+		textAlign: 'center',
+	},
+	engTitle: {
+		fontFamily: 'CookieRun-Regular',
+		fontSize: 16,
+		color: COLOR.GRAY_6,
+		textAlign: 'center',
+		paddingTop: 8,
+	},
+	headerButton: {
+		width: 48,
+		height: 48,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	infoButton: {
+		marginHorizontal: 12,
+		width: 24,
+		height: 24,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 2,
+		borderRadius: 4,
+	},
+	infoModalWrap: {
+		position: 'absolute',
+	},
+	infoModalSquare: {
+		maxWidth: 215,
+		paddingHorizontal: 18,
+		borderRadius: 4,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
+		backgroundColor: COLOR.WHITE,
+	},
+});
 
 export default BasicHeader;
