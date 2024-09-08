@@ -7,12 +7,14 @@ import {
 	Image,
 	TouchableOpacity,
 	KeyboardAvoidingView,
+	SafeAreaView,
 } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
+import RunAi from '@icons/runAiIcon.svg';
 
 const AiScreen = ({ navigation }) => {
 	const [imageUri, setImageUri] = useState(null);
@@ -91,21 +93,52 @@ const AiScreen = ({ navigation }) => {
 			</View>
 
 			<View style={styles.inputContainer}>
-				<View style={styles.inputRow}>
-					<Text style={styles.inputLabel}>사진 속 아이템:</Text>
+				<View
+					style={[
+						styles.inputRow,
+						{
+							borderBottomWidth: 1,
+							borderBottomColor: COLOR.GRAY_3,
+						},
+					]}>
+					<View style={styles.inputLabelContainer}>
+						<View style={styles.inputLabelAlign}>
+							<Text style={styles.inputLabel_eng}>
+								standard item
+							</Text>
+							<Text style={styles.inputLabel}>
+								기준 잡을 아이템
+							</Text>
+						</View>
+					</View>
+
 					<TextInput
 						style={styles.input}
 						value={itemInImage}
 						onChangeText={setItemInImage}
+						placeholder="ex) 바지 또는 베이지 바지 등등···"
+						placeholderTextColor={COLOR.GRAY_6}
 					/>
 				</View>
 
 				<View style={styles.inputRow}>
-					<Text style={styles.inputLabel}>추천받을 아이템:</Text>
+					<View style={styles.inputLabelContainer}>
+						<View style={styles.inputLabelAlign}>
+							<Text style={styles.inputLabel_eng}>
+								recommended Item
+							</Text>
+							<Text style={styles.inputLabel}>
+								추천받을 아이템
+							</Text>
+						</View>
+					</View>
+
 					<TextInput
 						style={styles.input}
 						value={itemToRecommend}
 						onChangeText={setItemToRecommend}
+						placeholder="ex) 신발 또는 검정색 신발 등등···"
+						placeholderTextColor={COLOR.GRAY_6}
 					/>
 				</View>
 
@@ -115,12 +148,13 @@ const AiScreen = ({ navigation }) => {
 						{
 							backgroundColor: canRunAIAnalysis()
 								? COLOR.PRIMARY
-								: COLOR.GRAY_4,
+								: COLOR.GRAY_6,
 						},
 					]}
 					disabled={!canRunAIAnalysis()}
 					onPress={navigateToAiResponseScreen}>
-					<Text style={styles.analysisButtonText}>AI 분석 실행</Text>
+					<RunAi />
+					<Text style={styles.analysisButtonText}>바로 분석하기</Text>
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
@@ -130,23 +164,21 @@ const AiScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#000000',
 	},
 	imageContainer: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginVertical: 40,
 	},
 	image: {
 		width: '100%',
 		height: '100%',
-		resizeMode: 'cover',
+		resizeMode: 'contain',
 	},
 	placeholder: {
 		width: '100%',
 		height: '100%',
-		borderRadius: 10,
 		backgroundColor: '#f0f0f0',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -156,38 +188,53 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	inputContainer: {
-		padding: 16,
-		backgroundColor: COLOR.PRIMARY,
+		backgroundColor: '#fff',
 	},
 	inputRow: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginBottom: 20,
-		marginHorizontal: 20,
+		height: 56,
+	},
+	inputLabelContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 154,
+		height: '100%',
+		borderRightWidth: 1,
+		borderRightColor: COLOR.GRAY_3,
+	},
+	inputLabelAlign: {
+		alignItems: 'flex-start',
+		justifyContent: 'center',
+	},
+	inputLabel_eng: {
+		fontSize: 12,
+		fontFamily: 'Pretendard-Regular',
+		color: COLOR.GRAY_6,
 	},
 	inputLabel: {
-		fontSize: 14,
-		color: '#fff',
-		marginRight: 10,
-		width: 120,
+		fontSize: 18,
+		fontFamily: 'Pretendard-Bold',
+		color: COLOR.PRIMARY,
 	},
 	input: {
 		flex: 1,
-		height: 40,
-		borderBottomColor: '#fff',
-		borderBottomWidth: 1,
-		color: '#fff',
-		backgroundColor: 'transparent',
+		width: '100%',
+		height: '100%',
+		paddingHorizontal: 12,
+		color: COLOR.GRAY_10,
+		backgroundColor: '#F3F7F8',
 		placeholderTextColor: '#ccc',
 	},
 	analysisButton: {
 		padding: 15,
-		borderRadius: 8,
+		flexDirection: 'row',
+		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 20,
+		gap: 6,
 	},
 	analysisButtonText: {
-		color: '#fff',
+		color: COLOR.GRAY_3,
 		fontWeight: 'bold',
 	},
 });
