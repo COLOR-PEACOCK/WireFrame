@@ -173,6 +173,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		marginRight: 10,
+		borderRadius: 8,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
 	},
 	colorBox: {
 		flex: 1,
@@ -188,17 +191,18 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 8,
-		shadowColor: COLOR.GRAY_3,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-		elevation: 5,
+		// shadowColor: COLOR.GRAY_3,
+		// shadowOffset: {
+		// 	width: 0,
+		// 	height: 2,
+		// },
+		// shadowOpacity: 0.25,
+		// shadowRadius: 3.84,
+		// elevation: 5,
 		backgroundColor: 'rgba(255, 255, 255, 1)',
 		borderWidth: 2,
-		borderColor: 'rgba(224, 224, 224, 1)',
+		// borderColor: 'rgba(224, 224, 224, 1)',
+		borderColor: COLOR.GRAY_3,
 	},
 });
 
