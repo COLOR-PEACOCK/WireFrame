@@ -222,6 +222,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 18,
 		paddingVertical: 12,
 		borderRadius: 10,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
 	},
 });
 
