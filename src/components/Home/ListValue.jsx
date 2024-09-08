@@ -31,6 +31,7 @@ const ListValue = ({ label, textStyle, isActive, disabled, onPressLabel }) => {
 				paddingLeft: 8,
 				paddingVertical: 8,
 				backgroundColor: getBackgroundColor(),
+				borderRadius: 4
 			}}
 			onPress={handlePressLabel}>
 			<Text style={[textStyle, { color: getTextColor() }]}>{label}</Text>
