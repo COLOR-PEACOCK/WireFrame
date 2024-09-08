@@ -1,22 +1,14 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
-
 import SVGIcon from '@components/common/SVGIcon';
+import usePressButtonState from '@hooks/home/usePressButtonState';
 
-const PressButton = ({ iconName, onPress, engText,text }) => {
-	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
-	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
 
-	const handleTouchStart = () => {
-		setContentColor(COLOR.WHITE);
-		setButtonColor(COLOR.PRIMARY);
-	};
-
-	const handleTouchEnd = () => {
-		setContentColor(COLOR.GRAY_9);
-		setButtonColor(COLOR.WHITE);
-	};
+const size = 40;
+const PressButton = ({ iconName, onPress, engText, text }) => {
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+		usePressButtonState();
 	return (
 		<Pressable
 			onPress={onPress}
@@ -24,7 +16,13 @@ const PressButton = ({ iconName, onPress, engText,text }) => {
 			onTouchEnd={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
-			<SVGIcon name={iconName} color={contentColor} style={styles.icon} />
+			<SVGIcon
+				name={iconName}
+				width={size}
+				height={size}
+				color={contentColor}
+				style={styles.icon}
+			/>
 			<View style={{}}>
 				<Text
 					style={[
