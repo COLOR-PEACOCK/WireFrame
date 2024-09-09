@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
@@ -26,11 +26,11 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 	useEffect(() => {
 		if (selectedColor) {
-			const updateColorInfo = async () => {
+			const updateColorInfo = () => {
 				const colorKey = selectedColor.replace('#', '');
 				const colorData = getColorInfo(colorKey) || {};
-				const engName = await getEngColorNameLocal(selectedColor);
-				const korName = await getKorColorName(selectedColor);
+				const engName = getEngColorNameLocal(selectedColor);
+				const korName = getKorColorName(selectedColor);
 
 				setColorInfo({
 					engName,
@@ -99,7 +99,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 						);
 					})}
 				</View>
-				<TouchableOpacity
+				<Pressable
 					style={[
 						styles.iconContainer,
 						{
@@ -109,19 +109,20 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 						},
 					]}
 					activeOpacity={1}
+					onPressIn={() => setIsButtonPressed(true)}
 					onPress={() => {
-						setIsButtonPressed(!isButtonPressed);
-						onColorSelect(
-							colors.map(c => tinycolor(c).toHexString()),
-						);
-						setTimeout(() => setIsButtonPressed(false), 100);
-					}}>
+						onColorSelect(colors.map(c => tinycolor(c).toHexString()),);
+					}}
+					onPressOut={() => setIsButtonPressed(false)}
+					
+					
+					>
 					<HangerIcon
 						name="hanger"
 						size={20}
 						color={isButtonPressed ? COLOR.WHITE : COLOR.PRIMARY}
 					/>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
 
 			<ColorInfoModal
