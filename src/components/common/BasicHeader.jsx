@@ -4,32 +4,34 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
+import SVGIcon from './SVGIcon';
 
 /**
- * @param title 한글 title, text color: COLOR.PRIMARY
- * @param engTitle 영어 title, text color: COLOR.GRAY6
- * @param titleIcon title icon, color: COLOR.PRIMARY
- * @param leftIcon 왼쪽 버튼 아이콘, default: arrowleft
+ * @param {string} leftIcon 왼쪽 버튼 아이콘, default: arrowleft
  * @param onPressLeft 왼쪽 버튼 이벤트, default: goback()
+ * @param titleIcon 유효한 값: 'camera', 'image', 'AI', 'report', 'palette'
+ * @param title default color: COLOR.PRIMARY
+ * @param subTitle default color: COLOR.GRAY6
  * @param rightIcon 오른쪽 버튼, default: null
  * @param onPressRight 오른쪽 버튼 이벤트, default: null
- * @see 적용아이콘 https://oblador.github.io/react-native-vector-icons/#AntDesign
+ * @see 왼쪽, 오른쪽 아이콘 https://oblador.github.io/react-native-vector-icons/#AntDesign
  * @example 모든 파라미터는 생략 가능합니다.
  * ```
 <BasicHeader
-    titleIcon={'picture'}
+    titleIcon={'iamge'}
     title={'이미지'} engTitle={'images'} rightIcon={'info'}
     infoText={infotext}
 />
 const infoText = 'infomation text'
  * ```
+ * infoText가 다른 컴포넌트에 가려지는 경우 텍스트를 가린 컴포넌트의 zIndex를 -1로 지정 해보세요.
  */
 const BasicHeader = ({
 	leftIcon = 'arrowleft',
 	onPressLeft = null,
 	titleIcon,
 	title,
-	engTitle,
+	subTitle,
 	rightIcon = null,
 	onPressRight,
 	infoText,
@@ -61,16 +63,29 @@ const BasicHeader = ({
 
 	return (
 		<View style={styles.headerContainer}>
+			{/* left button */}
 			<TouchableOpacity
-				style={styles.headerButton}
+				style={[
+					styles.headerButton,
+					{
+						borderColor: COLOR.GRAY_3,
+						borderWidth: 2,
+						borderRadius: 8,
+					},
+				]}
 				onPress={onPressLeft ? onPressLeft : () => navigate.goBack()}>
 				<Icon name={leftIcon} color={COLOR.PRIMARY} size={30}></Icon>
 			</TouchableOpacity>
-
+			{/* title */}
 			<View style={styles.titleContainer}>
-				<Icon name={titleIcon} color={COLOR.PRIMARY} size={30}></Icon>
+				<SVGIcon
+					name={titleIcon}
+					width={25}
+					height={25}
+					color={COLOR.PRIMARY}
+				/>
 				<Text style={styles.title}>{title}</Text>
-				<Text style={styles.engTitle}>{engTitle}</Text>
+				<Text style={styles.engTitle}>{subTitle}</Text>
 			</View>
 
 			{/* right button */}
@@ -96,7 +111,7 @@ const BasicHeader = ({
 				</TouchableOpacity>
 			)}
 			{/* info Modal */}
-			{isInfoVisible && (
+			{isInfoVisible && infoText && (
 				<View
 					style={[
 						styles.infoModalWrap,

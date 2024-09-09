@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -16,11 +16,13 @@ import CameraRender from '@components/camerapage/CameraRender';
 import ColorInfo from '@components/camerapage/ColorInfo';
 import CrossHair from '@components/camerapage/CrossHair';
 import ExtColorModal from '@components/camerapage/ExtColorModal';
+import { useFocusEffect } from '@react-navigation/native';
 
 const extbutton = require('@icons/circle__lock__btn.png');
 
 const CameraScreen = ({ navigation }) => {
 	const { hasPermission, requestPermission } = useCameraPermission();
+	const [isActive, setIsActive] = useState(false);
 	const [cameraType, setCameraType] = useState('back');
 	const [parentlayout, setParentlayout] = useState({
 		height: 0,
@@ -28,14 +30,13 @@ const CameraScreen = ({ navigation }) => {
 	});
 	const [extColor, setExtColor] = useState({
 		bgColor: `rgb(0,0,0)`,
-		hexColor: '#000000',
+		hexColor: '000000',
 		engName: '',
 		korName: '',
 	});
 	const [selectedColor, setSelectedColor] = useState();
 	const [isOpen, setIsOpen] = useState(0);
 	const [zoomLevel, setZoomLevel] = useState(1);
-
 	const parentRef = useRef();
 
 	// 카메라 권한
@@ -57,14 +58,29 @@ const CameraScreen = ({ navigation }) => {
 		})();
 	}, [hasPermission, requestPermission]);
 
+	// 카메라 활성화 관리
+	useFocusEffect(
+		useCallback(() => {
+			setIsActive(true);
+			return () => {
+				setIsActive(false);
+			};
+		}, []),
+	);
+
 	// 크기 정보
 	const onLayout = event => {
 		const { width, height } = event.nativeEvent.layout;
 		setParentlayout({ height: height, width: width });
 	};
 
+	// 줌 버튼 이벤트
+	const handlePressZoom = () => {
+		zoomLevel === 1 ? setZoomLevel(2) : setZoomLevel(1);
+	};
+
 	// 추출 버튼 이벤트
-	const extButtonEvent = () => {
+	const handlePressExt = () => {
 		setSelectedColor({
 			rgb: extColor.bgColor,
 			hex: extColor.hexColor,
@@ -73,14 +89,16 @@ const CameraScreen = ({ navigation }) => {
 		});
 		setIsOpen(1);
 	};
-	// 줌 버튼 이벤트
-	const zoomButtonEvent = () => {
-		zoomLevel === 1 ? setZoomLevel(2) : setZoomLevel(1);
+	//다음 버튼 이벤트
+	const handlePressNext = () => {
+		selectedColor &&
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: '#' + selectedColor.hex },
+			});
 	};
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<BasicHeader title="카메라" />
+			<BasicHeader title="카메라" titleIcon="camera" subTitle="camera" />
 
 			{/* 카메라 영역 */}
 			<View
@@ -92,6 +110,7 @@ const CameraScreen = ({ navigation }) => {
 					extColor={setExtColor}
 					cameraType={cameraType}
 					zoomLevel={zoomLevel}
+					isActive={isActive}
 				/>
 
 				{/* 추출 색상 정보 모달 */}
@@ -128,7 +147,7 @@ const CameraScreen = ({ navigation }) => {
 					{/* 줌 버튼 */}
 					<TouchableOpacity
 						style={styles.zoombutton}
-						onPress={zoomButtonEvent}>
+						onPress={handlePressZoom}>
 						<Text style={{ fontSize: 16, color: COLOR.WHITE }}>
 							{zoomLevel === 1 ? '2X' : '1X'}
 						</Text>
@@ -136,13 +155,18 @@ const CameraScreen = ({ navigation }) => {
 
 					{/* 색 추출 버튼 */}
 					<TouchableOpacity
-						onPress={extButtonEvent}
+						onPress={handlePressExt}
 						style={styles.extcolorbutton}>
 						<Image source={extbutton} style={styles.innercircle} />
 					</TouchableOpacity>
 
 					{/* 추천 화면 이동 버튼 */}
-					<TouchableOpacity style={styles.nextbutton}>
+					<TouchableOpacity
+						onPress={handlePressNext}
+						style={[
+							styles.nextbutton,
+							!selectedColor && { opacity: 0.4 },
+						]}>
 						<Icon
 							name={'arrow-right'}
 							color={COLOR.WHITE}
