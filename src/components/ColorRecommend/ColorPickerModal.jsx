@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import GoBackIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ColorPickerModal = ({
 	isVisible,
 	tempColor,
 	setTempColor,
-	onSave,
 	onCancel,
+	setIsPickerVisible,
 }) => {
+	const [currentColor, setCurrentColor] = useState(tempColor);
 	const textColor = tinycolor(tempColor).isLight()
 		? COLOR.GRAY_9
 		: COLOR.GRAY_2;
@@ -24,9 +25,9 @@ const ColorPickerModal = ({
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
 					<ColorPicker
-						value={tempColor}
+						value={currentColor}
 						onComplete={selectedColor =>
-							setTempColor(selectedColor.hex)
+							setCurrentColor(selectedColor.hex)
 						}
 						style={styles.colorPicker}>
 						<View style={styles.panelContainer}>
@@ -51,14 +52,14 @@ const ColorPickerModal = ({
 							<View
 								style={[
 									styles.colorPreview,
-									{ backgroundColor: tempColor },
+									{ backgroundColor: currentColor },
 								]}>
 								<Text
 									style={[
 										styles.colorText,
 										{ color: textColor },
 									]}>
-									{tempColor.toUpperCase()}
+									{currentColor.toUpperCase()}
 								</Text>
 							</View>
 						</View>
@@ -68,11 +69,18 @@ const ColorPickerModal = ({
 						<TouchableOpacity
 							style={[styles.button, styles.cancelButton]}
 							onPress={onCancel}>
+							<GoBackIcon
+								name="arrow-u-left-top"
+								style={styles.buttonText}
+							/>
 							<Text style={styles.buttonText}>이전으로</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={[styles.button, styles.saveButton]}
-							onPress={onSave}>
+							onPress={() => {
+								setIsPickerVisible(false);
+								setTempColor(currentColor);
+							}}>
 							<Text style={styles.buttonText}>저장하기</Text>
 						</TouchableOpacity>
 					</View>
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 	},
 	modalContent: {
 		width: 342,
@@ -97,6 +105,8 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: 'center',
 		overflow: 'hidden',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 1,
 	},
 	colorPicker: {
 		width: '100%',
@@ -105,7 +115,7 @@ const styles = StyleSheet.create({
 	panelContainer: {
 		width: '100%',
 		height: 347.69,
-		marginBottom: 9,
+		marginBottom: 6,
 	},
 	panel: {
 		flex: 1,
@@ -114,12 +124,13 @@ const styles = StyleSheet.create({
 	hueSliderContainer: {
 		alignItems: 'center',
 		width: '100%',
+		borderRadius: 30,
 	},
 	hueSlider: {
 		width: 306,
-		// height: 18,
+		height: 30,
 		marginBottom: 9,
-		borderRadius: 8,
+		borderRadius: 30,
 		opacity: 1,
 		alignSelf: 'center',
 	},
@@ -127,6 +138,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		width: 306,
+		marginBottom: 3,
 	},
 	korTitle: {
 		fontSize: 12,
@@ -146,7 +158,7 @@ const styles = StyleSheet.create({
 	},
 	colorPreview: {
 		height: 30,
-		borderRadius: 8,
+		borderRadius: 30,
 		width: 306,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -154,7 +166,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	colorText: {
-		color: '#333',
 		textAlign: 'center',
 		lineHeight: 18,
 		fontWeight: 'bold',
@@ -174,6 +185,7 @@ const styles = StyleSheet.create({
 	},
 	cancelButton: {
 		backgroundColor: COLOR.GRAY_6,
+		flexDirection: 'row',
 	},
 	saveButton: {
 		backgroundColor: COLOR.PRIMARY,
@@ -182,6 +194,11 @@ const styles = StyleSheet.create({
 		color: COLOR.WHITE,
 		fontWeight: 'bold',
 		fontSize: 14,
+	},
+	icon: {
+		width: 16,
+		height: 16,
+		marginRight: 8,
 	},
 });
 

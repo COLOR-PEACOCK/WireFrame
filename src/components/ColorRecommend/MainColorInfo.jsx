@@ -6,8 +6,6 @@ const extractNumbers = str => {
 };
 
 const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
-	// console.log(colorInfo);
-
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
 	const hexNumbers = colorInfo.hexVal.slice(1, 8);
 	const hslNumbers = extractNumbers(colorInfo.hslVal);
@@ -36,8 +34,8 @@ const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
 					<Text style={[styles.label, { color: labelColor }]}>
 						HEX
 					</Text>
-					<Text style={[styles.colorDetails, { color: labelColor }]}>
-						{hexNumbers}
+					<Text style={[styles.colorDetails, { color: textColor }]}>
+						{hexNumbers.toUpperCase()}
 					</Text>
 				</View>
 				<View style={styles.valueRow}>
