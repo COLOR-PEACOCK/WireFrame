@@ -20,7 +20,7 @@ import {
 	interpolate,
 	Extrapolation,
 } from 'react-native-reanimated';
-import Carousel, { Pagination } from 'react-native-reanimated-carousel';
+// import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
 const logoIcon = require('@icons/logo.png');
 
@@ -110,6 +110,7 @@ const Home = ({ navigation }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.container}>
+
 				<View style={styles.header}>
 					<View
 						style={{
@@ -138,6 +139,7 @@ const Home = ({ navigation }) => {
 						<SearchSVG />
 					</TouchableOpacity>
 				</View>
+                
 				<View style={styles.buttonContainer}>
 					<PressButton
 						iconName={'camera'}
@@ -160,66 +162,20 @@ const Home = ({ navigation }) => {
 				</View>
 
 				<View style={styles.split}></View>
-				
-				<View style={styles.carouselContainer}>
-				<View
-					style={{
-						flexDirection: 'row',
-						marginBottom: 3,
-					}}>
-					<Text style={styles.sectionKor}>추천 색상</Text>
-					<Text style={styles.sectionEng}>Trend Color Palette</Text>
-				</View>
-					<Carousel
-						ref={caroucelRef}
-						width={width}
-						mode={'horizontal-stack'}
-						modeConfig={{
-							snapDirection: 'left',
-							stackInterval: pageWidth + 8,
-						}}
-						data={dummy_trendColor}
-						onSnapToItem={handleGetCurrentIndex}
-						onProgressChange={progress}
-						renderItem={renderItem}
-					/>
-					<Pagination.Custom
-						progress={progress}
-						data={dummy_trendColor}
-						animValue={10}
-						dotStyle={{
-							backgroundColor: COLOR.PRIMARY + 50,
-							borderRadius: 50,
-						}}
-						activeDotStyle={{
-							width: 20,
-							backgroundColor: COLOR.PRIMARY,
-							overflow: 'hidden',
-							borderRadius: 50,
-						}}
-						containerStyle={{ gap: 5, marginBottom: 10 }}
-						onPress={onPressPagination}
-						customReanimatedStyle={(progress, index, length) => {
-							let val = Math.abs(progress - index);
-							if (index === 0 && progress > length - 1) {
-								val = Math.abs(progress - length);
-							}
 
-							return {
-								transform: [
-									{
-										translateY: interpolate(
-											val,
-											[0, 1],
-											[0, 0],
-											Extrapolation.CLAMP,
-										),
-									},
-								],
-							};
-						}}
-					/>
+				<View style={styles.carouselContainer}>
+					<View
+						style={{
+							flexDirection: 'row',
+							marginBottom: 3,
+						}}>
+						<Text style={styles.sectionKor}>추천 색상</Text>
+						<Text style={styles.sectionEng}>
+							Trend Color Palette
+						</Text>
+					</View>
 				</View>
+                
 			</View>
 		</SafeAreaView>
 	);
@@ -242,8 +198,9 @@ const styles = StyleSheet.create({
 		elevation: 5,
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 20,
 		fontFamily: 'CookieRun-Bold',
+        letterSpacing: -1,
 		color: COLOR.PRIMARY,
 	},
 	searchIconWrapper: {
