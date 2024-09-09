@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const extractNumbers = str => {
-	return str.match(/\d+%?/g).join(', ');
+	return str.match(/\d+%?/g)?.join(', ');
 };
 
 const MainColorInfo = ({ colorInfo, labelColor, textColor }) => {
