@@ -111,7 +111,7 @@ const BasicHeader = ({
 				</TouchableOpacity>
 			)}
 			{/* info Modal */}
-			{isInfoVisible && (
+			{isInfoVisible && infoText && (
 				<View
 					style={[
 						styles.infoModalWrap,

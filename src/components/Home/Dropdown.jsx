@@ -8,7 +8,7 @@ import {
 	ScrollView,
 	Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
 import { ListValue } from '@components/Home';
 import useModal from '@hooks/useModal';
@@ -74,7 +74,7 @@ const Dropdown = ({
 				activeOpacity={1}
 				ref={touchableOpacityRef}
 				disabled={disabled}
-				onPress={handleOpenModal}
+				onPress={isModalVisible ? handleCloseModal : handleOpenModal}
 				style={[
 					styles.fieldContainer,
 					{
@@ -95,9 +95,15 @@ const Dropdown = ({
 							disabled: true,
 							label: placeholder,
 						})}
-					onPressLabel={handleOpenModal}
+					onPressLabel={
+						isModalVisible ? handleCloseModal : handleOpenModal
+					}
 				/>
-				<Icon name={'expand-more'} size={24} />
+				<Icon
+					name={isModalVisible ? 'caretup' : 'caretdown'}
+					size={10}
+					style={{ marginHorizontal: 18 }}
+				/>
 			</TouchableOpacity>
 			{isModalVisible && (
 				<Pressable onPress={handleCloseModal}>
