@@ -189,12 +189,13 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		width: '100%',
+        minWidth: 412,
+		height: 84,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: '5%',
-		height: 84,
+		paddingHorizontal: ,
 		elevation: 5,
 	},
 	title: {
