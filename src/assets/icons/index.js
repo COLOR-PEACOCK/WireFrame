@@ -7,10 +7,5 @@ import ArrowGoBackSVG from '@icons/arrow_go_back.svg'
 import FormkitSubmitSVG from '@icons/formkit_submit.svg'
 import SearchSVG from '@icons/search.svg'
 
-import Img from '@icons/img.png'
-import Img2 from '@icons/img2.png'
-import Img3 from '@icons/img3.png'
-
 export { CameraSVG, ImageSVG, AISVG, PaletteSVG, ReportSVG,
-    Img, Img2, Img3,
     ArrowGoBackSVG, FormkitSubmitSVG, SearchSVG }
