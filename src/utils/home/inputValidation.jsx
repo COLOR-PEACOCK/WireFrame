@@ -1,4 +1,4 @@
-const koreanPattern = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+const koreanPattern = /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9]*$/;
 const hexCodePattern = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/;
 
 export const isValidKorean = (value) => {
