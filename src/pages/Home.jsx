@@ -5,13 +5,12 @@ import {
 	TouchableOpacity,
 	Pressable,
 	SafeAreaView,
-	FlatList,
 	useWindowDimensions,
 	Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
+import tinycolor from 'tinycolor2';
 import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
@@ -27,34 +26,31 @@ const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
-
-	const offset = 0;
-	const gap = 18;
-	const pageWidth = width - (gap + offset);
+	const pageWidth = width * 0.7;
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const ref = useRef(null);
+	const caroucelRef = useRef(null);
 	const progress = useSharedValue(0);
 
 	const handleGetCurrentIndex = useCallback(() => {
 		'worklet';
-		if (ref.current) {
-			const index = ref.current.getCurrentIndex();
+		if (caroucelRef.current) {
+			const index = caroucelRef.current.getCurrentIndex();
 			runOnJS(setCurrentIndex)(index);
 		}
 	}, []);
 
 	const onPressNext = useCallback(() => {
 		'worklet';
-		if (ref.current?.next) {
-			ref.current.next();
+		if (caroucelRef.current?.next) {
+			caroucelRef.current.next();
 		}
 	}, []);
 
 	const onPressPagination = useCallback(
 		index => {
 			'worklet';
-			if (ref.current?.scrollTo) {
-				ref.current.scrollTo({
+			if (caroucelRef.current?.scrollTo) {
+				caroucelRef.current.scrollTo({
 					count: index - progress.value,
 					animated: true,
 				});
@@ -63,18 +59,16 @@ const Home = ({ navigation }) => {
 		[progress],
 	);
 
-	const [inputColorValue, setInputColorValue] = useState();
-	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 
 	const handlePressLogo = () => {};
-	const handlePressLabel = label => setSelectedLabel(label);
-	const handleSearch = () => {
-		if (inputColorValue){
+	const handleSearch = hexValue => {
+		if (hexValue) {
 			handleCloseModal();
 			navigation.navigate('ColorRecommendScreen', {
-				mainColor: { hexVal: inputColorValue },
-			});}
+				mainColor: { hexVal: hexValue },
+			});
+		}
 	};
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
@@ -86,17 +80,25 @@ const Home = ({ navigation }) => {
 	const renderItem = ({ item }) => {
 		return (
 			<Pressable
+				onPress={() => {
+					navigation.navigate('ColorRecommendScreen', {
+						mainColor: { hexVal: item.color },
+					});
+				}}
 				style={{
-					width: 280,
+					width: pageWidth,
 					height: 214,
-					marginHorizontal: 'auto',
 					backgroundColor: item.color,
 					borderRadius: 24,
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}>
 				<OutlinedText
-					strokeColor={COLOR.WHITE}
+					strokeColor={
+						tinycolor(item.color).isLight()
+							? COLOR.GRAY_10
+							: COLOR.GRAY_2
+					}
 					textColor={item.color}
 					fontSize={50}
 					text={item.colorName}
@@ -126,13 +128,8 @@ const Home = ({ navigation }) => {
 						<Text style={styles.title}>COLOR PEACOCK</Text>
 						<SearchModal
 							visible={isModalVisible}
-							selectedLabel={selectedLabel}
-							list={dummy_list}
 							handleCloseModal={handleCloseModal}
-							onPressLabel={handlePressLabel}
 							onPressSearch={handleSearch}
-							inputColorValue={inputColorValue}
-							setInputColorValue={setInputColorValue}
 						/>
 					</View>
 					<TouchableOpacity
@@ -161,14 +158,25 @@ const Home = ({ navigation }) => {
 						text={'AI로 색상 추천 받기'}
 					/>
 				</View>
+
+				<View style={styles.split}></View>
+				
 				<View style={styles.carouselContainer}>
+				<View
+					style={{
+						flexDirection: 'row',
+						marginBottom: 3,
+					}}>
+					<Text style={styles.sectionKor}>추천 색상</Text>
+					<Text style={styles.sectionEng}>Trend Color Palette</Text>
+				</View>
 					<Carousel
-						ref={ref}
+						ref={caroucelRef}
 						width={width}
 						mode={'horizontal-stack'}
 						modeConfig={{
 							snapDirection: 'left',
-							stackInterval: 18,
+							stackInterval: pageWidth + 8,
 						}}
 						data={dummy_trendColor}
 						onSnapToItem={handleGetCurrentIndex}
@@ -238,14 +246,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'CookieRun-Bold',
 		color: COLOR.PRIMARY,
 	},
-	searchContainer: {
-		width: 280,
-		flexDirection: 'row',
-		alignItems: 'center',
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: COLOR.PRIMARY,
-	},
 	searchIconWrapper: {
 		width: 48,
 		height: 48,
@@ -254,50 +254,66 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		borderColor: COLOR.GRAY_3,
 		borderWidth: 1,
-		borderRadius: 8
+		borderRadius: 8,
+	},
+	split: {
+		width: '100%',
+		height: 4,
+		backgroundColor: COLOR.GRAY_1,
 	},
 	buttonContainer: {
-		marginTop: 18,
+		paddingVertical: 38,
 		width: '100%',
 		gap: 18,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	sectionKor: {
+		color: COLOR.GRAY_10,
+		fontSize: 16,
+		fontFamily: 'Pretendard-Midium',
+	},
+	sectionEng: {
+		color: COLOR.GRAY_6,
+		fontSize: 12,
+		fontFamily: 'Pretendard-Midium',
+		marginHorizontal: 6,
+		alignSelf: 'flex-end',
+	},
 	carouselContainer: {
-		height: 264,
-		marginTop: 20,
+		height: 280,
+		marginTop: 38,
+		marginLeft: 38,
 		borderRadius: 5,
 		justifyContent: 'center',
-		alignItems: 'center',
+		gap: 8,
 	},
 });
 
-const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
-
 const dummy_trendColor = [
 	{
-		color: '#CA848A',
-		colorName: 'Peach Fuzz',
+		color: '#EAACC6',
+		colorName: 'Pink Macaroon',
 	},
 	{
-		color: '#FFBE98',
-		colorName: 'Brandied Apricot',
+		color: '#FFDAB9',
+		colorName: 'Peach Puff',
 	},
 	{
-		color: '#964F4C',
-		colorName: 'Marsala',
+		color: '#FFAA4A',
+		colorName: 'Five Star',
 	},
 	{
-		color: '#A78C7B',
-		colorName: 'Almondine',
+		color: '#A2CFFE',
+		colorName: 'Baby Blue',
 	},
 	{
-		color: '#D8C8BD',
-		colorName: 'Almond peach',
+		color: '#EDDCC8',
+		colorName: 'Almond',
 	},
 	{
-		color: '#85677B',
-		colorName: 'Grapeade',
+		color: '#816575',
+		colorName: 'Opera',
 	},
 ];
 
