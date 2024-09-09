@@ -12,8 +12,8 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 	return (
 		<Pressable
 			onPress={onPress}
-			onTouchStart={handleTouchStart}
-			onTouchEnd={handleTouchEnd}
+			onPressIn={handleTouchStart}
+			onPressOut={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
 			<SVGIcon
