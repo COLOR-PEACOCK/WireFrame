@@ -183,41 +183,22 @@ const Home = ({ navigation }) => {
 						onProgressChange={progress}
 						renderItem={renderItem}
 					/>
-					<Pagination.Custom
+					<Pagination.Basic
 						progress={progress}
 						data={dummy_trendColor}
 						animValue={10}
 						dotStyle={{
+							width: 10,
 							backgroundColor: COLOR.PRIMARY + 50,
 							borderRadius: 50,
 						}}
 						activeDotStyle={{
-							width: 20,
 							backgroundColor: COLOR.PRIMARY,
 							overflow: 'hidden',
 							borderRadius: 50,
 						}}
 						containerStyle={{ gap: 5, marginBottom: 10 }}
 						onPress={onPressPagination}
-						customReanimatedStyle={(progress, index, length) => {
-							let val = Math.abs(progress - index);
-							if (index === 0 && progress > length - 1) {
-								val = Math.abs(progress - length);
-							}
-
-							return {
-								transform: [
-									{
-										translateY: interpolate(
-											val,
-											[0, 1],
-											[0, 0],
-											Extrapolation.CLAMP,
-										),
-									},
-								],
-							};
-						}}
 					/>
 				</View>
 			</View>
