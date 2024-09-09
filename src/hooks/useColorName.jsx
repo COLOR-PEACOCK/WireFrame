@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import nearestColor from 'nearest-color';
-import colorNameList from '../assets/korColorName.json';
-import engColorNameList from '../assets/Best_of_names_subset.json';
+import colorNameList from '../assets/color_name.json';
 import { getLevenshteinDistance } from '@utils/home';
 
 /**
@@ -22,7 +21,7 @@ const useColorName = () => {
 		),
 	);
 	const nearestEng = nearestColor.from(
-		engColorNameList.reduce(
+		colorNameList.reduce(
 			(o, { name, hex }) => Object.assign(o, { [name]: hex }),
 			{},
 		),
@@ -68,17 +67,17 @@ const useColorName = () => {
 		return response.name;
 	};
 
-	const getSortedSearchColorList = (isKoreanName, list, key, keyword) => {
-		return list
+	const getSortedSearchColorList = (isKoreanName, key, keyword) => {
+		return colorNameList
 			.filter(color => {
 				return isKoreanName
-					? color[key].includes(keyword)
-					: color[key].toUpperCase().includes(keyword.toUpperCase());
+					? color[key].replaceAll(' ', '').includes(keyword)
+					: color[key].replaceAll(' ', '').toUpperCase().includes(keyword.toUpperCase());
 			})
 			.map(color => ({
 				...color,
 				distance: getLevenshteinDistance(
-					isKoreanName ? color[key] : color[key].toUpperCase(),
+					isKoreanName ? color[key].replaceAll(' ', '') : color[key].toUpperCase().replaceAll(' ', ''),
 					isKoreanName ? keyword : keyword.toUpperCase(),
 				),
 			}))
@@ -88,8 +87,8 @@ const useColorName = () => {
 
 	const getSearchColorList = (isKorean, keyword) => {
 		const key = isKorean ? 'korean_name' : 'name';
-		const list = isKorean ? colorNameList : engColorNameList;
-		return getSortedSearchColorList(isKorean, list, key, keyword);
+		const keyword_ = keyword.replaceAll(' ', '')
+		return getSortedSearchColorList(isKorean, key, keyword_);
 	};
 
 	return {
