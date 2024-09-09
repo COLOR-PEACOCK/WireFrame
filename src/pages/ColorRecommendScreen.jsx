@@ -31,7 +31,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
 	const [color, setColor] = useState(mainColor);
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
-	const [tempColor, setTempColor] = useState(mainColor);
+	const [tempColor, setTempColor] = useState(mainColor.hexVal);
 	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
 		useColorName();
 
@@ -49,10 +49,10 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 
 	useEffect(() => {
 		if (tempColor) {
-			const updateColorInfo = async () => {
+			const updateColorInfo = () => {
 				const colorData = getColorInfo(tempColor.replace('#', ''));
-				const engName = await getEngColorNameLocal(tempColor);
-				const korName = await getKorColorName(tempColor);
+				const engName = getEngColorNameLocal(tempColor);
+				const korName = getKorColorName(tempColor);
 
 				setColorInfo({
 					engName: engName,
@@ -129,9 +129,9 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader
-				titleIcon={'picture'}
+				titleIcon={'palette'}
 				title={'색상 추천'}
-				engTitle={'color palette'}
+				subTitle={'color palette'}
 				rightIcon={'info'}
 				infoText={infoText}
 			/>
@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 2,
 		borderColor: COLOR.GRAY_3,
+		zIndex: -1
 	},
 });
 
