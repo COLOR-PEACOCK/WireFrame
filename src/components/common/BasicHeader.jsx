@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
 import SVGIcon from './SVGIcon';
+
+// images
+import informationIcon from '@icons/infor.png';
 
 /**
  * @param {string} leftIcon 왼쪽 버튼 아이콘, default: arrowleft
@@ -80,8 +83,8 @@ const BasicHeader = ({
 			<View style={styles.titleContainer}>
 				<SVGIcon
 					name={titleIcon}
-					width={25}
-					height={25}
+					width={38}
+					height={38}
 					color={COLOR.PRIMARY}
 				/>
 				<Text style={styles.title}>{title}</Text>
@@ -94,7 +97,7 @@ const BasicHeader = ({
 					ref={infoButtonRef}
 					style={styles.infoButton}
 					onPress={() => setIsInfoVisible(!isInfoVisible)}>
-					<Icon name={rightIcon} color={COLOR.GRAY_5} size={20} />
+                        <Image source={informationIcon} style={{ width: 24, height: 24}} />
 				</TouchableOpacity>
 			) : (
 				<TouchableOpacity
@@ -165,8 +168,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'CookieRun-Regular',
 		fontSize: 16,
 		color: COLOR.GRAY_6,
-		textAlign: 'center',
-		paddingTop: 8,
+        paddingLeft: 6,
 	},
 	headerButton: {
 		width: 48,
@@ -176,13 +178,8 @@ const styles = StyleSheet.create({
 	},
 	infoButton: {
 		marginHorizontal: 12,
-		width: 24,
-		height: 24,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderColor: COLOR.GRAY_3,
-		borderWidth: 2,
-		borderRadius: 4,
 	},
 	infoModalWrap: {
 		position: 'absolute',
