@@ -70,7 +70,7 @@ const AiResponseScreen = ({ route }) => {
 
 	useEffect(() => {
 		const runAIModel = async () => {
-			const prompt = `너에게 제공된 이미지에서 ${itemInImage}에 대한 색상과 분위기에 대한 설명과 해당 컬러 헥스 코드를 추출해주고, 그리고 그 아이템과 어울리는 ${itemToRecommend} 색상을 recommended_colors에 5종류를 한국말로 추천해줘. 각 색상의 효과를 포함하여 JSON 형식으로 응답해줘. hexcode_list에는 언급된 hexcode들을 차례로 정리해줘. description은 공백 포함 100자 이내로 작성해줘. JSON 응답의 형식은 아래와 같아야 해:
+			const prompt = `너에게 제공된 이미지에서 ${itemInImage}에 대한 색상과 분위기에 대한 설명과 해당 컬러 헥스 코드를 추출해주고, 그리고 그 아이템과 어울리는 ${itemToRecommend} 색상을 recommended_colors에 5종류를 한국말로 추천해줘. 각 색상의 효과를 포함하여 JSON 형식으로 응답해줘. hexcode_list에는 언급된 hexcode들을 차례로 정리해줘. recommended_colors.description은 한글로 공백 포함 80자가 넘지않게 작성해줘. JSON 응답의 형식은 아래와 같아야 해:
 
 	{
 	  "image_explain": "string",
@@ -296,34 +296,38 @@ const AiResponseScreen = ({ route }) => {
 	// 	}
 	// }, []);
 
-	// const handleColorPress = async color => {
-	// 	const colorData = getColorInfo(color.replace('#', ''));
-	// 	const engName = await getEngColorNameLocal(color);
-	// 	const korName = await getKorColorName(color);
+	const handleColorPress = async color => {
+		const colorData = getColorInfo(color.replace('#', ''));
+		const engName = await getEngColorNameLocal(color);
+		const korName = await getKorColorName(color);
 
-	// 	setSelectedColor({
-	// 		korName: korName,
-	// 		engName: engName,
-	// 		hexVal: colorData.hexVal,
-	// 		rgbVal: colorData.rgbVal,
-	// 		hslVal: colorData.hslVal,
-	// 		cmykVal: colorData.cmykVal,
-	// 	});
-	// 	setIsModalVisible(true);
-	// };
+		setSelectedColor({
+			korName: korName,
+			engName: engName,
+			hexVal: colorData.hexVal,
+			rgbVal: colorData.rgbVal,
+			hslVal: colorData.hslVal,
+			cmykVal: colorData.cmykVal,
+		});
+		setIsModalVisible(true);
+	};
 
-	// const closeModal = () => {
-	// 	setIsModalVisible(false);
-	// 	setSelectedColor(null);
-	// };
+	const closeModal = () => {
+		setIsModalVisible(false);
+		setSelectedColor(null);
+	};
 
-	// const handleColorChange = () => {
-	// 	setIsButtonPressed(true);
-	// 	console.log(colors);
-	// 	setTimeout(() => {
-	// 		setIsButtonPressed(false);
-	// 	}, 100);
-	// };
+	const handleColorChange = () => {
+		setIsButtonPressed(true);
+		console.log(colors);
+		setTimeout(() => {
+			setIsButtonPressed(false);
+		}, 100);
+	};
+
+	const navigateObjectScreen = () => {
+		navigation.navigate('ObjectScreen', colors);
+	};
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -405,65 +409,36 @@ const AiResponseScreen = ({ route }) => {
 							resizeMode: 'contain',
 						}}
 					/>
-					<View
+					<TouchableOpacity
+						onPressIn={() => setIsButtonPressed(true)}
+						onPressOut={() => setIsButtonPressed(false)}
+						onPress={navigateObjectScreen}
+						activeOpacity={1}
 						style={{
 							position: 'absolute',
 							bottom: 14,
 							right: 12,
 							width: 185,
 							height: 62,
-							borderRadius: 50,
-							backgroundColor: '#ffffff',
+							width: 70,
+							height: 70,
+							borderRadius: 64,
+							backgroundColor: isButtonPressed
+								? COLOR.PRIMARY
+								: '#ffffff',
+							justifyContent: 'center',
+							alignItems: 'center',
 							borderWidth: 2,
 							borderColor: COLOR.GRAY_1,
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							paddingLeft: 24,
 						}}>
-						<View>
-							<Text
-								style={{
-									fontFamily: 'Pretendard-Medium',
-									fontSize: 16,
-									color: COLOR.GRAY_10,
-								}}>
-								색상 미리보기
-							</Text>
-							<Text
-								style={{
-									fontFamily: 'Pretendard-Light',
-									fontSize: 12,
-									color: COLOR.GRAY_8,
-								}}>
-								Color Preview
-							</Text>
-						</View>
-						<TouchableOpacity
-							onPressIn={() => setIsButtonPressed(true)}
-							onPressOut={() => setIsButtonPressed(false)}
-							activeOpacity={1}
-							style={{
-								width: 58,
-								height: 58,
-								borderRadius: 64,
-								backgroundColor: isButtonPressed
-									? COLOR.PRIMARY
-									: '#ffffff',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}>
-							<Icon
-								name="hanger"
-								size={24}
-								color={
-									isButtonPressed
-										? COLOR.GRAY_1
-										: COLOR.PRIMARY
-								}
-							/>
-						</TouchableOpacity>
-					</View>
+						<Icon
+							name="hanger"
+							size={30}
+							color={
+								isButtonPressed ? COLOR.GRAY_1 : COLOR.PRIMARY
+							}
+						/>
+					</TouchableOpacity>
 				</View>
 			</View>
 		</SafeAreaView>
