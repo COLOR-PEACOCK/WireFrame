@@ -1,74 +1,11 @@
-// import React from 'react';
-// import { Text, TouchableOpacity, View } from 'react-native';
-// import tinycolor from 'tinycolor2';
-// import { COLOR } from '@styles/color';
-
-// const RightCircle = ({
-// 	right,
-// 	top,
-// 	diameter,
-// 	number,
-// 	colorCode,
-// 	korColorName,
-// 	engColorName,
-// 	colorShort,
-// 	colorDescription,
-// 	isSelected,
-// 	setIsSelected,
-// }) => {
-// 	const korTextColor = color => {
-// 		return tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
-// 	};
-// 	const engTextColor = color => {
-// 		return tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_2;
-// 	};
-// 	return (
-// 		<TouchableOpacity
-// 			activeOpacity={0.7}
-// 			style={{
-// 				position: 'absolute',
-// 				right: -right,
-// 				top: top,
-// 				width: diameter,
-// 				height: diameter,
-// 				borderRadius: 400,
-// 				backgroundColor: colorCode[number],
-// 				justifyContent: 'center',
-// 				alignItems: 'center',
-// 			}}>
-// 			<Text
-// 				style={{
-// 					fontFamily: 'Pretendard-Bold',
-// 					fontSize: 20,
-// 					color: korTextColor(colorCode[number]),
-// 				}}>
-// 				{korColorName[number]}
-// 			</Text>
-// 			<Text
-// 				style={{
-// 					fontFamily: 'Pretendard-Medium',
-// 					fontSize: 16,
-// 					color: engTextColor(colorCode[number]),
-// 				}}>
-// 				{engColorName[number]}
-// 			</Text>
-// 			<Text
-// 				style={{
-// 					fontFamily: 'Pretendard-Regular',
-// 					fontSize: 16,
-// 					color: korTextColor(colorCode[number]),
-// 					padding: 6,
-// 				}}>
-// 				{colorShort[number]}
-// 			</Text>
-// 		</TouchableOpacity>
-// 	);
-// };
-
-// export default RightCircle;
-
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import {
+	Text,
+	TouchableOpacity,
+	Animated,
+	View,
+	useWindowDimensions,
+} from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
 
@@ -85,176 +22,138 @@ const RightCircle = ({
 	isSelected,
 	setIsSelected,
 }) => {
+	const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+		useWindowDimensions();
+
+	const animatedSize = useRef(new Animated.Value(1)).current;
+	const animatedFontSize = useRef(new Animated.Value(0)).current;
+
+	useEffect(() => {
+		Animated.parallel([
+			Animated.spring(animatedSize, {
+				toValue:
+					isSelected[number] === 'large'
+						? 1.6
+						: isSelected[number] === 'small'
+						? 0.5
+						: 1,
+				useNativeDriver: false,
+			}),
+			Animated.timing(animatedFontSize, {
+				toValue:
+					isSelected[number] === 'large'
+						? 1
+						: isSelected[number] === 'small'
+						? 0
+						: 0.5,
+				duration: 200,
+				useNativeDriver: false,
+			}),
+		]).start();
+	}, [isSelected]);
+
 	const korTextColor = color => {
 		return tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
 	};
 	const engTextColor = color => {
 		return tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_2;
 	};
-	// console.log(isSelected[number]);
 
-	const handleCircle = () => {
-		if (isSelected[number] === 'medium') {
-			return (
-				<TouchableOpacity
-					onPress={() => {
-						setIsSelected(
-							isSelected.map((select, index) => {
-								if (index === number) {
-									return 'large';
-								} else {
-									return 'small';
-								}
-							}),
-						);
-					}}
-					activeOpacity={0.7}
-					style={{
-						position: 'absolute',
-						right: -right,
-						top: top,
-						width: diameter,
-						height: diameter,
-						borderRadius: 400,
-						backgroundColor: colorCode[number],
-						justifyContent: 'center',
-						alignItems: 'center',
-						zIndex: -1,
-					}}>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Bold',
-							fontSize: 20,
-							color: korTextColor(colorCode[number]),
-						}}>
-						{korColorName[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Medium',
-							fontSize: 16,
-							color: engTextColor(colorCode[number]),
-						}}>
-						{engColorName[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Regular',
-							fontSize: 16,
-							color: korTextColor(colorCode[number]),
-							padding: 6,
-						}}>
-						{colorShort[number]}
-					</Text>
-				</TouchableOpacity>
-			);
-		} else if (isSelected[number] === 'small') {
-			return (
-				<TouchableOpacity
-					onPress={() => {
-						setIsSelected(
-							isSelected.map((select, index) => {
-								if (index === number) {
-									return 'large';
-								} else {
-									return 'small';
-								}
-							}),
-						);
-					}}
-					activeOpacity={0.7}
-					style={{
-						position: 'absolute',
-						right: right,
-						top: top + diameter / 4,
-						width: diameter / 2,
-						height: diameter / 2,
-						borderRadius: 400,
-						backgroundColor: colorCode[number],
-						justifyContent: 'center',
-						alignItems: 'center',
-						zIndex: -1,
-					}}>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Bold',
-							fontSize: 14,
-							color: korTextColor(colorCode[number]),
-						}}>
-						{korColorName[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Medium',
-							fontSize: 12,
-							color: engTextColor(colorCode[number]),
-						}}>
-						{engColorName[number]}
-					</Text>
-				</TouchableOpacity>
-			);
-		} else if (isSelected[number] === 'large') {
-			return (
-				<TouchableOpacity
-					onPress={() => {
-						setIsSelected(
-							isSelected.map(() => {
-								return 'medium';
-							}),
-						);
-					}}
-					activeOpacity={0.7}
-					style={{
-						position: 'absolute',
-						right: -right,
-						top: top - 60,
-						width: diameter * 1.6,
-						height: diameter * 1.6,
-						borderRadius: 400,
-						backgroundColor: colorCode[number],
-						justifyContent: 'center',
-						alignItems: 'center',
-						zIndex: -2,
-					}}>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Bold',
-							fontSize: 26,
-							color: korTextColor(colorCode[number]),
-						}}>
-						{korColorName[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Bold',
-							fontSize: 20,
-							color: engTextColor(colorCode[number]),
-						}}>
-						{engColorName[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Bold',
-							fontSize: 20,
-							color: korTextColor(colorCode[number]),
-							padding: 6,
-						}}>
-						{colorCode[number]}
-					</Text>
-					<Text
-						style={{
-							fontFamily: 'Pretendard-Regular',
-							fontSize: 18,
-							color: korTextColor(colorCode[number]),
-							paddingHorizontal: 45,
-						}}>
-						{colorDescription[number]}
-					</Text>
-				</TouchableOpacity>
-			);
-		}
+	const handlePress = () => {
+		setIsSelected(prevSelected => {
+			if (prevSelected[number] === 'large') {
+				// large누르면 전부 medium으로 set
+				return prevSelected.map(() => 'medium');
+			} else if (prevSelected[number] === 'small') {
+				// small누르면 자신은 large로 나머지는 small
+				return prevSelected.map((_, index) =>
+					index === number ? 'large' : 'small',
+				);
+			} else {
+				// medium누르면 자신은 large로 나머지는 small
+				return prevSelected.map((_, index) =>
+					index === number ? 'large' : 'small',
+				);
+			}
+		});
 	};
-	return handleCircle();
+
+	const circleStyle = {
+		position: 'absolute',
+		right: animatedSize.interpolate({
+			inputRange: [0.5, 1, 1.6],
+			outputRange: [
+				right - SCREEN_WIDTH * 0.5,
+				-right - SCREEN_WIDTH * 0.5,
+				-right - SCREEN_WIDTH * 0.5,
+			],
+		}),
+		top: animatedSize.interpolate({
+			inputRange: [0.5, 1, 1.6],
+			outputRange: [top - 24 + diameter / 4, top - 24, top - 60 - 24],
+		}),
+		width: animatedSize.interpolate({
+			inputRange: [0.5, 1, 1.6],
+			outputRange: [diameter / 2, diameter, diameter * 1.6],
+		}),
+		height: animatedSize.interpolate({
+			inputRange: [0.5, 1, 1.6],
+			outputRange: [diameter / 2, diameter, diameter * 1.6],
+		}),
+		borderRadius: 400,
+		backgroundColor: colorCode[number],
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: -1,
+	};
+
+	return (
+		<TouchableOpacity
+			onPress={handlePress}
+			activeOpacity={0.7}
+			style={{
+				zIndex: -1,
+			}}>
+			<Animated.View style={circleStyle}>
+				<Animated.Text
+					style={{
+						fontFamily: 'Pretendard-Bold',
+						fontSize: animatedSize.interpolate({
+							inputRange: [0.5, 1, 1.6],
+							outputRange: [14, 20, 26],
+						}),
+						color: korTextColor(colorCode[number]),
+					}}>
+					{korColorName[number]}
+				</Animated.Text>
+				<Animated.Text
+					style={{
+						fontFamily: 'Pretendard-Medium',
+						fontSize: animatedSize.interpolate({
+							inputRange: [0.5, 1, 1.6],
+							outputRange: [12, 16, 20],
+						}),
+						color: engTextColor(colorCode[number]),
+					}}>
+					{engColorName[number]}
+				</Animated.Text>
+				<Animated.Text
+					style={{
+						fontFamily: 'Pretendard-Regular',
+						fontSize: animatedFontSize.interpolate({
+							inputRange: [0, 0.5, 1],
+							outputRange: [0, 16, 18],
+						}),
+						color: korTextColor(colorCode[number]),
+						paddingHorizontal: 45,
+					}}>
+					{isSelected[number] === 'large'
+						? colorDescription[number]
+						: colorShort[number]}
+				</Animated.Text>
+			</Animated.View>
+		</TouchableOpacity>
+	);
 };
 
 export default RightCircle;
