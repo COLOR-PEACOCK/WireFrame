@@ -20,7 +20,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import tinycolor from 'tinycolor2';
 import LeftCircle from '@components/AiRecommend/LeftCircle';
 import RightCircle from '@components/AiRecommend/RightCircle';
-import background from '@images/AiBackground.png';
+import Background from '@components/AiRecommend/Background';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -45,6 +45,8 @@ const AiResponseScreen = ({ route }) => {
 	const [colorDescriptionList, setColorDescriptionList] = useState([]);
 	const [colorShortList, setColorShortList] = useState([]);
 
+	const [background, setBackground] = useState(true);
+
 	// 원 관련
 	const RADIUS = 205; //원의 지름
 	const DISTANCE = 20; // 첫화면에서 원이 화면 바깥으로 벗어나있는 정도
@@ -52,6 +54,7 @@ const AiResponseScreen = ({ route }) => {
 	const circleUnitVertical =
 		(SCREEN_HEIGHT - 64 - paddingVertical * 2 - RADIUS) / 4; // 64는 헤더바 height
 
+	// 원 상태 변화
 	const [isSelected, setIsSelected] = useState([
 		'medium',
 		'medium',
@@ -190,6 +193,20 @@ const AiResponseScreen = ({ route }) => {
 		runAIModel();
 	}, [itemInImage, itemToRecommend, base64Image]);
 
+	//배경 무늬 색상 컨트롤
+	useEffect(() => {
+		if (itemColor) {
+			const shouldUseWhiteColor = hexColor => {
+				const r = parseInt(hexColor.substr(1, 2), 16);
+				const g = parseInt(hexColor.substr(3, 2), 16);
+				const b = parseInt(hexColor.substr(5, 2), 16);
+				const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+				return setBackground(yiq < 220);
+			};
+			shouldUseWhiteColor(itemColor);
+		}
+	}, [itemColor]);
+
 	// useEffect(() => {
 	// 	const responseJson = {
 	// 		image_explain:
@@ -261,7 +278,8 @@ const AiResponseScreen = ({ route }) => {
 	// 		responseJson.hexcode_list &&
 	// 		Array.isArray(responseJson.recommended_colors)
 	// 	) {
-	// 		setItemColor(responseJson.item_color.hex_code);
+	// 		// setItemColor(responseJson.item_color.hex_code);
+	// 		setItemColor('#ffffff');
 
 	// 		const recommendedKorColorNames =
 	// 			responseJson.recommended_colors.map(
@@ -293,8 +311,21 @@ const AiResponseScreen = ({ route }) => {
 
 	// 		const objectHexCodes = responseJson.recommended_colors.hexcode_list;
 	// 		setColors(objectHexCodes);
+
+	// 		//	배경 무늬 색상 컨트롤
+	// 		function shouldUseWhiteColor(hexColor) {
+	// 			console.log(hexColor);
+	// 			const r = parseInt(hexColor.substr(1, 2), 16);
+	// 			const g = parseInt(hexColor.substr(3, 2), 16);
+	// 			const b = parseInt(hexColor.substr(5, 2), 16);
+	// 			const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+	// 			return setBackground(yiq < 220);
+	// 		}
+	// 		if (itemColor) {
+	// 			shouldUseWhiteColor(itemColor);
+	// 		}
 	// 	}
-	// }, []);
+	// }, [itemColor]);
 
 	const handleColorPress = async color => {
 		const colorData = getColorInfo(color.replace('#', ''));
@@ -325,6 +356,7 @@ const AiResponseScreen = ({ route }) => {
 		}, 100);
 	};
 
+	// 오브젝트 화면으로 네비게이트
 	const navigateObjectScreen = () => {
 		navigation.navigate('ObjectScreen', colors);
 	};
@@ -399,16 +431,7 @@ const AiResponseScreen = ({ route }) => {
 						isSelected={isSelected}
 						setIsSelected={setIsSelected}
 					/>
-					<Image
-						source={background}
-						style={{
-							position: 'absolute',
-							width: SCREEN_WIDTH - 64,
-							height: SCREEN_HEIGHT - 64,
-							zIndex: -8,
-							resizeMode: 'contain',
-						}}
-					/>
+					<Background color={background ? '#ffffff' : COLOR.GRAY_3} />
 					<TouchableOpacity
 						onPressIn={() => setIsButtonPressed(true)}
 						onPressOut={() => setIsButtonPressed(false)}
@@ -429,7 +452,7 @@ const AiResponseScreen = ({ route }) => {
 							justifyContent: 'center',
 							alignItems: 'center',
 							borderWidth: 2,
-							borderColor: COLOR.GRAY_1,
+							borderColor: COLOR.GRAY_3,
 						}}>
 						<Icon
 							name="hanger"
