@@ -4,7 +4,6 @@ import {
 	Pressable,
 	ScrollView,
 	StyleSheet,
-	TouchableOpacity,
 	View,
 } from 'react-native';
 
@@ -82,20 +81,26 @@ const SearchModal = ({
 				animationType="fade"
 				visible={visible}
 				transparent
-				onRequestClose={handleCloseModal}
-			>
-				<Pressable style={styles.modalOverlay} onPress={handleCloseModal} />
+				onRequestClose={handleCloseModal}>
+				<Pressable
+					style={styles.modalOverlay}
+					onPress={handleCloseModal}
+				/>
 				<View style={styles.modalView}>
 					<View style={styles.modalHeader}>
 						<Text style={styles.modalHeaderText}>
-							원하시는 색상을 검색해서 추천하는 색상 조합을 받아보세요!
+							원하시는 색상을 검색해서 추천하는 색상 조합을
+							받아보세요!
 						</Text>
 					</View>
 					<View style={styles.modalBody}>
 						<Dropdown
 							list={dummy_list}
 							onClickDropdown={handlePressLabel}
-							layoutStyle={{ width: '100%', justifyContent: 'center' }}
+							layoutStyle={{
+								width: '100%',
+								justifyContent: 'center',
+							}}
 							selectedLabel={selectedLabel}
 						/>
 						<View>
@@ -109,13 +114,19 @@ const SearchModal = ({
 								<ScrollView
 									style={styles.searchResults}
 									showsVerticalScrollIndicator={false}
-									keyboardShouldPersistTaps="always" 
-								>
+									keyboardShouldPersistTaps="always">
 									{searchNameList.map(item => (
 										<ListValue
 											key={item.hex}
-											label={item.korean_name || item.name}
-											onPressLabel={() => handlePressSearchList(item.korean_name || item.name)} 
+											label={
+												item.korean_name || item.name
+											}
+											onPressLabel={() =>
+												handlePressSearchList(
+													item.korean_name ||
+														item.name,
+												)
+											}
 										/>
 									))}
 								</ScrollView>
@@ -123,20 +134,37 @@ const SearchModal = ({
 						</View>
 					</View>
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={[styles.modalButton, styles.closeButton]}
-							onPress={handleCloseModal}
-						>
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? COLOR.GRAY_7
+										: COLOR.GRAY_6,
+									borderBottomLeftRadius: 8,
+								},
+								styles.closeButton,
+								styles.modalButton,
+							]}
+							onPress={handleCloseModal}>
 							<ArrowGoBackSVG color={COLOR.WHITE} />
-							<Text style={styles.buttonText}> 이전으로</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={[styles.modalButton, styles.searchButton]}
-							onPress={handlePressSearch}
-						>
+							<Text style={styles.buttonText}>이전으로</Text>
+						</Pressable>
+
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+									borderBottomRightRadius: 8,
+								},
+								styles.searchButton,
+								styles.modalButton,
+							]}
+							onPress={handlePressSearch}>
 							<FormkitSubmitSVG color={COLOR.WHITE} />
-							<Text style={styles.buttonText}> 검색하기</Text>
-						</TouchableOpacity>
+							<Text style={styles.buttonText}>검색하기</Text>
+						</Pressable>
 					</View>
 				</View>
 			</Modal>
@@ -165,7 +193,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		width: '100%',
 		height: '100%',
-        backgroundColor: 'rgba(0,0,0, 0.8)',
+		backgroundColor: 'rgba(0,0,0, 0.8)',
 	},
 	modalHeader: {
 		width: '100%',
@@ -202,16 +230,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	closeButton: {
-		backgroundColor: COLOR.GRAY_6,
 		borderBottomLeftRadius: 8,
 	},
 	searchButton: {
-		backgroundColor: COLOR.PRIMARY,
 		borderBottomRightRadius: 8,
 	},
 	buttonText: {
 		fontFamily: 'Pretendard-Bold',
 		color: COLOR.WHITE,
+		marginLeft: 6,
 	},
 });
 
