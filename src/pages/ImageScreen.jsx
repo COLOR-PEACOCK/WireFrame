@@ -329,10 +329,9 @@ const ImageScreen = ({ navigation }) => {
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
 				<BasicHeader
-					titleIcon={'camera'}
+					titleIcon={'image'}
 					title={'이미지'}
 					subTitle={'images'}
-					rightIcon={'info'}
 					infoText={'infomation text'}
 				/>
 			</View>
