@@ -127,6 +127,9 @@ const BasicHeader = ({
 						},
 					]}>
 					<View ref={infoModalRef} style={styles.infoModalSquare}>
+						<View style={styles.triangleBorder}>
+							<View style={styles.triangle} />
+						</View>
 						<Text style={{ fontSize: 12 }}>{infoText}</Text>
 					</View>
 				</View>
@@ -186,11 +189,40 @@ const styles = StyleSheet.create({
 	},
 	infoModalSquare: {
 		maxWidth: 215,
-		paddingHorizontal: 18,
+		paddingHorizontal: 12,
+		paddingVertical: 8,
 		borderRadius: 4,
 		borderWidth: 2,
 		borderColor: COLOR.GRAY_3,
 		backgroundColor: COLOR.WHITE,
+	},
+	triangleBorder: {
+        position: 'absolute',
+        // 전체적인 위치 조정
+        top: -11,
+        right: 9,
+		width: 0,
+		height: 0,
+		borderLeftWidth: 8,
+		borderRightWidth: 8,
+		borderBottomWidth: 10,
+		borderLeftColor: 'transparent',
+		borderRightColor: 'transparent',
+		borderBottomColor: '#E0E0E0', // 테두리 색상
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	triangle: {
+		width: 0,
+		height: 0,
+		borderLeftWidth: 6,
+		borderRightWidth: 6,
+		borderBottomWidth: 8,
+		borderLeftColor: 'transparent',
+		borderRightColor: 'transparent',
+		borderBottomColor: '#fff', // 삼각형 배경색
+		position: 'absolute',
+		top: 4, // 테두리 두께에 따라 세세한 조정
 	},
 });
 
