@@ -1,56 +1,104 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	StyleSheet,
 	View,
 	TouchableOpacity,
 	Pressable,
 	SafeAreaView,
-	FlatList,
 	useWindowDimensions,
-	Modal,
+	Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import { OutlinedText } from '@components/Home/OutlinedText';
-import Indicator from '@components/Home/Indicator';
-import PressButton from '@components/Home/PressButton';
+import tinycolor from 'tinycolor2';
+import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
+import useModal from '@hooks/useModal';
+import {
+	runOnJS,
+	useSharedValue,
+	interpolate,
+	Extrapolation,
+} from 'react-native-reanimated';
+import Carousel, { Pagination } from 'react-native-reanimated-carousel';
+import { SearchSVG } from '@icons';
+const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
-	const offset = 36;
-	const gap = 18;
-	const pageWidth = width - (gap + offset) * 2;
+	const pageWidth = width * 0.7;
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const caroucelRef = useRef(null);
+	const progress = useSharedValue(0);
 
-	const handleScroll = e => {
-		const currentIndex = Math.round(
-			e.nativeEvent.contentOffset.x / (pageWidth + gap),
-		);
-		setCurrentIndex(currentIndex);
+	const handleGetCurrentIndex = useCallback(() => {
+		'worklet';
+		if (caroucelRef.current) {
+			const index = caroucelRef.current.getCurrentIndex();
+			runOnJS(setCurrentIndex)(index);
+		}
+	}, []);
+
+	const onPressNext = useCallback(() => {
+		'worklet';
+		if (caroucelRef.current?.next) {
+			caroucelRef.current.next();
+		}
+	}, []);
+
+	const onPressPagination = useCallback(
+		index => {
+			'worklet';
+			if (caroucelRef.current?.scrollTo) {
+				caroucelRef.current.scrollTo({
+					count: index - progress.value,
+					animated: true,
+				});
+			}
+		},
+		[progress],
+	);
+
+	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
+
+	const handlePressLogo = () => {};
+	const handleSearch = hexValue => {
+		if (hexValue) {
+			handleCloseModal();
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: hexValue },
+			});
+		}
 	};
-
-    const handleSearch = () => setIsModalVisible(true);
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiScreen');
 
+	// splash로 뒤로가기 방지 및 앱종료 모달
+	// useBackHandler();
+
 	const renderItem = ({ item }) => {
 		return (
 			<Pressable
+				onPress={() => {
+					navigation.navigate('ColorRecommendScreen', {
+						mainColor: { hexVal: item.color },
+					});
+				}}
 				style={{
 					width: pageWidth,
 					height: 214,
-					marginHorizontal: gap / 2,
 					backgroundColor: item.color,
 					borderRadius: 24,
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}>
 				<OutlinedText
-					strokeColor={COLOR.WHITE}
+					strokeColor={
+						tinycolor(item.color).isLight()
+							? COLOR.GRAY_10
+							: COLOR.GRAY_2
+					}
 					textColor={item.color}
 					fontSize={50}
 					text={item.colorName}
@@ -69,58 +117,88 @@ const Home = ({ navigation }) => {
 							alignItems: 'center',
 							gap: 8,
 						}}>
-						{/* 로고, 폰트 바꾸기 */}
-						<Icon name={'menu'} size={48} />
+						<Pressable
+							style={{ width: 48, height: 48 }}
+							onPress={handlePressLogo}>
+							<Image
+								style={{ width: '100%', height: '100%' }}
+								source={logoIcon}
+							/>
+						</Pressable>
 						<Text style={styles.title}>COLOR PEACOCK</Text>
+						<SearchModal
+							visible={isModalVisible}
+							handleCloseModal={handleCloseModal}
+							onPressSearch={handleSearch}
+						/>
 					</View>
 					<TouchableOpacity
-						style={styles.searchWrapper}
-						onPress={handleSearch}>
-						<Icon name={'search'} size={48} />
+						style={styles.searchIconWrapper}
+						onPress={handleOpenModal}>
+						<SearchSVG />
 					</TouchableOpacity>
-					<SearchModal
-						visible={isModalVisible}
-						setIsModalVisible={setIsModalVisible}
-					/>
 				</View>
 				<View style={styles.buttonContainer}>
 					<PressButton
 						iconName={'camera'}
 						onPress={handleSelectCamera}
-						text={'SELECT TO CAMERA'}
+						engText={'SELECT FROM CAMERA'}
+						text={'카메라로 색상 추천 받기'}
 					/>
 					<PressButton
-						iconName={'image-search'}
+						iconName={'image'}
 						onPress={handleSelectAlbum}
-						text={'SELECT TO ALBUM'}
+						engText={'SELECT TO ALBUM'}
+						text={'이미지로 색상 추천 받기'}
 					/>
 					<PressButton
-						iconName={'motion-photos-auto'}
+						iconName={'AI'}
 						onPress={handleSelectAI}
-						text={'SELECT TO AI'}
+						engText={'SELECT TO AI'}
+						text={'AI로 색상 추천 받기'}
 					/>
 				</View>
+
+				<View style={styles.split}></View>
+				
 				<View style={styles.carouselContainer}>
-                    {/* carousel 라이브러리 찾아보기 */}
-					<FlatList
-						automaticallyAdjustContentInsets={false}
-						contentContainerStyle={{
-							paddingHorizontal: offset + gap / 2,
+				<View
+					style={{
+						flexDirection: 'row',
+						marginBottom: 3,
+					}}>
+					<Text style={styles.sectionKor}>추천 색상</Text>
+					<Text style={styles.sectionEng}>Trend Color Palette</Text>
+				</View>
+					<Carousel
+						ref={caroucelRef}
+						width={width}
+						mode={'horizontal-stack'}
+						modeConfig={{
+							snapDirection: 'left',
+							stackInterval: pageWidth + 8,
 						}}
 						data={dummy_trendColor}
-						decelerationRate={2}
-						horizontal
-						keyExtractor={item => `page_${item.color}`}
-						onScroll={handleScroll}
-						pagingEnabled
+						onSnapToItem={handleGetCurrentIndex}
+						onProgressChange={progress}
 						renderItem={renderItem}
-						snapToInterval={pageWidth + gap}
-						snapToAlignment="start"
-						showsHorizontalScrollIndicator={false}
 					/>
-					<Indicator
-						length={dummy_trendColor.length}
-						currentIndex={currentIndex}
+					<Pagination.Basic
+						progress={progress}
+						data={dummy_trendColor}
+						animValue={10}
+						dotStyle={{
+							width: 10,
+							backgroundColor: COLOR.PRIMARY + 50,
+							borderRadius: 50,
+						}}
+						activeDotStyle={{
+							backgroundColor: COLOR.PRIMARY,
+							overflow: 'hidden',
+							borderRadius: 50,
+						}}
+						containerStyle={{ gap: 5, marginBottom: 10 }}
+						onPress={onPressPagination}
 					/>
 				</View>
 			</View>
@@ -140,60 +218,83 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: 18,
+		paddingHorizontal: '5%',
 		height: 84,
 		elevation: 5,
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: 'bold',
+		fontFamily: 'CookieRun-Bold',
 		color: COLOR.PRIMARY,
 	},
-	searchWrapper: {
+	searchIconWrapper: {
+		width: 48,
+		height: 48,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 1,
+		borderRadius: 8,
+	},
+	split: {
+		width: '100%',
+		height: 4,
+		backgroundColor: COLOR.GRAY_1,
 	},
 	buttonContainer: {
-		marginTop: 18,
+		paddingVertical: 38,
 		width: '100%',
 		gap: 18,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	sectionKor: {
+		color: COLOR.GRAY_10,
+		fontSize: 16,
+		fontFamily: 'Pretendard-Midium',
+	},
+	sectionEng: {
+		color: COLOR.GRAY_6,
+		fontSize: 12,
+		fontFamily: 'Pretendard-Midium',
+		marginHorizontal: 6,
+		alignSelf: 'flex-end',
+	},
 	carouselContainer: {
-		height: 264,
-		marginTop: 20,
+		height: 280,
+		marginTop: 38,
+		marginLeft: 38,
 		borderRadius: 5,
 		justifyContent: 'center',
-		alignItems: 'center',
+		gap: 8,
 	},
 });
 
 const dummy_trendColor = [
 	{
-		color: '#CA848A',
-		colorName: 'Peach Fuzz',
+		color: '#EAACC6',
+		colorName: 'Pink Macaroon',
 	},
 	{
-		color: '#FFBE98',
-		colorName: 'Brandied Apricot',
+		color: '#FFDAB9',
+		colorName: 'Peach Puff',
 	},
 	{
-		color: '#964F4C',
-		colorName: 'Marsala',
+		color: '#FFAA4A',
+		colorName: 'Five Star',
 	},
 	{
-		color: '#A78C7B',
-		colorName: 'Almondine',
+		color: '#A2CFFE',
+		colorName: 'Baby Blue',
 	},
 	{
-		color: '#D8C8BD',
-		colorName: 'Almond peach',
+		color: '#EDDCC8',
+		colorName: 'Almond',
 	},
 	{
-		color: '#85677B',
-		colorName: 'Grapeade',
+		color: '#816575',
+		colorName: 'Opera',
 	},
 ];
 

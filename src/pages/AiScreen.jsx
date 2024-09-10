@@ -1,75 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	View,
 	StyleSheet,
-	Button,
-	Platform,
-	PermissionsAndroid,
 	Alert,
-	ScrollView,
 	TextInput,
 	Image,
+	TouchableOpacity,
+	KeyboardAvoidingView,
 } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
-
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+import { COLOR } from '@styles/color';
 
 const AiScreen = ({ navigation }) => {
 	const [imageUri, setImageUri] = useState(null);
-	const [responseText, setResponseText] = useState('');
-	const [itemInImage, setItemInImage] = useState(''); // 사진 속 선택할 아이템
-	const [itemToRecommend, setItemToRecommend] = useState(''); // 추천받을 아이템
-
-	const requestStoragePermission = async () => {
-		if (Platform.OS === 'android') {
-			try {
-				const granted = await PermissionsAndroid.request(
-					PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-					{
-						title: 'Storage Permission',
-						message:
-							'App needs access to your storage to select images.',
-						buttonNeutral: 'Ask Me Later',
-						buttonNegative: 'Cancel',
-						buttonPositive: 'OK',
-					},
-				);
-				return granted === PermissionsAndroid.RESULTS.GRANTED;
-			} catch (err) {
-				console.error('Failed to request permission', err);
-				return false;
-			}
-		}
-		return true;
-	};
+	const [itemInImage, setItemInImage] = useState('');
+	const [itemToRecommend, setItemToRecommend] = useState('');
 
 	const selectImage = async () => {
 		try {
 			const response = await launchImageLibrary({ mediaType: 'photo' });
 			if (response.didCancel) {
 				console.log('User cancelled image picker');
+				Alert.alert(
+					'Image selection canceled',
+					'No image was selected.',
+				);
+				navigation.goBack();
 			} else if (response.error) {
 				console.log('ImagePicker Error: ', response.error);
 				Alert.alert('Error', response.error);
 			} else if (response.assets && response.assets[0].uri) {
 				const uri = response.assets[0].uri;
 				setImageUri(uri);
-
-				// Base64 인코딩을 실행하지 않고 파일 경로를 그대로 사용했기 때문에 발생한 문제
-				// 아래 코드로 수정합니다.
-				try {
-					const base64Image = await RNFS.readFile(
-						uri.replace('file://', ''),
-						'base64',
-					); // 'file://'를 제거
-					runAIModel(base64Image); // base64 인코딩된 이미지를 전달
-				} catch (error) {
-					console.error('Failed to convert image to Base64', error);
-				}
 			}
 		} catch (error) {
 			console.log('Error in selectImage:', error);
@@ -80,131 +45,143 @@ const AiScreen = ({ navigation }) => {
 		}
 	};
 
-	const runAIModel = async base64Image => {
-		const prompt = `너에게 제공된 이미지에서 ${itemInImage}와 어울리는 ${itemToRecommend} 색상을 추천하고, 각각의 색의 효과에 대해 설명해줘. 추천한 색상의 헥스코드들을 JSON으로 응답할 때 카테고리 분리 없이 recommeneded_color_list의 밸류에 배열로 나열해줘:
-    { 'type': 'object',
-    'properties': {
-      'recommeneded_color_explain': { 'type': 'string' },
-      'recommeneded_color_list' : {'type':'array'}
-    }
-  }`;
+	useEffect(() => {
+		selectImage();
+	}, []);
 
-		try {
-			const imagePart = {
-				inlineData: {
-					data: base64Image, // 올바르게 인코딩된 Base64 데이터 사용
-					mimeType: 'image/jpeg',
-				},
-			};
+	const canRunAIAnalysis = () => {
+		return imageUri && itemInImage && itemToRecommend;
+	};
 
-			const model = genAI.getGenerativeModel({
-				model: 'gemini-1.5-pro',
-				generationConfig: {
-					responseMimeType: 'application/json',
-				},
+	const navigateToAiResponseScreen = async () => {
+		if (canRunAIAnalysis()) {
+			const base64Image = await RNFS.readFile(
+				imageUri.replace('file://', ''),
+				'base64',
+			);
+			navigation.navigate('AiResponseScreen', {
+				itemInImage,
+				itemToRecommend,
+				base64Image,
 			});
-
-			const result = await model.generateContent([prompt, imagePart]);
-			const response = await result.response;
-			const text = await response.text();
-			setResponseText(text);
-		} catch (error) {
-			console.error('Error generating content:', error);
 		}
 	};
 
 	return (
-		<View style={styles.container}>
+		<KeyboardAvoidingView style={styles.container} behavior="padding">
 			<BasicHeader title="색상 추천 화면" />
 
-			{/* 이미지 선택 버튼 */}
-			<Button title="Select Image" onPress={selectImage} />
+			<View style={styles.imageContainer}>
+				{imageUri ? (
+					<Image source={{ uri: imageUri }} style={styles.image} />
+				) : (
+					<View style={styles.placeholder}>
+						<Text style={styles.placeholderText}>
+							이미지를 선택하세요
+						</Text>
+					</View>
+				)}
+			</View>
 
-			{/* 선택된 이미지 표시 */}
-			{imageUri && (
-				<Image source={{ uri: imageUri }} style={styles.image} />
-			)}
+			<View style={styles.inputContainer}>
+				<View style={styles.inputRow}>
+					<Text style={styles.inputLabel}>사진 속 아이템:</Text>
+					<TextInput
+						style={styles.input}
+						value={itemInImage}
+						onChangeText={setItemInImage}
+					/>
+				</View>
 
-			{/* 텍스트 입력 필드: 사진 속 아이템 */}
-			<TextInput
-				style={styles.input}
-				placeholder="사진 속 선택할 아이템"
-				value={itemInImage}
-				onChangeText={setItemInImage}
-			/>
+				<View style={styles.inputRow}>
+					<Text style={styles.inputLabel}>추천받을 아이템:</Text>
+					<TextInput
+						style={styles.input}
+						value={itemToRecommend}
+						onChangeText={setItemToRecommend}
+					/>
+				</View>
 
-			{/* 텍스트 입력 필드: 추천받을 아이템 */}
-			<TextInput
-				style={styles.input}
-				placeholder="추천받을 아이템"
-				value={itemToRecommend}
-				onChangeText={setItemToRecommend}
-			/>
-
-			<Button
-				title="AI 분석 실행"
-				onPress={() => {
-					if (imageUri) selectImage();
-				}}
-			/>
-
-			{/* AI 응답 표시 */}
-			<ScrollView contentContainerStyle={styles.responseContainer}>
-				<Text style={styles.responseTitle}>AI Generated Response</Text>
-				<Text style={styles.responseText}>{responseText}</Text>
-			</ScrollView>
-		</View>
+				<TouchableOpacity
+					style={[
+						styles.analysisButton,
+						{
+							backgroundColor: canRunAIAnalysis()
+								? COLOR.PRIMARY
+								: COLOR.GRAY_4,
+						},
+					]}
+					disabled={!canRunAIAnalysis()}
+					onPress={navigateToAiResponseScreen}>
+					<Text style={styles.analysisButtonText}>AI 분석 실행</Text>
+				</TouchableOpacity>
+			</View>
+		</KeyboardAvoidingView>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 16,
 		backgroundColor: '#FFFFFF',
 	},
-	navbar: {
-		flexDirection: 'row',
+	imageContainer: {
+		flex: 1,
+		justifyContent: 'center',
 		alignItems: 'center',
-		paddingVertical: 16,
-		borderBottomWidth: 1,
-		borderBottomColor: '#E5E5E5',
-		marginBottom: 20,
-	},
-	backText: {
-		fontSize: 20,
-		marginRight: 10,
-	},
-	navTitle: {
-		fontSize: 18,
-		fontWeight: 'bold',
-	},
-	input: {
-		height: 40,
-		borderColor: '#ccc',
-		borderWidth: 1,
-		marginBottom: 20,
-		paddingHorizontal: 8,
+		marginVertical: 40,
 	},
 	image: {
 		width: '100%',
-		height: 300,
-		resizeMode: 'contain',
-		marginBottom: 20,
+		height: '100%',
+		resizeMode: 'cover',
+	},
+	placeholder: {
+		width: '100%',
+		height: '100%',
 		borderRadius: 10,
+		backgroundColor: '#f0f0f0',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
-	responseContainer: {
-		paddingVertical: 20,
-	},
-	responseTitle: {
-		fontSize: 24,
-		fontWeight: 'bold',
-		marginBottom: 10,
-		textAlign: 'center',
-	},
-	responseText: {
+	placeholderText: {
+		color: '#888',
 		fontSize: 16,
-		textAlign: 'center',
+	},
+	inputContainer: {
+		padding: 16,
+		backgroundColor: COLOR.PRIMARY,
+	},
+	inputRow: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 20,
+		marginHorizontal: 20,
+	},
+	inputLabel: {
+		fontSize: 14,
+		color: '#fff',
+		marginRight: 10,
+		width: 120,
+	},
+	input: {
+		flex: 1,
+		height: 40,
+		borderBottomColor: '#fff',
+		borderBottomWidth: 1,
+		color: '#fff',
+		backgroundColor: 'transparent',
+		placeholderTextColor: '#ccc',
+	},
+	analysisButton: {
+		padding: 15,
+		borderRadius: 8,
+		alignItems: 'center',
+		marginTop: 20,
+	},
+	analysisButtonText: {
+		color: '#fff',
+		fontWeight: 'bold',
 	},
 });
 

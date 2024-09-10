@@ -1,36 +1,40 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
+import SVGIcon from '@components/common/SVGIcon';
+import usePressButtonState from '@hooks/home/usePressButtonState';
 
-const PressButton = ({ iconName, onPress, text }) => {
-	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
-	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
 
-	const onTouchStart = () => {
-		setContentColor(COLOR.WHITE);
-		setButtonColor(COLOR.PRIMARY);
-	};
-
-	const onTouchEnd = () => {
-		setContentColor(COLOR.GRAY_9);
-		setButtonColor(COLOR.WHITE);
-	};
+const size = 40;
+const PressButton = ({ iconName, onPress, engText, text }) => {
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+		usePressButtonState();
 	return (
 		<Pressable
 			onPress={onPress}
-			onTouchStart={onTouchStart}
-			onTouchEnd={onTouchEnd}
+			onTouchStart={handleTouchStart}
+			onTouchEnd={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
-			<Icon
+			<SVGIcon
 				name={iconName}
-				size={48}
-				style={[styles.icon, { color: contentColor }]}
+				width={size}
+				height={size}
+				color={contentColor}
+				style={styles.icon}
 			/>
-			<Text style={[styles.buttonText, { color: contentColor }]}>
-				{text}
-			</Text>
+			<View style={{}}>
+				<Text
+					style={[
+						styles.buttonEngText,
+						{ color: contentColor + 70 },
+					]}>
+					{engText}
+				</Text>
+				<Text style={[styles.buttonText, { color: contentColor }]}>
+					{text}
+				</Text>
+			</View>
 		</Pressable>
 	);
 };
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
 	button: {
 		width: '90%',
 		height: 84,
-		marginHorizontal: 18,
+		marginHorizontal: '5%',
 		borderRadius: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -54,11 +58,13 @@ const styles = StyleSheet.create({
 		shadowColor: COLOR.BLACK,
 		shadowOpacity: 0.25,
 	},
-	icon: {
-		marginLeft: '12.5%',
+	icon: { marginLeft: '12.5%' },
+	buttonEngText: {
+		fontFamily: 'Pretendard-Medium',
+		fontSize: 12,
 	},
 	buttonText: {
-		fontFamily: 'Pretendard-Medium',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 16,
 	},
 });
