@@ -78,7 +78,7 @@ const ObjectCanvas = ({
 const styles = StyleSheet.create({
 	canvas: {
 		flex: 1,
-		marginBottom: 98,
+		marginBottom: 106,
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'flex-end',

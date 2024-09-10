@@ -19,11 +19,12 @@ const ObjectScreen = ({ route }) => {
 	const [droppedItems, setDroppedItems] = useState([]);
 	const [gender, setGender] = useState(false);
 	const [selectedItemId, setSelectedItemId] = useState(null);
+	const [isColorPickerOpen, setIsColorPickerOpen] = useState(true);
 
 	//디버깅
 	useEffect(() => {
-		return console.log(droppedItems);
-	}, [droppedItems, gender]);
+		return console.log(selectedItemId);
+	}, [droppedItems, gender, selectedItemId]);
 
 	const handleColorSelect = color => {
 		if (selectedItemId) {
@@ -55,6 +56,8 @@ const ObjectScreen = ({ route }) => {
 				<ColorBottomSheet
 					colors={colors}
 					onColorSelect={handleColorSelect}
+					isColorPickerOpen={isColorPickerOpen}
+					setIsColorPickerOpen={setIsColorPickerOpen}
 				/>
 			</ImageBackground>
 
