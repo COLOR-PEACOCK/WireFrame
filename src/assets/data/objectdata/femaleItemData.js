@@ -1,9 +1,11 @@
 import React from 'react';
 import {
+	DefaultTop,
 	ShortSleeveshirt,
 	LongSleevShirt,
 } from '@images/objectitems/female/clothesTop/clothesTop.js';
 import {
+	DefaultBottom,
 	WideShorts,
 	WideLongPants,
 } from '@images/objectitems/female/clothesBottom/clothesBottom.js';
@@ -14,6 +16,16 @@ const femaleItemData = {
 		{
 			id: '1',
 			category: 'clothesTop',
+			canvasWidth: 110,
+			canvasHeight: 96,
+			canvasX: -45,
+			canvasY: -373,
+			zIndex: 300,
+			svg: <DefaultTop width={100} height={100} />,
+		},
+		{
+			id: '2',
+			category: 'clothesTop',
 			canvasWidth: 134,
 			canvasHeight: 142,
 			canvasX: -59,
@@ -22,7 +34,7 @@ const femaleItemData = {
 			svg: <ShortSleeveshirt width={100} height={100} />,
 		},
 		{
-			id: '2',
+			id: '3',
 			category: 'clothesTop',
 			canvasWidth: 180,
 			canvasHeight: 156,
@@ -34,7 +46,17 @@ const femaleItemData = {
 	],
 	clothesBottom: [
 		{
-			id: '3',
+			id: '4',
+			category: 'clothesBottom',
+			canvasWidth: 102,
+			canvasHeight: 64,
+			canvasX: -60,
+			canvasY: -268,
+			zIndex: 200,
+			svg: <DefaultBottom width={90} height={90} />,
+		},
+		{
+			id: '5',
 			category: 'clothesBottom',
 			canvasWidth: 144,
 			canvasHeight: 134,
@@ -44,7 +66,7 @@ const femaleItemData = {
 			svg: <WideShorts width={90} height={90} />,
 		},
 		{
-			id: '4',
+			id: '6',
 			category: 'clothesBottom',
 			canvasWidth: 160,
 			canvasHeight: 250,
@@ -56,7 +78,7 @@ const femaleItemData = {
 	],
 	shoes: [
 		{
-			id: '5',
+			id: '7',
 			category: 'shoes',
 			canvasWidth: 142,
 			canvasHeight: 38,
@@ -66,7 +88,7 @@ const femaleItemData = {
 			svg: <Shoes width={100} height={80} />,
 		},
 		{
-			id: '6',
+			id: '8',
 			category: 'shoes',
 			canvasWidth: 142,
 			canvasHeight: 30,

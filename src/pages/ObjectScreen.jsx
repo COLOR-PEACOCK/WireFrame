@@ -23,17 +23,7 @@ const ObjectScreen = ({ route }) => {
 	//디버깅
 	useEffect(() => {
 		return console.log(droppedItems);
-	}, [droppedItems]);
-
-	// 오브젝트 캔버스 터치시 이벤트
-	const handleItemSelect = id => {
-		setSelectedItemId(prevId => (prevId === id ? null : id));
-	};
-
-	const handleItemDelete = id => {
-		setDroppedItems(prevItems => prevItems.filter(item => item.id !== id));
-		setSelectedItemId(null);
-	};
+	}, [droppedItems, gender]);
 
 	const handleColorSelect = color => {
 		if (selectedItemId) {
@@ -56,9 +46,9 @@ const ObjectScreen = ({ route }) => {
 				style={styles.backgroundcontainer}>
 				<ObjectCanvas
 					droppedItems={droppedItems}
-					onItemDelete={handleItemDelete}
-					onItemSelect={handleItemSelect}
+					setDroppedItems={setDroppedItems}
 					selectedItemId={selectedItemId}
+					setSelectedItemId={setSelectedItemId}
 					gender={gender}
 				/>
 				{/* 컬러 정보 */}

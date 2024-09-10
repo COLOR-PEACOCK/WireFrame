@@ -5,10 +5,10 @@ import { CustomText as Text } from '@components/common/CustomText';
 
 import { GenderMale, GenderFemale } from '@icons/objecticon/objectIcon.js';
 
-const ChangeGenderButton = ({ gender, setGender }) => {
+const ChangeGenderButton = ({ gender, genderChange }) => {
 	return (
 		<TouchableOpacity
-			onPress={() => setGender(Gender => !Gender)}
+			onPress={genderChange}
 			style={styles.genderChangeButton}>
 			{gender ? (
 				<Image source={GenderMale} style={{ width: 34, height: 34 }} />

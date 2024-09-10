@@ -12,11 +12,21 @@ import { COLOR } from '@styles/color';
 
 const ObjectCanvas = ({
 	droppedItems,
-	onItemDelete,
-	onItemSelect,
+	setDroppedItems,
+	setSelectedItemId,
 	selectedItemId,
 	gender,
 }) => {
+	// 오브젝트 캔버스 터치시 이벤트
+	const handleItemSelect = id => {
+		setSelectedItemId(prevId => (prevId === id ? null : id));
+	};
+
+	const handleItemDelete = id => {
+		setDroppedItems(prevItems => prevItems.filter(item => item.id !== id));
+		setSelectedItemId(null);
+	};
+
 	return (
 		<View style={styles.canvas}>
 			{gender ? (
@@ -28,7 +38,7 @@ const ObjectCanvas = ({
 				return (
 					<View key={item.id}>
 						<TouchableWithoutFeedback
-							onPress={() => onItemSelect(item.id)}>
+							onPress={() => handleItemSelect(item.id)}>
 							<View
 								style={[
 									styles.droppedItem,
@@ -55,7 +65,7 @@ const ObjectCanvas = ({
 						{selectedItemId === item.id && (
 							<TouchableOpacity
 								style={styles.deleteButton}
-								onPress={() => onItemDelete(item.id)}>
+								onPress={() => handleItemDelete(item.id)}>
 								<Text style={styles.deleteButtonText}>X</Text>
 							</TouchableOpacity>
 						)}

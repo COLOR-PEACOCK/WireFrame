@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_10,
 	},
 	subtitle: {
-		color: COLOR.GRAY_6,
+		color: COLOR.GRAY_7,
 	},
 });
 export default CategoryButton;
