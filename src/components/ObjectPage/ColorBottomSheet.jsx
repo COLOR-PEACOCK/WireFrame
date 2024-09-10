@@ -6,12 +6,14 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 const colorContainer = require('@images/objectitems/background/cricle__wrapper.png');
 
-const ColorBottomSheet = ({ onColorSelect }) => {
+const ColorBottomSheet = ({
+	// colors,
+	onColorSelect,
+}) => {
 	const bottomSheetRef = useRef(null);
 
 	const colors = ['#576490', '#A52A2A', '#D8BFD8', '#FBFBFB', '#3F3A3A'];
@@ -22,13 +24,7 @@ const ColorBottomSheet = ({ onColorSelect }) => {
 	};
 
 	return (
-		<GestureHandlerRootView
-			style={{
-				position: 'absolute',
-				height: 88,
-				width: '100%',
-				zIndex: 1000,
-			}}>
+		<View style={styles.colorContainer}>
 			<BottomSheet
 				ref={bottomSheetRef}
 				snapPoints={[25, 140]}
@@ -39,7 +35,7 @@ const ColorBottomSheet = ({ onColorSelect }) => {
 					style={{
 						flex: 1,
 					}}>
-					<View style={styles.colorContainer}>
+					<View style={styles.colorWrapper}>
 						{colors.map((color, index) => (
 							<TouchableOpacity
 								key={index}
@@ -53,12 +49,18 @@ const ColorBottomSheet = ({ onColorSelect }) => {
 					</View>
 				</ImageBackground>
 			</BottomSheet>
-		</GestureHandlerRootView>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	colorContainer: {
+		position: 'absolute',
+		height: 88,
+		width: '100%',
+		zIndex: 1000,
+	},
+	colorWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',

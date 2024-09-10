@@ -20,9 +20,9 @@ const ObjectCanvas = ({
 	return (
 		<View style={styles.canvas}>
 			{gender ? (
-				<MaleBodySvg width={164} />
+				<MaleBodySvg width={170} />
 			) : (
-				<FeMaleBodySvg width={170} />
+				<FeMaleBodySvg width={180} />
 			)}
 			{droppedItems.map(item => {
 				return (
@@ -68,9 +68,10 @@ const ObjectCanvas = ({
 const styles = StyleSheet.create({
 	canvas: {
 		flex: 1,
-		marginTop: 16,
+		marginBottom: 98,
 		borderRadius: 10,
 		alignItems: 'center',
+		justifyContent: 'flex-end',
 	},
 	droppedItem: {
 		position: 'absolute',

@@ -14,7 +14,8 @@ import ColorBottomSheet from '@components/ObjectPage/ColorBottomSheet';
 
 const backgroundimg = require('@images/objectitems/background/background.png');
 
-const ObjectScreen = () => {
+const ObjectScreen = ({ route }) => {
+	const colors = route.params;
 	const [droppedItems, setDroppedItems] = useState([]);
 	const [gender, setGender] = useState(false);
 	const [selectedItemId, setSelectedItemId] = useState(null);
@@ -61,7 +62,10 @@ const ObjectScreen = () => {
 					gender={gender}
 				/>
 				{/* 컬러 정보 */}
-				<ColorBottomSheet onColorSelect={handleColorSelect} />
+				<ColorBottomSheet
+					colors={colors}
+					onColorSelect={handleColorSelect}
+				/>
 			</ImageBackground>
 
 			<View style={{ flex: 1 }}>
@@ -77,7 +81,7 @@ const ObjectScreen = () => {
 };
 const styles = StyleSheet.create({
 	backgroundcontainer: {
-		flex: 2.85,
+		flex: 3.38,
 		justifyContent: 'flex-end',
 	},
 });
