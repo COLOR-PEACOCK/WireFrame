@@ -25,7 +25,7 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 	const cmykNumbers = extractNumbers(colorInfo.cmykVal);
 
 	return (
-		<Modal transparent={true} visible={isVisible} onRequestClose={onClose}>
+		<Modal animationType='fade' transparent={true} visible={isVisible} onRequestClose={onClose}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
 					<View style={styles.contentContainer}>

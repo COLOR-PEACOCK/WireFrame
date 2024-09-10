@@ -29,7 +29,7 @@ const ColorPickerModal = ({
 
 	return (
 		<Modal
-			animationType="slide"
+			animationType="fade"
 			transparent={true}
 			visible={isVisible}
 			onRequestClose={onCancel}>
