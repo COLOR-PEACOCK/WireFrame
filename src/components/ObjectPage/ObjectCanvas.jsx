@@ -62,7 +62,7 @@ const ObjectCanvas = ({
 								})}
 							</View>
 						</TouchableWithoutFeedback>
-						{selectedItemId === item.id && (
+						{selectedItemId === item.id && !item.isDefault && (
 							<TouchableOpacity
 								style={styles.deleteButton}
 								onPress={() => handleItemDelete(item.id)}>

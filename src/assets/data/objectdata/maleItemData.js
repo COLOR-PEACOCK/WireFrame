@@ -13,6 +13,7 @@ const maleItemData = {
 			canvasY: -403,
 			zIndex: 300,
 			svg: <Tshirt width={80} height={80} fill={'#FBFBFB'} />,
+			isDefault: true,
 		},
 	],
 	clothesBottom: [
@@ -25,6 +26,7 @@ const maleItemData = {
 			canvasY: -266,
 			zIndex: 200,
 			svg: <Shorts width={80} height={80} />,
+			isDefault: true,
 		},
 		// 다른 남성 하의 아이템들...
 	],

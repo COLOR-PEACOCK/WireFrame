@@ -22,6 +22,7 @@ const femaleItemData = {
 			canvasY: -373,
 			zIndex: 300,
 			svg: <DefaultTop width={100} height={100} />,
+			isDefault: true,
 		},
 		{
 			id: '2',
@@ -54,6 +55,7 @@ const femaleItemData = {
 			canvasY: -268,
 			zIndex: 200,
 			svg: <DefaultBottom width={90} height={90} />,
+			isDefault: true,
 		},
 		{
 			id: '5',
