@@ -18,6 +18,7 @@ import _ from 'lodash';
 // components
 import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
+import CustomPopup from '@components/common/CustomPopup';
 
 // hooks
 import useColorName from '@hooks/useColorName';
@@ -31,12 +32,14 @@ const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
 	const [imageDataUrl, setImageDataUrl] = useState(null);
 	const [colorName, setColorName] = useState('');
+	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
 
 	const handleSelectAI = () => navigation.navigate('AiScreen');
 
 	useEffect(() => {
 		selectImage();
 	}, []);
+
 	const requestStoragePermission = async () => {
 		if (Platform.OS === 'android') {
 			try {
@@ -74,6 +77,11 @@ const ImageScreen = ({ navigation }) => {
 					const base64Image = await RNFS.readFile(uri, 'base64');
 					const dataUrl = `data:image/jpeg;base64,${base64Image}`;
 					setImageDataUrl(dataUrl);
+
+					// 이미지 선택 후 팝업 메시지 설정
+					setPopupMessage(
+						'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행',
+					);
 				} catch (error) {
 					Alert.alert('Error', 'Failed to convert image to Base64');
 				}
@@ -339,6 +347,11 @@ const ImageScreen = ({ navigation }) => {
 			engName: getEngColorNameLocal(color),
 		});
 	}, [color]);
+
+	const handleClosePopup = () => {
+		setPopupMessage('');
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
@@ -428,6 +441,14 @@ const ImageScreen = ({ navigation }) => {
 					<Text style={styles.ButtonText}>색상 추천</Text>
 				</Pressable>
 			</View>
+
+			{/* CustomPopup 컴포넌트 */}
+			{popupMessage ? (
+				<CustomPopup
+					message={popupMessage}
+					onClose={handleClosePopup}
+				/>
+			) : null}
 		</View>
 	);
 };
@@ -492,7 +513,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: COLOR.GRAY_2,
-		borderRadius: 8,
 		gap: 24,
 	},
 	placeholderTextKor: {
