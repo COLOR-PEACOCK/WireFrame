@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: ,
+		paddingHorizontal: 18,
 		elevation: 5,
 	},
 	title: {

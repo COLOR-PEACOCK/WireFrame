@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import GoBackIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Modal, Text, StyleSheet, Pressable, Image } from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// icons
+import GoBackIcon from '@icons/go-back.png';
 
 const extractNumbers = str => {
 	if (!str) return '';
@@ -16,8 +17,8 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 		? COLOR.GRAY_10
 		: COLOR.WHITE;
 	const engTextColor = tinycolor(selectedColor).isLight()
-		? COLOR.GRAY_8
-		: COLOR.GRAY_6;
+		? COLOR.GRAY_9
+		: COLOR.GRAY_3;
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
 	const hexNumbers = colorInfo.hexVal.slice(1, 8);
 	const hslNumbers = extractNumbers(colorInfo.hslVal);
@@ -50,6 +51,7 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 								</Text>
 							</View>
 						</View>
+
 						<View style={styles.valueContainer}>
 							<View style={styles.valueRow}>
 								<Text style={styles.label}>RGB</Text>
@@ -77,17 +79,24 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 							</View>
 						</View>
 					</View>
+
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={[styles.button, styles.cancelButton]}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+								},
+								styles.button,
+							]}
 							onPress={onClose}>
-							<GoBackIcon
-								name="arrow-left"
-								size={16}
-								color={COLOR.WHITE}
+							<Image
+								source={GoBackIcon}
+								style={styles.buttonIcon}
 							/>
 							<Text style={styles.buttonText}>이전으로</Text>
-						</TouchableOpacity>
+						</Pressable>
 					</View>
 				</View>
 			</View>
@@ -103,15 +112,14 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 	},
 	modalContent: {
+		overflow: 'hidden',
 		width: 342,
 		height: 512,
-		backgroundColor: 'white',
 		padding: 0,
-		borderRadius: 8,
-		alignItems: 'center',
-		overflow: 'hidden',
-		borderColor: COLOR.GRAY_3,
+		backgroundColor: COLOR.WHITE,
 		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: COLOR.GRAY_3,
 	},
 	contentContainer: {
 		flex: 1,
@@ -122,22 +130,23 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	colorPreview: {
-		width: '100%',
-		height: 347.69,
+		height: 348,
 		position: 'relative',
 	},
 	korColorName: {
-		fontSize: 24,
-		fontWeight: 'bold',
 		position: 'absolute',
 		left: 18,
-		bottom: 40,
+		bottom: 38,
+		fontSize: 24,
+		fontFamily: 'Pretendard-Bold',
 	},
 	engColorName: {
-		fontSize: 20,
 		position: 'absolute',
 		left: 18,
-		bottom: 10,
+		bottom: 12,
+		fontSize: 18,
+		fontFamily: 'Pretendard-Regular',
+		textTransform: 'lowercase',
 	},
 	buttonContainer: {
 		width: '100%',
@@ -150,38 +159,36 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		paddingVertical: 12,
 	},
-	cancelButton: {
-		backgroundColor: COLOR.PRIMARY,
-	},
 	buttonText: {
 		color: COLOR.WHITE,
-		fontWeight: 'bold',
 		fontSize: 14,
-		marginLeft: 8,
+		fontFamily: 'Pretendard-Bold',
+		marginLeft: 6,
+	},
+	buttonIcon: {
+		width: 14,
+		height: 14,
 	},
 	valueContainer: {
-		marginTop: 12,
-		marginLeft: 9,
-		alignItems: 'flex-start',
 		width: '100%',
+		paddingVertical: 12,
+		paddingHorizontal: 18,
 	},
 	valueRow: {
-		marginLeft: 9,
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		marginBottom: 3,
 	},
 	label: {
-		width: 50,
+		width: 68,
 		fontSize: 16,
-		color: COLOR.GRAY_8,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
+		color: COLOR.GRAY_5,
 	},
 	colorDetails: {
-		fontSize: 16,
-		marginLeft: 12,
-		color: COLOR.GRAY_6,
+		fontSize: 14,
+		fontFamily: 'Pretendard-Regular',
+		color: COLOR.GRAY_10,
 	},
 });
 

@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+	View,
+	Modal,
+	Text,
+	StyleSheet,
+	Image,
+	Pressable,
+} from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
-import GoBackIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// icons
+import GoBackIcon from '@icons/go-back.png';
+import DownloadIcon from '@icons/download.png';
 
 const ColorPickerModal = ({
 	isVisible,
@@ -16,6 +26,7 @@ const ColorPickerModal = ({
 	const textColor = tinycolor(tempColor).isLight()
 		? COLOR.GRAY_9
 		: COLOR.GRAY_2;
+
 	return (
 		<Modal
 			animationType="slide"
@@ -66,23 +77,42 @@ const ColorPickerModal = ({
 					</ColorPicker>
 
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={[styles.button, styles.cancelButton]}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? COLOR.GRAY_7
+										: COLOR.GRAY_6,
+								},
+								styles.button,
+							]}
 							onPress={onCancel}>
-							<GoBackIcon
-								name="arrow-u-left-top"
-								style={styles.buttonText}
+							<Image
+								source={GoBackIcon}
+								style={styles.buttonIcon}
 							/>
 							<Text style={styles.buttonText}>이전으로</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={[styles.button, styles.saveButton]}
+						</Pressable>
+
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+								},
+								styles.button,
+							]}
 							onPress={() => {
 								setIsPickerVisible(false);
 								setTempColor(currentColor);
 							}}>
+							<Image
+								source={DownloadIcon}
+								style={styles.buttonIcon}
+							/>
 							<Text style={styles.buttonText}>저장하기</Text>
-						</TouchableOpacity>
+						</Pressable>
 					</View>
 				</View>
 			</View>
@@ -99,7 +129,7 @@ const styles = StyleSheet.create({
 	},
 	modalContent: {
 		width: 342,
-		height: 512,
+		height: 560,
 		backgroundColor: 'white',
 		padding: 0,
 		borderRadius: 8,
@@ -125,10 +155,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		borderRadius: 30,
+		marginTop: 18,
 	},
 	hueSlider: {
 		width: 306,
-		height: 30,
+		height: 18,
+		marginTop: 6,
 		marginBottom: 9,
 		borderRadius: 30,
 		opacity: 1,
@@ -168,37 +200,31 @@ const styles = StyleSheet.create({
 	colorText: {
 		textAlign: 'center',
 		lineHeight: 18,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 12,
 	},
 	buttonContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginTop: 18,
 		width: '100%',
+		flexDirection: 'row',
 	},
 	button: {
-		padding: 12,
-		alignItems: 'center',
-		justifyContent: 'center',
 		flex: 1,
-	},
-	cancelButton: {
-		backgroundColor: COLOR.GRAY_6,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		height: 48,
 		flexDirection: 'row',
-	},
-	saveButton: {
-		backgroundColor: COLOR.PRIMARY,
 	},
 	buttonText: {
 		color: COLOR.WHITE,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 14,
+		marginRight: 6,
 	},
-	icon: {
-		width: 16,
-		height: 16,
-		marginRight: 8,
+	buttonIcon: {
+		width: 14,
+		height: 14,
+        marginRight: 6
 	},
 });
 
