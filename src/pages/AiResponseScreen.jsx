@@ -22,6 +22,7 @@ import LeftCircle from '@components/AiRecommend/LeftCircle';
 import RightCircle from '@components/AiRecommend/RightCircle';
 import Background from '@components/AiRecommend/Background';
 import Spinner from '@components/common/Spinner';
+import { useNavigation } from '@react-navigation/native';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -159,8 +160,7 @@ const AiResponseScreen = ({ route }) => {
 							);
 						setColorShortList(recommendedShortDescriptions);
 
-						const objectHexCodes =
-							responseJson.recommended_colors.hexcode_list;
+						const objectHexCodes = responseJson.hexcode_list;
 						setColors(objectHexCodes);
 					} else {
 						console.error(
@@ -358,14 +358,25 @@ const AiResponseScreen = ({ route }) => {
 	};
 
 	// 오브젝트 화면으로 네비게이트
+	const navigation = useNavigation();
 	const navigateObjectScreen = () => {
 		navigation.navigate('ObjectScreen', colors);
 	};
 
+	// 헤더 인포 텍스트
+	const infotext =
+		'분석한 색상들의 원을 터치해 보세요! 각 색상에 대해서 자세히 알려드립니다!';
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: itemColor }}>
-				<BasicHeader title={'Ai 분석'} />
+				<BasicHeader
+					titleIcon={'AI'}
+					title={'AI 분석'}
+					subTitle={'ai recs'}
+					rightIcon={'info'}
+					infoText={infotext}
+				/>
 
 				{isLoading ? (
 					<View
