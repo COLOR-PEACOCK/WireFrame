@@ -48,7 +48,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 
 					<View style={styles.highlightContainer}>
 						<Image
-							source={require('../assets/images/highlight1.png')}
+							source={require('@images/highlight1.png')}
 							style={styles.highlightImage}
 							resizeMode="contain"
 						/>
@@ -59,7 +59,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 
 					<Text style={styles.subtitle}>순식간에 색상 조합 끝</Text>
 					<Image
-						source={require('../assets/images/onboarding1.png')}
+						source={require('@images/onboarding1.png')}
 						style={[styles.backgroundImage, { top: 1 }]}
 						resizeMode="contain"
 					/>
@@ -70,7 +70,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 					<Text style={styles.title}>추천을 바라는 아이템이</Text>
 					<View style={styles.highlightContainer}>
 						<Image
-							source={require('../assets/images/highlight1.png')}
+							source={require('@images/highlight1.png')}
 							style={styles.highlightImage}
 							resizeMode="contain"
 						/>
@@ -82,7 +82,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 						해당 아이템의 정보로 AI 추천 분석
 					</Text>
 					<Image
-						source={require('../assets/images/onboarding2.png')}
+						source={require('@images/onboarding2.png')}
 						style={[styles.backgroundImage, { top: -16 }]}
 						resizeMode="contain"
 					/>
@@ -96,7 +96,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 
 					<View style={styles.highlightContainer}>
 						<Image
-							source={require('../assets/images/highlight1.png')}
+							source={require('@images/highlight1.png')}
 							style={styles.highlightImage}
 							resizeMode="contain"
 						/>
@@ -109,7 +109,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 						바지에 어울리는 신발 색상이 궁금하다면?
 					</Text>
 					<Image
-						source={require('../assets/images/onboarding3.png')}
+						source={require('@images/onboarding3.png')}
 						style={[styles.backgroundImage, { top: -16 }]}
 						resizeMode="contain"
 					/>
