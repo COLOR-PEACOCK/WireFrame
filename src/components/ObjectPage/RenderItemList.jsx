@@ -26,39 +26,29 @@ const RenderItemList = ({
 
 	//아이템 선택 이벤트
 	const handleItemSelect = item => {
-		setSelectedItemId(prevId => {
-			// 같은 아이템을 다시 선택한 경우
-			if (prevId === item.id) {
-				// setIsColorPickerOpen(false);
-				return null; // 선택 해제
-			}
-
-			// 새로운 아이템을 선택한 경우
-			// setIsColorPickerOpen(true);
-			return item.id;
-		});
+		setSelectedItemId(prevId => (prevId === item.id ? null : item.id));
 
 		setDroppedItems(prevItems => {
-			//수정 가능한 동적 아이템 생성
 			const newItem = {
 				...item,
 				svg: React.cloneElement(item.svg),
 			};
-			// 같은 카테고리의 아이템 인덱스 찾기
-			const sameCategoryItemIndex = prevItems.findIndex(
+
+			const updatedItems = prevItems.filter(
+				i => i.category !== item.category,
+			);
+			const existingItem = prevItems.find(
 				i => i.category === item.category,
 			);
-			if (sameCategoryItemIndex !== -1) {
-				// 같은 카테고리의 아이템이 있으면 교체
-				return prevItems.map((prevItem, index) =>
-					index === sameCategoryItemIndex ? newItem : prevItem,
-				);
-			} else {
-				// 새로운 카테고리의 아이템이면 추가
-				return [...prevItems, newItem];
+
+			if (existingItem) {
+				newItem.color = existingItem.color || item.color;
 			}
+
+			return [...updatedItems, newItem];
 		});
 	};
+
 	return (
 		<FlatList
 			data={itemData[activeTab] || []}
@@ -82,8 +72,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginHorizontal: 5,
-		borderLeftWidth: 1,
-		borderLeftColor: COLOR.GRAY_5,
+		borderRightWidth: 1,
+		borderRightColor: COLOR.GRAY_5,
 		gap: 4,
 	},
 	applyText: {
