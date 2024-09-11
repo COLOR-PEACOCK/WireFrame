@@ -21,6 +21,7 @@ import tinycolor from 'tinycolor2';
 import LeftCircle from '@components/AiRecommend/LeftCircle';
 import RightCircle from '@components/AiRecommend/RightCircle';
 import Background from '@components/AiRecommend/Background';
+import Spinner from '@components/common/Spinner';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -365,104 +366,121 @@ const AiResponseScreen = ({ route }) => {
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: itemColor }}>
 				<BasicHeader title={'Ai 분석'} />
-				<View style={styles.responseContainer}>
-					<LeftCircle
-						left={DISTANCE}
-						top={paddingVertical}
-						diameter={RADIUS}
-						number={0}
-						colorCode={colorCodeList}
-						korColorName={korColorNameList}
-						engColorName={engColorNameList}
-						colorShort={colorShortList}
-						colorDescription={colorDescriptionList}
-						isSelected={isSelected}
-						setIsSelected={setIsSelected}
-					/>
-					<RightCircle
-						right={DISTANCE}
-						top={paddingVertical + circleUnitVertical}
-						diameter={RADIUS}
-						number={1}
-						colorCode={colorCodeList}
-						korColorName={korColorNameList}
-						engColorName={engColorNameList}
-						colorShort={colorShortList}
-						colorDescription={colorDescriptionList}
-						isSelected={isSelected}
-						setIsSelected={setIsSelected}
-					/>
-					<LeftCircle
-						left={DISTANCE}
-						top={paddingVertical + circleUnitVertical * 2}
-						diameter={RADIUS}
-						number={2}
-						colorCode={colorCodeList}
-						korColorName={korColorNameList}
-						engColorName={engColorNameList}
-						colorShort={colorShortList}
-						colorDescription={colorDescriptionList}
-						isSelected={isSelected}
-						setIsSelected={setIsSelected}
-					/>
-					<RightCircle
-						right={DISTANCE}
-						top={paddingVertical + circleUnitVertical * 3}
-						diameter={RADIUS}
-						number={3}
-						colorCode={colorCodeList}
-						korColorName={korColorNameList}
-						engColorName={engColorNameList}
-						colorShort={colorShortList}
-						colorDescription={colorDescriptionList}
-						isSelected={isSelected}
-						setIsSelected={setIsSelected}
-					/>
-					<LeftCircle
-						left={DISTANCE}
-						top={paddingVertical + circleUnitVertical * 4}
-						diameter={RADIUS}
-						number={4}
-						colorCode={colorCodeList}
-						korColorName={korColorNameList}
-						engColorName={engColorNameList}
-						colorShort={colorShortList}
-						colorDescription={colorDescriptionList}
-						isSelected={isSelected}
-						setIsSelected={setIsSelected}
-					/>
-					<Background color={background ? '#ffffff' : COLOR.GRAY_3} />
-					<TouchableOpacity
-						onPressIn={() => setIsButtonPressed(true)}
-						onPressOut={() => setIsButtonPressed(false)}
-						onPress={navigateObjectScreen}
-						activeOpacity={1}
+
+				{isLoading ? (
+					<View
 						style={{
-							position: 'absolute',
-							bottom: 14,
-							right: 12,
-							width: 185,
-							height: 62,
-							width: 70,
-							height: 70,
-							borderRadius: 64,
-							backgroundColor: isButtonPressed
-								? COLOR.PRIMARY
-								: '#ffffff',
+							flex: 1,
 							justifyContent: 'center',
 							alignItems: 'center',
-							borderWidth: 2,
-							borderColor: COLOR.GRAY_3,
+							backgroundColor: '#ffffff',
 						}}>
-						<Icon
-							name="hanger"
-							size={30}
-							color={
-								isButtonPressed ? COLOR.GRAY_1 : COLOR.PRIMARY
-							}
+						<Spinner />
+					</View>
+				) : (
+					<View style={styles.responseContainer}>
+						<LeftCircle
+							left={DISTANCE}
+							top={paddingVertical}
+							diameter={RADIUS}
+							number={0}
+							colorCode={colorCodeList}
+							korColorName={korColorNameList}
+							engColorName={engColorNameList}
+							colorShort={colorShortList}
+							colorDescription={colorDescriptionList}
+							isSelected={isSelected}
+							setIsSelected={setIsSelected}
 						/>
-					</TouchableOpacity>
-				</View>
+						<RightCircle
+							right={DISTANCE}
+							top={paddingVertical + circleUnitVertical}
+							diameter={RADIUS}
+							number={1}
+							colorCode={colorCodeList}
+							korColorName={korColorNameList}
+							engColorName={engColorNameList}
+							colorShort={colorShortList}
+							colorDescription={colorDescriptionList}
+							isSelected={isSelected}
+							setIsSelected={setIsSelected}
+						/>
+						<LeftCircle
+							left={DISTANCE}
+							top={paddingVertical + circleUnitVertical * 2}
+							diameter={RADIUS}
+							number={2}
+							colorCode={colorCodeList}
+							korColorName={korColorNameList}
+							engColorName={engColorNameList}
+							colorShort={colorShortList}
+							colorDescription={colorDescriptionList}
+							isSelected={isSelected}
+							setIsSelected={setIsSelected}
+						/>
+						<RightCircle
+							right={DISTANCE}
+							top={paddingVertical + circleUnitVertical * 3}
+							diameter={RADIUS}
+							number={3}
+							colorCode={colorCodeList}
+							korColorName={korColorNameList}
+							engColorName={engColorNameList}
+							colorShort={colorShortList}
+							colorDescription={colorDescriptionList}
+							isSelected={isSelected}
+							setIsSelected={setIsSelected}
+						/>
+						<LeftCircle
+							left={DISTANCE}
+							top={paddingVertical + circleUnitVertical * 4}
+							diameter={RADIUS}
+							number={4}
+							colorCode={colorCodeList}
+							korColorName={korColorNameList}
+							engColorName={engColorNameList}
+							colorShort={colorShortList}
+							colorDescription={colorDescriptionList}
+							isSelected={isSelected}
+							setIsSelected={setIsSelected}
+						/>
+						<Background
+							color={background ? '#ffffff' : COLOR.GRAY_3}
+						/>
+						<TouchableOpacity
+							onPressIn={() => setIsButtonPressed(true)}
+							onPressOut={() => setIsButtonPressed(false)}
+							onPress={navigateObjectScreen}
+							activeOpacity={1}
+							style={{
+								position: 'absolute',
+								bottom: 14,
+								right: 12,
+								width: 185,
+								height: 62,
+								width: 70,
+								height: 70,
+								borderRadius: 64,
+								backgroundColor: isButtonPressed
+									? COLOR.PRIMARY
+									: '#ffffff',
+								justifyContent: 'center',
+								alignItems: 'center',
+								borderWidth: 2,
+								borderColor: COLOR.GRAY_3,
+							}}>
+							<Icon
+								name="hanger"
+								size={30}
+								color={
+									isButtonPressed
+										? COLOR.GRAY_1
+										: COLOR.PRIMARY
+								}
+							/>
+						</TouchableOpacity>
+					</View>
+				)}
 			</View>
 		</SafeAreaView>
 	);
@@ -474,6 +492,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		padding: 20,
+		zIndex: -1,
 	},
 });
 
