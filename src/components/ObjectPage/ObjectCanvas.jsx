@@ -48,10 +48,10 @@ const ObjectCanvas = ({
 										width: item.canvasWidth,
 										height: item.canvasHeight,
 										zIndex: item.zIndex,
-										borderWidth: 1,
+										borderWidth: 1.3,
 										borderColor:
 											selectedItemId === item.id
-												? '#CCD730'
+												? '#D6C836'
 												: 'transparent',
 									},
 								]}>
@@ -78,10 +78,9 @@ const ObjectCanvas = ({
 const styles = StyleSheet.create({
 	canvas: {
 		flex: 1,
-		marginBottom: 106,
 		borderRadius: 10,
+		marginTop: 16,
 		alignItems: 'center',
-		justifyContent: 'flex-end',
 	},
 	droppedItem: {
 		position: 'absolute',

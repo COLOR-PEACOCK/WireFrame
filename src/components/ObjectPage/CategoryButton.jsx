@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
 	categoryWrapper: {
 		flexDirection: 'row',
 		gap: 4,
-		width: 173,
-		height: 77,
+		width: '43%',
+		height: '50%',
 		borderLeftWidth: 1,
 		borderBottomWidth: 1,
 		borderColor: COLOR.GRAY_5,

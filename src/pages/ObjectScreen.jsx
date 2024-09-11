@@ -23,8 +23,8 @@ const ObjectScreen = ({ route }) => {
 
 	//디버깅
 	useEffect(() => {
-		return console.log(selectedItemId);
-	}, [droppedItems, gender, selectedItemId]);
+		return console.log(isColorPickerOpen);
+	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
 	const handleColorSelect = color => {
 		if (selectedItemId) {
@@ -45,6 +45,7 @@ const ObjectScreen = ({ route }) => {
 			<ImageBackground
 				source={backgroundimg}
 				style={styles.backgroundcontainer}>
+				{/* 캔버스 영역 */}
 				<ObjectCanvas
 					droppedItems={droppedItems}
 					setDroppedItems={setDroppedItems}
@@ -52,7 +53,7 @@ const ObjectScreen = ({ route }) => {
 					setSelectedItemId={setSelectedItemId}
 					gender={gender}
 				/>
-				{/* 컬러 정보 */}
+				{/* 컬러 팔레트 */}
 				<ColorBottomSheet
 					colors={colors}
 					onColorSelect={handleColorSelect}
@@ -61,12 +62,14 @@ const ObjectScreen = ({ route }) => {
 				/>
 			</ImageBackground>
 
-			<View style={{ flex: 1 }}>
+			<View style={{ height: 162 }}>
 				{/* 바텀 컨테이너 */}
 				<ObjectBottomCotainer
 					setDroppedItems={setDroppedItems}
 					gender={gender}
 					setGender={setGender}
+					setIsColorPickerOpen={setIsColorPickerOpen}
+					setSelectedItemId={setSelectedItemId}
 				/>
 			</View>
 		</SafeAreaView>
@@ -74,7 +77,7 @@ const ObjectScreen = ({ route }) => {
 };
 const styles = StyleSheet.create({
 	backgroundcontainer: {
-		flex: 3.38,
+		flex: 1,
 		justifyContent: 'flex-end',
 	},
 });
