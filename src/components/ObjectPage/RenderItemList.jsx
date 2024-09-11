@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginHorizontal: 5,
-		borderLeftWidth: 1,
-		borderLeftColor: COLOR.GRAY_5,
+		borderRightWidth: 1,
+		borderRightColor: COLOR.GRAY_5,
 		gap: 4,
 	},
 	applyText: {

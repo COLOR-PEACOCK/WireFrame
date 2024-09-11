@@ -1,12 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
-import {
-	FlatList,
-	ImageBackground,
-	SafeAreaView,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
 import ObjectCanvas from '@components/ObjectPage/ObjectCanvas.jsx';
 import BasicHeader from '@components/common/BasicHeader';
 import ObjectBottomCotainer from '@components/ObjectPage/ObjectBottomCotainer';
@@ -15,16 +8,23 @@ import ColorBottomSheet from '@components/ObjectPage/ColorBottomSheet';
 const backgroundimg = require('@images/objectitems/background/background.png');
 
 const ObjectScreen = ({ route }) => {
-	const colors = route.params;
+	const colors = route.params || [
+		'#000080',
+		'#A52A2A',
+		'#D8BFD8',
+		'#FBFBFB',
+		'#3F3A3A',
+	];
 	const [droppedItems, setDroppedItems] = useState([]);
 	const [gender, setGender] = useState(false);
 	const [selectedItemId, setSelectedItemId] = useState(null);
 	const [isColorPickerOpen, setIsColorPickerOpen] = useState(true);
+	const [defaultItems, setDefaultItems] = useState([]);
 
 	//디버깅
 	useEffect(() => {
-		return console.log(droppedItems);
-	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
+		// return console.log(droppedItems);
+	}, [droppedItems, gender, selectedItemId]);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -45,6 +45,7 @@ const ObjectScreen = ({ route }) => {
 					selectedItemId={selectedItemId}
 					setSelectedItemId={setSelectedItemId}
 					gender={gender}
+					defaultItems={defaultItems}
 				/>
 				{/* 컬러 팔레트 */}
 				<ColorBottomSheet
@@ -64,6 +65,7 @@ const ObjectScreen = ({ route }) => {
 					setGender={setGender}
 					setIsColorPickerOpen={setIsColorPickerOpen}
 					setSelectedItemId={setSelectedItemId}
+					setDefaultItems={setDefaultItems}
 				/>
 			</View>
 		</SafeAreaView>

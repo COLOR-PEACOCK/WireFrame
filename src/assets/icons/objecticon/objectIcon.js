@@ -10,6 +10,7 @@ import ShoesGray from '@icons/objecticon/icon_shoes-gray.png';
 import Cap from '@icons/objecticon/icon_cap.png';
 import Socks from '@icons/objecticon/icon-socks.png';
 import DisableSocks from '@icons/objecticon/icon-socks-disable.png';
+import TrashIcon from '@icons/objecticon/icon__trash.png';
 
 export {
 	GenderMale,
@@ -24,4 +25,5 @@ export {
 	ShoesGray,
 	Socks,
 	DisableSocks,
+	TrashIcon,
 };

@@ -18,6 +18,7 @@ const ObjectBottomCotainer = ({
 	setGender,
 	setIsColorPickerOpen,
 	setSelectedItemId,
+	setDefaultItems,
 }) => {
 	const [itemData, setItemData] = useState(null);
 	const [activeTab, setActiveTab] = useState('');
@@ -26,7 +27,9 @@ const ObjectBottomCotainer = ({
 	useEffect(() => {
 		const initialItemData = gender ? maleItemData : femaleItemData;
 		setItemData(initialItemData);
-		setDroppedItems(getDefaultItems(initialItemData));
+		const defaultItems = getDefaultItems(initialItemData);
+		setDroppedItems(defaultItems);
+		setDefaultItems(defaultItems);
 	}, []);
 
 	// 기본 아이템 선택 함수
@@ -42,6 +45,7 @@ const ObjectBottomCotainer = ({
 
 		setGender(newGender);
 		setDroppedItems(defaultItems);
+		setDefaultItems(defaultItems);
 		setItemData(newItemData);
 	}, [gender]);
 
@@ -112,6 +116,8 @@ const styles = StyleSheet.create({
 		width: 64,
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderRightWidth: 1,
+		borderRightColor: COLOR.GRAY_5,
 		borderBottomWidth: 1,
 		borderBottomColor: COLOR.GRAY_5,
 	},
