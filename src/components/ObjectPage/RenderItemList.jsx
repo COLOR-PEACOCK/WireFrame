@@ -3,7 +3,13 @@ import React from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 
-const RenderItemList = ({ setDroppedItems, itemData, activeTab }) => {
+const RenderItemList = ({
+	setDroppedItems,
+	itemData,
+	activeTab,
+	setIsColorPickerOpen,
+	setSelectedItemId,
+}) => {
 	//아이템 플랫 리스트 렌더
 	const renderItem = ({ item }) => {
 		return (
@@ -20,18 +26,28 @@ const RenderItemList = ({ setDroppedItems, itemData, activeTab }) => {
 
 	//아이템 선택 이벤트
 	const handleItemSelect = item => {
+		setSelectedItemId(prevId => {
+			// 같은 아이템을 다시 선택한 경우
+			if (prevId === item.id) {
+				// setIsColorPickerOpen(false);
+				return null; // 선택 해제
+			}
+
+			// 새로운 아이템을 선택한 경우
+			// setIsColorPickerOpen(true);
+			return item.id;
+		});
+
 		setDroppedItems(prevItems => {
 			//수정 가능한 동적 아이템 생성
 			const newItem = {
 				...item,
 				svg: React.cloneElement(item.svg),
 			};
-
 			// 같은 카테고리의 아이템 인덱스 찾기
 			const sameCategoryItemIndex = prevItems.findIndex(
 				i => i.category === item.category,
 			);
-
 			if (sameCategoryItemIndex !== -1) {
 				// 같은 카테고리의 아이템이 있으면 교체
 				return prevItems.map((prevItem, index) =>

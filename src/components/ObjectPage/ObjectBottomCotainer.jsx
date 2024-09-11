@@ -12,7 +12,13 @@ import RenderItemList from './RenderItemList.jsx';
 import maleItemData from '../../assets/data/objectdata/maleItemData';
 import femaleItemData from '../../assets/data/objectdata/femaleItemData';
 
-const ObjectBottomCotainer = ({ setDroppedItems, gender, setGender }) => {
+const ObjectBottomCotainer = ({
+	setDroppedItems,
+	gender,
+	setGender,
+	setIsColorPickerOpen,
+	setSelectedItemId,
+}) => {
 	const [itemData, setItemData] = useState(null);
 	const [activeTab, setActiveTab] = useState('');
 
@@ -59,6 +65,8 @@ const ObjectBottomCotainer = ({ setDroppedItems, gender, setGender }) => {
 						setDroppedItems={setDroppedItems}
 						itemData={itemData}
 						activeTab={activeTab}
+						setIsColorPickerOpen={setIsColorPickerOpen}
+						setSelectedItemId={setSelectedItemId}
 					/>
 				</View>
 			) : (
