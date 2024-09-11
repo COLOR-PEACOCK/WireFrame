@@ -56,7 +56,7 @@ const RightCircle = ({
 		return tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
 	};
 	const engTextColor = color => {
-		return tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_2;
+		return tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
 	};
 
 	const handlePress = () => {
