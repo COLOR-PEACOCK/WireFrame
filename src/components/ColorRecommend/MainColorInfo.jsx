@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	label: {
-		width: 50,
+		width: 68,
 		fontSize: 16,
 		fontFamily: 'Pretendard-Bold',
 		textTransform: 'uppercase',
