@@ -52,7 +52,7 @@
     {
         "name": "A State of Mint",
         "hex": "#88ffcc",
-        "korean_name": "민트 상태"
+        "korean_name": "민트의 상태"
     },
     {
         "name": "Abandoned Spaceship",
@@ -2667,7 +2667,7 @@
     {
         "name": "Call It a Night",
         "hex": "#42364c",
-        "korean_name": "하룻밤이라고 부르다"
+        "korean_name": "마감"
     },
     {
         "name": "Calm Waters",
@@ -2747,7 +2747,7 @@
     {
         "name": "Candle Glow",
         "hex": "#ffe8c3",
-        "korean_name": "촛불 빛"
+        "korean_name": "캔들 글로우"
     },
     {
         "name": "Candle in the Wind",
@@ -2772,12 +2772,12 @@
     {
         "name": "Candy Bar",
         "hex": "#ffb7d5",
-        "korean_name": "캔디 바"
+        "korean_name": "캔디바"
     },
     {
         "name": "Candy Corn",
         "hex": "#fcfc5d",
-        "korean_name": "캔디 콘"
+        "korean_name": "캔디콘"
     },
     {
         "name": "Candy Dreams",
@@ -2807,7 +2807,7 @@
     {
         "name": "Cane Sugar",
         "hex": "#e3b982",
-        "korean_name": "사탕수수 설탕"
+        "korean_name": "케인 슈가"
     },
     {
         "name": "Cannoli Cream",
@@ -2986,7 +2986,7 @@
     },
     {
         "name": "Carrot Lava",
-        "korean_name": "당근 용암",
+        "korean_name": "캐럿 라바",
         "hex": "#fc5a1f"
     },
     {
@@ -3131,7 +3131,7 @@
     },
     {
         "name": "Celestial",
-        "korean_name": "천상의",
+        "korean_name": "셀레스티아",
         "hex": "#007894"
     },
     {
@@ -3146,7 +3146,7 @@
     },
     {
         "name": "Cement Feet",
-        "korean_name": "시멘트 발",
+        "korean_name": "시멘트 피트",
         "hex": "#7b737b"
     },
     {
@@ -3246,7 +3246,7 @@
     },
     {
         "name": "Cheek Red",
-        "korean_name": "볼 빨간",
+        "korean_name": "붉은 뺨",
         "hex": "#a55a55"
     },
     {
@@ -3316,7 +3316,7 @@
     },
     {
         "name": "Cherry Blossom",
-        "korean_name": "벚꽃",
+        "korean_name": "체리 블라썸",
         "hex": "#f5c1d5"
     },
     {
@@ -3431,7 +3431,7 @@
     },
     {
         "name": "China Silk",
-        "korean_name": "중국 실크",
+        "korean_name": "차이나 실크",
         "hex": "#e3d1cc"
     },
     {
@@ -3451,12 +3451,12 @@
     },
     {
         "name": "Chivalrous Fox",
-        "korean_name": "기사도적인 여우",
+        "korean_name": "정중한 여우",
         "hex": "#c7662a"
     },
     {
         "name": "Chivalrous Walrus",
-        "korean_name": "기사도적인 바다코끼리",
+        "korean_name": "정중한 바다코끼리",
         "hex": "#816558"
     },
     {
@@ -3481,7 +3481,7 @@
     },
     {
         "name": "Chocolate Bliss",
-        "korean_name": "초콜릿 행복",
+        "korean_name": "초콜릿 블리스",
         "hex": "#7f6054"
     },
     {
@@ -3581,7 +3581,7 @@
     },
     {
         "name": "Chubby Kiss",
-        "korean_name": "통통한 키스",
+        "korean_name": "처비 키스",
         "hex": "#b43548"
     },
     {
@@ -3596,7 +3596,7 @@
     },
     {
         "name": "Cigarette Glow",
-        "korean_name": "담배 불빛",
+        "korean_name": "시가렛 글로우",
         "hex": "#ee5500"
     },
     {
@@ -3636,22 +3636,22 @@
     },
     {
         "name": "Citrus Splash",
-        "korean_name": "감귤 스플래시",
+        "korean_name": "시트러스 스플래시",
         "hex": "#ffc400"
     },
     {
         "name": "City Dweller",
-        "korean_name": "도시 거주자",
+        "korean_name": "시티 드웰러",
         "hex": "#c0b9ac"
     },
     {
         "name": "Clairvoyant",
-        "korean_name": "투시자",
+        "korean_name": "천리안",
         "hex": "#480656"
     },
     {
         "name": "Clam Up",
-        "korean_name": "조개 닫기",
+        "korean_name": "클램 업",
         "hex": "#ebdbc1"
     },
     {
@@ -3681,12 +3681,12 @@
     },
     {
         "name": "Cloak and Dagger",
-        "korean_name": "망토와 단검",
+        "korean_name": "클록 앤 대거",
         "hex": "#550055"
     },
     {
         "name": "Cloak Grey",
-        "korean_name": "망토 회색",
+        "korean_name": "클록 그레이",
         "hex": "#605e63"
     },
     {
@@ -3696,7 +3696,7 @@
     },
     {
         "name": "Clotted Cream",
-        "korean_name": "응고 크림",
+        "korean_name": "클로티드 크림",
         "hex": "#f3efcd"
     },
     {
@@ -3706,7 +3706,7 @@
     },
     {
         "name": "Cloud Dancer",
-        "korean_name": "구름 댄서",
+        "korean_name": "클라우드 댄서",
         "hex": "#f0eee9"
     },
     {
@@ -3756,7 +3756,7 @@
     },
     {
         "name": "Coco Muck",
-        "korean_name": "코코 진흙",
+        "korean_name": "코코 먹",
         "hex": "#994a25"
     },
     {
@@ -3781,7 +3781,7 @@
     },
     {
         "name": "Coconut Agony",
-        "korean_name": "코코넛 고통",
+        "korean_name": "코코넛 아고니",
         "hex": "#ebe8e7"
     },
     {
@@ -3796,7 +3796,7 @@
     },
     {
         "name": "Cocoon",
-        "korean_name": "고치",
+        "korean_name": "코쿤",
         "hex": "#dedbcc"
     },
     {
@@ -4616,7 +4616,7 @@
     },
     {
         "name": "Dark",
-        "korean_name": "어두운",
+        "korean_name": "어둠",
         "hex": "#1b2431"
     },
     {
@@ -4631,7 +4631,7 @@
     },
     {
         "name": "Dark as Night",
-        "korean_name": "밤처럼 어두운",
+        "korean_name": "흑야",
         "hex": "#495252"
     },
     {
@@ -4696,7 +4696,7 @@
     },
     {
         "name": "Dark Moon",
-        "korean_name": "어두운 달",
+        "korean_name": "그믐달",
         "hex": "#161718"
     },
     {
@@ -4711,7 +4711,7 @@
     },
     {
         "name": "Dark Orchestra",
-        "korean_name": "어두운 오케스트라",
+        "korean_name": "다크 오케스트라",
         "hex": "#251b19"
     },
     {
@@ -4736,7 +4736,7 @@
     },
     {
         "name": "Dark Rift",
-        "korean_name": "어두운 균열",
+        "korean_name": "암흑 균열",
         "hex": "#060b14"
     },
     {
@@ -4751,12 +4751,12 @@
     },
     {
         "name": "Dark Salmon Injustice",
-        "korean_name": "다크 연어 불의",
+        "korean_name": "다크 살몬 인저스티스",
         "hex": "#e8957a"
     },
     {
         "name": "Dark Sanctuary",
-        "korean_name": "어두운 성역",
+        "korean_name": "암흑 성역",
         "hex": "#3f012c"
     },
     {
@@ -4841,12 +4841,12 @@
     },
     {
         "name": "Deadly Depths",
-        "korean_name": "치명적인 심해",
+        "korean_name": "죽음의 심해",
         "hex": "#111144"
     },
     {
         "name": "Deadly Yellow",
-        "korean_name": "치명적인 노란색",
+        "korean_name": "죽음의 노란색",
         "hex": "#dead00"
     },
     {
@@ -4966,7 +4966,7 @@
     },
     {
         "name": "Deeply Embarrassed",
-        "korean_name": "몹시 부끄러운",
+        "korean_name": "엄청 부끄럼",
         "hex": "#ecb2b3"
     },
     {
@@ -4981,7 +4981,7 @@
     },
     {
         "name": "Delayed Yellow",
-        "korean_name": "지연된 노란색",
+        "korean_name": "딜레이드 옐로우",
         "hex": "#fdf901"
     },
     {
@@ -5111,7 +5111,7 @@
     },
     {
         "name": "Devilish",
-        "korean_name": "악마 같은",
+        "korean_name": "데빌리쉬",
         "hex": "#dd3322"
     },
     {
@@ -5151,7 +5151,7 @@
     },
     {
         "name": "Dim",
-        "korean_name": "희미한",
+        "korean_name": "딤",
         "hex": "#c8c2be"
     },
     {
@@ -5261,7 +5261,7 @@
     },
     {
         "name": "Dolly Cheek",
-        "korean_name": "돌리 볼",
+        "korean_name": "돌리의 뺨",
         "hex": "#fcc9b6"
     },
     {
@@ -5271,7 +5271,7 @@
     },
     {
         "name": "Don’t Be Shy",
-        "korean_name": "부끄러워하지 마",
+        "korean_name": "돈 비 샤이",
         "hex": "#ed2c1a"
     },
     {
@@ -5366,7 +5366,7 @@
     },
     {
         "name": "Dramatic Blue",
-        "korean_name": "극적인 블루",
+        "korean_name": "드라마틱 블루",
         "hex": "#240093"
     },
     {
@@ -5381,12 +5381,12 @@
     },
     {
         "name": "Dream Setting",
-        "korean_name": "꿈 설정",
+        "korean_name": "드림 세팅",
         "hex": "#ff77bb"
     },
     {
         "name": "Dream Vapor",
-        "korean_name": "꿈 증기",
+        "korean_name": "드림 베이퍼",
         "hex": "#cc99ee"
     },
     {
@@ -5496,7 +5496,7 @@
     },
     {
         "name": "Dusky Mood",
-        "korean_name": "어둑어둑한 분위기",
+        "korean_name": "더스키 무드",
         "hex": "#979ba8"
     },
     {
@@ -5546,7 +5546,7 @@
     },
     {
         "name": "Dying Storm Blue",
-        "korean_name": "죽어가는 폭풍 블루",
+        "korean_name": "다잉 스톰 블루",
         "hex": "#111166"
     },
     {
@@ -5556,7 +5556,7 @@
     },
     {
         "name": "Dynasty Green",
-        "korean_name": "왕조 그린",
+        "korean_name": "다이너스티 그린",
         "hex": "#00988e"
     },
     {
@@ -5571,7 +5571,7 @@
     },
     {
         "name": "Earthbound",
-        "korean_name": "지구에 묶인",
+        "korean_name": "어스바운드",
         "hex": "#a48a80"
     },
     {
@@ -5586,7 +5586,7 @@
     },
     {
         "name": "Eat Your Greens",
-        "korean_name": "채소를 먹어",
+        "korean_name": "채식",
         "hex": "#696845"
     },
     {
@@ -5606,17 +5606,17 @@
     },
     {
         "name": "Eclipse Elixir",
-        "korean_name": "일식 묘약",
+        "korean_name": "이클립스 엘릭서",
         "hex": "#1f2133"
     },
     {
         "name": "Ecological",
-        "korean_name": "생태학적인",
+        "korean_name": "에코로지칼",
         "hex": "#677f70"
     },
     {
         "name": "Ecstatic Red",
-        "korean_name": "황홀한 레드",
+        "korean_name": "황홀한 빨강",
         "hex": "#aa1122"
     },
     {
@@ -5671,7 +5671,7 @@
     },
     {
         "name": "Elastic Pink",
-        "korean_name": "탄력 있는 핑크",
+        "korean_name": "엘라스틱 핑크",
         "hex": "#eca6ca"
     },
     {
@@ -5686,12 +5686,12 @@
     },
     {
         "name": "Electric Banana",
-        "korean_name": "전기 바나나",
+        "korean_name": "일렉트릭 바나나",
         "hex": "#fbff00"
     },
     {
         "name": "Electric Blood",
-        "korean_name": "전기 피",
+        "korean_name": "일렉트릭 블러드",
         "hex": "#e23d2a"
     },
     {
@@ -5701,7 +5701,7 @@
     },
     {
         "name": "Electric Laser Lime",
-        "korean_name": "전기 레이저 라임",
+        "korean_name": "일렉트릭 레이저 라임",
         "hex": "#26ff2a"
     },
     {
@@ -5711,7 +5711,7 @@
     },
     {
         "name": "Electric Yellow",
-        "korean_name": "전기 옐로우",
+        "korean_name": "일렉트릭 옐로우",
         "hex": "#fffc00"
     },
     {
@@ -5731,12 +5731,12 @@
     },
     {
         "name": "Elite Teal",
-        "korean_name": "엘리트 청록색",
+        "korean_name": "엘리트 틸",
         "hex": "#133337"
     },
     {
         "name": "Embarrassed",
-        "korean_name": "당황한",
+        "korean_name": "당황스러운",
         "hex": "#ee7799"
     },
     {
@@ -5901,7 +5901,7 @@
     },
     {
         "name": "Engulfed in Light",
-        "korean_name": "빛에 휩싸인",
+        "korean_name": "휩싸인 빛",
         "hex": "#f5f3e9"
     },
     {
@@ -5931,12 +5931,12 @@
     },
     {
         "name": "Ephemeral Blue",
-        "korean_name": "덧없는 블루",
+        "korean_name": "덧없는 파랑",
         "hex": "#cbd4df"
     },
     {
         "name": "Ephemeral Red",
-        "korean_name": "덧없는 레드",
+        "korean_name": "덧없는 빨강",
         "hex": "#e4cfd7"
     },
     {
@@ -5946,7 +5946,7 @@
     },
     {
         "name": "Epink",
-        "korean_name": "이핑크",
+        "korean_name": "에핑크",
         "hex": "#dd33ff"
     },
     {
@@ -6086,12 +6086,12 @@
     },
     {
         "name": "Exclusive Elixir",
-        "korean_name": "독점 묘약",
+        "korean_name": "엑스클루시브 엘리서",
         "hex": "#f9f1dd"
     },
     {
         "name": "Exclusive Ivory",
-        "korean_name": "독점 아이보리",
+        "korean_name": "엑스클루시브 아이보리",
         "hex": "#e2d8c3"
     },
     {
@@ -6106,12 +6106,12 @@
     },
     {
         "name": "Exotic Escape",
-        "korean_name": "이국적인 탈출",
+        "korean_name": "이그조틱 이스케이프",
         "hex": "#96d9df"
     },
     {
         "name": "Exotic Lilac",
-        "korean_name": "이국적인 라일락",
+        "korean_name": "이그조틱 라일락",
         "hex": "#d198b5"
     },
     {
@@ -6201,7 +6201,7 @@
     },
     {
         "name": "Fail Whale",
-        "korean_name": "실패 고래",
+        "korean_name": "페일 웨일",
         "hex": "#99ccee"
     },
     {
@@ -6446,12 +6446,12 @@
     },
     {
         "name": "Fever Dream",
-        "korean_name": "열병 꿈",
+        "korean_name": "피버 드림",
         "hex": "#dd5577"
     },
     {
         "name": "Feverish",
-        "korean_name": "열이 있는",
+        "korean_name": "발열",
         "hex": "#dd6677"
     },
     {
@@ -6481,7 +6481,7 @@
     },
     {
         "name": "Fierce Red",
-        "korean_name": "맹렬한 레드",
+        "korean_name": "맹렬한 빨강",
         "hex": "#cc0021"
     },
     {
@@ -6496,7 +6496,7 @@
     },
     {
         "name": "Fiji Sands",
-        "korean_name": "피지 모래",
+        "korean_name": "피지 샌즈",
         "hex": "#d8caa9"
     },
     {
@@ -6611,7 +6611,7 @@
     },
     {
         "name": "Fish Ceviche",
-        "korean_name": "생선 세비체",
+        "korean_name": "피쉬 세비체",
         "hex": "#e1e1d5"
     },
     {
@@ -6631,17 +6631,17 @@
     },
     {
         "name": "Five Star",
-        "korean_name": "별 다섯 개",
+        "korean_name": "파이브 스타",
         "hex": "#ffaa4a"
     },
     {
         "name": "Fizz",
-        "korean_name": "탄산",
+        "korean_name": "피즈",
         "hex": "#b1dbaa"
     },
     {
         "name": "Fizzy Peach",
-        "korean_name": "탄산 복숭아",
+        "korean_name": "피즈 피치",
         "hex": "#f7bc5c"
     },
     {
@@ -6806,7 +6806,7 @@
     },
     {
         "name": "Fluffy Duckling",
-        "korean_name": "솜털 오리 새끼",
+        "korean_name": "플러피 더클링",
         "hex": "#fcdf39"
     },
     {
@@ -6836,12 +6836,12 @@
     },
     {
         "name": "Fly Away",
-        "korean_name": "날아가다",
+        "korean_name": "플라이 어웨이",
         "hex": "#85b3f3"
     },
     {
         "name": "Fly by Night",
-        "korean_name": "야반도주",
+        "korean_name": "야간비행",
         "hex": "#1c1e4d"
     },
     {
@@ -6856,7 +6856,7 @@
     },
     {
         "name": "Flying Fish Blue",
-        "korean_name": "날치 블루",
+        "korean_name": "플라잉 피쉬 블루",
         "hex": "#024aca"
     },
     {
@@ -6951,7 +6951,7 @@
     },
     {
         "name": "Forestial",
-        "korean_name": "숲의",
+        "korean_name": "산림",
         "hex": "#007733"
     },
     {
@@ -7056,7 +7056,7 @@
     },
     {
         "name": "Freeze Up",
-        "korean_name": "얼어붙다",
+        "korean_name": "동결",
         "hex": "#dee9f4"
     },
     {
@@ -7116,7 +7116,7 @@
     },
     {
         "name": "Fresh Blue of Bel Air",
-        "korean_name": "벨 에어의 신선한 블루",
+        "korean_name": "프레시 블루 오브 벨 에어",
         "hex": "#069af3"
     },
     {
@@ -9792,7 +9792,7 @@
     {
         "name": "In the Pink",
         "hex": "#f4c4d0",
-        "korean_name": "건강한"
+        "korean_name": "인 더 핑크"
     },
     {
         "name": "In the Red",
@@ -21522,7 +21522,7 @@
     {
         "name": "Water Leaf",
         "hex": "#b6ecde",
-        "korean_name": "물 잎"
+        "korean_name": "워터 리프"
     },
     {
         "name": "Water Lily",

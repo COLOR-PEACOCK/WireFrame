@@ -4,7 +4,7 @@ import colorNameList from '../assets/color_name.json';
 import { getLevenshteinDistance } from '@utils/home';
 
 /**
- * @returns isLoding, getEngColorName getKorColorName
+ * @returns isLoading, getEngColorName getKorColorName
  * @example
  * ```
  * const { getEngColorName, getKorColorName, getEngColorNameLocal } = useColorName();
@@ -12,7 +12,7 @@ import { getLevenshteinDistance } from '@utils/home';
  */
 const useColorName = () => {
 	useEffect(() => {}, []);
-	const [isLoding, setIsLoding] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const nearest = nearestColor.from(
 		colorNameList.reduce(
 			(o, { korean_name, hex }) =>
@@ -46,9 +46,9 @@ const useColorName = () => {
 	 * ```
 	 */
 	const getEngColorNameLocal = value => {
-		setIsLoding(true);
+		setIsLoading(true);
 		const response = nearestEng(value);
-		setIsLoding(false);
+		setIsLoading(false);
 		return response.name;
 	};
 
@@ -61,9 +61,9 @@ const useColorName = () => {
 	 * ```
 	 */
 	const getKorColorName = value => {
-		setIsLoding(true);
+		setIsLoading(true);
 		const response = nearest(value);
-		setIsLoding(false);
+		setIsLoading(false);
 		return response.name;
 	};
 
@@ -92,7 +92,7 @@ const useColorName = () => {
 	};
 
 	return {
-		isLoding,
+		isLoading,
 		getEngColorName,
 		getKorColorName,
 		getEngColorNameLocal,
