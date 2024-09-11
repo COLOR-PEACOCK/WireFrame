@@ -195,7 +195,7 @@ const ImageScreen = ({ navigation }) => {
 					onPress={handleAiRecommend}>
 					{/* + 가져온 사진을 가지고 가야 함 */}
 					<Image source={aiIcon} style={styles.buttonIcon} />
-					<Text style={styles.ButtonText}>AI 추천</Text>
+					<Text style={styles.ButtonText}>AI 테마 추천</Text>
 				</Pressable>
 
 				<Pressable
