@@ -13,12 +13,14 @@ import {
 	getSplitComplementaryColors,
 	getMonochromaticColors,
 	getTetradicColors,
+	getTintColors,
+	getShadowColors,
 } from '@utils/colorRecommendUtils';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
 import convert from 'color-convert';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import SliderIcon from 'react-native-vector-icons/FontAwesome6';
 import BasicHeader from '@components/common/BasicHeader';
 import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
 import ColorPalette from '@components/ColorRecommend/ColorPalette';
@@ -27,7 +29,7 @@ import { COLOR } from '@styles/color';
 
 const ColorRecommendScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
-	const [color, setColor] = useState(mainColor.hexVal);
+	const [color, setColor] = useState(mainColor);
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
 	const [tempColor, setTempColor] = useState(mainColor.hexVal);
 	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
@@ -46,84 +48,102 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	});
 
 	useEffect(() => {
-		const updateColorInfo = async () => {
-			const colorData = getColorInfo(tempColor.replace('#', ''));
-			const engName = await getEngColorNameLocal(tempColor);
-			const korName = await getKorColorName(tempColor);
+		if (tempColor) {
+			const updateColorInfo = () => {
+				const colorData = getColorInfo(tempColor.replace('#', ''));
+				const engName = getEngColorNameLocal(tempColor);
+				const korName = getKorColorName(tempColor);
 
-			setColorInfo({
-				engName: engName,
-				korName: korName,
-				hexVal: colorData.hexVal,
-				rgbVal: colorData.rgbVal,
-				hslVal: colorData.hslVal,
-				cmykVal: colorData.cmykVal,
-			});
-		};
+				setColorInfo({
+					engName: engName,
+					korName: korName,
+					hexVal: colorData.hexVal,
+					rgbVal: colorData.rgbVal,
+					hslVal: colorData.hslVal,
+					cmykVal: colorData.cmykVal,
+				});
+			};
 
-		updateColorInfo();
+			updateColorInfo();
+		}
 	}, [tempColor]);
 
-	const textColor = tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
-	const labelColor = tinycolor(color).isLight() ? COLOR.BLACK : COLOR.WHITE;
-
-	const saveColor = () => {
-		setColor(tempColor);
-		setIsPickerVisible(false);
-	};
+	const textColor = tinycolor(tempColor).isLight()
+		? COLOR.GRAY_8
+		: COLOR.GRAY_6;
+	const labelColor = tinycolor(tempColor).isLight()
+		? COLOR.GRAY_10
+		: COLOR.WHITE;
 
 	const handleColorSelect = selectedColors => {
 		console.log('선택 팔레트', selectedColors);
 		// TODO: 선택 팔레트 넘겨주기
 	};
 
-	const hslColor = convert.hex.hsl(color.replace('#', ''));
+	const hslColor = convert.hex.hsl(tempColor.replace('#', ''));
 
 	const complementaryColors = useMemo(
-		() => [color, getComplementaryColor(hslColor)],
-		[color, hslColor],
+		() => [...getComplementaryColor(hslColor)],
+		[hslColor],
 	);
 
 	const analogousColors = useMemo(
-		() => [color, ...getAnalogousColors(hslColor)],
-		[color, hslColor],
+		() => [...getAnalogousColors(hslColor)],
+		[hslColor],
 	);
 
 	const triadicColors = useMemo(
 		() => [
-			color,
 			...getTriadicColors(hslColor).map(hsl =>
 				tinycolor(hsl).toHexString(),
 			),
 		],
-		[color, hslColor],
+		[hslColor],
 	);
 
 	const splitComplementaryColors = useMemo(
-		() => [color, ...getSplitComplementaryColors(hslColor)],
-		[color, hslColor],
+		() => [...getSplitComplementaryColors(hslColor)],
+		[hslColor],
 	);
 
 	const monochromaticColors = useMemo(
-		() => [color, ...getMonochromaticColors(hslColor)],
-		[color, hslColor],
+		() => [...getMonochromaticColors(hslColor)],
+		[hslColor],
 	);
 
 	const tetradicColors = useMemo(
-		() => [color, ...getTetradicColors(hslColor)],
-		[color, hslColor],
+		() => [...getTetradicColors(hslColor)],
+		[hslColor],
 	);
+
+	const tintColors = useMemo(() => [...getTintColors(hslColor)], [hslColor]);
+
+	const shadowColors = useMemo(
+		() => [...getShadowColors(hslColor)],
+		[hslColor],
+	);
+
+	const infoText =
+		'추출 색상을 기반하여 색상 추천 목록을 자세히 제공. 개체를 이용해 사용자에게 색상에 대해 미리보기 또한 선사합니다.';
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<BasicHeader title={'색상 추천 화면'} />
-			<View style={[styles.colorBox, { backgroundColor: color }]}>
+			<BasicHeader
+				titleIcon={'palette'}
+				title={'색상 추천'}
+				subTitle={'color palette'}
+				rightIcon={'info'}
+				infoText={infoText}
+			/>
+
+			<View style={[styles.colorBox, { backgroundColor: tempColor }]}>
 				<MainColorInfo
 					colorInfo={colorInfo}
 					textColor={textColor}
 					labelColor={labelColor}
 				/>
 				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
-					<Icon
+					<SliderIcon
 						name="sliders"
 						size={38}
 						color={labelColor}
@@ -142,6 +162,18 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					titleKor="보색"
 					titleEng="Complementary color"
 					colors={complementaryColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
+					titleKor="밝게"
+					titleEng="Tint"
+					colors={tintColors}
+					onColorSelect={handleColorSelect}
+				/>
+				<ColorPalette
+					titleKor="어둡게"
+					titleEng="Shade"
+					colors={shadowColors}
 					onColorSelect={handleColorSelect}
 				/>
 				<ColorPalette
@@ -173,7 +205,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 				isVisible={isPickerVisible}
 				tempColor={tempColor}
 				setTempColor={setTempColor}
-				onSave={saveColor}
+				setIsPickerVisible={setIsPickerVisible}
 				onCancel={() => setIsPickerVisible(false)}
 			/>
 		</SafeAreaView>
@@ -190,6 +222,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 18,
 		paddingVertical: 12,
 		borderRadius: 10,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
+		zIndex: -1
 	},
 });
 
