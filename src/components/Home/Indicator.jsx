@@ -8,8 +8,8 @@ const Indicator = ({ currentIndex, length }) => {
 				<View
 					key={index}
 					style={{
-						width: currentIndex === index ? 20 : 10,
-						height: 10,
+						width: currentIndex === index ? 20 : 8,
+						height: 8,
 						borderRadius: 100,
 						backgroundColor:
 							currentIndex === index
