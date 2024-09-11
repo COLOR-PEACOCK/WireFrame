@@ -66,7 +66,7 @@ const InputForm = forwardRef(({ label, unit, onPress, ...rest }, ref) => {
 				<Text style={styles.labelText}>{label}</Text>
 			</View>
 			<View style={styles.textInput}>
-				<TextInput ref={ref} {...rest} />
+				<TextInput ref={ref} {...rest} style={{color: COLOR.GRAY_10}}/>
 				{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
 			</View>
 		</Pressable>
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		marginLeft: 10,
+		
 	},
 });
 
