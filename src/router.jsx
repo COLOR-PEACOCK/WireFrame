@@ -7,7 +7,9 @@ import ImageScreen from '@pages/ImageScreen';
 import AiResponseScreen from '@pages/AiResponseScreen';
 import ColorRecommendScreen from '@pages/ColorRecommendScreen';
 import CameraScreen from '@pages/CameraScreen';
+import ObjectScreen from '@pages/ObjectScreen';
 import ImageAiScreen from '@pages/ImageAiScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +30,7 @@ const Router = () => {
 				component={ColorRecommendScreen}
 			/>
 			<Stack.Screen name="CameraScreen" component={CameraScreen} />
+			<Stack.Screen name="ObjectScreen" component={ObjectScreen} />
 			<Stack.Screen name="ImageAiScreen" component={ImageAiScreen} />
 		</Stack.Navigator>
 	);
