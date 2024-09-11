@@ -7,49 +7,77 @@ import { COLOR } from '@styles/color';
  *  * @example 상태 이름은 자유입니다.
  * `````````````````````````````````````````````
  * import CustomPopup from '경로';
- * 
+ *
  * const [message, setMessage] = useState('');
- * 
+ *
  * useEffect(() => {
  *    setMessage('작성할 텍스트 내용\n• 줄바꿈 하고 작성한 텍스트');
  * }, []);
- * 
- * <CustomPopup message={message} /> 
+ *
+ * <CustomPopup message={message} />
  * ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
  *  \n• : 줄바꿈
  */
 
 const CustomPopup = ({ message, duration = 3500 }) => {
 	const [visible, setVisible] = useState(false);
-	const slideAnim = useRef(new Animated.Value(-100)).current;
+	const slideAnim = useRef(new Animated.Value(0)).current;
+	const opicityAnim = useRef(new Animated.Value(0)).current;
 
 	useEffect(() => {
 		if (message) {
 			setVisible(true);
 
-			// 애니메이션 시작을 1초 지연
-			const showTimeout = setTimeout(() => {
-				Animated.timing(slideAnim, {
-					toValue: 0,
-					duration: 500,
-					easing: Easing.out(Easing.ease),
-					useNativeDriver: true,
-				}).start();
-			}, 1000); // 1초 지연
-
-			const hideTimeout = setTimeout(() => {
-				Animated.timing(slideAnim, {
-					toValue: -100,
-					duration: 500,
-					easing: Easing.in(Easing.ease),
-					useNativeDriver: true,
-				}).start(() => setVisible(false));
-			}, duration + 1000); // 1초 지연 추가
-
-			return () => {
-				clearTimeout(showTimeout);
-				clearTimeout(hideTimeout);
+			const createAnimation = () => {
+				return Animated.parallel([
+					Animated.sequence([
+						Animated.timing(slideAnim, {
+							toValue: 1,
+							duration: 500,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+						Animated.timing(slideAnim, {
+							toValue: 1,
+							duration: 3000,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+						Animated.timing(slideAnim, {
+							toValue: 0,
+							duration: 500,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+					]),
+					Animated.sequence([
+						Animated.timing(opicityAnim, {
+							toValue: 1,
+							duration: 500,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+						Animated.timing(opicityAnim, {
+							toValue: 1,
+							duration: 3000,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+						Animated.timing(opicityAnim, {
+							toValue: 0,
+							duration: 500,
+							easing: Easing.inOut(Easing.quad),
+							useNativeDriver: true,
+						}),
+					]),
+				]);
 			};
+
+			const animation = createAnimation();
+
+			animation.start(() => {
+				setVisible(false); // 애니메이션이 끝난 후 컴포넌트 언로드
+			});
 		}
 	}, [message]);
 
@@ -57,7 +85,23 @@ const CustomPopup = ({ message, duration = 3500 }) => {
 
 	return (
 		<Animated.View
-			style={[styles.popup, { transform: [{ translateY: slideAnim }] }]}>
+			style={[
+				styles.popup,
+				{
+					transform: [
+						{
+							translateY: slideAnim.interpolate({
+								inputRange: [0, 1],
+								outputRange: [0, 70],
+							}),
+						},
+					],
+					opacity: opicityAnim.interpolate({
+						inputRange: [0, 1],
+						outputRange: [0, 1],
+					}),
+				},
+			]}>
 			<Text style={styles.message}>• {message}</Text>
 		</Animated.View>
 	);
@@ -67,7 +111,7 @@ const styles = StyleSheet.create({
 	popup: {
 		position: 'absolute',
 		zIndex: 9999,
-		top: 72,
+		top: -10,
 		left: 0,
 		right: 0,
 		justifyContent: 'center',
@@ -84,7 +128,7 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_3,
 		fontSize: 18,
 		fontFamily: 'Pretendard-Medium',
-        textAlign: 'center',
+		textAlign: 'center',
 	},
 });
 
