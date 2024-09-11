@@ -4,7 +4,6 @@ import {
 	Pressable,
 	ScrollView,
 	StyleSheet,
-	TouchableOpacity,
 	View,
 } from 'react-native';
 
@@ -156,18 +155,37 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 						</View>
 					</View>
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={[styles.modalButton, styles.closeButton]}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? COLOR.GRAY_7
+										: COLOR.GRAY_6,
+									borderBottomLeftRadius: 8,
+								},
+								styles.closeButton,
+								styles.modalButton,
+							]}
 							onPress={handleCloseModal}>
 							<ArrowGoBackSVG color={COLOR.WHITE} />
-							<Text style={styles.buttonText}> 이전으로</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={[styles.modalButton, styles.searchButton]}
+							<Text style={styles.buttonText}>이전으로</Text>
+						</Pressable>
+
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+									borderBottomRightRadius: 8,
+								},
+								styles.searchButton,
+								styles.modalButton,
+							]}
 							onPress={handlePressSearch}>
 							<FormkitSubmitSVG color={COLOR.WHITE} />
-							<Text style={styles.buttonText}> 검색하기</Text>
-						</TouchableOpacity>
+							<Text style={styles.buttonText}>검색하기</Text>
+						</Pressable>
 					</View>
 				</View>
 			</Modal>
@@ -196,6 +214,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		width: '100%',
 		height: '100%',
+		backgroundColor: 'rgba(0,0,0, 0.8)',
 	},
 	modalHeader: {
 		width: '100%',
@@ -232,16 +251,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	closeButton: {
-		backgroundColor: COLOR.GRAY_6,
 		borderBottomLeftRadius: 8,
 	},
 	searchButton: {
-		backgroundColor: COLOR.PRIMARY,
 		borderBottomRightRadius: 8,
 	},
 	buttonText: {
 		fontFamily: 'Pretendard-Bold',
 		color: COLOR.WHITE,
+		marginLeft: 6,
 	},
 });
 

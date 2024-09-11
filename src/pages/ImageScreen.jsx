@@ -6,26 +6,42 @@ import {
 	Platform,
 	PermissionsAndroid,
 	Alert,
+	Pressable,
+	Image,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { COLOR } from '@styles/color';
 import RNFS from 'react-native-fs';
+import _ from 'lodash';
+
+// components
 import BasicHeader from '@components/common/BasicHeader';
 import { CustomText as Text } from '@components/common/CustomText';
-import { COLOR } from '@styles/color';
+import CustomPopup from '@components/common/CustomPopup';
+
+// hooks
 import useColorName from '@hooks/useColorName';
-import _ from 'lodash';
 import useImageWebview from '@hooks/useImageWebview';
+
+// icons
+import imageIcon from '@icons/image.png';
+import paletteIcon from '@icons/palette.png';
+import aiIcon from '@icons/ai.png';
 
 const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
 	const [imageDataUrl, setImageDataUrl] = useState(null);
 	const [colorName, setColorName] = useState('');
+  
+	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
 	const { getKorColorName, getEngColorNameLocal } = useColorName();
 	const { getHtmlContent } = useImageWebview();
+
 	useEffect(() => {
 		selectImage();
 	}, []);
+
 	const requestStoragePermission = async () => {
 		if (Platform.OS === 'android') {
 			try {
@@ -63,6 +79,11 @@ const ImageScreen = ({ navigation }) => {
 					const base64Image = await RNFS.readFile(uri, 'base64');
 					const dataUrl = `data:image/jpeg;base64,${base64Image}`;
 					setImageDataUrl(dataUrl);
+
+					// 이미지 선택 후 팝업 메시지 설정
+					setPopupMessage(
+						'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행',
+					);
 				} catch (error) {
 					Alert.alert('Error', 'Failed to convert image to Base64');
 				}
@@ -97,14 +118,18 @@ const ImageScreen = ({ navigation }) => {
 			engName: getEngColorNameLocal(color),
 		});
 	}, [color]);
+
+	const handleClosePopup = () => {
+		setPopupMessage('');
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
 				<BasicHeader
-					titleIcon={'camera'}
+					titleIcon={'image'}
 					title={'이미지'}
 					subTitle={'images'}
-					rightIcon={'info'}
 					infoText={'infomation text'}
 				/>
 			</View>
@@ -137,24 +162,64 @@ const ImageScreen = ({ navigation }) => {
 					<TouchableOpacity
 						style={styles.placeholder}
 						onPress={selectImage}>
-						<Text style={styles.placeholderText}>이미지 선택</Text>
+						<Image
+							source={imageIcon}
+							style={{ width: 64, height: 64 }}
+						/>
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}>
+							<Text style={[styles.placeholderTextKor]}>
+								이미지 선택
+							</Text>
+							<Text style={styles.placeholderTextEng}>
+								select images
+							</Text>
+						</View>
 					</TouchableOpacity>
 				)}
 			</View>
+
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity
-					style={styles.aiButton}
+				<Pressable
+					style={({ pressed }) => [
+						{
+							backgroundColor: pressed
+								? COLOR.GRAY_7
+								: COLOR.GRAY_6,
+						},
+						styles.button,
+					]}
 					onPress={handleAiRecommend}>
-					<Text style={styles.aiButtonText}>AI 추천</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.recommendationButton}
+					{/* + 가져온 사진을 가지고 가야 함 */}
+					<Image source={aiIcon} style={styles.buttonIcon} />
+					<Text style={styles.ButtonText}>AI 추천</Text>
+				</Pressable>
+
+				<Pressable
+					style={({ pressed }) => [
+						{
+							backgroundColor: pressed
+								? '#5F1AB6'
+								: COLOR.PRIMARY,
+						},
+						styles.button,
+					]}
 					onPress={handleColorRecommend}>
-					<Text style={styles.recommendationButtonText}>
-						색상 추천
-					</Text>
-				</TouchableOpacity>
+					<Image source={paletteIcon} style={styles.buttonIcon} />
+					<Text style={styles.ButtonText}>색상 추천</Text>
+				</Pressable>
 			</View>
+
+			{/* CustomPopup 컴포넌트 */}
+			{popupMessage ? (
+				<CustomPopup
+					message={popupMessage}
+					onClose={handleClosePopup}
+				/>
+			) : null}
 		</View>
 	);
 };
@@ -162,6 +227,7 @@ const ImageScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#000',
 	},
 	headerContainer: {
 		flexDirection: 'row',
@@ -182,13 +248,15 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 16,
-		backgroundColor: COLOR.GRAY_10,
+		backgroundColor: COLOR.GRAY_9,
 		zIndex: -1,
 	},
 	colorIndicator: {
 		width: 64,
 		height: 64,
-		borderRadius: 8,
+		borderRadius: 4,
+		borderWidth: 1,
+		borderColor: 'rgba(250, 250, 250, .3)',
 	},
 	colorDetails: {
 		gap: 6,
@@ -209,29 +277,49 @@ const styles = StyleSheet.create({
 	imageContainer: {
 		flex: 3,
 		width: '100%',
+		paddingVertical: 4,
 	},
 	placeholder: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: COLOR.GRAY_2,
-		borderRadius: 8,
+		gap: 24,
 	},
-	placeholderText: {
-		color: COLOR.GRAY_7,
+	placeholderTextKor: {
+		color: COLOR.GRAY_6,
 		fontSize: 18,
+		fontFamily: 'Pretendard-Bold',
+	},
+	placeholderTextEng: {
+		color: COLOR.GRAY_6,
+		fontSize: 14,
+		fontFamily: 'Pretendard-Bold',
+		textTransform: 'capitalize',
 	},
 	webview: {
 		width: '100%',
 		height: '100%',
 	},
 	buttonContainer: {
+		height: 124,
 		flexDirection: 'row',
-		backgroundColor: COLOR.GRAY_10,
-		height: 125,
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 16,
+		backgroundColor: COLOR.GRAY_10,
+	},
+	button: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		height: '100%',
+		flexDirection: 'row',
+		gap: 6,
+	},
+	buttonIcon: {
+		width: 26,
+		height: 26,
 	},
 	aiButton: {
 		backgroundColor: COLOR.GRAY_10,
@@ -246,10 +334,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	aiButtonText: {
+	ButtonText: {
 		color: COLOR.WHITE,
 		fontSize: 18,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 	},
 	recommendationButton: {
 		backgroundColor: COLOR.PRIMARY,
@@ -261,11 +349,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
-	recommendationButtonText: {
-		color: COLOR.WHITE,
-		fontSize: 18,
-		fontWeight: 'bold',
 	},
 });
 

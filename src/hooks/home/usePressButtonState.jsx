@@ -1,17 +1,17 @@
-import { COLOR } from "@styles/color";
-import { useState } from "react";
+import { COLOR } from '@styles/color';
+import { useState } from 'react';
 
 const usePressButtonState = () => {
-	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
+	const [contentColor, setContentColor] = useState(COLOR.GRAY_10);
 	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
-	
+
 	const handleTouchStart = () => {
-		setContentColor(COLOR.WHITE);
+		setContentColor(COLOR.GRAY_1);
 		setButtonColor(COLOR.PRIMARY);
 	};
 
 	const handleTouchEnd = () => {
-		setContentColor(COLOR.GRAY_9);
+		setContentColor(COLOR.GRAY_10);
 		setButtonColor(COLOR.WHITE);
 	};
 

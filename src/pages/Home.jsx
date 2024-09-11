@@ -111,6 +111,7 @@ const Home = ({ navigation }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.container}>
+
 				<View style={styles.header}>
 					<View
 						style={{
@@ -139,6 +140,7 @@ const Home = ({ navigation }) => {
 						<SearchSVG />
 					</TouchableOpacity>
 				</View>
+                
 				<View style={styles.buttonContainer}>
 					<PressButton
 						iconName={'camera'}
@@ -205,6 +207,7 @@ const Home = ({ navigation }) => {
 						onPress={onPressPagination}
 					/>
 				</View>
+                
 			</View>
 		</SafeAreaView>
 	);
@@ -218,17 +221,19 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		width: '100%',
+        minWidth: 412,
+		height: 84,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: '5%',
-		height: 84,
+		paddingHorizontal: 18,
 		elevation: 5,
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 20,
 		fontFamily: 'CookieRun-Bold',
+        letterSpacing: -1,
 		color: COLOR.PRIMARY,
 	},
 	searchIconWrapper: {

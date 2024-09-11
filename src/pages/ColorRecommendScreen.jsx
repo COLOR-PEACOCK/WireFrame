@@ -6,6 +6,18 @@ import {
 	StyleSheet,
 	ScrollView,
 } from 'react-native';
+import tinycolor from 'tinycolor2';
+import convert from 'color-convert';
+
+// components
+import BasicHeader from '@components/common/BasicHeader';
+import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
+import ColorPalette from '@components/ColorRecommend/ColorPalette';
+import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
+
+// hook & utils
+import { getColorInfo } from '@utils/colorRecommendUtils';
+import useColorName from '@hooks/useColorName';
 import {
 	getComplementaryColor,
 	getAnalogousColors,
@@ -16,15 +28,8 @@ import {
 	getTintColors,
 	getShadowColors,
 } from '@utils/colorRecommendUtils';
-import { getColorInfo } from '@utils/colorRecommendUtils';
-import useColorName from '@hooks/useColorName';
-import tinycolor from 'tinycolor2';
-import convert from 'color-convert';
-import SliderIcon from 'react-native-vector-icons/FontAwesome6';
-import BasicHeader from '@components/common/BasicHeader';
-import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
-import ColorPalette from '@components/ColorRecommend/ColorPalette';
-import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
+
+// styles
 import { COLOR } from '@styles/color';
 
 const ColorRecommendScreen = ({ route, navigation }) => {
@@ -69,8 +74,8 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	}, [tempColor]);
 
 	const textColor = tinycolor(tempColor).isLight()
-		? COLOR.GRAY_8
-		: COLOR.GRAY_6;
+		? COLOR.GRAY_9
+		: COLOR.GRAY_3;
 	const labelColor = tinycolor(tempColor).isLight()
 		? COLOR.GRAY_10
 		: COLOR.WHITE;
@@ -137,95 +142,109 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 				infoText={infoText}
 			/>
 
-			<View style={[styles.colorBox, { backgroundColor: tempColor }]}>
-				<MainColorInfo
-					colorInfo={colorInfo}
-					textColor={textColor}
-					labelColor={labelColor}
-				/>
-				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
-					<SliderIcon
-						name="sliders"
-						size={38}
-						color={labelColor}
-						style={{ marginVertical: 9 }}
+			<View style={styles.container}>
+				<View style={[styles.colorBox, { backgroundColor: tempColor }]}>
+					<MainColorInfo
+						colorInfo={colorInfo}
+						textColor={textColor}
+						labelColor={labelColor}
+						setIsPickerVisible={setIsPickerVisible}
 					/>
-				</TouchableOpacity>
+				</View>
+
+				<View style={styles.split}></View>
+
+				<ScrollView style={styles.colorPaletteWrap}>
+					<ColorPalette
+						titleKor="단색"
+						titleEng="Monochromatic color"
+						colors={monochromaticColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="보색"
+						titleEng="Complementary color"
+						colors={complementaryColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="밝게"
+						titleEng="Tint"
+						colors={tintColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="어둡게"
+						titleEng="Shade"
+						colors={shadowColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="유사색"
+						titleEng="Analogous colors"
+						colors={analogousColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="분할 보색"
+						titleEng="Split complementary colors"
+						colors={splitComplementaryColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="3가지 색상 조화"
+						titleEng="Three colors harmony"
+						colors={triadicColors}
+						onColorSelect={handleColorSelect}
+					/>
+					<ColorPalette
+						titleKor="4가지 색상 조화"
+						titleEng="Four colors harmony"
+						colors={tetradicColors}
+						onColorSelect={handleColorSelect}
+					/>
+				</ScrollView>
+
+				<ColorPickerModal
+					isVisible={isPickerVisible}
+					tempColor={tempColor}
+					setTempColor={setTempColor}
+					setIsPickerVisible={setIsPickerVisible}
+					onCancel={() => setIsPickerVisible(false)}
+				/>
 			</View>
-			<ScrollView>
-				<ColorPalette
-					titleKor="단색"
-					titleEng="Monochromatic color"
-					colors={monochromaticColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="보색"
-					titleEng="Complementary color"
-					colors={complementaryColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="밝게"
-					titleEng="Tint"
-					colors={tintColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="어둡게"
-					titleEng="Shade"
-					colors={shadowColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="유사색"
-					titleEng="Analogous colors"
-					colors={analogousColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="분할 보색"
-					titleEng="Split complementary colors"
-					colors={splitComplementaryColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="3가지 색상 조화"
-					titleEng="Three colors harmony"
-					colors={triadicColors}
-					onColorSelect={handleColorSelect}
-				/>
-				<ColorPalette
-					titleKor="4가지 색상 조화"
-					titleEng="Four colors harmony"
-					colors={tetradicColors}
-					onColorSelect={handleColorSelect}
-				/>
-			</ScrollView>
-			<ColorPickerModal
-				isVisible={isPickerVisible}
-				tempColor={tempColor}
-				setTempColor={setTempColor}
-				setIsPickerVisible={setIsPickerVisible}
-				onCancel={() => setIsPickerVisible(false)}
-			/>
 		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: 'column',
+		alignItems: 'center',
+        paddingHorizontal: 18,
+            
+	},
 	colorBox: {
 		flexDirection: 'row',
-		width: 376,
+		width: '100%',
 		height: 214,
-		marginHorizontal: 18,
 		marginVertical: 24,
 		paddingHorizontal: 18,
 		paddingVertical: 12,
-		borderRadius: 10,
 		borderWidth: 2,
+		borderRadius: 10,
 		borderColor: COLOR.GRAY_3,
 	},
+	colorPaletteWrap: {
+		width: '100%',
+	},
+	split: {
+		width: '100%',
+		height: 4,
+        marginBottom: 18,
+		backgroundColor: COLOR.GRAY_1,
+	}
 });
 
 export default ColorRecommendScreen;

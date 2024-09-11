@@ -4,11 +4,10 @@ import { COLOR } from '@styles/color';
 import SVGIcon from '@components/common/SVGIcon';
 import usePressButtonState from '@hooks/home/usePressButtonState';
 
-
-const size = 40;
+const size = 48;
 const PressButton = ({ iconName, onPress, engText, text }) => {
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
-		usePressButtonState();
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } = usePressButtonState();
+    
 	return (
 		<Pressable
 			onPress={onPress}
@@ -23,7 +22,7 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 				color={contentColor}
 				style={styles.icon}
 			/>
-			<View style={{}}>
+			<View>
 				<Text
 					style={[
 						styles.buttonEngText,
@@ -41,31 +40,40 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		width: '90%',
+		width: '100%',
+		maxWidth: 376,
 		height: 84,
-		marginHorizontal: '5%',
+		marginHorizontal: 18,
 		borderRadius: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
-		gap: 18,
 		backgroundColor: COLOR.WHITE,
-		elevation: 2,
+		// Android 그림자 설정
+		elevation: 4,
+		// iOS 그림자 설정
 		shadowOffset: {
 			width: 0,
 			height: 2,
 		},
-		shadowRadius: 8,
+		shadowRadius: 4,
 		shadowColor: COLOR.BLACK,
-		shadowOpacity: 0.25,
+		shadowOpacity: 0.2,
 	},
-	icon: { marginLeft: '12.5%' },
+	icon: {
+		marginLeft: 74,
+	},
 	buttonEngText: {
 		fontFamily: 'Pretendard-Medium',
 		fontSize: 12,
+        fontWeight: 500,
+		letterSpacing: 0.3,
+        textTransform: 'uppercase',
+
 	},
 	buttonText: {
 		fontFamily: 'Pretendard-Bold',
 		fontSize: 16,
+		letterSpacing: 0.8,
 	},
 });
 

@@ -62,6 +62,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 				<Text style={styles.titleKor}>{titleKor}</Text>
 				<Text style={styles.titleEng}>{titleEng}</Text>
 			</View>
+
 			<View style={styles.paletteContainer}>
 				<View style={styles.colorRow}>
 					{colors.map((color, index) => {
@@ -111,15 +112,14 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 					activeOpacity={1}
 					onPressIn={() => setIsButtonPressed(true)}
 					onPress={() => {
-						onColorSelect(colors.map(c => tinycolor(c).toHexString()),);
+						onColorSelect(
+							colors.map(c => tinycolor(c).toHexString()),
+						);
 					}}
-					onPressOut={() => setIsButtonPressed(false)}
-					
-					
-					>
+					onPressOut={() => setIsButtonPressed(false)}>
 					<HangerIcon
 						name="hanger"
-						size={20}
+						size={24}
 						color={isButtonPressed ? COLOR.WHITE : COLOR.PRIMARY}
 					/>
 				</Pressable>
@@ -137,28 +137,23 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		// padding: 10,
-		marginHorizontal: 18,
 		marginVertical: 6,
 	},
 	header: {
 		flexDirection: 'row',
-		// marginHorizontal: 9,
 		marginBottom: 3,
 	},
 	titleKor: {
 		color: COLOR.GRAY_10,
 		fontSize: 18,
-		// fontWeight: 'medium',
-		fontFamily: 'Pretendard-medium',
-		// marginHorizontal: 4,
+		fontFamily: 'Pretendard-Bold',
+		marginLeft: 3,
 	},
 	titleEng: {
-		color: COLOR.GRAY_6,
+		color: COLOR.GRAY_7,
 		fontSize: 12,
-		marginHorizontal: 6,
 		fontFamily: 'Pretendard-medium',
-
+		marginLeft: 6,
 		alignSelf: 'flex-end',
 	},
 	paletteContainer: {
@@ -167,8 +162,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		height: 50,
-		// paddingHorizontal: 9,
-		alignSelf: 'center',
 	},
 	colorRow: {
 		flexDirection: 'row',
@@ -182,9 +175,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: 50,
 		marginHorizontal: -1, // 팔레트 칩 사이 간격 최소화
-		marginVertical: 0,
-		borderWidth: 0,
-		padding: 0,
 	},
 	iconContainer: {
 		width: 50,
@@ -192,17 +182,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 8,
-		// shadowColor: COLOR.GRAY_3,
-		// shadowOffset: {
-		// 	width: 0,
-		// 	height: 2,
-		// },
-		// shadowOpacity: 0.25,
-		// shadowRadius: 3.84,
-		// elevation: 5,
-		backgroundColor: 'rgba(255, 255, 255, 1)',
+		backgroundColor: COLOR.WHITE,
 		borderWidth: 2,
-		// borderColor: 'rgba(224, 224, 224, 1)',
 		borderColor: COLOR.GRAY_3,
 	},
 });
