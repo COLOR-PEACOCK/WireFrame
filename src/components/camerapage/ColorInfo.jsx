@@ -24,21 +24,13 @@ const ColorInfo = ({
 			: bottomSheetRef.current?.snapToIndex(0);
 	}, [isOpen]);
 
-	const handleSheetChanges = useCallback(index => {
-		//index는 0,1값만 가짐
-		setIsOpen(index);
-	}, []);
-
-	//터치가 잘 안돼서 일단 유기
-	// const tapAction = () => {
-	// 	bottomSheetRef.current?.snapToIndex(0);
-	// 	console.log('work');
-	// };
+	const handleTouchEvent = () => {
+		setIsOpen(!isOpen);
+	};
 
 	const CustomHandle = () => (
 		<View>
-			<TouchableOpacity
-				// onPress={tapAction}
+			<View
 				style={[
 					styles.customHandle,
 					{ left: parentlayout.width / 2 - 17.5 },
@@ -48,60 +40,79 @@ const ColorInfo = ({
 				) : (
 					<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />
 				)}
-			</TouchableOpacity>
+			</View>
 
-			<TouchableOpacity
-				// onPress={cameraSwitch}
-				onPress={() => {
-					console.log('됨?');
-				}}
-				style={styles.switchbuttonwrapper}>
+			<View onPress={cameraSwitch} style={styles.switchbuttonwrapper}>
 				<Image
 					source={cameraswitch}
 					style={{ width: 28, height: 28 }}
 				/>
-			</TouchableOpacity>
+			</View>
 		</View>
 	);
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
+			<TouchableOpacity
+				onPress={cameraSwitch}
+				style={[
+					styles.switchbuttonevent,
+					isOpen ? { top: 4 } : { top: 104 },
+				]}
+			/>
+			<TouchableOpacity
+				onPress={handleTouchEvent}
+				style={[
+					styles.handlerbuttonevent,
+					{ left: parentlayout.width / 2 - 17.5 },
+					isOpen ? { top: 25 } : { top: 125 },
+				]}
+			/>
+
 			<BottomSheet
 				ref={bottomSheetRef}
 				snapPoints={[40, 140]}
-				onChange={handleSheetChanges}
 				handleComponent={CustomHandle}
+				enableHandlePanningGesture={false}
+				enableContentPanningGesture={false}
 				backgroundComponent={null}>
 				<BottomSheetView style={styles.contentContainer}>
-					<View style={styles.infowrapper}>
-						<View
-							style={{
-								width: 74,
-								height: 74,
-								backgroundColor: selectedColor?.rgb,
-								marginLeft: 70,
-								borderRadius: 8,
-							}}
-						/>
-						<View
-							style={{
-								gap: 6,
-								width: parentlayout.width / 2.314,
-							}}>
-							<View>
-								<Text style={styles.korcolors}>
-									≈{selectedColor?.korName}
-								</Text>
-								<Text style={styles.engcolors}>
-									{selectedColor?.engName}
+					{selectedColor ? (
+						<View style={styles.infowrapper}>
+							<View
+								style={{
+									width: 74,
+									height: 74,
+									backgroundColor: selectedColor?.rgb,
+									borderRadius: 8,
+								}}
+							/>
+							<View
+								style={{
+									gap: 6,
+									width: parentlayout.width / 2.314,
+								}}>
+								<View>
+									<Text style={styles.korcolors}>
+										≈{selectedColor?.korName}
+									</Text>
+									<Text style={styles.engcolors}>
+										{selectedColor?.engName}
+									</Text>
+								</View>
+
+								<Text style={styles.hexcolors}>
+									HEX:{selectedColor?.hex}
 								</Text>
 							</View>
-
-							<Text style={styles.hexcolors}>
-								HEX:{selectedColor?.hex}
+						</View>
+					) : (
+						<View style={styles.infowrapper}>
+							<Text style={styles.korcolors}>
+								선택된 색상이 없습니다.
 							</Text>
 						</View>
-					</View>
+					)}
 				</BottomSheetView>
 			</BottomSheet>
 		</GestureHandlerRootView>
@@ -130,6 +141,25 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	switchbuttonevent: {
+		width: 48,
+		height: 48,
+		position: 'absolute',
+		borderRadius: 50,
+		right: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 1000,
+	},
+	handlerbuttonevent: {
+		width: 28,
+		height: 28,
+		position: 'absolute',
+		borderRadius: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 1000,
+	},
 
 	contentContainer: {
 		flex: 1,
@@ -140,6 +170,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		height: 100,
 		alignItems: 'center',
+		justifyContent: 'center',
 		gap: 16,
 	},
 	korcolors: {

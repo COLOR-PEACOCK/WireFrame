@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
@@ -8,7 +8,13 @@ import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
 
-const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
+const ColorPalette = ({
+	titleKor,
+	titleEng,
+	colors,
+	onColorSelect,
+	description,
+}) => {
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -26,11 +32,11 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 	useEffect(() => {
 		if (selectedColor) {
-			const updateColorInfo = async () => {
+			const updateColorInfo = () => {
 				const colorKey = selectedColor.replace('#', '');
 				const colorData = getColorInfo(colorKey) || {};
-				const engName = await getEngColorNameLocal(selectedColor);
-				const korName = await getKorColorName(selectedColor);
+				const engName = getEngColorNameLocal(selectedColor);
+				const korName = getKorColorName(selectedColor);
 
 				setColorInfo({
 					engName,
@@ -62,6 +68,7 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 				<Text style={styles.titleKor}>{titleKor}</Text>
 				<Text style={styles.titleEng}>{titleEng}</Text>
 			</View>
+
 			<View style={styles.paletteContainer}>
 				<View style={styles.colorRow}>
 					{colors.map((color, index) => {
@@ -94,11 +101,12 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 										tinycolor(color).toHexString(),
 									)
 								}
+								activeOpacity={0.9}
 							/>
 						);
 					})}
 				</View>
-				<TouchableOpacity
+				<Pressable
 					style={[
 						styles.iconContainer,
 						{
@@ -107,19 +115,20 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 								: COLOR.WHITE,
 						},
 					]}
+					activeOpacity={1}
+					onPressIn={() => setIsButtonPressed(true)}
 					onPress={() => {
-						setIsButtonPressed(!isButtonPressed);
 						onColorSelect(
 							colors.map(c => tinycolor(c).toHexString()),
 						);
-						setTimeout(() => setIsButtonPressed(false), 100);
-					}}>
+					}}
+					onPressOut={() => setIsButtonPressed(false)}>
 					<HangerIcon
 						name="hanger"
-						size={20}
+						size={24}
 						color={isButtonPressed ? COLOR.WHITE : COLOR.PRIMARY}
 					/>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
 
 			<ColorInfoModal
@@ -127,6 +136,15 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 				onClose={closeModal}
 				colorInfo={colorInfo}
 				selectedColor={selectedColor}
+				description={ description &&
+					description[
+						[
+							description[0].hexCode,
+							description[1].hexCode,
+							description[2].hexCode,
+						].indexOf(selectedColor)
+					]?.harmony_description
+				}
 			/>
 		</View>
 	);
@@ -134,24 +152,23 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginVertical: 10,
-		padding: 10,
+		marginVertical: 6,
 	},
 	header: {
 		flexDirection: 'row',
-		marginHorizontal: 18,
 		marginBottom: 3,
 	},
 	titleKor: {
-		color: COLOR.BLACK,
+		color: COLOR.GRAY_10,
 		fontSize: 18,
-		fontWeight: 'bold',
-		marginHorizontal: 4,
+		fontFamily: 'Pretendard-Bold',
+		marginLeft: 3,
 	},
 	titleEng: {
-		color: COLOR.GRAY_6,
+		color: COLOR.GRAY_7,
 		fontSize: 12,
-		marginHorizontal: 6,
+		fontFamily: 'Pretendard-medium',
+		marginLeft: 6,
 		alignSelf: 'flex-end',
 	},
 	paletteContainer: {
@@ -160,17 +177,19 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		height: 50,
-		paddingHorizontal: 18,
-		alignSelf: 'center',
 	},
 	colorRow: {
 		flexDirection: 'row',
 		flex: 1,
 		marginRight: 10,
+		borderRadius: 8,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
 	},
 	colorBox: {
 		flex: 1,
 		height: 50,
+		marginHorizontal: -1, // 팔레트 칩 사이 간격 최소화
 	},
 	iconContainer: {
 		width: 50,
@@ -178,14 +197,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 8,
-		shadowColor: COLOR.GRAY_3,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-		elevation: 5,
+		backgroundColor: COLOR.WHITE,
+		borderWidth: 2,
+		borderColor: COLOR.GRAY_3,
 	},
 });
 

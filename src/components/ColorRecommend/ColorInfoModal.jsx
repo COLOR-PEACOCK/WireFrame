@@ -1,65 +1,211 @@
 import React from 'react';
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import { View, Modal, Text, StyleSheet, Pressable, Image } from 'react-native';
+import tinycolor from 'tinycolor2';
+import { COLOR } from '@styles/color';
 
-const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => (
-	<Modal transparent={true} visible={isVisible} onRequestClose={onClose}>
-		<View style={styles.modalContainer}>
-			<View style={styles.modalContent}>
-				<TouchableOpacity onPress={onClose} style={styles.closeButton}>
-					<Icon name="close" size={24} />
-				</TouchableOpacity>
+// icons
+import GoBackIcon from '@icons/go-back.png';
 
-				<View
-					style={[
-						styles.colorPreview,
-						{ backgroundColor: selectedColor },
-					]}
-				/>
-				<Text style={styles.colorName}>{colorInfo.korName}</Text>
-				<Text style={styles.colorName}>{colorInfo.engName}</Text>
-				<Text style={styles.colorInfo}>{colorInfo.rgbVal}</Text>
-				<Text style={styles.colorInfo}>{colorInfo.hexVal}</Text>
-				<Text style={styles.colorInfo}>{colorInfo.hslVal}</Text>
-				<Text style={styles.colorInfo}>{colorInfo.cmykVal}</Text>
+const extractNumbers = str => {
+	if (!str) return '';
+	const matchedNumbers = str.match(/\d+%?/g) || [];
+	return matchedNumbers.join(', ');
+};
+
+const ColorInfoModal = ({
+	isVisible,
+	onClose,
+	colorInfo,
+	selectedColor,
+	description,
+}) => {
+	const korTextColor = tinycolor(selectedColor).isLight()
+		? COLOR.GRAY_10
+		: COLOR.WHITE;
+	const engTextColor = tinycolor(selectedColor).isLight()
+		? COLOR.GRAY_9
+		: COLOR.GRAY_3;
+	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
+	const hexNumbers = colorInfo.hexVal.slice(1, 8);
+	const hslNumbers = extractNumbers(colorInfo.hslVal);
+	const cmykNumbers = extractNumbers(colorInfo.cmykVal);
+
+	return (
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={isVisible}
+			onRequestClose={onClose}>
+			<View style={styles.modalContainer}>
+				<View style={styles.modalContent}>
+					<View style={styles.contentContainer}>
+						<View style={styles.colorPreviewContainer}>
+							<View
+								style={[
+									styles.colorPreview,
+									{ backgroundColor: selectedColor },
+								]}>
+								<Text
+									style={[
+										styles.korColorName,
+										{ color: korTextColor },
+									]}>
+									≈{colorInfo.korName}
+								</Text>
+								<Text
+									style={[
+										styles.engColorName,
+										{ color: engTextColor },
+									]}>
+									{colorInfo.engName}
+								</Text>
+								{description &&<Text
+									style={[
+										styles.engColorName,
+										{ color: engTextColor,
+											paddingBottom: 10
+										},
+									]}>
+									{description}
+								</Text>}
+							</View>
+						</View>
+
+						<View style={styles.valueContainer}>
+							<View style={styles.valueRow}>
+								<Text style={styles.label}>RGB</Text>
+								<Text style={styles.colorDetails}>
+									{rgbNumbers}
+								</Text>
+							</View>
+							<View style={styles.valueRow}>
+								<Text style={styles.label}>HEX</Text>
+								<Text style={styles.colorDetails}>
+									{hexNumbers.toUpperCase()}
+								</Text>
+							</View>
+							<View style={styles.valueRow}>
+								<Text style={styles.label}>HSL</Text>
+								<Text style={styles.colorDetails}>
+									{hslNumbers}
+								</Text>
+							</View>
+							<View style={styles.valueRow}>
+								<Text style={styles.label}>CMYK</Text>
+								<Text style={styles.colorDetails}>
+									{cmykNumbers}
+								</Text>
+							</View>
+						</View>
+					</View>
+
+					<View style={styles.buttonContainer}>
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+								},
+								styles.button,
+							]}
+							onPress={onClose}>
+							<Image
+								source={GoBackIcon}
+								style={styles.buttonIcon}
+							/>
+							<Text style={styles.buttonText}>이전으로</Text>
+						</Pressable>
+					</View>
+				</View>
 			</View>
-		</View>
-	</Modal>
-);
+		</Modal>
+	);
+};
 
 const styles = StyleSheet.create({
 	modalContainer: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 	},
 	modalContent: {
-		width: 300,
-		padding: 20,
-		backgroundColor: 'white',
-		borderRadius: 10,
+		overflow: 'hidden',
+		width: 342,
+		height: 512,
+		padding: 0,
+		backgroundColor: COLOR.WHITE,
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: COLOR.GRAY_3,
+	},
+	contentContainer: {
+		flex: 1,
+		width: '100%',
 		alignItems: 'center',
 	},
-	closeButton: {
-		position: 'absolute',
-		top: 10,
-		right: 10,
-		padding: 5,
+	colorPreviewContainer: {
+		width: '100%',
 	},
 	colorPreview: {
-		marginTop: 40,
-		width: '100%',
-		height: 150,
-		borderRadius: 10,
-		marginBottom: 20,
+		height: 348,
+		position: 'relative',
+		justifyContent: 'flex-end',
+		gap: 4,
 	},
-	colorName: {
+	korColorName: {
+		marginHorizontal: 18,
+		fontSize: 24,
+		fontFamily: 'Pretendard-Bold',
+	},
+	engColorName: {
+		marginHorizontal: 18,
 		fontSize: 18,
-		marginBottom: 10,
+		fontFamily: 'Pretendard-Regular',
+		textTransform: 'lowercase',
 	},
-	colorInfo: {
-		marginBottom: 5,
+	buttonContainer: {
+		width: '100%',
+		position: 'absolute',
+		bottom: 0,
+	},
+	button: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingVertical: 12,
+	},
+	buttonText: {
+		color: COLOR.WHITE,
+		fontSize: 14,
+		fontFamily: 'Pretendard-Bold',
+		marginLeft: 6,
+	},
+	buttonIcon: {
+		width: 14,
+		height: 14,
+	},
+	valueContainer: {
+		width: '100%',
+		paddingVertical: 12,
+		paddingHorizontal: 18,
+	},
+	valueRow: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
+	label: {
+		width: 68,
+		fontSize: 16,
+		fontFamily: 'Pretendard-Bold',
+		color: COLOR.GRAY_5,
+	},
+	colorDetails: {
+		fontSize: 14,
+		fontFamily: 'Pretendard-Regular',
+		color: COLOR.GRAY_10,
 	},
 });
 

@@ -1,32 +1,44 @@
-import React from 'react';
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+	View,
+	Modal,
+	Text,
+	StyleSheet,
+	Image,
+	Pressable,
+} from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
+// icons
+import GoBackIcon from '@icons/go-back.png';
+import DownloadIcon from '@icons/download.png';
 
 const ColorPickerModal = ({
 	isVisible,
 	tempColor,
 	setTempColor,
-	onSave,
 	onCancel,
+	setIsPickerVisible,
 }) => {
+	const [currentColor, setCurrentColor] = useState(tempColor);
 	const textColor = tinycolor(tempColor).isLight()
 		? COLOR.GRAY_9
 		: COLOR.GRAY_2;
+
 	return (
 		<Modal
-			animationType="slide"
+			animationType="fade"
 			transparent={true}
 			visible={isVisible}
 			onRequestClose={onCancel}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
 					<ColorPicker
-						value={tempColor}
+						value={currentColor}
 						onComplete={selectedColor =>
-							setTempColor(selectedColor.hex)
+							setCurrentColor(selectedColor.hex)
 						}
 						style={styles.colorPicker}>
 						<View style={styles.panelContainer}>
@@ -51,30 +63,56 @@ const ColorPickerModal = ({
 							<View
 								style={[
 									styles.colorPreview,
-									{ backgroundColor: tempColor },
+									{ backgroundColor: currentColor },
 								]}>
 								<Text
 									style={[
 										styles.colorText,
 										{ color: textColor },
 									]}>
-									{tempColor.toUpperCase()}
+									{currentColor.toUpperCase()}
 								</Text>
 							</View>
 						</View>
 					</ColorPicker>
 
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={[styles.button, styles.cancelButton]}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? COLOR.GRAY_7
+										: COLOR.GRAY_6,
+								},
+								styles.button,
+							]}
 							onPress={onCancel}>
+							<Image
+								source={GoBackIcon}
+								style={styles.buttonIcon}
+							/>
 							<Text style={styles.buttonText}>이전으로</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={[styles.button, styles.saveButton]}
-							onPress={onSave}>
+						</Pressable>
+
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+								},
+								styles.button,
+							]}
+							onPress={() => {
+								setIsPickerVisible(false);
+								setTempColor(currentColor);
+							}}>
+							<Image
+								source={DownloadIcon}
+								style={styles.buttonIcon}
+							/>
 							<Text style={styles.buttonText}>저장하기</Text>
-						</TouchableOpacity>
+						</Pressable>
 					</View>
 				</View>
 			</View>
@@ -87,16 +125,18 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 	},
 	modalContent: {
 		width: 342,
-		height: 512,
+		height: 560,
 		backgroundColor: 'white',
 		padding: 0,
 		borderRadius: 8,
 		alignItems: 'center',
 		overflow: 'hidden',
+		borderColor: COLOR.GRAY_3,
+		borderWidth: 1,
 	},
 	colorPicker: {
 		width: '100%',
@@ -105,7 +145,7 @@ const styles = StyleSheet.create({
 	panelContainer: {
 		width: '100%',
 		height: 347.69,
-		marginBottom: 9,
+		marginBottom: 6,
 	},
 	panel: {
 		flex: 1,
@@ -114,12 +154,15 @@ const styles = StyleSheet.create({
 	hueSliderContainer: {
 		alignItems: 'center',
 		width: '100%',
+		borderRadius: 30,
+		marginTop: 18,
 	},
 	hueSlider: {
 		width: 306,
-		// height: 18,
+		height: 18,
+		marginTop: 6,
 		marginBottom: 9,
-		borderRadius: 8,
+		borderRadius: 30,
 		opacity: 1,
 		alignSelf: 'center',
 	},
@@ -127,6 +170,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		width: 306,
+		marginBottom: 3,
 	},
 	korTitle: {
 		fontSize: 12,
@@ -146,7 +190,7 @@ const styles = StyleSheet.create({
 	},
 	colorPreview: {
 		height: 30,
-		borderRadius: 8,
+		borderRadius: 30,
 		width: 306,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -154,34 +198,33 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	colorText: {
-		color: '#333',
 		textAlign: 'center',
 		lineHeight: 18,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 12,
 	},
 	buttonContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginTop: 18,
 		width: '100%',
+		flexDirection: 'row',
 	},
 	button: {
-		padding: 12,
-		alignItems: 'center',
-		justifyContent: 'center',
 		flex: 1,
-	},
-	cancelButton: {
-		backgroundColor: COLOR.GRAY_6,
-	},
-	saveButton: {
-		backgroundColor: COLOR.PRIMARY,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		height: 48,
+		flexDirection: 'row',
 	},
 	buttonText: {
 		color: COLOR.WHITE,
-		fontWeight: 'bold',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 14,
+		marginRight: 6,
+	},
+	buttonIcon: {
+		width: 14,
+		height: 14,
+        marginRight: 6
 	},
 });
 

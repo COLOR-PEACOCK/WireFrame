@@ -1,65 +1,79 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
+import SVGIcon from '@components/common/SVGIcon';
+import usePressButtonState from '@hooks/home/usePressButtonState';
 
-const PressButton = ({ iconName, onPress, text }) => {
-	const [contentColor, setContentColor] = useState(COLOR.GRAY_9);
-	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
-
-	const handleTouchStart = () => {
-		setContentColor(COLOR.WHITE);
-		setButtonColor(COLOR.PRIMARY);
-	};
-
-	const handleTouchEnd = () => {
-		setContentColor(COLOR.GRAY_9);
-		setButtonColor(COLOR.WHITE);
-	};
+const size = 48;
+const PressButton = ({ iconName, onPress, engText, text }) => {
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } = usePressButtonState();
+    
 	return (
 		<Pressable
 			onPress={onPress}
-			onTouchStart={handleTouchStart}
-			onTouchEnd={handleTouchEnd}
+			onPressIn={handleTouchStart}
+			onPressOut={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
 			style={[styles.button, { backgroundColor: buttonColor }]}>
-			<Icon
+			<SVGIcon
 				name={iconName}
-				size={48}
-				style={[styles.icon, { color: contentColor }]}
+				width={size}
+				height={size}
+				color={contentColor}
+				style={styles.icon}
 			/>
-			<Text style={[styles.buttonText, { color: contentColor }]}>
-				{text}
-			</Text>
+			<View>
+				<Text
+					style={[
+						styles.buttonEngText,
+						{ color: contentColor + 70 },
+					]}>
+					{engText}
+				</Text>
+				<Text style={[styles.buttonText, { color: contentColor }]}>
+					{text}
+				</Text>
+			</View>
 		</Pressable>
 	);
 };
 
 const styles = StyleSheet.create({
 	button: {
-		width: '90%',
+		width: '100%',
+		maxWidth: 376,
 		height: 84,
-		marginHorizontal: '5%',
+		marginHorizontal: 18,
 		borderRadius: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
-		gap: 18,
 		backgroundColor: COLOR.WHITE,
-		elevation: 2,
+		// Android 그림자 설정
+		elevation: 4,
+		// iOS 그림자 설정
 		shadowOffset: {
 			width: 0,
 			height: 2,
 		},
-		shadowRadius: 8,
+		shadowRadius: 4,
 		shadowColor: COLOR.BLACK,
-		shadowOpacity: 0.25,
+		shadowOpacity: 0.2,
 	},
 	icon: {
-		marginLeft: '12.5%',
+		marginLeft: 74,
+	},
+	buttonEngText: {
+		fontFamily: 'Pretendard-Medium',
+		fontSize: 12,
+        fontWeight: 500,
+		letterSpacing: 0.3,
+        textTransform: 'uppercase',
+
 	},
 	buttonText: {
-		fontFamily: 'Pretendard-Medium',
+		fontFamily: 'Pretendard-Bold',
 		fontSize: 16,
+		letterSpacing: 0.8,
 	},
 });
 

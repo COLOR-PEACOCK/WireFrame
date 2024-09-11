@@ -1,69 +1,109 @@
-import { COLOR } from '@styles/color';
+import React, { useState, useEffect } from 'react';
 import {
-	FlatList,
 	Modal,
 	Pressable,
+	ScrollView,
 	StyleSheet,
-	TouchableOpacity,
 	View,
 } from 'react-native';
+
+import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
-import { useEffect, useState } from 'react';
+import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
-const SearchModal = ({
-	list,
-	visible,
-	selectedLabel,
-	handleCloseModal,
-	onPressLabel,
-	onPressSearch,
-	inputColorValue,
-	setInputColorValue,
-}) => {
+import useColorName from '@hooks/useColorName';
+import {
+	cmykToHex,
+	hslToHex,
+	rgbToHex,
+	isValidHexCode,
+	isValidKorean,
+	INPUT_TYPES,
+} from '@utils/home';
+
+const colorConverter = {
+	[INPUT_TYPES.HEX]: values =>
+		isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null,
+	[INPUT_TYPES.RGB]: values =>
+		rgbToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.HSL]: values =>
+		hslToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.CMYK]: values =>
+		cmykToHex(values.part1, values.part2, values.part3, values.part4) ??
+		null,
+	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
+		const matchedColor = searchNameList.find(color =>
+			isValidKorean(values.part1)
+				? color.korean_name.replaceAll(' ', '') ===
+				  values.part1.replaceAll(' ', '')
+				: color.name?.toUpperCase().replaceAll(' ', '') ===
+				  values.part1?.toUpperCase().replaceAll(' ', ''),
+		);
+		return matchedColor ? matchedColor.hex : null;
+	},
+};
+
+const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
+	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
+	const handlePressLabel = label => setSelectedLabel(label);
 	const [inputValues, setInputValues] = useState({
 		part1: '',
 		part2: '',
 		part3: '',
 		part4: '',
 	});
+	const [searchNameList, setSearchNameList] = useState([]);
+	const [isKeywordKor, SetIsKeywordKor] = useState(false);
+	const { getSearchColorList } = useColorName();
 
-	const handlePressSearch = () => {
-		switch (selectedLabel) {
-			case '색상 이름':
-				return setInputColorValue(inputValues.part1);
-			case 'HEX':
-				return setInputColorValue('#' + inputValues.part1);
-			case 'RGB':
-				return setInputColorValue(
-					`rgb(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
-				);
-			case 'HSL':
-				return setInputColorValue(
-					`HSL(${inputValues.part1}, ${inputValues.part2}, ${inputValues.part3})`,
-				);
-			case 'CMYK':
-				return setInputColorValue(
-					`CMYK(${inputValues.part1}%, ${inputValues.part2}%, ${inputValues.part3}% ${inputValues.part4}%)`,
-				);
-			default:
-				return setInputColorValue(inputValues);
-		}
-	};
+	// 검색어 입력 시 색상 리스트 업데이트
 	useEffect(() => {
-		onPressSearch();
-	}, [inputColorValue]);
+		const updateSearchList = () => {
+			const keyword = inputValues.part1;
+			if (!keyword) {
+				setSearchNameList([]);
+				return;
+			}
+			SetIsKeywordKor(isValidKorean(keyword.replaceAll(' ', "")));
+			setSearchNameList(
+				getSearchColorList(isValidKorean(keyword.replaceAll(' ', "")), keyword),
+			);
+		};
+
+		if (selectedLabel === INPUT_TYPES.COLOR_NAME) {
+			updateSearchList();
+		} else {
+			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
+		}
+	}, [inputValues.part1, selectedLabel]);
+
+	// 검색 버튼 터치 시
+	const handlePressSearch = () => {
+		const convertColorToHex =
+			colorConverter[selectedLabel] || (values => values);
+		const hexValue = convertColorToHex(inputValues, searchNameList);
+		if (hexValue) onPressSearch(hexValue);
+		else console.log('fail');
+	};
+
+	// 자동완성 검색 리스트 터치 시
+	const handlePressSearchList = label => {
+		setInputValues({ ...{ part1: label } });
+		// 자동완성 터치하면 숨기기?
+	};
 
 	return (
 		<View>
 			<Modal
-				animationType={'fade'}
+				animationType="fade"
 				visible={visible}
-				transparent={true}
+				transparent
 				onRequestClose={handleCloseModal}>
 				<Pressable
 					style={styles.modalOverlay}
-					onPress={handleCloseModal}></Pressable>
+					onPress={handleCloseModal}
+				/>
 				<View style={styles.modalView}>
 					<View style={styles.modalHeader}>
 						<Text style={styles.modalHeaderText}>
@@ -73,34 +113,79 @@ const SearchModal = ({
 					</View>
 					<View style={styles.modalBody}>
 						<Dropdown
-							list={list}
-							onClickDropdown={onPressLabel}
+							list={dummy_list}
+							onClickDropdown={handlePressLabel}
 							layoutStyle={{
 								width: '100%',
 								justifyContent: 'center',
 							}}
 							selectedLabel={selectedLabel}
 						/>
-						<View style={{}}>
+						<View>
 							<SearchInputForm
 								selectedLabel={selectedLabel}
 								inputValues={inputValues}
 								setInputValues={setInputValues}
 							/>
+							{/* 자동완성 검색어 리스트 */}
+							{searchNameList.length > 0 && (
+								<ScrollView
+									style={styles.searchResults}
+									showsVerticalScrollIndicator={false}
+									keyboardShouldPersistTaps="always">
+									{searchNameList.map(item => (
+										<ListValue
+											key={item.hex}
+											label={
+												isKeywordKor
+													? item.korean_name
+													: item.name
+											}
+											onPressLabel={() =>
+												handlePressSearchList(
+													isKeywordKor
+														? item.korean_name
+														: item.name,
+												)
+											}
+										/>
+									))}
+								</ScrollView>
+							)}
 						</View>
 					</View>
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity
-							style={styles.cancelButton}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? COLOR.GRAY_7
+										: COLOR.GRAY_6,
+									borderBottomLeftRadius: 8,
+								},
+								styles.closeButton,
+								styles.modalButton,
+							]}
 							onPress={handleCloseModal}>
-							<Text style={{ color: COLOR.WHITE }}>이전으로</Text>
-						</TouchableOpacity>
+							<ArrowGoBackSVG color={COLOR.WHITE} />
+							<Text style={styles.buttonText}>이전으로</Text>
+						</Pressable>
 
-						<TouchableOpacity
-							style={styles.searchButton}
+						<Pressable
+							style={({ pressed }) => [
+								{
+									backgroundColor: pressed
+										? '#5F1AB6'
+										: COLOR.PRIMARY,
+									borderBottomRightRadius: 8,
+								},
+								styles.searchButton,
+								styles.modalButton,
+							]}
 							onPress={handlePressSearch}>
-							<Text style={{ color: COLOR.WHITE }}>검색하기</Text>
-						</TouchableOpacity>
+							<FormkitSubmitSVG color={COLOR.WHITE} />
+							<Text style={styles.buttonText}>검색하기</Text>
+						</Pressable>
 					</View>
 				</View>
 			</Modal>
@@ -108,22 +193,20 @@ const SearchModal = ({
 	);
 };
 
+const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
+
 const styles = StyleSheet.create({
 	modalView: {
 		width: '85%',
-		marginTop: 150,
+		marginTop: 100,
 		marginHorizontal: 'auto',
 		paddingTop: 18,
 		zIndex: 5,
 		backgroundColor: COLOR.WHITE,
 		borderRadius: 8,
-
 		elevation: 5,
 		shadowColor: COLOR.BLACK,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
+		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
 	},
@@ -131,19 +214,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		width: '100%',
 		height: '100%',
-	},
-	closeButton: {
-		position: 'absolute',
-		zIndex: 10,
-		top: 0,
-		right: 0,
-		width: 48,
-		height: 48,
-		borderColor: COLOR.BLACK,
-		borderWidth: 1,
-		borderRadius: 8,
-		alignItems: 'center',
-		justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0, 0.8)',
 	},
 	modalHeader: {
 		width: '100%',
@@ -162,26 +233,33 @@ const styles = StyleSheet.create({
 		marginHorizontal: 18,
 		gap: 18,
 	},
+	searchResults: {
+		borderColor: COLOR.GRAY_6,
+		borderRadius: 8,
+		borderWidth: 1,
+	},
 	buttonContainer: {
 		height: 64,
 		marginTop: 18,
 		flexDirection: 'row',
 	},
-	cancelButton: {
+	modalButton: {
 		width: '50%',
 		height: '100%',
+		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: COLOR.GRAY_6,
+	},
+	closeButton: {
 		borderBottomLeftRadius: 8,
 	},
 	searchButton: {
-		width: '50%',
-		height: '100%',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: COLOR.PRIMARY,
 		borderBottomRightRadius: 8,
+	},
+	buttonText: {
+		fontFamily: 'Pretendard-Bold',
+		color: COLOR.WHITE,
+		marginLeft: 6,
 	},
 });
 

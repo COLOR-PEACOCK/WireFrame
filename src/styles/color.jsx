@@ -11,6 +11,6 @@ export const COLOR = {
 	GRAY_7: '#818181',
 	GRAY_8: '#515151',
 	GRAY_9: '#313131',
-	GRAY_10: '#1A1B1D',
+	GRAY_10: '#110F0F',
 	BLACK: '#000000',
 };
