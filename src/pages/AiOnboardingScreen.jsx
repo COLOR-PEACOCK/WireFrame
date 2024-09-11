@@ -59,7 +59,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 					<Text style={styles.subtitle}>순식간에 색상 조합 끝</Text>
 					<Image
 						source={require('../assets/images/onboarding1.png')}
-						style={styles.backgroundImage}
+						style={[styles.backgroundImage, { top: 1 }]}
 						resizeMode="contain"
 					/>
 				</View>
@@ -82,7 +82,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 					</Text>
 					<Image
 						source={require('../assets/images/onboarding2.png')}
-						style={[styles.backgroundImage, { top: -12 }]}
+						style={[styles.backgroundImage, { top: -16 }]}
 						resizeMode="contain"
 					/>
 				</View>
