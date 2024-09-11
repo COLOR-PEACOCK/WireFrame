@@ -17,7 +17,7 @@
     {
         "name": "24 Karat",
         "hex": "#dfc685",
-        "korean_name": "24 캐럿"
+        "korean_name": "순금"
     },
     {
         "name": "3AM in Shibuya",
@@ -4256,7 +4256,7 @@
     },
     {
         "name": "Creamy Apricot",
-        "korean_name": "크리미 살구",
+        "korean_name": "크리미 애프리콧",
         "hex": "#ffe8bd"
     },
     {
@@ -7576,27 +7576,27 @@
     },
     {
         "name": "Gentle Caress",
-        "korean_name": "부드러운 애무",
+        "korean_name": "젠틀 커레스",
         "hex": "#fcd7ba"
     },
     {
         "name": "Gentle Cold",
-        "korean_name": "부드러운 추위",
+        "korean_name": "젠틀 콜드",
         "hex": "#c3ece9"
     },
     {
         "name": "Gentle Frost",
-        "korean_name": "부드러운 서리",
+        "korean_name": "젠틀 프로스트",
         "hex": "#dce0cd"
     },
     {
         "name": "Gentle Glow",
-        "korean_name": "부드러운 빛",
+        "korean_name": "젠틀 글로우",
         "hex": "#f6e5b9"
     },
     {
         "name": "Gentle Sky",
-        "korean_name": "부드러운 하늘",
+        "korean_name": "젠틀 스카이",
         "hex": "#99bdd2"
     },
     {
@@ -12507,22 +12507,22 @@
     {
         "name": "Mellow Apricot",
         "hex": "#f8b878",
-        "korean_name": "부드러운 살구색"
+        "korean_name": "멜로우 애프리콧"
     },
     {
         "name": "Mellow Mango",
         "hex": "#cc4400",
-        "korean_name": "부드러운 망고"
+        "korean_name": "멜로우 망고"
     },
     {
         "name": "Mellow Melon",
         "hex": "#ee2266",
-        "korean_name": "부드러운 멜론"
+        "korean_name": "멜로우 멜론"
     },
     {
         "name": "Mellow Mint",
         "hex": "#ddedbd",
-        "korean_name": "부드러운 민트"
+        "korean_name": "멜로우 민트"
     },
     {
         "name": "Mellow Yellow",
@@ -18462,17 +18462,17 @@
     {
         "name": "Silky Green",
         "hex": "#bdc2bb",
-        "korean_name": "부드러운 초록"
+        "korean_name": "실키 그린"
     },
     {
         "name": "Silky Mint",
         "hex": "#d7ecd9",
-        "korean_name": "부드러운 민트"
+        "korean_name": "실키 민트"
     },
     {
         "name": "Silky White",
         "hex": "#efebe2",
-        "korean_name": "부드러운 흰색"
+        "korean_name": "실키 화이트"
     },
     {
         "name": "Silver",
@@ -19997,17 +19997,17 @@
     {
         "name": "Temptatious Tangerine",
         "hex": "#ff7733",
-        "korean_name": "매혹적인 귤"
+        "korean_name": "매혹적인 텐저린"
     },
     {
         "name": "Tender Shoot",
         "hex": "#e8eace",
-        "korean_name": "부드러운 새싹"
+        "korean_name": "여린 싹"
     },
     {
         "name": "Tender Taupe",
         "hex": "#c4b198",
-        "korean_name": "부드러운 토프"
+        "korean_name": "텐더 토프"
     },
     {
         "name": "Tennis Ball",
@@ -20017,7 +20017,7 @@
     {
         "name": "Terrestrial",
         "hex": "#276757",
-        "korean_name": "지구의"
+        "korean_name": "터레스트리얼"
     },
     {
         "name": "Testosterose",
@@ -22266,12 +22266,12 @@
     },
     {
         "name": "Yellow Mana",
-        "korean_name": "노란 마나",
+        "korean_name": "옐로우 마나",
         "hex": "#fdfcbf"
     },
     {
         "name": "Yellow Mellow",
-        "korean_name": "부드러운 노란색",
+        "korean_name": "옐러우 멜로우",
         "hex": "#f0d31e"
     },
     {

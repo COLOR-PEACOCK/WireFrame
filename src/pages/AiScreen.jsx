@@ -68,17 +68,15 @@ const AiScreen = ({ navigation }) => {
 			});
 		}
 	};
-	const infoText =
-		'사진 속 선정 아이템 기반으로 추천받을 아이템 색상 추천 목록을 제공합니다.';
 
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="padding">
 			<BasicHeader
-				titleIcon={'iamge'}
+				titleIcon={'AI'}
 				title={'AI 추천'}
-				engTitle={'ai recs'}
+				subTitle={'ai recs'}
 				rightIcon={'info'}
-				infoText={infoText}
+				onPressRight={() => navigation.goBack()}
 			/>
 			<View style={styles.imageContainer}>
 				{imageUri ? (
@@ -232,6 +230,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
+		height: 80,
 		gap: 6,
 	},
 	analysisButtonText: {
