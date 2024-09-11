@@ -14,9 +14,9 @@ const useGemini = () => {
 		maxOutputTokens: 8192,
 		responseMimeType: 'application/json',
 	};
-    const [isLoding, setIsLoding] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 	async function run(value) {
-        setIsLoding(true)
+        setIsLoading(true)
 		const chatSession = model.startChat({
 			generationConfig,
 			// safetySettings: Adjust safety settings
@@ -24,10 +24,9 @@ const useGemini = () => {
 			history: [],
 		});
         const prompt =`
-            ${value}과 조화를 이루는 테마 6가지와 각 테마에 어울리는 3가지 색상을 추천해줘.
-            내가 말한 ${value}는 색 이름으로 바꿔서 말해줘.
-            테마별로 언급된 색상에 대한 헥스코드는 theme_hexCode_list에 정리해줘.
-            harmony_description에는 ${value}과 추천색이 조합되어 생기는 효과에 대해 간단히 요약해서 작성해줘.
+            ${value}의 색을 분석해서 조화를 이루는 테마 6가지와 각 테마에서 ${value}과 어울리는 3가지 색상을 추천해줘.
+            테마 이름은 길지 않도록 하고, 테마별로 언급된 3가지 색상에 대한 헥스코드는 theme_hexCode_list에 정리해줘.
+            harmony_description에는 추천색이 조합되어 생기는 효과에 대해 ${value}의 색 이름은 빼고 작성해줘.
             응답 내용은 한국말로 JSON 형식으로 만들어줘.
             JSON 응답의 형식은 아래와 같아야 해:
             {
@@ -51,10 +50,11 @@ const useGemini = () => {
         
 		const result = await chatSession.sendMessage(prompt);
 		const data = JSON.parse(result.response.text());
-        setIsLoding(false);
+        console.log(result.response.text())
+        setIsLoading(false);
         return data
     }
-	return { run, isLoding };
+	return { run, isLoading };
 };
 
 export default useGemini;
