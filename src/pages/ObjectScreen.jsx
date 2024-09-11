@@ -26,17 +26,6 @@ const ObjectScreen = ({ route }) => {
 		return console.log(droppedItems);
 	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
-	const handleColorSelect = color => {
-		if (selectedItemId) {
-			setDroppedItems(prevItems =>
-				prevItems.map(item =>
-					item.id === selectedItemId
-						? { ...item, color: color }
-						: item,
-				),
-			);
-		}
-	};
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader
@@ -60,7 +49,8 @@ const ObjectScreen = ({ route }) => {
 				{/* 컬러 팔레트 */}
 				<ColorBottomSheet
 					colors={colors}
-					onColorSelect={handleColorSelect}
+					selectedItemId={selectedItemId}
+					setDroppedItems={setDroppedItems}
 					isColorPickerOpen={isColorPickerOpen}
 					setIsColorPickerOpen={setIsColorPickerOpen}
 				/>

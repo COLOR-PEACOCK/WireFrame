@@ -14,7 +14,8 @@ const colorContainer = require('@images/objectitems/background/cricle__wrapper.p
 
 const ColorBottomSheet = ({
 	// colors,
-	onColorSelect,
+	selectedItemId,
+	setDroppedItems,
 	isColorPickerOpen,
 	setIsColorPickerOpen,
 }) => {
@@ -24,9 +25,17 @@ const ColorBottomSheet = ({
 
 	//컬러 팔레트 터치 이벤트
 	const handleColorSelect = color => {
-		onColorSelect(color);
-		console.log(color);
+		if (selectedItemId) {
+			setDroppedItems(prevItems =>
+				prevItems.map(item =>
+					item.id === selectedItemId
+						? { ...item, color: color }
+						: item,
+				),
+			);
+		}
 	};
+
 	// 커스텀 핸들러 터치 이벤트
 	const handlerTouchEvent = () => {
 		isColorPickerOpen
@@ -36,6 +45,7 @@ const ColorBottomSheet = ({
 		setIsColorPickerOpen(!isColorPickerOpen);
 	};
 
+	// 커스텀 핸들 렌더링
 	const CustomHandle = () => (
 		<View style={styles.customHandlerContainer}>
 			<TouchableOpacity
