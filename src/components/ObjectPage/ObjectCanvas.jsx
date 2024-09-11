@@ -1,14 +1,8 @@
-import React from 'react';
-import {
-	View,
-	StyleSheet,
-	TouchableWithoutFeedback,
-	TouchableOpacity,
-	Text,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import MaleBodySvg from '@images/objectitems/bodyimages/male_body.svg';
 import FeMaleBodySvg from '@images/objectitems/bodyimages/female__body.svg';
-import { COLOR } from '@styles/color';
+import CanvasDroppedItem from '@components/ObjectPage/CanvasDroppedItem';
 
 const ObjectCanvas = ({
 	droppedItems,
@@ -16,92 +10,64 @@ const ObjectCanvas = ({
 	setSelectedItemId,
 	selectedItemId,
 	gender,
+	defaultItems,
 }) => {
-	// 오브젝트 캔버스 터치시 이벤트
 	const handleItemSelect = id => {
 		setSelectedItemId(prevId => (prevId === id ? null : id));
 	};
 
 	const handleItemDelete = id => {
-		setDroppedItems(prevItems => prevItems.filter(item => item.id !== id));
+		const itemToDelete = droppedItems.find(item => item.id === id);
+
+		if (
+			itemToDelete.category === 'clothesTop' ||
+			itemToDelete.category === 'clothesBottom'
+		) {
+			// 상의나 하의인 경우, 해당 카테고리의 기본 아이템으로 교체
+			const defaultItem = defaultItems.find(
+				item => item.category === itemToDelete.category,
+			);
+			setDroppedItems(prevItems =>
+				prevItems.map(item =>
+					item.id === id ? { ...defaultItem, id: item.id } : item,
+				),
+			);
+		} else if (!itemToDelete.isDefault) {
+			// 기본 아이템이 아닌 경우(신발, 양말, 모자 등), 완전히 삭제
+			setDroppedItems(prevItems =>
+				prevItems.filter(item => item.id !== id),
+			);
+		}
+		// 기본 아이템(isDefault가 true)인 경우는 아무 작업도 하지 않습니다.
+
 		setSelectedItemId(null);
 	};
-
 	return (
 		<View style={styles.canvas}>
 			{gender ? (
-				<MaleBodySvg width={170} />
+				<MaleBodySvg width={170} height={480} />
 			) : (
-				<FeMaleBodySvg width={180} />
+				<FeMaleBodySvg width={170} height={480} />
 			)}
-			{droppedItems.map(item => {
-				return (
-					<View key={item.id}>
-						<TouchableWithoutFeedback
-							onPress={() => handleItemSelect(item.id)}>
-							<View
-								style={[
-									styles.droppedItem,
-									{
-										left: item.canvasX,
-										top: item.canvasY,
-										width: item.canvasWidth,
-										height: item.canvasHeight,
-										zIndex: item.zIndex,
-										borderWidth: 1.3,
-										borderColor:
-											selectedItemId === item.id
-												? '#D6C836'
-												: 'transparent',
-									},
-								]}>
-								{React.cloneElement(item.svg, {
-									width: item.canvasWidth,
-									height: item.canvasHeight,
-									fill: item.color || '#FBFBFB',
-								})}
-							</View>
-						</TouchableWithoutFeedback>
-						{selectedItemId === item.id && !item.isDefault && (
-							<TouchableOpacity
-								style={styles.deleteButton}
-								onPress={() => handleItemDelete(item.id)}>
-								<Text style={styles.deleteButtonText}>X</Text>
-							</TouchableOpacity>
-						)}
-					</View>
-				);
-			})}
+			{droppedItems.map(item => (
+				<CanvasDroppedItem
+					key={item.id}
+					item={item}
+					isSelected={selectedItemId === item.id}
+					onSelect={() => handleItemSelect(item.id, item.category)}
+					onDelete={handleItemDelete}
+				/>
+			))}
 		</View>
 	);
 };
+
 const styles = StyleSheet.create({
 	canvas: {
 		flex: 1,
 		borderRadius: 10,
 		marginTop: 16,
 		alignItems: 'center',
-	},
-	droppedItem: {
-		position: 'absolute',
-		flex: 1,
-		zIndex: 1000,
-	},
-	deleteButton: {
-		position: 'absolute',
-		top: -440,
-		right: -170,
-		backgroundColor: '#F3F7F8',
-		borderRadius: 18,
-		width: 30,
-		height: 30,
-		justifyContent: 'center',
-		alignItems: 'center',
-		zIndex: 1001,
-	},
-	deleteButtonText: {
-		color: COLOR.PRIMARY,
-		fontWeight: 'bold',
 	},
 });
 

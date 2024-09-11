@@ -13,20 +13,29 @@ import { COLOR } from '@styles/color';
 const colorContainer = require('@images/objectitems/background/cricle__wrapper.png');
 
 const ColorBottomSheet = ({
-	// colors,
-	onColorSelect,
+	colors,
+	selectedItemId,
+	setDroppedItems,
 	isColorPickerOpen,
 	setIsColorPickerOpen,
 }) => {
 	const bottomSheetRef = useRef(null);
 
-	const colors = ['#576490', '#A52A2A', '#D8BFD8', '#FBFBFB', '#3F3A3A'];
+	// const colors = ['#576490', '#A52A2A', '#D8BFD8', '#FBFBFB', '#3F3A3A'];
 
 	//컬러 팔레트 터치 이벤트
 	const handleColorSelect = color => {
-		onColorSelect(color);
-		console.log(color);
+		if (selectedItemId) {
+			setDroppedItems(prevItems =>
+				prevItems.map(item =>
+					item.id === selectedItemId
+						? { ...item, color: color }
+						: item,
+				),
+			);
+		}
 	};
+
 	// 커스텀 핸들러 터치 이벤트
 	const handlerTouchEvent = () => {
 		isColorPickerOpen
@@ -36,6 +45,7 @@ const ColorBottomSheet = ({
 		setIsColorPickerOpen(!isColorPickerOpen);
 	};
 
+	// 커스텀 핸들 렌더링
 	const CustomHandle = () => (
 		<View style={styles.customHandlerContainer}>
 			<TouchableOpacity
@@ -105,7 +115,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		paddingTop: 20,
-		// backgroundColor: 'blue',
 	},
 	colorBox: {
 		width: 60,
