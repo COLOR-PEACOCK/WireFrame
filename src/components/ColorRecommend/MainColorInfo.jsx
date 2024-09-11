@@ -7,7 +7,7 @@ import adjustment from '@icons/adjustment.png';
 import adjustment_dark from '@icons/adjustment_dark.png';
 
 const extractNumbers = str => {
-	return str.match(/\d+%?/g).join(', ');
+	return str.match(/\d+%?/g)?.join(', ');
 };
 
 const MainColorInfo = ({ colorInfo, labelColor, textColor, setIsPickerVisible }) => {

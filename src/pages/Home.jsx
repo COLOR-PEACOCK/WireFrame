@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import tinycolor from 'tinycolor2';
+import convert from 'color-convert';
 import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
@@ -20,8 +20,9 @@ import {
 	interpolate,
 	Extrapolation,
 } from 'react-native-reanimated';
-// import Carousel, { Pagination } from 'react-native-reanimated-carousel';
+import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
+import { useBackHandler } from '@hooks/useBackHandler';
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
@@ -72,10 +73,10 @@ const Home = ({ navigation }) => {
 	};
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
-	const handleSelectAI = () => navigation.navigate('AiScreen');
+	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
 	// splash로 뒤로가기 방지 및 앱종료 모달
-	// useBackHandler();
+	useBackHandler();
 
 	const renderItem = ({ item }) => {
 		return (
@@ -95,7 +96,7 @@ const Home = ({ navigation }) => {
 				}}>
 				<OutlinedText
 					strokeColor={
-						tinycolor(item.color).isLight()
+						convert.hex.hsl(item.color.replace('#', ''))[2] > 80
 							? COLOR.GRAY_10
 							: COLOR.GRAY_2
 					}
@@ -166,6 +167,7 @@ const Home = ({ navigation }) => {
 				<View style={styles.carouselContainer}>
 					<View
 						style={{
+							marginHorizontal: 18,
 							flexDirection: 'row',
 							marginBottom: 3,
 						}}>
@@ -174,6 +176,36 @@ const Home = ({ navigation }) => {
 							Trend Color Palette
 						</Text>
 					</View>
+					<Carousel
+						ref={caroucelRef}
+						width={width}
+						mode={'horizontal-stack'}
+						modeConfig={{
+							snapDirection: 'left',
+							stackInterval: pageWidth + 8,
+						}}
+						data={dummy_trendColor}
+						onSnapToItem={handleGetCurrentIndex}
+						onProgressChange={progress}
+						renderItem={renderItem}
+					/>
+					<Pagination.Basic
+						progress={progress}
+						data={dummy_trendColor}
+						animValue={10}
+						dotStyle={{
+							width: 10,
+							backgroundColor: COLOR.PRIMARY + 50,
+							borderRadius: 50,
+						}}
+						activeDotStyle={{
+							backgroundColor: COLOR.PRIMARY,
+							overflow: 'hidden',
+							borderRadius: 50,
+						}}
+						containerStyle={{ gap: 5, marginBottom: 10 }}
+						onPress={onPressPagination}
+					/>
 				</View>
                 
 			</View>
@@ -239,9 +271,9 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end',
 	},
 	carouselContainer: {
-		height: 280,
+		height: 300,
 		marginTop: 38,
-		marginLeft: 38,
+		marginLeft: 0,
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,

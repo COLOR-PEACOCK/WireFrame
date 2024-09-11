@@ -13,32 +13,48 @@ import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
 import useColorName from '@hooks/useColorName';
-import { cmykToHex, hslToHex, rgbToHex, isValidHexCode, isValidKorean, INPUT_TYPES } from '@utils/home';
+import {
+	cmykToHex,
+	hslToHex,
+	rgbToHex,
+	isValidHexCode,
+	isValidKorean,
+	INPUT_TYPES,
+} from '@utils/home';
 
 const colorConverter = {
-	[INPUT_TYPES.HEX]: values => (isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null),
-	[INPUT_TYPES.RGB]: values => rgbToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.HSL]: values => hslToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.CMYK]: values => cmykToHex(values.part1, values.part2, values.part3, values.part4) ?? null,
+	[INPUT_TYPES.HEX]: values =>
+		isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null,
+	[INPUT_TYPES.RGB]: values =>
+		rgbToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.HSL]: values =>
+		hslToHex(values.part1, values.part2, values.part3) ?? null,
+	[INPUT_TYPES.CMYK]: values =>
+		cmykToHex(values.part1, values.part2, values.part3, values.part4) ??
+		null,
 	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
-		const matchedColor = searchNameList.find(
-			color =>
-				color.name?.toUpperCase() === values.part1?.toUpperCase() ||
-				color.korean_name === values.part1,
+		const matchedColor = searchNameList.find(color =>
+			isValidKorean(values.part1)
+				? color.korean_name.replaceAll(' ', '') ===
+				  values.part1.replaceAll(' ', '')
+				: color.name?.toUpperCase().replaceAll(' ', '') ===
+				  values.part1?.toUpperCase().replaceAll(' ', ''),
 		);
 		return matchedColor ? matchedColor.hex : null;
 	},
 };
 
-const SearchModal = ({
-	visible,
-	handleCloseModal,
-	onPressSearch,
-}) => {
+const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const handlePressLabel = label => setSelectedLabel(label);
-	const [inputValues, setInputValues] = useState({ part1: '', part2: '', part3: '', part4: '' });
+	const [inputValues, setInputValues] = useState({
+		part1: '',
+		part2: '',
+		part3: '',
+		part4: '',
+	});
 	const [searchNameList, setSearchNameList] = useState([]);
+	const [isKeywordKor, SetIsKeywordKor] = useState(false);
 	const { getSearchColorList } = useColorName();
 
 	// 검색어 입력 시 색상 리스트 업데이트
@@ -49,8 +65,10 @@ const SearchModal = ({
 				setSearchNameList([]);
 				return;
 			}
-			const isKorean = isValidKorean(keyword);
-			setSearchNameList(getSearchColorList(isKorean, keyword));
+			SetIsKeywordKor(isValidKorean(keyword.replaceAll(' ', "")));
+			setSearchNameList(
+				getSearchColorList(isValidKorean(keyword.replaceAll(' ', "")), keyword),
+			);
 		};
 
 		if (selectedLabel === INPUT_TYPES.COLOR_NAME) {
@@ -58,21 +76,21 @@ const SearchModal = ({
 		} else {
 			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
 		}
-	}, [inputValues.part1, selectedLabel]); 
+	}, [inputValues.part1, selectedLabel]);
 
-	// 검색 버튼 터치 시 
+	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
-		const convertColorToHex = colorConverter[selectedLabel] || (values => values);
-		const hexValue = convertColorToHex(inputValues, searchNameList); 
-		if (hexValue)
-			onPressSearch(hexValue);
-		else console.log('fail')
+		const convertColorToHex =
+			colorConverter[selectedLabel] || (values => values);
+		const hexValue = convertColorToHex(inputValues, searchNameList);
+		if (hexValue) onPressSearch(hexValue);
+		else console.log('fail');
 	};
 
 	// 자동완성 검색 리스트 터치 시
 	const handlePressSearchList = label => {
-		setInputValues({ ...{part1: label} });
-		// 터치하고 자동완성 숨기기
+		setInputValues({ ...{ part1: label } });
+		// 자동완성 터치하면 숨기기?
 	};
 
 	return (
@@ -119,12 +137,15 @@ const SearchModal = ({
 										<ListValue
 											key={item.hex}
 											label={
-												item.korean_name || item.name
+												isKeywordKor
+													? item.korean_name
+													: item.name
 											}
 											onPressLabel={() =>
 												handlePressSearchList(
-													item.korean_name ||
-														item.name,
+													isKeywordKor
+														? item.korean_name
+														: item.name,
 												)
 											}
 										/>
@@ -177,7 +198,7 @@ const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
 const styles = StyleSheet.create({
 	modalView: {
 		width: '85%',
-		marginTop: 150,
+		marginTop: 100,
 		marginHorizontal: 'auto',
 		paddingTop: 18,
 		zIndex: 5,

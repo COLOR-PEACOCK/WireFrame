@@ -30,6 +30,7 @@
 		"react-native-screens": "^3.34.0",
 		"react-native-svg": "^15.6.0",
 		"react-native-svg-transformer": "^1.5.0",
+		"react-native-swiper": "^1.6.0",
 		"react-native-vector-icons": "^10.1.0",
 		"react-native-vision-camera": "^4.5.2",
 		"react-native-webview": "^13.10.5",

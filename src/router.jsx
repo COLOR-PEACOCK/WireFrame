@@ -7,6 +7,9 @@ import ImageScreen from '@pages/ImageScreen';
 import AiResponseScreen from '@pages/AiResponseScreen';
 import ColorRecommendScreen from '@pages/ColorRecommendScreen';
 import CameraScreen from '@pages/CameraScreen';
+import AiOnboardingScreen from '@pages/AiOnboardingScreen';
+import ObjectScreen from '@pages/ObjectScreen';
+import ImageAiScreen from '@pages/ImageAiScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +19,10 @@ const Router = () => {
 			screenOptions={{ headerShown: false, gestureEnabled: false }}>
 			<Stack.Screen name="Splash" component={Splash} />
 			<Stack.Screen name="Home" component={Home} />
+			<Stack.Screen
+				name="AiOnboardingScreen"
+				component={AiOnboardingScreen}
+			/>
 			<Stack.Screen name="AiScreen" component={AiScreen} />
 			<Stack.Screen
 				name="AiResponseScreen"
@@ -27,6 +34,8 @@ const Router = () => {
 				component={ColorRecommendScreen}
 			/>
 			<Stack.Screen name="CameraScreen" component={CameraScreen} />
+			<Stack.Screen name="ObjectScreen" component={ObjectScreen} />
+			<Stack.Screen name="ImageAiScreen" component={ImageAiScreen} />
 		</Stack.Navigator>
 	);
 };
