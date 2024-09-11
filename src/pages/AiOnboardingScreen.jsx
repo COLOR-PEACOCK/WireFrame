@@ -16,14 +16,14 @@ const AiOnboardingScreen = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const handleSkip = () => {
-		navigation.replace('AiScreen');
+		navigation.navigate('AiScreen');
 	};
 
 	const handleNext = () => {
 		if (currentIndex < 2) {
 			swiperRef.current.scrollBy(1);
 		} else {
-			navigation.replace('AiScreen');
+			navigation.navigate('AiScreen');
 		}
 	};
 
@@ -33,7 +33,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 				titleIcon={'iamge'}
 				title={'Ai 추천'}
 				engTitle={'ai recs'}
-				rightIcon={'skip'}
+				rightIcon={'Skip'}
 				onPressRight={handleSkip}
 			/>
 			<Swiper

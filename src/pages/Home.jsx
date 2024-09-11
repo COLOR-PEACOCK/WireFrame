@@ -11,7 +11,7 @@ import {
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
 import convert from 'color-convert';
-import { PressButton, OutlinedText } from '@components/Home';
+import { PressButton, OutlinedText, Indicator } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
 import {
@@ -22,7 +22,7 @@ import {
 } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
-import { useBackHandler } from '@hooks/useBackHandler';
+import { useBackHandler } from '@hooks/home';
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
@@ -111,7 +111,6 @@ const Home = ({ navigation }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.container}>
-
 				<View style={styles.header}>
 					<View
 						style={{
@@ -140,7 +139,7 @@ const Home = ({ navigation }) => {
 						<SearchSVG />
 					</TouchableOpacity>
 				</View>
-                
+
 				<View style={styles.buttonContainer}>
 					<PressButton
 						iconName={'camera'}
@@ -167,7 +166,6 @@ const Home = ({ navigation }) => {
 				<View style={styles.carouselContainer}>
 					<View
 						style={{
-							marginHorizontal: 18,
 							flexDirection: 'row',
 							marginBottom: 3,
 						}}>
@@ -188,26 +186,17 @@ const Home = ({ navigation }) => {
 						onSnapToItem={handleGetCurrentIndex}
 						onProgressChange={progress}
 						renderItem={renderItem}
-					/>
-					<Pagination.Basic
-						progress={progress}
-						data={dummy_trendColor}
-						animValue={10}
-						dotStyle={{
-							width: 10,
-							backgroundColor: COLOR.PRIMARY + 50,
-							borderRadius: 50,
-						}}
-						activeDotStyle={{
-							backgroundColor: COLOR.PRIMARY,
-							overflow: 'hidden',
-							borderRadius: 50,
-						}}
-						containerStyle={{ gap: 5, marginBottom: 10 }}
-						onPress={onPressPagination}
+						
+						
 					/>
 				</View>
-                
+				<View
+					style={{ alignItems: 'center', justifyContent: 'center' }}>
+					<Indicator
+						currentIndex={currentIndex}
+						length={dummy_trendColor.length}
+					/>
+				</View>
 			</View>
 		</SafeAreaView>
 	);
@@ -221,7 +210,7 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		width: '100%',
-        minWidth: 412,
+		minWidth: 412,
 		height: 84,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -233,7 +222,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		fontFamily: 'CookieRun-Bold',
-        letterSpacing: -1,
+		letterSpacing: -1,
 		color: COLOR.PRIMARY,
 	},
 	searchIconWrapper: {
@@ -273,7 +262,7 @@ const styles = StyleSheet.create({
 	carouselContainer: {
 		height: 300,
 		marginTop: 38,
-		marginLeft: 0,
+		marginLeft: 38,
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
