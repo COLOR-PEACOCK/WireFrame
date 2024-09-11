@@ -8,7 +8,13 @@ import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
 
-const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
+const ColorPalette = ({
+	titleKor,
+	titleEng,
+	colors,
+	onColorSelect,
+	description,
+}) => {
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -130,6 +136,15 @@ const ColorPalette = ({ titleKor, titleEng, colors, onColorSelect }) => {
 				onClose={closeModal}
 				colorInfo={colorInfo}
 				selectedColor={selectedColor}
+				description={ description &&
+					description[
+						[
+							description[0].hexCode,
+							description[1].hexCode,
+							description[2].hexCode,
+						].indexOf(selectedColor)
+					]?.harmony_description
+				}
 			/>
 		</View>
 	);
