@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
-import { View, Image, Animated, Easing } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Image, Animated, Easing, Text } from 'react-native';
 import spinner from '../../assets/loadingSpinner.png';
+import logoIcon from '../../assets/icons/logo.png';
 
 const Spinner = () => {
+	// 스피너
 	const spinValue = new Animated.Value(0);
 
 	useEffect(() => {
@@ -17,7 +19,7 @@ const Spinner = () => {
 		};
 
 		startRotation();
-	}, [spinValue]);
+	}, []);
 
 	const spin = spinValue.interpolate({
 		inputRange: [0, 1],
@@ -25,15 +27,24 @@ const Spinner = () => {
 	});
 
 	return (
-		<View>
+		<View
+			style={{
+				position: 'relative',
+				justifyContent: 'center',
+				alignItems: 'center',
+				width: 68,
+				height: 68,
+			}}>
 			<Animated.Image
 				source={spinner} // 스피너 이미지 경로
 				style={{
-					width: 100, // 이미지 크기
-					height: 100,
+					position: 'absolute',
+					width: 68, // 이미지 크기
+					height: 68,
 					transform: [{ rotate: spin }],
 				}}
 			/>
+			<Image source={logoIcon} style={{ width: 48, height: 48 }} />
 		</View>
 	);
 };

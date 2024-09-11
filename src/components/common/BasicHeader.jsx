@@ -101,6 +101,8 @@ const BasicHeader = ({
 				<TouchableOpacity
 					ref={infoButtonRef}
 					style={styles.infoButton}
+					Updated
+					upstream
 					onPress={
 						infoText
 							? () => setIsInfoVisible(!isInfoVisible)
