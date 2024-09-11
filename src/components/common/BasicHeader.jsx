@@ -41,14 +41,18 @@ const BasicHeader = ({
 }) => {
 	const navigate = useNavigation();
 	const isInfo = rightIcon === 'info';
-	const [infoButtonLayout, setInfoButtonLayout] = useState();
+	const [infoButtonLayout, setInfoButtonLayout] = useState({
+		width: 0,
+		height: 0,
+		left: 0,
+		top: 0,
+	});
 	const infoButtonRef = useRef(null);
 	const infoModalRef = useRef(null);
 	const [infoTextWidth, setInfoTextWidth] = useState(0);
 	const [isInfoVisible, setIsInfoVisible] = useState();
 
 	useEffect(() => {
-		if (!isInfo) return;
 		infoButtonRef.current?.measure(
 			(_x, _y, width, height, pageX, pageY) => {
 				setInfoButtonLayout({
@@ -62,10 +66,11 @@ const BasicHeader = ({
 		infoModalRef.current?.measure((_x, _y, width, height, pageX, pageY) => {
 			setInfoTextWidth(width);
 		});
-	}, [isInfoVisible]);
+	}, []);
 
 	return (
-		<View style={styles.headerContainer}>
+		<View
+			style={[styles.headerContainer, { zIndex: isInfoVisible ? 1 : 0 }]}>
 			{/* left button */}
 			<TouchableOpacity
 				style={[
@@ -83,8 +88,8 @@ const BasicHeader = ({
 			<View style={styles.titleContainer}>
 				<SVGIcon
 					name={titleIcon}
-					width={38}
-					height={38}
+					width={45}
+					height={45}
 					color={COLOR.PRIMARY}
 				/>
 				<Text style={styles.title}>{title}</Text>
@@ -96,8 +101,15 @@ const BasicHeader = ({
 				<TouchableOpacity
 					ref={infoButtonRef}
 					style={styles.infoButton}
-					onPress={() => setIsInfoVisible(!isInfoVisible)}>
-                        <Image source={informationIcon} style={{ width: 24, height: 24}} />
+					onPress={
+						infoText
+							? () => setIsInfoVisible(!isInfoVisible)
+							: onPressRight
+					}>
+					<Image
+						source={informationIcon}
+						style={{ width: 24, height: 24 }}
+					/>
 				</TouchableOpacity>
 			) : (
 				<TouchableOpacity
@@ -110,11 +122,26 @@ const BasicHeader = ({
 						},
 					]}
 					onPress={onPressRight}>
-					<Icon name={rightIcon} color={COLOR.PRIMARY} size={30} />
+					{rightIcon === 'Skip' ? (
+						<Text
+							style={{
+								fontFamily: 'Pretendard-Medium',
+								fontSize: 16,
+								color: COLOR.PRIMARY,
+							}}>
+							{rightIcon}
+						</Text>
+					) : (
+						<Icon
+							name={rightIcon}
+							color={COLOR.PRIMARY}
+							size={30}
+						/>
+					)}
 				</TouchableOpacity>
 			)}
 			{/* info Modal */}
-			{isInfoVisible && infoText && (
+			{infoText && (
 				<View
 					style={[
 						styles.infoModalWrap,
@@ -127,6 +154,7 @@ const BasicHeader = ({
 								infoButtonLayout.top +
 								infoButtonLayout.height +
 								10,
+							opacity: isInfoVisible ? 100 : 0,
 						},
 					]}>
 					<View ref={infoModalRef} style={styles.infoModalSquare}>
@@ -151,7 +179,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		elevation: 5,
 		backgroundColor: COLOR.WHITE,
-		zIndex: 1
+		zIndex: 1,
 	},
 	titleContainer: {
 		justifyContent: 'center',
@@ -169,7 +197,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'CookieRun-Regular',
 		fontSize: 16,
 		color: COLOR.GRAY_6,
-        paddingLeft: 6,
+		paddingLeft: 6,
 	},
 	headerButton: {
 		width: 48,
@@ -195,10 +223,10 @@ const styles = StyleSheet.create({
 		backgroundColor: COLOR.WHITE,
 	},
 	triangleBorder: {
-        position: 'absolute',
-        // 전체적인 위치 조정
-        top: -11,
-        right: 9,
+		position: 'absolute',
+		// 전체적인 위치 조정
+		top: -11,
+		right: 9,
 		width: 0,
 		height: 0,
 		borderLeftWidth: 8,

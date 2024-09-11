@@ -17,14 +17,14 @@ const AiOnboardingScreen = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const handleSkip = () => {
-		navigation.replace('AiScreen');
+		navigation.navigate('AiScreen');
 	};
 
 	const handleNext = () => {
 		if (currentIndex < 2) {
 			swiperRef.current.scrollBy(1);
 		} else {
-			navigation.replace('AiScreen');
+			navigation.navigate('AiScreen');
 		}
 	};
 
@@ -32,9 +32,9 @@ const AiOnboardingScreen = ({ navigation }) => {
 		<SafeAreaView style={styles.container}>
 			<BasicHeader
 				titleIcon={'AI'}
-				title={'AI 추천'}
-				subTitle={'ai recs'}
-				rightIcon={'skip'}
+				title={'Ai 추천'}
+				engTitle={'ai recs'}
+				rightIcon={'Skip'}
 				onPressRight={handleSkip}
 			/>
 			<Swiper

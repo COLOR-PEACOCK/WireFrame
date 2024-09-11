@@ -12,7 +12,13 @@ const extractNumbers = str => {
 	return matchedNumbers.join(', ');
 };
 
-const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
+const ColorInfoModal = ({
+	isVisible,
+	onClose,
+	colorInfo,
+	selectedColor,
+	description,
+}) => {
 	const korTextColor = tinycolor(selectedColor).isLight()
 		? COLOR.GRAY_10
 		: COLOR.WHITE;
@@ -25,7 +31,11 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 	const cmykNumbers = extractNumbers(colorInfo.cmykVal);
 
 	return (
-		<Modal animationType='fade' transparent={true} visible={isVisible} onRequestClose={onClose}>
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={isVisible}
+			onRequestClose={onClose}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
 					<View style={styles.contentContainer}>
@@ -49,6 +59,15 @@ const ColorInfoModal = ({ isVisible, onClose, colorInfo, selectedColor }) => {
 									]}>
 									{colorInfo.engName}
 								</Text>
+								{description &&<Text
+									style={[
+										styles.engColorName,
+										{ color: engTextColor,
+											paddingBottom: 10
+										},
+									]}>
+									{description}
+								</Text>}
 							</View>
 						</View>
 
@@ -132,18 +151,16 @@ const styles = StyleSheet.create({
 	colorPreview: {
 		height: 348,
 		position: 'relative',
+		justifyContent: 'flex-end',
+		gap: 4,
 	},
 	korColorName: {
-		position: 'absolute',
-		left: 18,
-		bottom: 38,
+		marginHorizontal: 18,
 		fontSize: 24,
 		fontFamily: 'Pretendard-Bold',
 	},
 	engColorName: {
-		position: 'absolute',
-		left: 18,
-		bottom: 12,
+		marginHorizontal: 18,
 		fontSize: 18,
 		fontFamily: 'Pretendard-Regular',
 		textTransform: 'lowercase',

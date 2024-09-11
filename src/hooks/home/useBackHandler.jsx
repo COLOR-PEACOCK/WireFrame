@@ -13,7 +13,7 @@ import { useEffect } from 'react';
  * ```
  */
 
-export const useBackHandler = () => {
+const useBackHandler = () => {
 	const navigation = useNavigation();
 
 	useEffect(() => {
@@ -37,3 +37,4 @@ export const useBackHandler = () => {
 		};
 	}, []);
 };
+export default useBackHandler;
