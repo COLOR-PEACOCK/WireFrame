@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		elevation: 5,
 		backgroundColor: COLOR.WHITE,
+		zIndex: 1
 	},
 	titleContainer: {
 		justifyContent: 'center',

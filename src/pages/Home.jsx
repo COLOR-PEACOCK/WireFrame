@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
-import tinycolor from 'tinycolor2';
+import convert from 'color-convert';
 import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
@@ -22,6 +22,7 @@ import {
 } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
+import { useBackHandler } from '@hooks/useBackHandler';
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
@@ -75,7 +76,7 @@ const Home = ({ navigation }) => {
 	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
 	// splash로 뒤로가기 방지 및 앱종료 모달
-	// useBackHandler();
+	useBackHandler();
 
 	const renderItem = ({ item }) => {
 		return (
@@ -95,7 +96,7 @@ const Home = ({ navigation }) => {
 				}}>
 				<OutlinedText
 					strokeColor={
-						tinycolor(item.color).isLight()
+						convert.hex.hsl(item.color.replace('#', ''))[2] > 80
 							? COLOR.GRAY_10
 							: COLOR.GRAY_2
 					}
@@ -160,16 +161,19 @@ const Home = ({ navigation }) => {
 				</View>
 
 				<View style={styles.split}></View>
-				
+
 				<View style={styles.carouselContainer}>
-				<View
-					style={{
-						flexDirection: 'row',
-						marginBottom: 3,
-					}}>
-					<Text style={styles.sectionKor}>추천 색상</Text>
-					<Text style={styles.sectionEng}>Trend Color Palette</Text>
-				</View>
+					<View
+						style={{
+							marginHorizontal: 18,
+							flexDirection: 'row',
+							marginBottom: 3,
+						}}>
+						<Text style={styles.sectionKor}>추천 색상</Text>
+						<Text style={styles.sectionEng}>
+							Trend Color Palette
+						</Text>
+					</View>
 					<Carousel
 						ref={caroucelRef}
 						width={width}
@@ -262,9 +266,9 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end',
 	},
 	carouselContainer: {
-		height: 280,
+		height: 300,
 		marginTop: 38,
-		marginLeft: 38,
+		marginLeft: 0,
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
