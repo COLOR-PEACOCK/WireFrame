@@ -23,7 +23,7 @@ const ObjectScreen = ({ route }) => {
 
 	//디버깅
 	useEffect(() => {
-		return console.log(isColorPickerOpen);
+		return console.log(droppedItems);
 	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
 	const handleColorSelect = color => {
@@ -39,7 +39,11 @@ const ObjectScreen = ({ route }) => {
 	};
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<BasicHeader title="오브젝트" subTitle="object" />
+			<BasicHeader
+				title="색상 미리보기"
+				subTitle="color preview"
+				titleIcon="object"
+			/>
 
 			{/* 오브젝트 배치 화면 */}
 			<ImageBackground

@@ -1,4 +1,11 @@
-import { CameraSVG, ImageSVG, AISVG, PaletteSVG, ReportSVG } from '@icons';
+import {
+	CameraSVG,
+	ImageSVG,
+	AISVG,
+	PaletteSVG,
+	ReportSVG,
+	ObjectSVG,
+} from '@icons';
 
 const iconMap = {
 	camera: CameraSVG,
@@ -6,6 +13,7 @@ const iconMap = {
 	AI: AISVG,
 	palette: PaletteSVG,
 	report: ReportSVG,
+	object: ObjectSVG,
 };
 
 /**
