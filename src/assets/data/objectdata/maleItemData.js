@@ -31,6 +31,19 @@ const maleItemData = {
 		// 다른 남성 하의 아이템들...
 	],
 	shoes: [],
+	socks: [
+		{
+			id: '3',
+			category: 'socks',
+			canvasWidth: 142,
+			canvasHeight: 38,
+			canvasX: -52,
+			canvasY: -40,
+			zIndex: 100,
+			svg: <></>,
+			isDefault: true,
+		},
+	],
 };
 
 export default maleItemData;

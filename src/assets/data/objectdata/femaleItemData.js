@@ -10,6 +10,7 @@ import {
 	WideLongPants,
 } from '@images/objectitems/female/clothesBottom/clothesBottom.js';
 import { Shoes, Slippers } from '@images/objectitems/female/shoes/shoes.js';
+import Socks from '@images/objectitems/female/socks/socks.svg';
 
 const femaleItemData = {
 	clothesTop: [
@@ -98,6 +99,19 @@ const femaleItemData = {
 			canvasY: -22,
 			zIndex: 100,
 			svg: <Slippers width={100} height={80} />,
+		},
+	],
+	socks: [
+		{
+			id: '9',
+			category: 'socks',
+			canvasWidth: 135,
+			canvasHeight: 85,
+			canvasX: -47,
+			canvasY: -86,
+			zIndex: 100,
+			svg: <Socks width={100} height={80} />,
+			isDefault: true,
 		},
 	],
 };

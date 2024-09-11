@@ -31,7 +31,7 @@ const ObjectBottomCotainer = ({
 
 	// 기본 아이템 선택 함수
 	const getDefaultItems = useCallback(data => {
-		return [data.clothesTop[0], data.clothesBottom[0]];
+		return [data.clothesTop[0], data.clothesBottom[0], data.socks[0]];
 	}, []);
 
 	// 성별과 아이템 아이템 변경 함수

@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		paddingTop: 20,
-		// backgroundColor: 'blue',
 	},
 	colorBox: {
 		width: 60,
