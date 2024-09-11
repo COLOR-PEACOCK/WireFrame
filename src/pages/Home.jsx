@@ -72,7 +72,7 @@ const Home = ({ navigation }) => {
 	};
 	const handleSelectCamera = () => navigation.navigate('CameraScreen');
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
-	const handleSelectAI = () => navigation.navigate('AiScreen');
+	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
 	// splash로 뒤로가기 방지 및 앱종료 모달
 	// useBackHandler();
