@@ -13,7 +13,7 @@ import { COLOR } from '@styles/color';
 const colorContainer = require('@images/objectitems/background/cricle__wrapper.png');
 
 const ColorBottomSheet = ({
-	// colors,
+	colors,
 	selectedItemId,
 	setDroppedItems,
 	isColorPickerOpen,
@@ -21,7 +21,7 @@ const ColorBottomSheet = ({
 }) => {
 	const bottomSheetRef = useRef(null);
 
-	const colors = ['#576490', '#A52A2A', '#D8BFD8', '#FBFBFB', '#3F3A3A'];
+	// const colors = ['#576490', '#A52A2A', '#D8BFD8', '#FBFBFB', '#3F3A3A'];
 
 	//컬러 팔레트 터치 이벤트
 	const handleColorSelect = color => {
