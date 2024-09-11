@@ -46,7 +46,7 @@ const RightCircle = ({
 						: isSelected[number] === 'small'
 						? 0
 						: 0.5,
-				duration: 200,
+				duration: 300,
 				useNativeDriver: false,
 			}),
 		]).start();
@@ -56,7 +56,7 @@ const RightCircle = ({
 		return tinycolor(color).isLight() ? COLOR.GRAY_10 : COLOR.WHITE;
 	};
 	const engTextColor = color => {
-		return tinycolor(color).isLight() ? COLOR.GRAY_8 : COLOR.GRAY_2;
+		return tinycolor(color).isLight() ? COLOR.GRAY_9 : COLOR.GRAY_2;
 	};
 
 	const handlePress = () => {
@@ -104,6 +104,7 @@ const RightCircle = ({
 		backgroundColor: colorCode[number],
 		justifyContent: 'center',
 		alignItems: 'center',
+		overflow: 'hidden',
 		zIndex: -1,
 	};
 
@@ -134,6 +135,8 @@ const RightCircle = ({
 							outputRange: [12, 16, 20],
 						}),
 						color: engTextColor(colorCode[number]),
+						marginTop: -2,
+						marginBottom: 5,
 					}}>
 					{engColorName[number]}
 				</Animated.Text>

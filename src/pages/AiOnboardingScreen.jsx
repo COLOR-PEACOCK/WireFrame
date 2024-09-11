@@ -10,6 +10,7 @@ import {
 import Swiper from 'react-native-swiper';
 import BasicHeader from '@components/common/BasicHeader';
 import { COLOR } from '@styles/color';
+import OnboardingIcon from '@components/AiRecommend/OnboardingIcon';
 
 const AiOnboardingScreen = ({ navigation }) => {
 	const swiperRef = useRef(null);
@@ -30,7 +31,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<BasicHeader
-				titleIcon={'iamge'}
+				titleIcon={'AI'}
 				title={'Ai 추천'}
 				engTitle={'ai recs'}
 				rightIcon={'Skip'}
@@ -115,8 +116,11 @@ const AiOnboardingScreen = ({ navigation }) => {
 				</View>
 			</Swiper>
 			<TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+				<OnboardingIcon color={COLOR.GRAY_1} />
 				<Text style={styles.nextButtonText}>
-					{currentIndex === 2 ? '완료' : '다음으로 이동하기'}
+					{currentIndex === 2
+						? '지금 바로 이동하기'
+						: '다음으로 이동하기'}
 				</Text>
 			</TouchableOpacity>
 		</SafeAreaView>
@@ -188,8 +192,10 @@ const styles = StyleSheet.create({
 		backgroundColor: COLOR.PRIMARY,
 		height: 98,
 		paddingVertical: 15,
+		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+		gap: 6,
 	},
 	nextButtonText: {
 		color: COLOR.GRAY_1,

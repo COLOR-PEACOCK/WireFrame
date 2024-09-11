@@ -74,9 +74,9 @@ const AiScreen = ({ navigation }) => {
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="padding">
 			<BasicHeader
-				titleIcon={'iamge'}
+				titleIcon={'AI'}
 				title={'AI 추천'}
-				engTitle={'ai recs'}
+				subTitle={'ai recs'}
 				rightIcon={'info'}
 				infoText={infoText}
 			/>
@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
+		height: 80,
 		gap: 6,
 	},
 	analysisButtonText: {
