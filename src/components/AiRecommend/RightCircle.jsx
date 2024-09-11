@@ -46,7 +46,7 @@ const RightCircle = ({
 						: isSelected[number] === 'small'
 						? 0
 						: 0.5,
-				duration: 200,
+				duration: 300,
 				useNativeDriver: false,
 			}),
 		]).start();
@@ -104,6 +104,7 @@ const RightCircle = ({
 		backgroundColor: colorCode[number],
 		justifyContent: 'center',
 		alignItems: 'center',
+		overflow: 'hidden',
 		zIndex: -1,
 	};
 
@@ -134,6 +135,8 @@ const RightCircle = ({
 							outputRange: [12, 16, 20],
 						}),
 						color: engTextColor(colorCode[number]),
+						marginTop: -2,
+						marginBottom: 5,
 					}}>
 					{engColorName[number]}
 				</Animated.Text>
