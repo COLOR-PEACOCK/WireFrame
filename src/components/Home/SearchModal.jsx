@@ -180,7 +180,7 @@ const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
 const styles = StyleSheet.create({
 	modalView: {
 		width: '85%',
-		marginTop: 150,
+		marginTop: 100,
 		marginHorizontal: 'auto',
 		paddingTop: 18,
 		zIndex: 5,

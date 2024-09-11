@@ -78,6 +78,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	const handleColorSelect = selectedColors => {
 		console.log('선택 팔레트', selectedColors);
 		// TODO: 선택 팔레트 넘겨주기
+		navigation.navigate('ObjectScreen', selectedColors)
 	};
 
 	const hslColor = convert.hex.hsl(tempColor.replace('#', ''));
@@ -224,7 +225,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 2,
 		borderColor: COLOR.GRAY_3,
-		zIndex: -1
 	},
 });
 
