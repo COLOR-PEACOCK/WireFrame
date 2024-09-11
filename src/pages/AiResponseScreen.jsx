@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		padding: 20,
-		zIndex: 0,
+		zIndex: -1,
 	},
 });
 
