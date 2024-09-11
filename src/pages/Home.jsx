@@ -161,16 +161,19 @@ const Home = ({ navigation }) => {
 				</View>
 
 				<View style={styles.split}></View>
-				
+
 				<View style={styles.carouselContainer}>
-				<View
-					style={{
-						flexDirection: 'row',
-						marginBottom: 3,
-					}}>
-					<Text style={styles.sectionKor}>추천 색상</Text>
-					<Text style={styles.sectionEng}>Trend Color Palette</Text>
-				</View>
+					<View
+						style={{
+							marginHorizontal: 18,
+							flexDirection: 'row',
+							marginBottom: 3,
+						}}>
+						<Text style={styles.sectionKor}>추천 색상</Text>
+						<Text style={styles.sectionEng}>
+							Trend Color Palette
+						</Text>
+					</View>
 					<Carousel
 						ref={caroucelRef}
 						width={width}
