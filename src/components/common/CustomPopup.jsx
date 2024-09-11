@@ -19,7 +19,7 @@ import { COLOR } from '@styles/color';
  *  \n• : 줄바꿈
  */
 
-const CustomPopup = ({ message, duration = 3500 }) => {
+const CustomPopup = ({ message }) => {
 	const [visible, setVisible] = useState(false);
 	const slideAnim = useRef(new Animated.Value(0)).current;
 	const opicityAnim = useRef(new Animated.Value(0)).current;
