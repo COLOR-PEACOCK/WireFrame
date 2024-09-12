@@ -136,14 +136,15 @@ const ColorPalette = ({
 				onClose={closeModal}
 				colorInfo={colorInfo}
 				selectedColor={selectedColor}
-				description={ description &&
-					description[
-						[
-							description[0].hexCode,
-							description[1].hexCode,
-							description[2].hexCode,
-						].indexOf(selectedColor)
-					]?.harmony_description
+				description={
+					description &&
+					selectedColor &&
+					description.find(
+						item =>
+							item.hexCode &&
+							item.hexCode.toLowerCase() ===
+								selectedColor.toLowerCase(),
+					)?.harmony_description
 				}
 			/>
 		</View>
