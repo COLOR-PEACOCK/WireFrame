@@ -68,11 +68,7 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 				]}
 				onPress={onSelect}>
 				<Image
-					source={getCategoryIcon(
-						item.category,
-						isSelected,
-						item.isVisible,
-					)}
+					source={getCategoryIcon(item.category, item.isVisible)}
 					style={{ width: 28, height: 28 }}
 				/>
 			</TouchableOpacity>
