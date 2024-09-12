@@ -59,7 +59,7 @@ const ObjectBottomCotainer = ({
 			{activeTab ? (
 				<View style={styles.tabViewContainer}>
 					<TouchableOpacity
-						onPress={() => setActiveTab('')}
+						onPress={() => setActiveTab(null)}
 						style={styles.backButtonWrapper}>
 						<Image
 							source={BackButton}

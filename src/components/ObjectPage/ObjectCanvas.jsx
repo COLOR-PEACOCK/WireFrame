@@ -11,6 +11,7 @@ const ObjectCanvas = ({
 	selectedItemId,
 	gender,
 	defaultItems,
+	activeTab,
 	setActiveTab,
 	setIsColorPickerOpen,
 }) => {
@@ -31,8 +32,15 @@ const ObjectCanvas = ({
 
 		const newSelectedId = id === selectedItemId ? null : id;
 		setSelectedItemId(newSelectedId);
-		setActiveTab(prevTab => (prevTab === category ? null : category));
-
+		//탭 관리
+		if (activeTab === null) {
+			if (newSelectedId !== null) {
+				setActiveTab(category);
+			}
+		} else {
+			setActiveTab(prevTab => (prevTab === category ? null : category));
+		}
+		// 컬러피커 바텀시트 관리
 		if (newSelectedId !== null) {
 			setIsColorPickerOpen(true);
 		} else {
@@ -57,7 +65,7 @@ const ObjectCanvas = ({
 				),
 			);
 		} else if (!itemToDelete.isDefault) {
-			// 기본 아이템이 아닌 경우(신발, 양말, 모자 등), 완전히 삭제
+			// 기본 아이템이 아닌 경우 삭제
 			setDroppedItems(prevItems =>
 				prevItems.filter(item => item.id !== id),
 			);
@@ -65,7 +73,7 @@ const ObjectCanvas = ({
 				prevCategory === category ? null : category,
 			);
 		}
-		// 기본 아이템(isDefault가 true)인 경우는 아무 작업도 하지 않습니다.
+		// 기본 아이템인 경우 유지
 
 		setSelectedItemId(null);
 		setIsColorPickerOpen(false);

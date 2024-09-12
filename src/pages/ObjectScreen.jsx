@@ -47,6 +47,7 @@ const ObjectScreen = ({ route }) => {
 					setSelectedItemId={setSelectedItemId}
 					gender={gender}
 					defaultItems={defaultItems}
+					activeTab={activeTab}
 					setActiveTab={setActiveTab}
 					setIsColorPickerOpen={setIsColorPickerOpen}
 				/>
