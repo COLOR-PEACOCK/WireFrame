@@ -83,7 +83,7 @@ const ImageScreen = ({ navigation }) => {
 
 					// 이미지 선택 후 팝업 메시지 설정
 					setPopupMessage(
-						'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행',
+						'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행합니다!',
 					);
 				} catch (error) {
 					Alert.alert('Error', 'Failed to convert image to Base64');
@@ -195,7 +195,6 @@ const ImageScreen = ({ navigation }) => {
 						styles.button,
 					]}
 					onPress={handleAiRecommend}>
-					{/* + 가져온 사진을 가지고 가야 함 */}
 					<Image source={aiIcon} style={styles.buttonIcon} />
 					<Text style={styles.ButtonText}>AI 테마 추천</Text>
 				</Pressable>

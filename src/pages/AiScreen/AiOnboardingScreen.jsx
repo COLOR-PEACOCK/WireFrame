@@ -33,7 +33,7 @@ const AiOnboardingScreen = ({ navigation }) => {
 			<BasicHeader
 				titleIcon={'AI'}
 				title={'Ai 추천'}
-				engTitle={'ai recs'}
+				subTitle={'ai recs'}
 				rightIcon={'Skip'}
 				onPressRight={handleSkip}
 			/>

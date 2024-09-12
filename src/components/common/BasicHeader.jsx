@@ -192,12 +192,14 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: COLOR.PRIMARY,
 		textAlign: 'center',
+		letterSpacing: -1,
 	},
 	engTitle: {
 		fontFamily: 'CookieRun-Regular',
 		fontSize: 16,
 		color: COLOR.GRAY_6,
 		paddingLeft: 6,
+		letterSpacing: -.8,
 	},
 	headerButton: {
 		width: 48,

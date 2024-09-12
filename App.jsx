@@ -1,11 +1,16 @@
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
 import Router from './src/router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import BootSplash from 'react-native-bootsplash';
 
 function App() {
+    
 	return (
-		<NavigationContainer>
+		<NavigationContainer
+			onReady={() => {
+				BootSplash.hide({ fade: true });
+			}}>
 			<GestureHandlerRootView>
 				<Router />
 			</GestureHandlerRootView>
