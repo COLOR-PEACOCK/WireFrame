@@ -14,16 +14,16 @@ const useGemini = () => {
 		maxOutputTokens: 8192,
 		responseMimeType: 'application/json',
 	};
-    const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	async function run(value) {
-        setIsLoading(true)
+		setIsLoading(true);
 		const chatSession = model.startChat({
 			generationConfig,
 			// safetySettings: Adjust safety settings
 			// See https://ai.google.dev/gemini-api/docs/safety-settings
 			history: [],
 		});
-        const prompt =`
+		const prompt = `
             ${value}의 색을 분석해서 조화를 이루는 테마 6가지와 각 테마에서 ${value}과 어울리는 3가지 색상을 추천해줘.
             테마 이름은 길지 않도록 하고, 테마별로 언급된 3가지 색상에 대한 hexcode는 theme_hexCode_list에 정리해줘.
             harmony_description에는 추천색이 조합되어 생기는 효과에 대해 ${value}의 색상 이름은 빼고 작성해줘.
@@ -47,13 +47,12 @@ const useGemini = () => {
                 }]
             }`;
 
-        
 		const result = await chatSession.sendMessage(prompt);
 		const data = JSON.parse(result.response.text());
-        console.log(result.response.text())
-        setIsLoading(false);
-        return data
-    }
+		console.log(result.response.text());
+		setIsLoading(false);
+		return data;
+	}
 	return { run, isLoading };
 };
 

@@ -30,6 +30,12 @@ const ColorInfoModal = ({
 	const hslNumbers = extractNumbers(colorInfo.hslVal);
 	const cmykNumbers = extractNumbers(colorInfo.cmykVal);
 
+	// 흰색일 때만 보더를 추가
+	const borderBottomStyle =
+		selectedColor === '#FFFFFF' || selectedColor === '#ffffff'
+			? { borderBottomWidth: 1, borderBottomColor: COLOR.GRAY_2 }
+			: {};
+
 	return (
 		<Modal
 			animationType="fade"
@@ -44,6 +50,7 @@ const ColorInfoModal = ({
 								style={[
 									styles.colorPreview,
 									{ backgroundColor: selectedColor },
+									borderBottomStyle,
 								]}>
 								<Text
 									style={[
@@ -59,15 +66,18 @@ const ColorInfoModal = ({
 									]}>
 									{colorInfo.engName}
 								</Text>
-								{description &&<Text
-									style={[
-										styles.engColorName,
-										{ color: engTextColor,
-											paddingBottom: 10
-										},
-									]}>
-									{description}
-								</Text>}
+								{description && (
+									<Text
+										style={[
+											styles.engColorName,
+											{
+												color: engTextColor,
+												paddingBottom: 10,
+											},
+										]}>
+										{description}
+									</Text>
+								)}
 							</View>
 						</View>
 
@@ -161,6 +171,7 @@ const styles = StyleSheet.create({
 	},
 	engColorName: {
 		marginHorizontal: 18,
+		marginBottom: 10,
 		fontSize: 18,
 		fontFamily: 'Pretendard-Regular',
 		textTransform: 'lowercase',
