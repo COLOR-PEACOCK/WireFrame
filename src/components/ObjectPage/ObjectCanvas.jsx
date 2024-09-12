@@ -11,12 +11,16 @@ const ObjectCanvas = ({
 	selectedItemId,
 	gender,
 	defaultItems,
+	setActiveTab,
 }) => {
-	const handleItemSelect = id => {
+	const handleItemSelect = (id, category) => {
 		setSelectedItemId(prevId => (prevId === id ? null : id));
+		setActiveTab(prevCategory =>
+			prevCategory === category ? null : category,
+		);
 	};
 
-	const handleItemDelete = id => {
+	const handleItemDelete = (id, category) => {
 		const itemToDelete = droppedItems.find(item => item.id === id);
 
 		if (
@@ -37,6 +41,9 @@ const ObjectCanvas = ({
 			setDroppedItems(prevItems =>
 				prevItems.filter(item => item.id !== id),
 			);
+			setActiveTab(prevCategory =>
+				prevCategory === category ? null : category,
+			);
 		}
 		// 기본 아이템(isDefault가 true)인 경우는 아무 작업도 하지 않습니다.
 
@@ -55,7 +62,7 @@ const ObjectCanvas = ({
 					item={item}
 					isSelected={selectedItemId === item.id}
 					onSelect={() => handleItemSelect(item.id, item.category)}
-					onDelete={handleItemDelete}
+					onDelete={() => handleItemDelete(item.id, item.category)}
 				/>
 			))}
 		</View>

@@ -19,9 +19,10 @@ const ObjectBottomCotainer = ({
 	setIsColorPickerOpen,
 	setSelectedItemId,
 	setDefaultItems,
+	activeTab,
+	setActiveTab,
 }) => {
 	const [itemData, setItemData] = useState(null);
-	const [activeTab, setActiveTab] = useState('');
 
 	// 마운트 시 초기 아이템
 	useEffect(() => {

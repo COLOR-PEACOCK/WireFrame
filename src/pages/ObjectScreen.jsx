@@ -20,6 +20,7 @@ const ObjectScreen = ({ route }) => {
 	const [selectedItemId, setSelectedItemId] = useState(null);
 	const [isColorPickerOpen, setIsColorPickerOpen] = useState(true);
 	const [defaultItems, setDefaultItems] = useState([]);
+	const [activeTab, setActiveTab] = useState('');
 
 	//디버깅
 	useEffect(() => {
@@ -46,6 +47,7 @@ const ObjectScreen = ({ route }) => {
 					setSelectedItemId={setSelectedItemId}
 					gender={gender}
 					defaultItems={defaultItems}
+					setActiveTab={setActiveTab}
 				/>
 				{/* 컬러 팔레트 */}
 				<ColorBottomSheet
@@ -66,6 +68,8 @@ const ObjectScreen = ({ route }) => {
 					setIsColorPickerOpen={setIsColorPickerOpen}
 					setSelectedItemId={setSelectedItemId}
 					setDefaultItems={setDefaultItems}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
 				/>
 			</View>
 		</SafeAreaView>
