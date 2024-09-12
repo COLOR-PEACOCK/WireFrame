@@ -27,6 +27,14 @@ const useColorName = () => {
 		),
 	);
 
+	const nearestName = nearestColor.from(
+		colorNameList.reduce(
+			(o, { name, korean_name, hex }) =>
+				Object.assign(o, { [korean_name + '/' + name]: hex }),
+			{},
+		),
+	);
+
 	/**
 	 * @returns color name
 	 * @param value hexvalue without the #
@@ -35,7 +43,14 @@ const useColorName = () => {
 	 * const engColorName = await getEngColorName('0d0d0f')
 	 * ```
 	 */
-	const getEngColorName = async value => {};
+	const getColorName = value => {
+		setIsLoading(true);
+		const response = nearestName(value);
+		setIsLoading(false);
+		const korean_name = response.name.split('/')[0];
+		const name = response.name.split('/')[1];
+		return { korean_name, name };
+	};
 
 	/**
 	 * @returns color name from local file
@@ -72,12 +87,17 @@ const useColorName = () => {
 			.filter(color => {
 				return isKoreanName
 					? color[key].replaceAll(' ', '').includes(keyword)
-					: color[key].replaceAll(' ', '').toUpperCase().includes(keyword.toUpperCase());
+					: color[key]
+							.replaceAll(' ', '')
+							.toUpperCase()
+							.includes(keyword.toUpperCase());
 			})
 			.map(color => ({
 				...color,
 				distance: getLevenshteinDistance(
-					isKoreanName ? color[key].replaceAll(' ', '') : color[key].toUpperCase().replaceAll(' ', ''),
+					isKoreanName
+						? color[key].replaceAll(' ', '')
+						: color[key].toUpperCase().replaceAll(' ', ''),
 					isKoreanName ? keyword : keyword.toUpperCase(),
 				),
 			}))
@@ -87,13 +107,13 @@ const useColorName = () => {
 
 	const getSearchColorList = (isKorean, keyword) => {
 		const key = isKorean ? 'korean_name' : 'name';
-		const keyword_ = keyword.replaceAll(' ', '')
+		const keyword_ = keyword.replaceAll(' ', '');
 		return getSortedSearchColorList(isKorean, key, keyword_);
 	};
 
 	return {
 		isLoading,
-		getEngColorName,
+		getColorName,
 		getKorColorName,
 		getEngColorNameLocal,
 		getSearchColorList,
