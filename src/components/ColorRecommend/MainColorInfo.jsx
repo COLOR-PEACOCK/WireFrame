@@ -10,7 +10,12 @@ const extractNumbers = str => {
 	return str.match(/\d+%?/g)?.join(', ');
 };
 
-const MainColorInfo = ({ colorInfo, labelColor, textColor, setIsPickerVisible }) => {
+const MainColorInfo = ({
+	colorInfo,
+	labelColor,
+	textColor,
+	setIsPickerVisible,
+}) => {
 	const rgbNumbers = extractNumbers(colorInfo.rgbVal);
 	const hexNumbers = colorInfo.hexVal.slice(1, 8);
 	const hslNumbers = extractNumbers(colorInfo.hslVal);
@@ -22,26 +27,32 @@ const MainColorInfo = ({ colorInfo, labelColor, textColor, setIsPickerVisible })
 		const color = tinycolor(labelColor);
 		return color.isDark() ? adjustment_dark : adjustment;
 	};
-    
+
 	return (
 		<View style={styles.colorInfoContainer}>
-			<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%'}}>
-                <View>
-                    <Text style={[styles.korColorName, { color: labelColor }]}>
-                        ≈{colorInfo.korName}
-                    </Text>
-                    <Text style={[styles.engColorName, { color: textColor }]}>
-                        {colorInfo.engName}
-                    </Text>
-                </View>
-                <TouchableOpacity onPress={() => setIsPickerVisible(true)}>
-                    <Image
-                        source={getIconSource(labelColor)}
-                        style={[styles.icon, { tintColor: labelColor }]}
-                    />
-                </TouchableOpacity>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'flex-start',
+					width: '100%',
+				}}>
+				<View>
+					<Text style={[styles.korColorName, { color: labelColor }]}>
+						≈{colorInfo.korName}
+					</Text>
+					<Text style={[styles.engColorName, { color: textColor }]}>
+						{colorInfo.engName}
+					</Text>
+				</View>
+				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
+					<Image
+						source={getIconSource(labelColor)}
+						style={[styles.icon, { tintColor: labelColor }]}
+					/>
+				</TouchableOpacity>
 			</View>
-
 
 			<View>
 				<View style={styles.valueRow}>
