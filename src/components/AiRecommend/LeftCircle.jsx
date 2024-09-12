@@ -110,7 +110,7 @@ const LeftCircle = ({
 
 	return (
 		<TouchableOpacity
-			onPress={handlePress}
+			onPressOut={handlePress}
 			activeOpacity={0.7}
 			style={{
 				zIndex: -1,
