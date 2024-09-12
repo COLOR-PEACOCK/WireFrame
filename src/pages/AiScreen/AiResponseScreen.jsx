@@ -391,8 +391,7 @@ const AiResponseScreen = ({ route }) => {
 								alignItems: 'center',
 								backgroundColor: '#ffffff',
 							}}>
-							{/* <LoadingScreen /> */}
-							<Text>로딩중</Text>
+							<LoadingScreen />
 						</View>
 					</>
 				) : (
