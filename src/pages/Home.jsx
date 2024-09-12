@@ -186,15 +186,28 @@ const Home = ({ navigation }) => {
 						onSnapToItem={handleGetCurrentIndex}
 						onProgressChange={progress}
 						renderItem={renderItem}
-						
-						
 					/>
 				</View>
 				<View
 					style={{ alignItems: 'center', justifyContent: 'center' }}>
-					<Indicator
-						currentIndex={currentIndex}
-						length={dummy_trendColor.length}
+					<Pagination.Custom
+						progress={progress}
+						data={dummy_trendColor}
+						
+						dotStyle={{
+							width: 8,
+							backgroundColor: COLOR.PRIMARY + 50,
+							borderRadius: 50,
+							marginTop: -22
+						}}
+						activeDotStyle={{
+							width: 20,
+							backgroundColor: COLOR.PRIMARY,
+							overflow: 'hidden',
+							borderRadius: 50,
+						}}
+						containerStyle={{ gap: 6 }}
+						onPress={onPressPagination}
 					/>
 				</View>
 			</View>

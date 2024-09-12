@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-	View,
-	Modal,
-	Text,
-	StyleSheet,
-	Image,
-	Pressable,
-} from 'react-native';
+import { View, Modal, Text, StyleSheet, Image, Pressable } from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import { COLOR } from '@styles/color';
 import tinycolor from 'tinycolor2';
@@ -23,9 +16,9 @@ const ColorPickerModal = ({
 	setIsPickerVisible,
 }) => {
 	const [currentColor, setCurrentColor] = useState(tempColor);
-	const textColor = tinycolor(tempColor).isLight()
+	const textColor = tinycolor(currentColor).isLight()
 		? COLOR.GRAY_9
-		: COLOR.GRAY_2;
+		: COLOR.WHITE;
 
 	return (
 		<Modal
@@ -224,7 +217,7 @@ const styles = StyleSheet.create({
 	buttonIcon: {
 		width: 14,
 		height: 14,
-        marginRight: 6
+		marginRight: 6,
 	},
 });
 
