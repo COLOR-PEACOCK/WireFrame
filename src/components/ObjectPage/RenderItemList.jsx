@@ -27,6 +27,7 @@ const RenderItemList = ({
 	//아이템 선택 이벤트
 	const handleItemSelect = item => {
 		setSelectedItemId(prevId => (prevId === item.id ? null : item.id));
+		setIsColorPickerOpen(true);
 
 		setDroppedItems(prevItems => {
 			const newItem = {

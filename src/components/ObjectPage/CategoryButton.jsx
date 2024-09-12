@@ -30,23 +30,23 @@ const tabs = [
 
 const CategoryButton = ({ setActiveTab }) => {
 	// 탭 버튼 이벤트
-	const buttonEvent = ({ item }) => {
-		setActiveTab(item.key);
+	const buttonEvent = key => {
+		setActiveTab(key);
 	};
 	return (
 		<View style={styles.categoryContainer}>
-			{tabs.map(item => (
+			{tabs.map(tabdata => (
 				<TouchableOpacity
-					key={item.key}
+					key={tabdata.key}
 					style={styles.categoryWrapper}
-					onPress={() => buttonEvent({ item })}>
+					onPress={() => buttonEvent(tabdata.key)}>
 					<Image
-						source={item.icon}
+						source={tabdata.icon}
 						style={{ width: 44, height: 44 }}
 					/>
 					<View>
-						<Text style={styles.title}>{item.title}</Text>
-						<Text style={styles.subtitle}>{item.subtitle}</Text>
+						<Text style={styles.title}>{tabdata.title}</Text>
+						<Text style={styles.subtitle}>{tabdata.subtitle}</Text>
 					</View>
 				</TouchableOpacity>
 			))}
