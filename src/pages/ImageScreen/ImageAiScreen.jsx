@@ -18,6 +18,7 @@ import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
 import { COLOR } from '@styles/color';
 import useGemini from '@hooks/useGemini';
 import Spinner from '@components/common/Spinner';
+import LoadingScreen from '@components/common/LoadingScreen';
 
 const ImageAiScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
@@ -81,14 +82,14 @@ const ImageAiScreen = ({ route, navigation }) => {
 			/>
 			{isLoading ? (
 				<View
-					style={{
-						flex: 1,
-						backgroundColor: COLOR.WHITE,
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}>
-					<Spinner />
-				</View>
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: '#ffffff',
+				}}>
+				<LoadingScreen />
+			</View>
 			) : (
 				<>
 					<View

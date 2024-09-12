@@ -21,8 +21,9 @@ import tinycolor from 'tinycolor2';
 import LeftCircle from '@components/AiRecommend/LeftCircle';
 import RightCircle from '@components/AiRecommend/RightCircle';
 import Background from '@components/AiRecommend/Background';
-import Spinner from '@components/common/Spinner';
+import LoadingScreen from '@components/common/LoadingScreen';
 import { useNavigation } from '@react-navigation/native';
+import CustomPopup from '@components/common/CustomPopup';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -367,130 +368,145 @@ const AiResponseScreen = ({ route }) => {
 	const infotext =
 		'분석한 색상들의 원을 터치해 보세요! 각 색상에 대해서 자세히 알려드립니다!';
 
+	// 팝업 메세지
+	const popupMessage =
+		'분석한 색상들의 원을 터치해 보세요!\n• 각 색상에 대해서 자세히 알려드립니다!';
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: itemColor }}>
-				<BasicHeader
-					titleIcon={'AI'}
-					title={'AI 분석'}
-					subTitle={'ai recs'}
-					rightIcon={'info'}
-					infoText={infotext}
-				/>
-
 				{isLoading ? (
-					<View
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							alignItems: 'center',
-							backgroundColor: '#ffffff',
-						}}>
-						<Spinner />
-					</View>
-				) : (
-					<View style={styles.responseContainer}>
-						<LeftCircle
-							left={DISTANCE}
-							top={paddingVertical}
-							diameter={RADIUS}
-							number={0}
-							colorCode={colorCodeList}
-							korColorName={korColorNameList}
-							engColorName={engColorNameList}
-							colorShort={colorShortList}
-							colorDescription={colorDescriptionList}
-							isSelected={isSelected}
-							setIsSelected={setIsSelected}
+					<>
+						<BasicHeader
+							titleIcon={'AI'}
+							title={'AI 분석'}
+							subTitle={'ai recs'}
+							rightIcon={'info'}
+							infoText={infotext}
 						/>
-						<RightCircle
-							right={DISTANCE}
-							top={paddingVertical + circleUnitVertical}
-							diameter={RADIUS}
-							number={1}
-							colorCode={colorCodeList}
-							korColorName={korColorNameList}
-							engColorName={engColorNameList}
-							colorShort={colorShortList}
-							colorDescription={colorDescriptionList}
-							isSelected={isSelected}
-							setIsSelected={setIsSelected}
-						/>
-						<LeftCircle
-							left={DISTANCE}
-							top={paddingVertical + circleUnitVertical * 2}
-							diameter={RADIUS}
-							number={2}
-							colorCode={colorCodeList}
-							korColorName={korColorNameList}
-							engColorName={engColorNameList}
-							colorShort={colorShortList}
-							colorDescription={colorDescriptionList}
-							isSelected={isSelected}
-							setIsSelected={setIsSelected}
-						/>
-						<RightCircle
-							right={DISTANCE}
-							top={paddingVertical + circleUnitVertical * 3}
-							diameter={RADIUS}
-							number={3}
-							colorCode={colorCodeList}
-							korColorName={korColorNameList}
-							engColorName={engColorNameList}
-							colorShort={colorShortList}
-							colorDescription={colorDescriptionList}
-							isSelected={isSelected}
-							setIsSelected={setIsSelected}
-						/>
-						<LeftCircle
-							left={DISTANCE}
-							top={paddingVertical + circleUnitVertical * 4}
-							diameter={RADIUS}
-							number={4}
-							colorCode={colorCodeList}
-							korColorName={korColorNameList}
-							engColorName={engColorNameList}
-							colorShort={colorShortList}
-							colorDescription={colorDescriptionList}
-							isSelected={isSelected}
-							setIsSelected={setIsSelected}
-						/>
-						<Background
-							color={background ? '#ffffff' : COLOR.GRAY_3}
-						/>
-						<TouchableOpacity
-							onPressIn={() => setIsButtonPressed(true)}
-							onPressOut={() => setIsButtonPressed(false)}
-							onPress={navigateObjectScreen}
-							activeOpacity={1}
+						<View
 							style={{
-								position: 'absolute',
-								bottom: 14,
-								right: 12,
-								width: 185,
-								height: 62,
-								width: 70,
-								height: 70,
-								borderRadius: 64,
-								backgroundColor: isButtonPressed
-									? COLOR.PRIMARY
-									: '#ffffff',
+								flex: 1,
 								justifyContent: 'center',
 								alignItems: 'center',
-								borderWidth: 2,
-								borderColor: COLOR.GRAY_3,
+								backgroundColor: '#ffffff',
 							}}>
-							<Icon
-								name="hanger"
-								size={30}
-								color={
-									isButtonPressed
-										? COLOR.GRAY_1
-										: COLOR.PRIMARY
-								}
+							<LoadingScreen />
+						</View>
+					</>
+				) : (
+					<>
+						<BasicHeader
+							titleIcon={'AI'}
+							title={'AI 분석'}
+							subTitle={'ai recs'}
+							rightIcon={'info'}
+							infoText={infotext}
+						/>
+						<View style={styles.responseContainer}>
+							<LeftCircle
+								left={DISTANCE}
+								top={paddingVertical}
+								diameter={RADIUS}
+								number={0}
+								colorCode={colorCodeList}
+								korColorName={korColorNameList}
+								engColorName={engColorNameList}
+								colorShort={colorShortList}
+								colorDescription={colorDescriptionList}
+								isSelected={isSelected}
+								setIsSelected={setIsSelected}
 							/>
-						</TouchableOpacity>
-					</View>
+							<RightCircle
+								right={DISTANCE}
+								top={paddingVertical + circleUnitVertical}
+								diameter={RADIUS}
+								number={1}
+								colorCode={colorCodeList}
+								korColorName={korColorNameList}
+								engColorName={engColorNameList}
+								colorShort={colorShortList}
+								colorDescription={colorDescriptionList}
+								isSelected={isSelected}
+								setIsSelected={setIsSelected}
+							/>
+							<LeftCircle
+								left={DISTANCE}
+								top={paddingVertical + circleUnitVertical * 2}
+								diameter={RADIUS}
+								number={2}
+								colorCode={colorCodeList}
+								korColorName={korColorNameList}
+								engColorName={engColorNameList}
+								colorShort={colorShortList}
+								colorDescription={colorDescriptionList}
+								isSelected={isSelected}
+								setIsSelected={setIsSelected}
+							/>
+							<RightCircle
+								right={DISTANCE}
+								top={paddingVertical + circleUnitVertical * 3}
+								diameter={RADIUS}
+								number={3}
+								colorCode={colorCodeList}
+								korColorName={korColorNameList}
+								engColorName={engColorNameList}
+								colorShort={colorShortList}
+								colorDescription={colorDescriptionList}
+								isSelected={isSelected}
+								setIsSelected={setIsSelected}
+							/>
+							<LeftCircle
+								left={DISTANCE}
+								top={paddingVertical + circleUnitVertical * 4}
+								diameter={RADIUS}
+								number={4}
+								colorCode={colorCodeList}
+								korColorName={korColorNameList}
+								engColorName={engColorNameList}
+								colorShort={colorShortList}
+								colorDescription={colorDescriptionList}
+								isSelected={isSelected}
+								setIsSelected={setIsSelected}
+							/>
+							<Background
+								color={background ? '#ffffff' : COLOR.GRAY_3}
+							/>
+							<TouchableOpacity
+								onPressIn={() => setIsButtonPressed(true)}
+								onPressOut={() => setIsButtonPressed(false)}
+								onPress={navigateObjectScreen}
+								activeOpacity={1}
+								style={{
+									position: 'absolute',
+									bottom: 14,
+									right: 12,
+									width: 185,
+									height: 62,
+									width: 70,
+									height: 70,
+									borderRadius: 64,
+									backgroundColor: isButtonPressed
+										? COLOR.PRIMARY
+										: '#ffffff',
+									justifyContent: 'center',
+									alignItems: 'center',
+									borderWidth: 2,
+									borderColor: COLOR.GRAY_3,
+								}}>
+								<Icon
+									name="hanger"
+									size={30}
+									color={
+										isButtonPressed
+											? COLOR.GRAY_1
+											: COLOR.PRIMARY
+									}
+								/>
+							</TouchableOpacity>
+						</View>
+						<CustomPopup message={popupMessage} />
+					</>
 				)}
 			</View>
 		</SafeAreaView>

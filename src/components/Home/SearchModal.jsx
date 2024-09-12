@@ -34,7 +34,7 @@ const colorConverter = {
 		null,
 	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
 		const matchedColor = searchNameList.find(color =>
-			isValidKorean(values.part1)
+			isValidKorean(values.part1.replaceAll(' ', ''))
 				? color.korean_name.replaceAll(' ', '') ===
 				  values.part1.replaceAll(' ', '')
 				: color.name?.toUpperCase().replaceAll(' ', '') ===
@@ -80,6 +80,7 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 
 	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
+		console.log(isValidKorean(inputValues.part1))
 		const convertColorToHex =
 			colorConverter[selectedLabel] || (values => values);
 		const hexValue = convertColorToHex(inputValues, searchNameList);
