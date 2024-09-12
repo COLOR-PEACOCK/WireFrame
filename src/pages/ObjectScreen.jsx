@@ -18,14 +18,14 @@ const ObjectScreen = ({ route }) => {
 	const [droppedItems, setDroppedItems] = useState([]);
 	const [gender, setGender] = useState(false);
 	const [selectedItemId, setSelectedItemId] = useState(null);
-	const [isColorPickerOpen, setIsColorPickerOpen] = useState(true);
+	const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 	const [defaultItems, setDefaultItems] = useState([]);
 	const [activeTab, setActiveTab] = useState('');
 
 	//디버깅
 	useEffect(() => {
-		// return console.log(droppedItems);
-	}, [droppedItems, gender, selectedItemId]);
+		console.log(droppedItems);
+	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -48,6 +48,7 @@ const ObjectScreen = ({ route }) => {
 					gender={gender}
 					defaultItems={defaultItems}
 					setActiveTab={setActiveTab}
+					setIsColorPickerOpen={setIsColorPickerOpen}
 				/>
 				{/* 컬러 팔레트 */}
 				<ColorBottomSheet

@@ -35,12 +35,12 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 		return positions[category] || { top: -90, right: -100 };
 	};
 
-	const getCategoryIcon = category => {
+	const getCategoryIcon = (category, isSelected, isVisible) => {
 		const icons = {
 			clothesTop: ClothesTopGray,
 			clothesBottom: ClothesBottomGray,
 			shoes: ShoesGray,
-			socks: isSelected ? DisableSocks : Socks,
+			socks: isSelected || !isVisible ? Socks : DisableSocks,
 		};
 		return icons[category];
 	};
@@ -68,7 +68,11 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 				]}
 				onPress={onSelect}>
 				<Image
-					source={getCategoryIcon(item.category)}
+					source={getCategoryIcon(
+						item.category,
+						isSelected,
+						item.isVisible,
+					)}
 					style={{ width: 28, height: 28 }}
 				/>
 			</TouchableOpacity>

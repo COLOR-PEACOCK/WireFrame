@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	ImageBackground,
 	StyleSheet,
@@ -35,13 +35,14 @@ const ColorBottomSheet = ({
 			);
 		}
 	};
-
-	// 커스텀 핸들러 터치 이벤트
-	const handlerTouchEvent = () => {
+	useEffect(() => {
 		isColorPickerOpen
 			? bottomSheetRef.current?.snapToIndex(1)
 			: bottomSheetRef.current?.snapToIndex(0);
+	}, [isColorPickerOpen]);
 
+	// 커스텀 핸들러 터치 이벤트
+	const handlerTouchEvent = () => {
 		setIsColorPickerOpen(!isColorPickerOpen);
 	};
 
@@ -51,7 +52,7 @@ const ColorBottomSheet = ({
 			<TouchableOpacity
 				onPress={handlerTouchEvent}
 				style={[styles.customHandle]}>
-				{!isColorPickerOpen ? (
+				{isColorPickerOpen ? (
 					<Icon name={'angle-down'} color={COLOR.PRIMARY} size={24} />
 				) : (
 					<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />

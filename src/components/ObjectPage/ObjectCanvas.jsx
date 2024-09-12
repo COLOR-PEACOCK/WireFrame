@@ -12,6 +12,7 @@ const ObjectCanvas = ({
 	gender,
 	defaultItems,
 	setActiveTab,
+	setIsColorPickerOpen,
 }) => {
 	const toggleSocksVisibility = id => {
 		setDroppedItems(prevItems =>
@@ -22,15 +23,21 @@ const ObjectCanvas = ({
 	};
 
 	const handleItemSelect = (id, category) => {
-		const newSelectedId = id === selectedItemId ? null : id;
-		setSelectedItemId(newSelectedId);
-
 		if (category === 'socks') {
 			toggleSocksVisibility(id);
+			setSelectedItemId(prevId => (prevId === id ? null : id));
 			return;
 		}
 
+		const newSelectedId = id === selectedItemId ? null : id;
+		setSelectedItemId(newSelectedId);
 		setActiveTab(prevTab => (prevTab === category ? null : category));
+
+		if (newSelectedId !== null) {
+			setIsColorPickerOpen(true);
+		} else {
+			setIsColorPickerOpen(false);
+		}
 	};
 
 	const handleItemDelete = (id, category) => {
@@ -61,6 +68,7 @@ const ObjectCanvas = ({
 		// 기본 아이템(isDefault가 true)인 경우는 아무 작업도 하지 않습니다.
 
 		setSelectedItemId(null);
+		setIsColorPickerOpen(false);
 	};
 	return (
 		<View style={styles.canvas}>
