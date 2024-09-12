@@ -35,12 +35,12 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 		return positions[category] || { top: -90, right: -100 };
 	};
 
-	const getCategoryIcon = category => {
+	const getCategoryIcon = (category, isVisible) => {
 		const icons = {
 			clothesTop: ClothesTopGray,
 			clothesBottom: ClothesBottomGray,
 			shoes: ShoesGray,
-			socks: Socks,
+			socks: isVisible ? DisableSocks : Socks,
 		};
 		return icons[category];
 	};
@@ -49,15 +49,17 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 
 	return (
 		<View>
-			<Pressable
-				onPress={onSelect}
-				style={[styles.droppedItem, getItemPosition(item)]}>
-				{React.cloneElement(item.svg, {
-					width: item.canvasWidth,
-					height: item.canvasHeight,
-					fill: item.color || '#FBFBFB',
-				})}
-			</Pressable>
+			{(item.category !== 'socks' || item.isVisible !== false) && (
+				<Pressable
+					onPress={onSelect}
+					style={[styles.droppedItem, getItemPosition(item)]}>
+					{React.cloneElement(item.svg, {
+						width: item.canvasWidth,
+						height: item.canvasHeight,
+						fill: item.color || '#FBFBFB',
+					})}
+				</Pressable>
+			)}
 			<TouchableOpacity
 				style={[
 					styles.focusButton,
@@ -66,11 +68,15 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 				]}
 				onPress={onSelect}>
 				<Image
-					source={getCategoryIcon(item.category)}
+					source={getCategoryIcon(
+						item.category,
+						isSelected,
+						item.isVisible,
+					)}
 					style={{ width: 28, height: 28 }}
 				/>
 			</TouchableOpacity>
-			{isSelected && (
+			{isSelected && item.category !== 'socks' && (
 				<TouchableOpacity
 					style={[
 						styles.trashButton,

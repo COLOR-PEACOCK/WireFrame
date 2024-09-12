@@ -44,7 +44,7 @@ const CameraRender = ({ extColor, cameraType, zoomLevel, isActive }) => {
 	//실시간 프레임 처리
 	const frameProcessor = useFrameProcessor(frame => {
 		'worklet';
-		runAtTargetFps(8, () => {
+		runAtTargetFps(4, () => {
 			'worklet';
 			if (frame.pixelFormat === 'yuv') {
 				const resized = resize(frame, {
