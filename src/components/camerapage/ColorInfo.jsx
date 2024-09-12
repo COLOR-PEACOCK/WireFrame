@@ -33,7 +33,7 @@ const ColorInfo = ({
 			<View
 				style={[
 					styles.customHandle,
-					{ left: parentlayout.width / 2 - 17.5 },
+					{ left: parentlayout.width / 2 - 14 },
 				]}>
 				{isOpen ? (
 					<Icon name={'angle-down'} color={COLOR.PRIMARY} size={24} />

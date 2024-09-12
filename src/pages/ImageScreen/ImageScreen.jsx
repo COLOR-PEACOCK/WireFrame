@@ -33,9 +33,10 @@ const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
 	const [imageDataUrl, setImageDataUrl] = useState(null);
 	const [colorName, setColorName] = useState('');
-  
+
 	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
-	const { getKorColorName, getEngColorNameLocal } = useColorName();
+	const { getKorColorName, getEngColorNameLocal, getColorName } =
+		useColorName();
 	const { getHtmlContent } = useImageWebview();
 
 	useEffect(() => {
@@ -99,7 +100,7 @@ const ImageScreen = ({ navigation }) => {
 	const onMessage = useCallback(
 		_.throttle(event => {
 			setColor(event.nativeEvent.data);
-		}, 100),
+		}, 200),
 		[],
 	);
 
@@ -113,9 +114,10 @@ const ImageScreen = ({ navigation }) => {
 		});
 
 	useEffect(() => {
+		const { korean_name, name } = getColorName(color);
 		setColorName({
-			korName: getKorColorName(color),
-			engName: getEngColorNameLocal(color),
+			korName: korean_name,
+			engName: name,
 		});
 	}, [color]);
 
