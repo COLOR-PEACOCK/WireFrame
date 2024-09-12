@@ -126,7 +126,7 @@ const AiScreen = ({ navigation }) => {
 								recommended Item
 							</Text>
 							<Text style={styles.inputLabel}>
-								추천받을 아이템
+								추천 받을 아이템
 							</Text>
 						</View>
 					</View>
@@ -196,9 +196,9 @@ const styles = StyleSheet.create({
 	},
 	inputLabelContainer: {
 		justifyContent: 'center',
-		alignItems: 'center',
 		width: 154,
 		height: '100%',
+        paddingLeft: 12,
 		borderRightWidth: 1,
 		borderRightColor: COLOR.GRAY_3,
 	},
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_6,
 	},
 	inputLabel: {
-		fontSize: 18,
+		fontSize: 17,
 		fontFamily: 'Pretendard-Bold',
 		color: COLOR.PRIMARY,
 	},

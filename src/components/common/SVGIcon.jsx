@@ -5,6 +5,7 @@ import {
 	PaletteSVG,
 	ReportSVG,
 	ObjectSVG,
+    SearchSVG,
 } from '@icons';
 
 const iconMap = {
@@ -14,6 +15,7 @@ const iconMap = {
 	palette: PaletteSVG,
 	report: ReportSVG,
 	object: ObjectSVG,
+    search: SearchSVG,
 };
 
 /**

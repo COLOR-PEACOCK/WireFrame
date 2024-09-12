@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
 	},
 	engColorName: {
 		marginHorizontal: 18,
-		marginBottom: 10,
+        marginTop: -2,
+		marginBottom: 14,
 		fontSize: 18,
 		fontFamily: 'Pretendard-Regular',
 		textTransform: 'lowercase',

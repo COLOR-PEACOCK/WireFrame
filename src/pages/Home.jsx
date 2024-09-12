@@ -88,9 +88,10 @@ const Home = ({ navigation }) => {
 				}}
 				style={{
 					width: pageWidth,
-					height: 214,
+					height: 168,
+					paddingHorizontal: 18,
 					backgroundColor: item.color,
-					borderRadius: 24,
+					borderRadius: 8,
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}>
@@ -101,7 +102,7 @@ const Home = ({ navigation }) => {
 							: COLOR.GRAY_2
 					}
 					textColor={item.color}
-					fontSize={50}
+					fontSize={38}
 					text={item.colorName}
 				/>
 			</Pressable>
@@ -133,11 +134,18 @@ const Home = ({ navigation }) => {
 							onPressSearch={handleSearch}
 						/>
 					</View>
-					<TouchableOpacity
-						style={styles.searchIconWrapper}
+					<Pressable
+                        style={({ pressed }) => [
+                            {
+                                backgroundColor: pressed
+                                    ? COLOR.PRIMARY
+                                    : COLOR.WHITE,
+                            },
+                            styles.searchIconWrapper
+                        ]}
 						onPress={handleOpenModal}>
 						<SearchSVG />
-					</TouchableOpacity>
+					</Pressable>
 				</View>
 
 				<View style={styles.buttonContainer}>
@@ -169,9 +177,11 @@ const Home = ({ navigation }) => {
 							flexDirection: 'row',
 							marginBottom: 3,
 						}}>
-						<Text style={styles.sectionKor}>추천 색상</Text>
+						<Text style={styles.sectionKor}>
+							올해의 즐겨찾는 색상
+						</Text>
 						<Text style={styles.sectionEng}>
-							Trend Color Palette
+							Trend color palette
 						</Text>
 					</View>
 					<Carousel
@@ -180,7 +190,7 @@ const Home = ({ navigation }) => {
 						mode={'horizontal-stack'}
 						modeConfig={{
 							snapDirection: 'left',
-							stackInterval: pageWidth + 8,
+							stackInterval: pageWidth + 4,
 						}}
 						data={dummy_trendColor}
 						onSnapToItem={handleGetCurrentIndex}
@@ -193,18 +203,19 @@ const Home = ({ navigation }) => {
 					<Pagination.Custom
 						progress={progress}
 						data={dummy_trendColor}
-						
 						dotStyle={{
 							width: 8,
+							height: 8,
 							backgroundColor: COLOR.PRIMARY + 50,
 							borderRadius: 50,
-							marginTop: -22
+							marginTop: -68,
 						}}
 						activeDotStyle={{
 							width: 20,
 							backgroundColor: COLOR.PRIMARY,
 							overflow: 'hidden',
 							borderRadius: 50,
+							marginTop: -68,
 						}}
 						containerStyle={{ gap: 6 }}
 						onPress={onPressPagination}
@@ -249,7 +260,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 	split: {
-		width: '100%',
+		width: '91%',
 		height: 4,
 		backgroundColor: COLOR.GRAY_1,
 	},
@@ -263,18 +274,20 @@ const styles = StyleSheet.create({
 	sectionKor: {
 		color: COLOR.GRAY_10,
 		fontSize: 16,
-		fontFamily: 'Pretendard-Midium',
+		fontFamily: 'Pretendard-Bold',
+        paddingLeft: 3,
 	},
 	sectionEng: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Midium',
-		marginHorizontal: 6,
+        marginBottom: 1.5,
+		marginLeft: 6,
 		alignSelf: 'flex-end',
 	},
 	carouselContainer: {
 		height: 300,
-		marginTop: 38,
+		marginTop: 30,
 		marginLeft: 38,
 		borderRadius: 5,
 		justifyContent: 'center',

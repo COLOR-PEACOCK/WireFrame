@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { COLOR } from '@styles/color';
 
-/** 1초 후 등장하여 3.5초간 대기하고 없어지는 팝업
+/**
  * 아래 example 참고
  *  * @example 상태 이름은 자유입니다.
  * `````````````````````````````````````````````
@@ -39,7 +39,7 @@ const CustomPopup = ({ message }) => {
 						}),
 						Animated.timing(slideAnim, {
 							toValue: 1,
-							duration: 3000,
+							duration: 2500,
 							easing: Easing.inOut(Easing.quad),
 							useNativeDriver: true,
 						}),
@@ -59,7 +59,7 @@ const CustomPopup = ({ message }) => {
 						}),
 						Animated.timing(opicityAnim, {
 							toValue: 1,
-							duration: 3000,
+							duration: 2500,
 							easing: Easing.inOut(Easing.quad),
 							useNativeDriver: true,
 						}),
@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
 	popup: {
 		position: 'absolute',
 		zIndex: 9999,
-		top: -10,
+		top: -42,
 		left: 0,
 		right: 0,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginHorizontal: 30,
-		paddingVertical: 15,
+		marginHorizontal: 28,
+		paddingVertical: 28,
 		paddingHorizontal: 18,
 		backgroundColor: COLOR.PRIMARY,
 		borderWidth: 2,

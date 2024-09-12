@@ -27,12 +27,17 @@ const ObjectScreen = ({ route }) => {
 		console.log(droppedItems);
 	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
+    	const infoText =
+			'추천 및 분석에서 얻은 색상들을 캐릭터에게 입혀 사전에 색상의 분위기를 직접적으로 체험할 수 있습니다.';
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader
-				title="색상 미리보기"
-				subTitle="color preview"
-				titleIcon="object"
+				title={'색상 미리보기'}
+				subTitle={'color preview'}
+				titleIcon={'object'}
+				rightIcon={'info'}
+				infoText={infoText}
 			/>
 
 			{/* 오브젝트 배치 화면 */}
