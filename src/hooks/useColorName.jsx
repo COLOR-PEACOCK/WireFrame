@@ -27,6 +27,14 @@ const useColorName = () => {
 		),
 	);
 
+	const nearestName = nearestColor.from(
+		colorNameList.reduce(
+			(o, { name, korean_name, hex }) =>
+				Object.assign(o, { [korean_name+'/'+name]: hex }),
+			{},
+		),
+	);
+
 	/**
 	 * @returns color name
 	 * @param value hexvalue without the #
@@ -35,7 +43,14 @@ const useColorName = () => {
 	 * const engColorName = await getEngColorName('0d0d0f')
 	 * ```
 	 */
-	const getEngColorName = async value => {};
+	const getColorName = value => {
+		setIsLoading(true);
+		const response = nearestName(value);
+		setIsLoading(false);
+		const korean_name = response.name.split('/')[0]
+		const name = response.name.split('/')[1]
+		return {korean_name, name}
+	};
 
 	/**
 	 * @returns color name from local file
@@ -93,7 +108,7 @@ const useColorName = () => {
 
 	return {
 		isLoading,
-		getEngColorName,
+		getColorName,
 		getKorColorName,
 		getEngColorNameLocal,
 		getSearchColorList,

@@ -11,10 +11,11 @@ import useColorName from '@hooks/useColorName';
 
 const CameraRender = ({ extColor, cameraType, zoomLevel, isActive }) => {
 	const [rgbColor, setRgbColor] = useState({ r: 0, g: 0, b: 0 });
-	const { getKorColorName, getEngColorNameLocal } = useColorName();
+	const { getKorColorName, getEngColorNameLocal , getColorName} = useColorName();
 	const device = useCameraDevice(cameraType);
 	const { resize } = useResizePlugin();
-
+	const resizeWidth = 640
+	const resizeHeight = 480
 	// 추출 색 rgb
 	const updateColorJS = Worklets.createRunOnJS((r, g, b) => {
 		setRgbColor({ r, g, b });
@@ -33,11 +34,12 @@ const CameraRender = ({ extColor, cameraType, zoomLevel, isActive }) => {
 		const { r, g, b } = rgbColor;
 		const bgColor = `rgb(${r}, ${g}, ${b})`;
 		const hexColor = rgbToHex(r, g, b);
+		const {korean_name, name} = getColorName(hexColor);
 		extColor({
 			bgColor,
 			hexColor,
-			engName: getEngColorNameLocal(hexColor),
-			korName: getKorColorName(hexColor),
+			engName: name,
+			korName: korean_name,
 		});
 	}, [rgbColor]);
 
@@ -49,15 +51,15 @@ const CameraRender = ({ extColor, cameraType, zoomLevel, isActive }) => {
 			if (frame.pixelFormat === 'yuv') {
 				const resized = resize(frame, {
 					scale: {
-						width: 640,
-						height: 480,
+						width: resizeWidth,
+						height: resizeHeight,
 					},
 					pixelFormat: 'rgb',
 					dataType: 'uint8',
 				});
 				// RGB 값 추출
 				const index =
-					((frame.height / 2) * frame.width + frame.width / 2) * 3;
+					((resizeHeight / 2) * resizeWidth + resizeWidth / 2) * 3;
 				const red = resized[index];
 				const green = resized[index + 1];
 				const blue = resized[index + 2];
