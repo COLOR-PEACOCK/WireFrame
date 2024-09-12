@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	StyleSheet,
 	View,
-	TouchableOpacity,
 	Pressable,
 	SafeAreaView,
 	useWindowDimensions,
@@ -17,12 +16,10 @@ import useModal from '@hooks/useModal';
 import {
 	runOnJS,
 	useSharedValue,
-	interpolate,
-	Extrapolation,
 } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
-import { useBackHandler } from '@hooks/home';
+import { useBackHandler, usePressButtonState } from '@hooks/home';
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
@@ -31,19 +28,12 @@ const Home = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const caroucelRef = useRef(null);
 	const progress = useSharedValue(0);
-
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd }= usePressButtonState();
 	const handleGetCurrentIndex = useCallback(() => {
 		'worklet';
 		if (caroucelRef.current) {
 			const index = caroucelRef.current.getCurrentIndex();
 			runOnJS(setCurrentIndex)(index);
-		}
-	}, []);
-
-	const onPressNext = useCallback(() => {
-		'worklet';
-		if (caroucelRef.current?.next) {
-			caroucelRef.current.next();
 		}
 	}, []);
 
@@ -133,11 +123,14 @@ const Home = ({ navigation }) => {
 							onPressSearch={handleSearch}
 						/>
 					</View>
-					<TouchableOpacity
-						style={styles.searchIconWrapper}
-						onPress={handleOpenModal}>
-						<SearchSVG />
-					</TouchableOpacity>
+					<Pressable
+						style={[styles.searchIconWrapper, {backgroundColor: buttonColor}]}
+						onPressIn={handleTouchStart}
+						onPress={handleOpenModal}
+						onPressOut={handleTouchEnd}
+						>
+						<SearchSVG color={contentColor}/>
+					</Pressable>
 				</View>
 
 				<View style={styles.buttonContainer}>
