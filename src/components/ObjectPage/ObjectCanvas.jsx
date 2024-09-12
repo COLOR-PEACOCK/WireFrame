@@ -11,12 +11,44 @@ const ObjectCanvas = ({
 	selectedItemId,
 	gender,
 	defaultItems,
+	activeTab,
+	setActiveTab,
+	setIsColorPickerOpen,
 }) => {
-	const handleItemSelect = id => {
-		setSelectedItemId(prevId => (prevId === id ? null : id));
+	const toggleSocksVisibility = id => {
+		setDroppedItems(prevItems =>
+			prevItems.map(item =>
+				item.id === id ? { ...item, isVisible: !item.isVisible } : item,
+			),
+		);
 	};
 
-	const handleItemDelete = id => {
+	const handleItemSelect = (id, category) => {
+		if (category === 'socks') {
+			toggleSocksVisibility(id);
+			setSelectedItemId(prevId => (prevId === id ? null : id));
+			return;
+		}
+
+		const newSelectedId = id === selectedItemId ? null : id;
+		setSelectedItemId(newSelectedId);
+		//탭 관리
+		if (activeTab === null) {
+			if (newSelectedId !== null) {
+				setActiveTab(category);
+			}
+		} else {
+			setActiveTab(prevTab => (prevTab === category ? null : category));
+		}
+		// 컬러피커 바텀시트 관리
+		if (newSelectedId !== null) {
+			setIsColorPickerOpen(true);
+		} else {
+			setIsColorPickerOpen(false);
+		}
+	};
+
+	const handleItemDelete = (id, category) => {
 		const itemToDelete = droppedItems.find(item => item.id === id);
 
 		if (
@@ -33,14 +65,18 @@ const ObjectCanvas = ({
 				),
 			);
 		} else if (!itemToDelete.isDefault) {
-			// 기본 아이템이 아닌 경우(신발, 양말, 모자 등), 완전히 삭제
+			// 기본 아이템이 아닌 경우 삭제
 			setDroppedItems(prevItems =>
 				prevItems.filter(item => item.id !== id),
 			);
+			setActiveTab(prevCategory =>
+				prevCategory === category ? null : category,
+			);
 		}
-		// 기본 아이템(isDefault가 true)인 경우는 아무 작업도 하지 않습니다.
+		// 기본 아이템인 경우 유지
 
 		setSelectedItemId(null);
+		setIsColorPickerOpen(false);
 	};
 	return (
 		<View style={styles.canvas}>
@@ -55,7 +91,7 @@ const ObjectCanvas = ({
 					item={item}
 					isSelected={selectedItemId === item.id}
 					onSelect={() => handleItemSelect(item.id, item.category)}
-					onDelete={handleItemDelete}
+					onDelete={() => handleItemDelete(item.id, item.category)}
 				/>
 			))}
 		</View>
