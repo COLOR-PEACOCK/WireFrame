@@ -35,12 +35,12 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 		return positions[category] || { top: -90, right: -100 };
 	};
 
-	const getCategoryIcon = (category, isSelected, isVisible) => {
+	const getCategoryIcon = (category, isVisible) => {
 		const icons = {
 			clothesTop: ClothesTopGray,
 			clothesBottom: ClothesBottomGray,
 			shoes: ShoesGray,
-			socks: isSelected || !isVisible ? Socks : DisableSocks,
+			socks: isVisible ? DisableSocks : Socks,
 		};
 		return icons[category];
 	};
