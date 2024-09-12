@@ -40,7 +40,7 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 			clothesTop: ClothesTopGray,
 			clothesBottom: ClothesBottomGray,
 			shoes: ShoesGray,
-			socks: Socks,
+			socks: isSelected ? DisableSocks : Socks,
 		};
 		return icons[category];
 	};
@@ -49,15 +49,17 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 
 	return (
 		<View>
-			<Pressable
-				onPress={onSelect}
-				style={[styles.droppedItem, getItemPosition(item)]}>
-				{React.cloneElement(item.svg, {
-					width: item.canvasWidth,
-					height: item.canvasHeight,
-					fill: item.color || '#FBFBFB',
-				})}
-			</Pressable>
+			{(item.category !== 'socks' || item.isVisible !== false) && (
+				<Pressable
+					onPress={onSelect}
+					style={[styles.droppedItem, getItemPosition(item)]}>
+					{React.cloneElement(item.svg, {
+						width: item.canvasWidth,
+						height: item.canvasHeight,
+						fill: item.color || '#FBFBFB',
+					})}
+				</Pressable>
+			)}
 			<TouchableOpacity
 				style={[
 					styles.focusButton,
@@ -70,7 +72,7 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 					style={{ width: 28, height: 28 }}
 				/>
 			</TouchableOpacity>
-			{isSelected && (
+			{isSelected && item.category !== 'socks' && (
 				<TouchableOpacity
 					style={[
 						styles.trashButton,

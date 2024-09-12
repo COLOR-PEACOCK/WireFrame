@@ -13,11 +13,24 @@ const ObjectCanvas = ({
 	defaultItems,
 	setActiveTab,
 }) => {
-	const handleItemSelect = (id, category) => {
-		setSelectedItemId(prevId => (prevId === id ? null : id));
-		setActiveTab(prevCategory =>
-			prevCategory === category ? null : category,
+	const toggleSocksVisibility = id => {
+		setDroppedItems(prevItems =>
+			prevItems.map(item =>
+				item.id === id ? { ...item, isVisible: !item.isVisible } : item,
+			),
 		);
+	};
+
+	const handleItemSelect = (id, category) => {
+		const newSelectedId = id === selectedItemId ? null : id;
+		setSelectedItemId(newSelectedId);
+
+		if (category === 'socks') {
+			toggleSocksVisibility(id);
+			return;
+		}
+
+		setActiveTab(prevTab => (prevTab === category ? null : category));
 	};
 
 	const handleItemDelete = (id, category) => {

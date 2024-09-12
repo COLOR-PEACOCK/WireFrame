@@ -105,12 +105,13 @@ const femaleItemData = {
 		{
 			id: '9',
 			category: 'socks',
-			canvasWidth: 127,
+			canvasWidth: 128,
 			canvasHeight: 85,
 			canvasX: -43,
 			canvasY: -112,
 			zIndex: 10,
 			svg: <Socks width={100} height={80} />,
+			isVisible: true,
 		},
 	],
 };
