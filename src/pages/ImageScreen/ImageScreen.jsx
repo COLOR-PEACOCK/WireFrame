@@ -35,36 +35,12 @@ const ImageScreen = ({ navigation }) => {
 	const [colorName, setColorName] = useState('');
 
 	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
-	const { getKorColorName, getEngColorNameLocal, getColorName } =
-		useColorName();
+	const { getColorName } = useColorName();
 	const { getHtmlContent } = useImageWebview();
 
 	useEffect(() => {
 		selectImage();
 	}, []);
-
-	const requestStoragePermission = async () => {
-		if (Platform.OS === 'android') {
-			try {
-				const granted = await PermissionsAndroid.request(
-					PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-					{
-						title: 'Storage Permission',
-						message:
-							'App needs access to your storage to select images.',
-						buttonNeutral: 'Ask Me Later',
-						buttonNegative: 'Cancel',
-						buttonPositive: 'OK',
-					},
-				);
-				return granted === PermissionsAndroid.RESULTS.GRANTED;
-			} catch (err) {
-				console.error('Failed to request permission', err);
-				return false;
-			}
-		}
-		return true;
-	};
 
 	const selectImage = async () => {
 		try {

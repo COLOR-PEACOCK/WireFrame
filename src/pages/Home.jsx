@@ -13,10 +13,7 @@ import convert from 'color-convert';
 import { PressButton, OutlinedText, Indicator } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
-import {
-	runOnJS,
-	useSharedValue,
-} from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
 import { SearchSVG } from '@icons';
 import { useBackHandler, usePressButtonState } from '@hooks/home';
@@ -25,17 +22,10 @@ const logoIcon = require('@icons/logo.png');
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
 	const pageWidth = width * 0.7;
-	const [currentIndex, setCurrentIndex] = useState(0);
 	const caroucelRef = useRef(null);
 	const progress = useSharedValue(0);
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd }= usePressButtonState();
-	const handleGetCurrentIndex = useCallback(() => {
-		'worklet';
-		if (caroucelRef.current) {
-			const index = caroucelRef.current.getCurrentIndex();
-			runOnJS(setCurrentIndex)(index);
-		}
-	}, []);
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+		usePressButtonState();
 
 	const onPressPagination = useCallback(
 		index => {
@@ -125,12 +115,14 @@ const Home = ({ navigation }) => {
 						/>
 					</View>
 					<Pressable
-						style={[styles.searchIconWrapper, {backgroundColor: buttonColor}]}
+						style={[
+							styles.searchIconWrapper,
+							{ backgroundColor: buttonColor },
+						]}
 						onPressIn={handleTouchStart}
 						onPress={handleOpenModal}
-						onPressOut={handleTouchEnd}
-						>
-						<SearchSVG color={contentColor}/>
+						onPressOut={handleTouchEnd}>
+						<SearchSVG color={contentColor} />
 					</Pressable>
 				</View>
 
@@ -179,7 +171,6 @@ const Home = ({ navigation }) => {
 							stackInterval: pageWidth + 4,
 						}}
 						data={dummy_trendColor}
-						onSnapToItem={handleGetCurrentIndex}
 						onProgressChange={progress}
 						renderItem={renderItem}
 					/>
@@ -261,13 +252,13 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_10,
 		fontSize: 16,
 		fontFamily: 'Pretendard-Bold',
-        paddingLeft: 3,
+		paddingLeft: 3,
 	},
 	sectionEng: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Midium',
-        marginBottom: 1.5,
+		marginBottom: 1.5,
 		marginLeft: 6,
 		alignSelf: 'flex-end',
 	},
