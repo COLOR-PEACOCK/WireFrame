@@ -1,23 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-	SafeAreaView,
-	View,
-	TouchableOpacity,
-	StyleSheet,
-	ScrollView,
-	ActivityIndicator,
-} from 'react-native';
+import { SafeAreaView, View, StyleSheet, ScrollView } from 'react-native';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
-import SliderIcon from 'react-native-vector-icons/FontAwesome6';
 import BasicHeader from '@components/common/BasicHeader';
-import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
 import ColorPalette from '@components/ColorRecommend/ColorPalette';
 import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
 import { COLOR } from '@styles/color';
 import useGemini from '@hooks/useGemini';
-import Spinner from '@components/common/Spinner';
 import LoadingScreen from '@components/common/LoadingScreen';
 
 const ImageAiScreen = ({ route, navigation }) => {
@@ -32,11 +22,10 @@ const ImageAiScreen = ({ route, navigation }) => {
 		hslVal: '',
 		cmykVal: '',
 	});
-	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
-		useColorName();
+	const { getKorColorName, getEngColorNameLocal } = useColorName();
 	const { run, isLoading } = useGemini();
 	useEffect(() => {
-	  fetchData();
+		fetchData();
 	}, []);
 
 	useEffect(() => {
@@ -82,14 +71,14 @@ const ImageAiScreen = ({ route, navigation }) => {
 			/>
 			{isLoading ? (
 				<View
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-					backgroundColor: '#ffffff',
-				}}>
-				<LoadingScreen />
-			</View>
+					style={{
+						flex: 1,
+						justifyContent: 'center',
+						alignItems: 'center',
+						backgroundColor: '#ffffff',
+					}}>
+					<LoadingScreen />
+				</View>
 			) : (
 				<>
 					<View
@@ -101,9 +90,10 @@ const ImageAiScreen = ({ route, navigation }) => {
 							colorInfo={colorInfo}
 							textColor={textColor}
 							labelColor={labelColor}
+							setIsPickerVisible={null}
 						/>
 					</View>
-					<ScrollView style={{paddingHorizontal: 18}}>
+					<ScrollView style={{ paddingHorizontal: 18 }}>
 						{data.recommended_themes_and_colors?.map(item => (
 							<ColorPalette
 								key={item.theme_name_kr}
@@ -113,7 +103,7 @@ const ImageAiScreen = ({ route, navigation }) => {
 									item.theme_hexCode_list,
 								)}
 								onColorSelect={handleColorSelect}
-                description={item.colors}
+								description={item.colors}
 							/>
 						))}
 					</ScrollView>
