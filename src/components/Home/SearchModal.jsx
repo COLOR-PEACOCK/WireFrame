@@ -20,6 +20,7 @@ import {
 	isValidHexCode,
 	isValidKorean,
 	INPUT_TYPES,
+	stringFormat,
 } from '@utils/home';
 
 const colorConverter = {
@@ -33,12 +34,13 @@ const colorConverter = {
 		cmykToHex(values.part1, values.part2, values.part3, values.part4) ??
 		null,
 	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
+		const keyword = stringFormat(values.part1)
 		const matchedColor = searchNameList.find(color =>
-			isValidKorean(values.part1.replaceAll(' ', ''))
-				? color.korean_name.replaceAll(' ', '') ===
-				  values.part1.replaceAll(' ', '')
-				: color.name?.toUpperCase().replaceAll(' ', '') ===
-				  values.part1?.toUpperCase().replaceAll(' ', ''),
+			isValidKorean(keyword)
+				? stringFormat(color.korean_name) ===
+				keyword
+				: stringFormat(color.name) ===
+				keyword,
 		);
 		return matchedColor ? matchedColor.hex : null;
 	},
@@ -54,20 +56,20 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 		part4: '',
 	});
 	const [searchNameList, setSearchNameList] = useState([]);
-	const [isKeywordKor, SetIsKeywordKor] = useState(false);
+	const [isKeywordKor, setIsKeywordKor] = useState(false);
 	const { getSearchColorList } = useColorName();
 
 	// 검색어 입력 시 색상 리스트 업데이트
 	useEffect(() => {
 		const updateSearchList = () => {
-			const keyword = inputValues.part1;
+			const keyword = stringFormat(inputValues.part1);
 			if (!keyword) {
 				setSearchNameList([]);
 				return;
 			}
-			SetIsKeywordKor(isValidKorean(keyword.replaceAll(' ', "")));
+			setIsKeywordKor(isValidKorean(keyword));
 			setSearchNameList(
-				getSearchColorList(isValidKorean(keyword.replaceAll(' ', "")), keyword),
+				getSearchColorList(isValidKorean(keyword), keyword),
 			);
 		};
 
