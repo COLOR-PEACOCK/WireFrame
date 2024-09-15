@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Modal,
-	Pressable,
-	ScrollView,
-	StyleSheet,
-	View,
-} from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
@@ -14,37 +8,11 @@ import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
 import useColorName from '@hooks/useColorName';
 import {
-	cmykToHex,
-	hslToHex,
-	rgbToHex,
-	isValidHexCode,
 	isValidKorean,
 	INPUT_TYPES,
 	stringFormat,
+	colorConverter,
 } from '@utils/home';
-
-const colorConverter = {
-	[INPUT_TYPES.HEX]: values =>
-		isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null,
-	[INPUT_TYPES.RGB]: values =>
-		rgbToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.HSL]: values =>
-		hslToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.CMYK]: values =>
-		cmykToHex(values.part1, values.part2, values.part3, values.part4) ??
-		null,
-	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
-		const keyword = stringFormat(values.part1)
-		const matchedColor = searchNameList.find(color =>
-			isValidKorean(keyword)
-				? stringFormat(color.korean_name) ===
-				keyword
-				: stringFormat(color.name) ===
-				keyword,
-		);
-		return matchedColor ? matchedColor.hex : null;
-	},
-};
 
 const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
@@ -82,7 +50,7 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 
 	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
-		console.log(isValidKorean(inputValues.part1))
+		console.log(isValidKorean(inputValues.part1));
 		const convertColorToHex =
 			colorConverter[selectedLabel] || (values => values);
 		const hexValue = convertColorToHex(inputValues, searchNameList);
