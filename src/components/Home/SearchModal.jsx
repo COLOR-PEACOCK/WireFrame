@@ -50,10 +50,9 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 
 	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
-		console.log(isValidKorean(inputValues.part1));
-		const convertColorToHex =
+		const convertValueToHex =
 			colorConverter[selectedLabel] || (values => values);
-		const hexValue = convertColorToHex(inputValues, searchNameList);
+		const hexValue = convertValueToHex(inputValues, searchNameList);
 		if (hexValue) onPressSearch(hexValue);
 		else console.log('fail');
 	};
@@ -104,23 +103,20 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 									style={styles.searchResults}
 									showsVerticalScrollIndicator={false}
 									keyboardShouldPersistTaps="always">
-									{searchNameList.map(item => (
+									{searchNameList.map(item => {
+										const currentKeyword = isKeywordKor
+											? item.korean_name
+											: item.name;
 										<ListValue
 											key={item.hex}
-											label={
-												isKeywordKor
-													? item.korean_name
-													: item.name
-											}
+											label={currentKeyword}
 											onPressLabel={() =>
 												handlePressSearchList(
-													isKeywordKor
-														? item.korean_name
-														: item.name,
+													currentKeyword,
 												)
 											}
-										/>
-									))}
+										/>;
+									})}
 								</ScrollView>
 							)}
 						</View>
