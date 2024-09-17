@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -10,7 +10,7 @@ import {
 import { CustomText as Text } from '@components/common/CustomText';
 import { COLOR } from '@styles/color';
 import convert from 'color-convert';
-import { PressButton, OutlinedText, Indicator } from '@components/Home';
+import { PressButton, OutlinedText } from '@components/Home';
 import SearchModal from '@components/Home/SearchModal';
 import useModal from '@hooks/useModal';
 import { useSharedValue } from 'react-native-reanimated';
@@ -42,7 +42,6 @@ const Home = ({ navigation }) => {
 
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-	const handlePressLogo = () => {};
 	const handleSearch = hexValue => {
 		if (hexValue) {
 			handleCloseModal();
@@ -66,15 +65,7 @@ const Home = ({ navigation }) => {
 						mainColor: { hexVal: item.color },
 					});
 				}}
-				style={{
-					width: pageWidth,
-					height: 168,
-					paddingHorizontal: 18,
-					backgroundColor: item.color,
-					borderRadius: 8,
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}>
+				style={[styles.card, { width: pageWidth }]}>
 				<OutlinedText
 					strokeColor={
 						convert.hex.hsl(item.color.replace('#', ''))[2] > 80
@@ -99,9 +90,7 @@ const Home = ({ navigation }) => {
 							alignItems: 'center',
 							gap: 8,
 						}}>
-						<Pressable
-							style={{ width: 48, height: 48 }}
-							onPress={handlePressLogo}>
+						<Pressable style={{ width: 48, height: 48 }}>
 							<Image
 								style={{ width: '100%', height: '100%' }}
 								source={logoIcon}
@@ -150,11 +139,7 @@ const Home = ({ navigation }) => {
 				<View style={styles.split}></View>
 
 				<View style={styles.carouselContainer}>
-					<View
-						style={{
-							flexDirection: 'row',
-							marginBottom: 3,
-						}}>
+					<View style={styles.section}>
 						<Text style={styles.sectionKor}>
 							올해의 즐겨찾는 색상
 						</Text>
@@ -175,25 +160,12 @@ const Home = ({ navigation }) => {
 						renderItem={renderItem}
 					/>
 				</View>
-				<View
-					style={{ alignItems: 'center', justifyContent: 'center' }}>
+				<View style={styles.indicator}>
 					<Pagination.Custom
 						progress={progress}
 						data={dummy_trendColor}
-						dotStyle={{
-							width: 8,
-							height: 8,
-							backgroundColor: COLOR.PRIMARY + 50,
-							borderRadius: 50,
-							marginTop: -68,
-						}}
-						activeDotStyle={{
-							width: 20,
-							backgroundColor: COLOR.PRIMARY,
-							overflow: 'hidden',
-							borderRadius: 50,
-							marginTop: -68,
-						}}
+						dotStyle={styles.dotStyle}
+						activeDotStyle={styles.activeDotStyle}
 						containerStyle={{ gap: 6 }}
 						onPress={onPressPagination}
 					/>
@@ -248,6 +220,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	section: {
+		flexDirection: 'row',
+		marginBottom: 3,
+	},
 	sectionKor: {
 		color: COLOR.GRAY_10,
 		fontSize: 16,
@@ -269,6 +245,29 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
+	},
+	card: {
+		height: 168,
+		paddingHorizontal: 18,
+		backgroundColor: item.color,
+		borderRadius: 8,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	indicator: { alignItems: 'center', justifyContent: 'center' },
+	dotStyle: {
+		width: 8,
+		height: 8,
+		backgroundColor: COLOR.PRIMARY + 50,
+		borderRadius: 50,
+		marginTop: -68,
+	},
+	activeDotStyle: {
+		width: 20,
+		backgroundColor: COLOR.PRIMARY,
+		overflow: 'hidden',
+		borderRadius: 50,
+		marginTop: -68,
 	},
 });
 
