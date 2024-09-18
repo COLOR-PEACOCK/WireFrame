@@ -3,27 +3,23 @@ import {
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	Platform,
-	PermissionsAndroid,
 	Alert,
 	Pressable,
 	Image,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { COLOR } from '@styles/color';
 import RNFS from 'react-native-fs';
 import _ from 'lodash';
-
+import { COLOR } from '@styles/color';
 // components
-import BasicHeader from '@components/common/BasicHeader';
-import { CustomText as Text } from '@components/common/CustomText';
-import CustomPopup from '@components/common/CustomPopup';
-
+import {
+	BasicHeader,
+	CustomText as Text,
+	CustomPopup,
+} from '@components/common';
 // hooks
-import useColorName from '@hooks/useColorName';
-import useImageWebview from '@hooks/useImageWebview';
-
+import { useColorName, useImageWebview } from '@hooks';
 // icons
 import imageIcon from '@icons/image.png';
 import paletteIcon from '@icons/palette.png';

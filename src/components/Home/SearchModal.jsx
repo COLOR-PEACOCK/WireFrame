@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { COLOR } from '@styles/color';
-import { CustomText as Text } from '@components/common/CustomText';
+import { CustomText as Text } from '@components/common';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
-import useColorName from '@hooks/useColorName';
+import useColorName from '@hooks';
 import {
 	isValidKorean,
 	INPUT_TYPES,
@@ -14,15 +14,17 @@ import {
 	colorConverter,
 } from '@utils/home';
 
+const initValue = {
+	part1: '',
+	part2: '',
+	part3: '',
+	part4: '',
+};
+
 const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const handlePressLabel = label => setSelectedLabel(label);
-	const [inputValues, setInputValues] = useState({
-		part1: '',
-		part2: '',
-		part3: '',
-		part4: '',
-	});
+	const [inputValues, setInputValues] = useState(initValue);
 	const [searchNameList, setSearchNameList] = useState([]);
 	const [isKeywordKor, setIsKeywordKor] = useState(false);
 	const { getSearchColorList } = useColorName();
@@ -45,6 +47,7 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 			updateSearchList();
 		} else {
 			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
+			setInputValues(initValue);
 		}
 	}, [inputValues.part1, selectedLabel]);
 

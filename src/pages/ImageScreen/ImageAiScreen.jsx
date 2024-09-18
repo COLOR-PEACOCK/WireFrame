@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, StyleSheet, ScrollView } from 'react-native';
-import { getColorInfo } from '@utils/colorRecommendUtils';
-import useColorName from '@hooks/useColorName';
 import tinycolor from 'tinycolor2';
-import BasicHeader from '@components/common/BasicHeader';
+import { COLOR } from '@styles/color';
+import { BasicHeader, LoadingScreen } from '@components/common';
 import ColorPalette from '@components/ColorRecommend/ColorPalette';
 import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
-import { COLOR } from '@styles/color';
-import useGemini from '@hooks/useGemini';
-import LoadingScreen from '@components/common/LoadingScreen';
+import { useColorName, useGemini } from '@hooks';
+import { getColorInfo } from '@utils/colorRecommendUtils';
 
 const ImageAiScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;

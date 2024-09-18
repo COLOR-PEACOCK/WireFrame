@@ -7,16 +7,17 @@ import {
 	useWindowDimensions,
 	Image,
 } from 'react-native';
-import { CustomText as Text } from '@components/common/CustomText';
-import { COLOR } from '@styles/color';
-import convert from 'color-convert';
-import { PressButton, OutlinedText } from '@components/Home';
-import SearchModal from '@components/Home/SearchModal';
-import useModal from '@hooks/useModal';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
-import { SearchSVG } from '@icons';
+import convert from 'color-convert';
+
+import { COLOR } from '@styles/color';
+import { CustomText as Text } from '@components/common';
+import { PressButton, OutlinedText, SearchModal } from '@components/Home';
+import { useModal } from '@hooks';
 import { useBackHandler, usePressButtonState } from '@hooks/home';
+import { SearchSVG } from '@icons';
+
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {

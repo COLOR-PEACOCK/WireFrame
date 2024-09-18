@@ -3,8 +3,7 @@ import { TouchableOpacity, StyleSheet, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
-import { CustomText as Text } from '@components/common/CustomText';
-import SVGIcon from './SVGIcon';
+import { CustomText as Text, SVGIcon } from '@components/common';
 
 // images
 import informationIcon from '@icons/infor.png';
@@ -27,7 +26,6 @@ import informationIcon from '@icons/infor.png';
 />
 const infoText = 'infomation text'
  * ```
- * infoText가 다른 컴포넌트에 가려지는 경우 텍스트를 가린 컴포넌트의 zIndex를 -1로 지정 해보세요.
  */
 const BasicHeader = ({
 	leftIcon = 'arrowleft',
