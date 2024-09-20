@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -7,35 +7,26 @@ import {
 	useWindowDimensions,
 	Image,
 } from 'react-native';
-import { CustomText as Text } from '@components/common/CustomText';
-import { COLOR } from '@styles/color';
-import convert from 'color-convert';
-import { PressButton, OutlinedText, Indicator } from '@components/Home';
-import SearchModal from '@components/Home/SearchModal';
-import useModal from '@hooks/useModal';
-import {
-	runOnJS,
-	useSharedValue,
-} from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
-import { SearchSVG } from '@icons';
+import convert from 'color-convert';
+
+import { COLOR } from '@styles/color';
+import { CustomText as Text } from '@components/common';
+import { PressButton, OutlinedText, SearchModal } from '@components/Home';
+import { useModal } from '@hooks';
 import { useBackHandler, usePressButtonState } from '@hooks/home';
+import { SearchSVG } from '@icons';
+
 const logoIcon = require('@icons/logo.png');
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
 	const pageWidth = width * 0.7;
-	const [currentIndex, setCurrentIndex] = useState(0);
 	const caroucelRef = useRef(null);
 	const progress = useSharedValue(0);
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd }= usePressButtonState();
-	const handleGetCurrentIndex = useCallback(() => {
-		'worklet';
-		if (caroucelRef.current) {
-			const index = caroucelRef.current.getCurrentIndex();
-			runOnJS(setCurrentIndex)(index);
-		}
-	}, []);
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+		usePressButtonState();
 
 	const onPressPagination = useCallback(
 		index => {
@@ -52,7 +43,6 @@ const Home = ({ navigation }) => {
 
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-	const handlePressLogo = () => {};
 	const handleSearch = hexValue => {
 		if (hexValue) {
 			handleCloseModal();
@@ -76,15 +66,7 @@ const Home = ({ navigation }) => {
 						mainColor: { hexVal: item.color },
 					});
 				}}
-				style={{
-					width: pageWidth,
-					height: 168,
-					paddingHorizontal: 18,
-					backgroundColor: item.color,
-					borderRadius: 8,
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}>
+				style={[styles.card, { width: pageWidth }]}>
 				<OutlinedText
 					strokeColor={
 						convert.hex.hsl(item.color.replace('#', ''))[2] > 80
@@ -109,9 +91,7 @@ const Home = ({ navigation }) => {
 							alignItems: 'center',
 							gap: 8,
 						}}>
-						<Pressable
-							style={{ width: 48, height: 48 }}
-							onPress={handlePressLogo}>
+						<Pressable style={{ width: 48, height: 48 }}>
 							<Image
 								style={{ width: '100%', height: '100%' }}
 								source={logoIcon}
@@ -125,12 +105,14 @@ const Home = ({ navigation }) => {
 						/>
 					</View>
 					<Pressable
-						style={[styles.searchIconWrapper, {backgroundColor: buttonColor}]}
+						style={[
+							styles.searchIconWrapper,
+							{ backgroundColor: buttonColor },
+						]}
 						onPressIn={handleTouchStart}
 						onPress={handleOpenModal}
-						onPressOut={handleTouchEnd}
-						>
-						<SearchSVG color={contentColor}/>
+						onPressOut={handleTouchEnd}>
+						<SearchSVG color={contentColor} />
 					</Pressable>
 				</View>
 
@@ -158,11 +140,7 @@ const Home = ({ navigation }) => {
 				<View style={styles.split}></View>
 
 				<View style={styles.carouselContainer}>
-					<View
-						style={{
-							flexDirection: 'row',
-							marginBottom: 3,
-						}}>
+					<View style={styles.section}>
 						<Text style={styles.sectionKor}>
 							올해의 즐겨찾는 색상
 						</Text>
@@ -179,30 +157,16 @@ const Home = ({ navigation }) => {
 							stackInterval: pageWidth + 4,
 						}}
 						data={dummy_trendColor}
-						onSnapToItem={handleGetCurrentIndex}
 						onProgressChange={progress}
 						renderItem={renderItem}
 					/>
 				</View>
-				<View
-					style={{ alignItems: 'center', justifyContent: 'center' }}>
+				<View style={styles.indicator}>
 					<Pagination.Custom
 						progress={progress}
 						data={dummy_trendColor}
-						dotStyle={{
-							width: 8,
-							height: 8,
-							backgroundColor: COLOR.PRIMARY + 50,
-							borderRadius: 50,
-							marginTop: -68,
-						}}
-						activeDotStyle={{
-							width: 20,
-							backgroundColor: COLOR.PRIMARY,
-							overflow: 'hidden',
-							borderRadius: 50,
-							marginTop: -68,
-						}}
+						dotStyle={styles.dotStyle}
+						activeDotStyle={styles.activeDotStyle}
 						containerStyle={{ gap: 6 }}
 						onPress={onPressPagination}
 					/>
@@ -257,17 +221,21 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	section: {
+		flexDirection: 'row',
+		marginBottom: 3,
+	},
 	sectionKor: {
 		color: COLOR.GRAY_10,
 		fontSize: 16,
 		fontFamily: 'Pretendard-Bold',
-        paddingLeft: 3,
+		paddingLeft: 3,
 	},
 	sectionEng: {
 		color: COLOR.GRAY_6,
 		fontSize: 12,
 		fontFamily: 'Pretendard-Midium',
-        marginBottom: 1.5,
+		marginBottom: 1.5,
 		marginLeft: 6,
 		alignSelf: 'flex-end',
 	},
@@ -278,6 +246,29 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
+	},
+	card: {
+		height: 168,
+		paddingHorizontal: 18,
+		backgroundColor: item.color,
+		borderRadius: 8,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	indicator: { alignItems: 'center', justifyContent: 'center' },
+	dotStyle: {
+		width: 8,
+		height: 8,
+		backgroundColor: COLOR.PRIMARY + 50,
+		borderRadius: 50,
+		marginTop: -68,
+	},
+	activeDotStyle: {
+		width: 20,
+		backgroundColor: COLOR.PRIMARY,
+		overflow: 'hidden',
+		borderRadius: 50,
+		marginTop: -68,
 	},
 });
 

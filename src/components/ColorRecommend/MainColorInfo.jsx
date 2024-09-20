@@ -46,12 +46,12 @@ const MainColorInfo = ({
 						{colorInfo.engName}
 					</Text>
 				</View>
-				<TouchableOpacity onPress={() => setIsPickerVisible(true)}>
+				{setIsPickerVisible && <TouchableOpacity onPress={() => setIsPickerVisible(true)}>
 					<Image
 						source={getIconSource(labelColor)}
 						style={[styles.icon, { tintColor: labelColor }]}
 					/>
-				</TouchableOpacity>
+				</TouchableOpacity>}
 			</View>
 
 			<View>

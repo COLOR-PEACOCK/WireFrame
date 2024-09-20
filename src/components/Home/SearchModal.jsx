@@ -1,73 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Modal,
-	Pressable,
-	ScrollView,
-	StyleSheet,
-	View,
-} from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { COLOR } from '@styles/color';
-import { CustomText as Text } from '@components/common/CustomText';
+import { CustomText as Text } from '@components/common';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
-import useColorName from '@hooks/useColorName';
+import useColorName from '@hooks';
 import {
-	cmykToHex,
-	hslToHex,
-	rgbToHex,
-	isValidHexCode,
 	isValidKorean,
 	INPUT_TYPES,
+	stringFormat,
+	colorConverter,
 } from '@utils/home';
 
-const colorConverter = {
-	[INPUT_TYPES.HEX]: values =>
-		isValidHexCode(`#${values.part1}`) ? `#${values.part1}` : null,
-	[INPUT_TYPES.RGB]: values =>
-		rgbToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.HSL]: values =>
-		hslToHex(values.part1, values.part2, values.part3) ?? null,
-	[INPUT_TYPES.CMYK]: values =>
-		cmykToHex(values.part1, values.part2, values.part3, values.part4) ??
-		null,
-	[INPUT_TYPES.COLOR_NAME]: (values, searchNameList) => {
-		const matchedColor = searchNameList.find(color =>
-			isValidKorean(values.part1.replaceAll(' ', ''))
-				? color.korean_name.replaceAll(' ', '') ===
-				  values.part1.replaceAll(' ', '')
-				: color.name?.toUpperCase().replaceAll(' ', '') ===
-				  values.part1?.toUpperCase().replaceAll(' ', ''),
-		);
-		return matchedColor ? matchedColor.hex : null;
-	},
+const initValue = {
+	part1: '',
+	part2: '',
+	part3: '',
+	part4: '',
 };
 
 const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
 	const handlePressLabel = label => setSelectedLabel(label);
-	const [inputValues, setInputValues] = useState({
-		part1: '',
-		part2: '',
-		part3: '',
-		part4: '',
-	});
+	const [inputValues, setInputValues] = useState(initValue);
 	const [searchNameList, setSearchNameList] = useState([]);
-	const [isKeywordKor, SetIsKeywordKor] = useState(false);
+	const [isKeywordKor, setIsKeywordKor] = useState(false);
 	const { getSearchColorList } = useColorName();
 
 	// 검색어 입력 시 색상 리스트 업데이트
 	useEffect(() => {
 		const updateSearchList = () => {
-			const keyword = inputValues.part1;
+			const keyword = stringFormat(inputValues.part1);
 			if (!keyword) {
 				setSearchNameList([]);
 				return;
 			}
-			SetIsKeywordKor(isValidKorean(keyword.replaceAll(' ', "")));
+			setIsKeywordKor(isValidKorean(keyword));
 			setSearchNameList(
-				getSearchColorList(isValidKorean(keyword.replaceAll(' ', "")), keyword),
+				getSearchColorList(isValidKorean(keyword), keyword),
 			);
 		};
 
@@ -75,15 +47,15 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 			updateSearchList();
 		} else {
 			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
+			setInputValues(initValue);
 		}
 	}, [inputValues.part1, selectedLabel]);
 
 	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
-		console.log(isValidKorean(inputValues.part1))
-		const convertColorToHex =
+		const convertValueToHex =
 			colorConverter[selectedLabel] || (values => values);
-		const hexValue = convertColorToHex(inputValues, searchNameList);
+		const hexValue = convertValueToHex(inputValues, searchNameList);
 		if (hexValue) onPressSearch(hexValue);
 		else console.log('fail');
 	};
@@ -134,23 +106,20 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 									style={styles.searchResults}
 									showsVerticalScrollIndicator={false}
 									keyboardShouldPersistTaps="always">
-									{searchNameList.map(item => (
+									{searchNameList.map(item => {
+										const currentKeyword = isKeywordKor
+											? item.korean_name
+											: item.name;
 										<ListValue
 											key={item.hex}
-											label={
-												isKeywordKor
-													? item.korean_name
-													: item.name
-											}
+											label={currentKeyword}
 											onPressLabel={() =>
 												handlePressSearchList(
-													isKeywordKor
-														? item.korean_name
-														: item.name,
+													currentKeyword,
 												)
 											}
-										/>
-									))}
+										/>;
+									})}
 								</ScrollView>
 							)}
 						</View>

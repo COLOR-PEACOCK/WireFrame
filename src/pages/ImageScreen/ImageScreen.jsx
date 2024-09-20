@@ -3,27 +3,23 @@ import {
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	Platform,
-	PermissionsAndroid,
 	Alert,
 	Pressable,
 	Image,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { COLOR } from '@styles/color';
 import RNFS from 'react-native-fs';
 import _ from 'lodash';
-
+import { COLOR } from '@styles/color';
 // components
-import BasicHeader from '@components/common/BasicHeader';
-import { CustomText as Text } from '@components/common/CustomText';
-import CustomPopup from '@components/common/CustomPopup';
-
+import {
+	BasicHeader,
+	CustomText as Text,
+	CustomPopup,
+} from '@components/common';
 // hooks
-import useColorName from '@hooks/useColorName';
-import useImageWebview from '@hooks/useImageWebview';
-
+import { useColorName, useImageWebview } from '@hooks';
 // icons
 import imageIcon from '@icons/image.png';
 import paletteIcon from '@icons/palette.png';
@@ -35,36 +31,12 @@ const ImageScreen = ({ navigation }) => {
 	const [colorName, setColorName] = useState('');
 
 	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
-	const { getKorColorName, getEngColorNameLocal, getColorName } =
-		useColorName();
+	const { getColorName } = useColorName();
 	const { getHtmlContent } = useImageWebview();
 
 	useEffect(() => {
 		selectImage();
 	}, []);
-
-	const requestStoragePermission = async () => {
-		if (Platform.OS === 'android') {
-			try {
-				const granted = await PermissionsAndroid.request(
-					PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-					{
-						title: 'Storage Permission',
-						message:
-							'App needs access to your storage to select images.',
-						buttonNeutral: 'Ask Me Later',
-						buttonNegative: 'Cancel',
-						buttonPositive: 'OK',
-					},
-				);
-				return granted === PermissionsAndroid.RESULTS.GRANTED;
-			} catch (err) {
-				console.error('Failed to request permission', err);
-				return false;
-			}
-		}
-		return true;
-	};
 
 	const selectImage = async () => {
 		try {

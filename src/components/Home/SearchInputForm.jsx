@@ -1,27 +1,10 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { CustomText as Text } from '@components/common/CustomText';
+import { CustomText as Text } from '@components/common';
 import { COLOR } from '@styles/color';
 import { useInputState } from '@hooks/home';
 
-const initValue = {
-	part1: '',
-	part2: '',
-	part3: '',
-	part4: '',
-};
-
 const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
-	const handleTextChange = (index, text) => {
-		setInputValues(prevValues => ({
-			...prevValues,
-			[`part${index + 1}`]: text,
-		}));
-	};
-
-	useEffect(() => {
-		setInputValues(initValue);
-	}, [selectedLabel]);
 
 	const {
 		inputOption,
@@ -30,6 +13,13 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 		handleAutoFocus,
 		handlePressInputForm,
 	} = useInputState(selectedLabel);
+
+	const handleTextChange = (index, text) => {
+		setInputValues(prevValues => ({
+			...prevValues,
+			[`part${index + 1}`]: text,
+		}));
+	};
 
 	return (
 		<View style={styles.inputContainer}>
@@ -66,7 +56,11 @@ const InputForm = forwardRef(({ label, unit, onPress, ...rest }, ref) => {
 				<Text style={styles.labelText}>{label}</Text>
 			</View>
 			<View style={styles.textInput}>
-				<TextInput ref={ref} {...rest} style={{color: COLOR.GRAY_10}}/>
+				<TextInput
+					ref={ref}
+					{...rest}
+					style={{ color: COLOR.GRAY_10 }}
+				/>
 				{unit && <Text style={{ fontSize: 16 }}>{unit}</Text>}
 			</View>
 		</Pressable>
@@ -107,7 +101,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		marginLeft: 10,
-		
 	},
 });
 
