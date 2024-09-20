@@ -69,14 +69,12 @@ const ObjectCanvas = ({
 			setDroppedItems(prevItems =>
 				prevItems.filter(item => item.id !== id),
 			);
-			setActiveTab(prevCategory =>
-				prevCategory === category ? null : category,
-			);
 		}
 		// 기본 아이템인 경우 유지
 
 		setSelectedItemId(null);
 		setIsColorPickerOpen(false);
+		setActiveTab(null);
 	};
 	return (
 		<View style={styles.canvas}>
