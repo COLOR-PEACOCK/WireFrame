@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView, useWindowDimensions } from 'react-native';
 import BasicHeader from '@components/common/BasicHeader';
 import { COLOR } from '@styles/color';
@@ -26,7 +26,7 @@ const ObjectInterior = ({ route }) => {
 			runOnJS(setCurrentIndex)(index);
 		}
 	}, []);
-	
+
 	const onPressPagination = useCallback(
 		index => {
 			'worklet';
@@ -40,22 +40,19 @@ const ObjectInterior = ({ route }) => {
 		[progress],
 	);
 	const renderItem = ({ item }) => {
-		{
-			console.log(item);
-		}
 		return (
-			<View style={{ gap: 18}}>
+			<View style={{ gap: 18 }}>
 				<View>
-                <Image
-					width={width}
-					height={width * 0.67}
-					source={{
-						uri: `https://www.color-name.com/interior?h=
+					<Image
+						width={width}
+						height={width * 0.67}
+						source={{
+							uri: `https://www.color-name.com/interior?h=
                         ${selectedColor.replace('#', '')}&w=${item[0]}`,
-					}}
-					resizeMode={'contain'}
-				/>
-                </View>
+						}}
+						resizeMode={'contain'}
+					/>
+				</View>
 				<Image
 					width={width}
 					height={width * 0.67}
@@ -69,13 +66,11 @@ const ObjectInterior = ({ route }) => {
 		);
 	};
 
-	// <Image width={300} height={300}
-	// 		source={{uri: `https://www.color-name.com/interior?h=${item.color}&w=drawing-room`}} />
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title={'인테리어'} subTitle={'interior'} />
 			<View style={styles.carouselContainer}>
-            <Pagination.Basic
+				<Pagination.Basic
 					progress={progress}
 					data={interiorData}
 					animValue={10}
@@ -93,16 +88,47 @@ const ObjectInterior = ({ route }) => {
 					onPress={onPressPagination}
 				/>
 			</View>
-                <Carousel
+			<View>
+				<Carousel
 					ref={caroucelRef}
 					width={width}
-					height={width* 2}
+					height={width * 2 * 0.67}
 					data={interiorData}
 					onSnapToItem={handleGetCurrentIndex}
 					onProgressChange={progress}
 					renderItem={renderItem}
 				/>
-				
+			</View>
+			<View
+				style={{
+					width: width,
+					height: 60,
+					top: 550,
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: COLOR.GRAY_10
+				}}>
+				<FlatList
+					data={colors}
+					horizontal
+					renderItem={item => {
+						return (
+							<Pressable
+								style={{
+									backgroundColor: item.item,
+									width: 60,
+									height: 24,
+									borderRadius: 4,
+									marginHorizontal: 18,
+									marginVertical: 'auto'
+								}}
+								onPress={() =>
+									setSelectedColor(item.item)
+								}></Pressable>
+						);
+					}}
+				/>
+			</View>
 		</SafeAreaView>
 	);
 };
