@@ -66,7 +66,10 @@ const Home = ({ navigation }) => {
 						mainColor: { hexVal: item.color },
 					});
 				}}
-				style={[styles.card, { width: pageWidth }]}>
+				style={[
+					styles.card,
+					{ width: pageWidth, backgroundColor: item.color },
+				]}>
 				<OutlinedText
 					strokeColor={
 						convert.hex.hsl(item.color.replace('#', ''))[2] > 80
@@ -250,7 +253,6 @@ const styles = StyleSheet.create({
 	card: {
 		height: 168,
 		paddingHorizontal: 18,
-		backgroundColor: item.color,
 		borderRadius: 8,
 		justifyContent: 'center',
 		alignItems: 'center',
