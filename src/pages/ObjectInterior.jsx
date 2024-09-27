@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView, useWindowDimensions } from 'react-native';
 import BasicHeader from '@components/common/BasicHeader';
 import { COLOR } from '@styles/color';
@@ -10,23 +10,15 @@ const ObjectInterior = ({ route }) => {
 	const colors = route.params;
 	const [selectedColor, setSelectedColor] = useState(colors[0]);
 	const { width } = useWindowDimensions();
-	const pageWidth = width * 0.7;
+	const pageWidth = width * 0.67;
 	const baseUrl = 'https://www.color-name.com/interior?h=';
 	const interiorData = [
 		['drawing-room', 'bedroom'],
 		['kitchen', 'living-room'],
 	];
-	const [currentIndex, setCurrentIndex] = useState(0);
 	const caroucelRef = useRef(null);
 	const progress = useSharedValue(0);
-	const handleGetCurrentIndex = useCallback(() => {
-		'worklet';
-		if (caroucelRef.current) {
-			const index = caroucelRef.current.getCurrentIndex();
-			runOnJS(setCurrentIndex)(index);
-		}
-	}, []);
-	
+
 	const onPressPagination = useCallback(
 		index => {
 			'worklet';
@@ -39,28 +31,26 @@ const ObjectInterior = ({ route }) => {
 		},
 		[progress],
 	);
+
 	const renderItem = ({ item }) => {
-		{
-			console.log(item);
-		}
 		return (
-			<View style={{ gap: 18}}>
+			<View style={{ gap: 18 }}>
 				<View>
-                <Image
-					width={width}
-					height={width * 0.67}
-					source={{
-						uri: `https://www.color-name.com/interior?h=
+					<Image
+						width={width}
+						height={pageWidth}
+						source={{
+							uri: `${baseUrl}
                         ${selectedColor.replace('#', '')}&w=${item[0]}`,
-					}}
-					resizeMode={'contain'}
-				/>
-                </View>
+						}}
+						resizeMode={'contain'}
+					/>
+				</View>
 				<Image
 					width={width}
-					height={width * 0.67}
+					height={pageWidth}
 					source={{
-						uri: `https://www.color-name.com/interior?h=
+						uri: `${baseUrl}
                         ${selectedColor.replace('#', '')}&w=${item[1]}`,
 					}}
 					resizeMode={'contain'}
@@ -69,13 +59,11 @@ const ObjectInterior = ({ route }) => {
 		);
 	};
 
-	// <Image width={300} height={300}
-	// 		source={{uri: `https://www.color-name.com/interior?h=${item.color}&w=drawing-room`}} />
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader title={'인테리어'} subTitle={'interior'} />
 			<View style={styles.carouselContainer}>
-            <Pagination.Basic
+				<Pagination.Basic
 					progress={progress}
 					data={interiorData}
 					animValue={10}
@@ -93,16 +81,48 @@ const ObjectInterior = ({ route }) => {
 					onPress={onPressPagination}
 				/>
 			</View>
-                <Carousel
+			<View>
+				<Carousel
 					ref={caroucelRef}
 					width={width}
-					height={width* 2}
+					height={pageWidth * 2}
 					data={interiorData}
-					onSnapToItem={handleGetCurrentIndex}
 					onProgressChange={progress}
 					renderItem={renderItem}
 				/>
-				
+			</View>
+			<View
+				style={{
+					width: width,
+					height: 60,
+					top: 550,
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: COLOR.GRAY_10,
+				}}>
+				<FlatList
+					data={colors}
+					horizontal
+					contentContainerStyle={{
+						gap: (width - 240) / colors.length,
+					}}
+					renderItem={item => {
+						return (
+							<Pressable
+								style={{
+									backgroundColor: item.item,
+									width: 240 / colors.length,
+									height: 24,
+									borderRadius: 4,
+									marginVertical: 'auto',
+								}}
+								onPress={() =>
+									setSelectedColor(item.item)
+								}></Pressable>
+						);
+					}}
+				/>
+			</View>
 		</SafeAreaView>
 	);
 };

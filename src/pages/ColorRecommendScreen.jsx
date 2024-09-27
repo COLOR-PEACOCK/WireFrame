@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
 	SafeAreaView,
 	View,
-	TouchableOpacity,
 	StyleSheet,
 	ScrollView,
 } from 'react-native';
@@ -10,14 +9,16 @@ import tinycolor from 'tinycolor2';
 import convert from 'color-convert';
 
 // components
-import BasicHeader from '@components/common/BasicHeader';
-import ColorPickerModal from '@components/ColorRecommend/ColorPickerModal';
-import ColorPalette from '@components/ColorRecommend/ColorPalette';
-import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
+import { BasicHeader } from '@components/common';
+import {
+	ColorPickerModal,
+	ColorPalette,
+	MainColorInfo,
+} from '@components/ColorRecommend';
 
 // hook & utils
 import { getColorInfo } from '@utils/colorRecommendUtils';
-import useColorName from '@hooks/useColorName';
+import { useColorName } from '@hooks';
 import {
 	getComplementaryColor,
 	getAnalogousColors,
@@ -34,7 +35,6 @@ import { COLOR } from '@styles/color';
 
 const ColorRecommendScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
-	const [color, setColor] = useState(mainColor);
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
 	const [tempColor, setTempColor] = useState(mainColor.hexVal);
 	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
@@ -81,9 +81,8 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 		: COLOR.WHITE;
 
 	const handleColorSelect = selectedColors => {
-		console.log('선택 팔레트', selectedColors);
 		// TODO: 선택 팔레트 넘겨주기
-		navigation.navigate('ObjectScreen', selectedColors)
+		navigation.navigate('ObjectScreen', selectedColors);
 	};
 
 	const hslColor = convert.hex.hsl(tempColor.replace('#', ''));
@@ -222,8 +221,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-        paddingHorizontal: 18,
-            
+		paddingHorizontal: 18,
 	},
 	colorBox: {
 		flexDirection: 'row',
@@ -242,9 +240,9 @@ const styles = StyleSheet.create({
 	split: {
 		width: '100%',
 		height: 4,
-        marginBottom: 18,
+		marginBottom: 18,
 		backgroundColor: COLOR.GRAY_1,
-	}
+	},
 });
 
 export default ColorRecommendScreen;

@@ -8,9 +8,9 @@ import {
 	Text,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import BasicHeader from '@components/common/BasicHeader';
 import { COLOR } from '@styles/color';
-import OnboardingIcon from '@components/AiRecommend/OnboardingIcon';
+import { BasicHeader } from '@components/common';
+import { OnboardingIcon } from '@components/AiRecommend';
 
 const AiOnboardingScreen = ({ navigation }) => {
 	const swiperRef = useRef(null);

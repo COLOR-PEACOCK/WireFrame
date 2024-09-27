@@ -6,6 +6,7 @@ import {
 	Alert,
 	Pressable,
 	Image,
+	SafeAreaView,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -98,102 +99,109 @@ const ImageScreen = ({ navigation }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.headerContainer}>
-				<BasicHeader
-					titleIcon={'image'}
-					title={'이미지'}
-					subTitle={'images'}
-					infoText={'infomation text'}
-				/>
-			</View>
-			<View style={styles.colorInfoBox}>
-				<View
-					style={[styles.colorIndicator, { backgroundColor: color }]}
-				/>
-				<View style={styles.colorDetails}>
-					<View>
-						<Text
-							style={
-								styles.korName
-							}>{`≈${colorName.korName}`}</Text>
-						<Text style={styles.engName}>{colorName.engName}</Text>
-					</View>
-
-					<Text style={styles.colorHex}>
-						HEX: {color.toLocaleUpperCase()}
-					</Text>
-				</View>
-			</View>
-			<View style={styles.imageContainer}>
-				{imageDataUrl ? (
-					<WebView
-						source={{ html: getHtmlContent(imageDataUrl) }}
-						onMessage={onMessage}
-						style={styles.webview}
+		<SafeAreaView style={{ flex: 1 }}>
+			<View style={styles.container}>
+				<View style={styles.headerContainer}>
+					<BasicHeader
+						titleIcon={'image'}
+						title={'이미지'}
+						subTitle={'images'}
+						infoText={'infomation text'}
 					/>
-				) : (
-					<TouchableOpacity
-						style={styles.placeholder}
-						onPress={selectImage}>
-						<Image
-							source={imageIcon}
-							style={{ width: 64, height: 64 }}
-						/>
-						<View
-							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}>
-							<Text style={[styles.placeholderTextKor]}>
-								이미지 선택
-							</Text>
-							<Text style={styles.placeholderTextEng}>
-								select images
+				</View>
+				<View style={styles.colorInfoBox}>
+					<View
+						style={[
+							styles.colorIndicator,
+							{ backgroundColor: color },
+						]}
+					/>
+					<View style={styles.colorDetails}>
+						<View>
+							<Text
+								style={
+									styles.korName
+								}>{`≈${colorName.korName}`}</Text>
+							<Text style={styles.engName}>
+								{colorName.engName}
 							</Text>
 						</View>
-					</TouchableOpacity>
-				)}
+
+						<Text style={styles.colorHex}>
+							HEX: {color.toLocaleUpperCase()}
+						</Text>
+					</View>
+				</View>
+				<View style={styles.imageContainer}>
+					{imageDataUrl ? (
+						<WebView
+							source={{ html: getHtmlContent(imageDataUrl) }}
+							onMessage={onMessage}
+							style={styles.webview}
+						/>
+					) : (
+						<TouchableOpacity
+							style={styles.placeholder}
+							onPress={selectImage}>
+							<Image
+								source={imageIcon}
+								style={{ width: 64, height: 64 }}
+							/>
+							<View
+								style={{
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}>
+								<Text style={[styles.placeholderTextKor]}>
+									이미지 선택
+								</Text>
+								<Text style={styles.placeholderTextEng}>
+									select images
+								</Text>
+							</View>
+						</TouchableOpacity>
+					)}
+				</View>
+
+				<View style={styles.buttonContainer}>
+					<Pressable
+						style={({ pressed }) => [
+							{
+								backgroundColor: pressed
+									? COLOR.GRAY_7
+									: COLOR.GRAY_6,
+							},
+							styles.button,
+						]}
+						onPress={handleAiRecommend}>
+						<Image source={aiIcon} style={styles.buttonIcon} />
+						<Text style={styles.ButtonText}>AI 테마 추천</Text>
+					</Pressable>
+
+					<Pressable
+						style={({ pressed }) => [
+							{
+								backgroundColor: pressed
+									? '#5F1AB6'
+									: COLOR.PRIMARY,
+							},
+							styles.button,
+						]}
+						onPress={handleColorRecommend}>
+						<Image source={paletteIcon} style={styles.buttonIcon} />
+						<Text style={styles.ButtonText}>색상 추천</Text>
+					</Pressable>
+				</View>
+
+				{/* CustomPopup 컴포넌트 */}
+				{popupMessage ? (
+					<CustomPopup
+						message={popupMessage}
+						onClose={handleClosePopup}
+					/>
+				) : null}
 			</View>
-
-			<View style={styles.buttonContainer}>
-				<Pressable
-					style={({ pressed }) => [
-						{
-							backgroundColor: pressed
-								? COLOR.GRAY_7
-								: COLOR.GRAY_6,
-						},
-						styles.button,
-					]}
-					onPress={handleAiRecommend}>
-					<Image source={aiIcon} style={styles.buttonIcon} />
-					<Text style={styles.ButtonText}>AI 테마 추천</Text>
-				</Pressable>
-
-				<Pressable
-					style={({ pressed }) => [
-						{
-							backgroundColor: pressed
-								? '#5F1AB6'
-								: COLOR.PRIMARY,
-						},
-						styles.button,
-					]}
-					onPress={handleColorRecommend}>
-					<Image source={paletteIcon} style={styles.buttonIcon} />
-					<Text style={styles.ButtonText}>색상 추천</Text>
-				</Pressable>
-			</View>
-
-			{/* CustomPopup 컴포넌트 */}
-			{popupMessage ? (
-				<CustomPopup
-					message={popupMessage}
-					onClose={handleClosePopup}
-				/>
-			) : null}
-		</View>
+		</SafeAreaView>
 	);
 };
 

@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
 	View,
 	TouchableOpacity,
-	ActivityIndicator,
 	useWindowDimensions,
-	Image,
 } from 'react-native';
-import { CustomText as Text } from '@components/common/CustomText';
-import BasicHeader from '@components/common/BasicHeader';
-import { COLOR } from '@styles/color';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ColorInfoModal from '@components/ColorRecommend/ColorInfoModal';
-import { getColorInfo } from '@utils/colorRecommendUtils';
-import useColorName from '@hooks/useColorName';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import tinycolor from 'tinycolor2';
-import LeftCircle from '@components/AiRecommend/LeftCircle';
-import RightCircle from '@components/AiRecommend/RightCircle';
-import Background from '@components/AiRecommend/Background';
-import LoadingScreen from '@components/common/LoadingScreen';
 import { useNavigation } from '@react-navigation/native';
-import CustomPopup from '@components/common/CustomPopup';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { COLOR } from '@styles/color';
+import { BasicHeader, LoadingScreen, CustomPopup } from '@components/common';
+import { LeftCircle, RightCircle, Background } from '@components/AiRecommend';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -32,12 +20,8 @@ const AiResponseScreen = ({ route }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [colors, setColors] = useState([]);
 	const [responseExplanation, setResponseExplanation] = useState('');
-	const [selectedColor, setSelectedColor] = useState(null);
-	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isButtonPressed, setIsButtonPressed] = useState(false);
 	const [itemColor, setItemColor] = useState(null);
-	const { getEngColorName, getKorColorName, getEngColorNameLocal } =
-		useColorName();
 
 	const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
 		useWindowDimensions();
@@ -209,155 +193,6 @@ const AiResponseScreen = ({ route }) => {
 		}
 	}, [itemColor]);
 
-	// useEffect(() => {
-	// 	const responseJson = {
-	// 		image_explain:
-	// 			'이미지에는 밝은 톤의 푸른색 가죽 소파가 흰색 벽과 밝은 회색 카펫 위에 놓여 있습니다. 소파의 디자인은 모던하고 세련된 느낌을 주며, 밝은 색상은 공간에 활력을 더해줍니다.',
-	// 		item_color: {
-	// 			color_name_korean: '밝은 푸른색',
-	// 			color_name_english: 'Light Blue',
-	// 			hex_code: '#90B9D2',
-	// 			description:
-	// 				'밝고 시원한 느낌을 주는 푸른색으로, 차분함과 동시에 활력을 더해줍니다. 공간을 넓어 보이게 하는 효과도 있습니다.',
-	// 		},
-	// 		recommended_colors: [
-	// 			{
-	// 				color_name_korean: '따뜻한 노란색',
-	// 				color_name_english: 'Warm Yellow',
-	// 				hex_code: '#F2E7B2',
-	// 				description:
-	// 					'따뜻하고 편안한 분위기를 조성하며, 밝은 푸른색 소파와 조화롭게 어울립니다.',
-	// 				description_Very_Short_Ver: '따뜻하고 편안',
-	// 			},
-	// 			{
-	// 				color_name_korean: '은은한 베이지색',
-	// 				color_name_english: 'Subtle Beige',
-	// 				hex_code: '#D9D9D9',
-	// 				description:
-	// 					'차분하고 고급스러운 분위기를 연출하며, 밝은 푸른색 소파와 조화를 이루어 안정감을 더해줍니다.',
-	// 				description_Very_Short_Ver: '차분하고 고급스러운',
-	// 			},
-	// 			{
-	// 				color_name_korean: '부드러운 연핑크',
-	// 				color_name_english: 'Soft Light Pink',
-	// 				hex_code: '#E4C2D5',
-	// 				description:
-	// 					'부드럽고 로맨틱한 분위기를 연출하며, 밝은 푸른색 소파와 대비를 이루어 시각적으로 흥미로운 공간을 만들어줍니다.',
-	// 				description_Very_Short_Ver: '부드럽고 로맨틱',
-	// 			},
-	// 			{
-	// 				color_name_korean: '시원한 민트색',
-	// 				color_name_english: 'Cool Mint',
-	// 				hex_code: '#9FE2BF',
-	// 				description:
-	// 					'시원하고 산뜻한 분위기를 연출하며, 밝은 푸른색 소파와 통일감을 주어 편안하고 안정적인 공간을 만들어줍니다.',
-	// 				description_Very_Short_Ver: '시원하고 산뜻',
-	// 			},
-	// 			{
-	// 				color_name_korean: '깊은 회색',
-	// 				color_name_english: 'Deep Gray',
-	// 				hex_code: '#6E6E6E',
-	// 				description:
-	// 					'모던하고 세련된 분위기를 연출하며, 밝은 푸른색 소파와 대비를 이루어 시각적으로 안정감을 주는 동시에 깔끔한 느낌을 더해줍니다.',
-	// 				description_Very_Short_Ver: '모던하고 세련된',
-	// 			},
-	// 		],
-	// 		hexcode_list: [
-	// 			'#90B9D2',
-	// 			'#F2E7B2',
-	// 			'#D9D9D9',
-	// 			'#E4C2D5',
-	// 			'#9FE2BF',
-	// 			'#6E6E6E',
-	// 		],
-	// 	};
-
-	// 	if (
-	// 		responseJson &&
-	// 		responseJson.image_explain &&
-	// 		responseJson.item_color &&
-	// 		responseJson.recommended_colors &&
-	// 		responseJson.hexcode_list &&
-	// 		Array.isArray(responseJson.recommended_colors)
-	// 	) {
-	// 		// setItemColor(responseJson.item_color.hex_code);
-	// 		setItemColor('#ffffff');
-
-	// 		const recommendedKorColorNames =
-	// 			responseJson.recommended_colors.map(
-	// 				color => color.color_name_korean,
-	// 			);
-	// 		setKorColorNameList(recommendedKorColorNames);
-
-	// 		const recommendedEngColorNames =
-	// 			responseJson.recommended_colors.map(
-	// 				color => color.color_name_english,
-	// 			);
-	// 		setEngColorNameList(recommendedEngColorNames);
-
-	// 		const recommendedHexCodes = responseJson.recommended_colors.map(
-	// 			color => color.hex_code,
-	// 		);
-	// 		setColorCodeList(recommendedHexCodes);
-
-	// 		const recommendedDescriptions = responseJson.recommended_colors.map(
-	// 			color => color.description,
-	// 		);
-	// 		setColorDescriptionList(recommendedDescriptions);
-
-	// 		const recommendedShortDescriptions =
-	// 			responseJson.recommended_colors.map(
-	// 				color => color.description_Very_Short_Ver,
-	// 			);
-	// 		setColorShortList(recommendedShortDescriptions);
-
-	// 		const objectHexCodes = responseJson.recommended_colors.hexcode_list;
-	// 		setColors(objectHexCodes);
-
-	// 		//	배경 무늬 색상 컨트롤
-	// 		function shouldUseWhiteColor(hexColor) {
-	// 			console.log(hexColor);
-	// 			const r = parseInt(hexColor.substr(1, 2), 16);
-	// 			const g = parseInt(hexColor.substr(3, 2), 16);
-	// 			const b = parseInt(hexColor.substr(5, 2), 16);
-	// 			const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-	// 			return setBackground(yiq < 220);
-	// 		}
-	// 		if (itemColor) {
-	// 			shouldUseWhiteColor(itemColor);
-	// 		}
-	// 	}
-	// }, [itemColor]);
-
-	const handleColorPress = async color => {
-		const colorData = getColorInfo(color.replace('#', ''));
-		const engName = await getEngColorNameLocal(color);
-		const korName = await getKorColorName(color);
-
-		setSelectedColor({
-			korName: korName,
-			engName: engName,
-			hexVal: colorData.hexVal,
-			rgbVal: colorData.rgbVal,
-			hslVal: colorData.hslVal,
-			cmykVal: colorData.cmykVal,
-		});
-		setIsModalVisible(true);
-	};
-
-	const closeModal = () => {
-		setIsModalVisible(false);
-		setSelectedColor(null);
-	};
-
-	const handleColorChange = () => {
-		setIsButtonPressed(true);
-		console.log(colors);
-		setTimeout(() => {
-			setIsButtonPressed(false);
-		}, 100);
-	};
-
 	// 오브젝트 화면으로 네비게이트
 	const navigation = useNavigation();
 	const navigateObjectScreen = () => {
@@ -375,34 +210,24 @@ const AiResponseScreen = ({ route }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: itemColor }}>
+				<BasicHeader
+					titleIcon={'AI'}
+					title={'AI 분석'}
+					subTitle={'ai recs'}
+					rightIcon={'info'}
+					infoText={infotext}
+				/>
 				{isLoading ? (
-					<>
-						<BasicHeader
-							titleIcon={'AI'}
-							title={'AI 분석'}
-							subTitle={'ai recs'}
-							rightIcon={'info'}
-							infoText={infotext}
-						/>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: 'center',
-								alignItems: 'center',
-								backgroundColor: '#ffffff',
-							}}>
-							<LoadingScreen />
-						</View>
-					</>
+					<View
+						style={{
+							flex: 1,
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}>
+						<LoadingScreen />
+					</View>
 				) : (
 					<>
-						<BasicHeader
-							titleIcon={'AI'}
-							title={'AI 분석'}
-							subTitle={'ai recs'}
-							rightIcon={'info'}
-							infoText={infotext}
-						/>
 						<View style={styles.responseContainer}>
 							<LeftCircle
 								left={DISTANCE}
@@ -519,7 +344,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		padding: 20,
-		zIndex: -1,
 	},
 });
 

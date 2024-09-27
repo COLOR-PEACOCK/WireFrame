@@ -6,7 +6,7 @@ import { CustomText as Text } from '@components/common';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
-import useColorName from '@hooks';
+import { useColorName } from '@hooks';
 import {
 	isValidKorean,
 	INPUT_TYPES,
