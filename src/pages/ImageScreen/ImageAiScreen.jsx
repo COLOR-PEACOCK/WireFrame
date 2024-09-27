@@ -3,8 +3,7 @@ import { SafeAreaView, View, StyleSheet, ScrollView } from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
 import { BasicHeader, LoadingScreen } from '@components/common';
-import ColorPalette from '@components/ColorRecommend/ColorPalette';
-import MainColorInfo from '@components/ColorRecommend/MainColorInfo';
+import { ColorPalette, MainColorInfo } from '@components/ColorRecommend';
 import { useColorName, useGemini } from '@hooks';
 import { getColorInfo } from '@utils/colorRecommendUtils';
 
@@ -73,7 +72,6 @@ const ImageAiScreen = ({ route, navigation }) => {
 						flex: 1,
 						justifyContent: 'center',
 						alignItems: 'center',
-						backgroundColor: '#ffffff',
 					}}>
 					<LoadingScreen />
 				</View>

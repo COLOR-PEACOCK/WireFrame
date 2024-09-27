@@ -7,15 +7,17 @@ import {
 	TouchableOpacity,
 	Image,
 } from 'react-native';
-import { CustomText as Text } from '@components/common/CustomText';
+import { BasicHeader, CustomText as Text } from '@components/common';
 import { useCameraPermission } from 'react-native-vision-camera';
 import { COLOR } from '@styles/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import BasicHeader from '@components/common/BasicHeader';
-import CameraRender from '@components/camerapage/CameraRender';
-import ColorInfo from '@components/camerapage/ColorInfo';
-import CrossHair from '@components/camerapage/CrossHair';
-import ExtColorModal from '@components/camerapage/ExtColorModal';
+import {
+	CameraRender,
+	ColorInfo,
+	CrossHair,
+	ExtColorModal,
+} from '@components/camerapage/CameraRender';
+
 import { useFocusEffect } from '@react-navigation/native';
 
 const extbutton = require('@icons/circle__lock__btn.png');
