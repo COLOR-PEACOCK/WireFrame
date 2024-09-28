@@ -3,15 +3,14 @@ import {
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	Alert,
 	Pressable,
 	Image,
 	SafeAreaView,
+	Alert,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { launchImageLibrary } from 'react-native-image-picker';
-import RNFS from 'react-native-fs';
 import _ from 'lodash';
+import RNFS from 'react-native-fs';
 import { COLOR } from '@styles/color';
 // components
 import {
@@ -20,7 +19,7 @@ import {
 	CustomPopup,
 } from '@components/common';
 // hooks
-import { useColorName, useImageWebview } from '@hooks';
+import { useColorName, useImageWebview, useImagePicker } from '@hooks';
 // icons
 import imageIcon from '@icons/image.png';
 import paletteIcon from '@icons/palette.png';
@@ -28,10 +27,11 @@ import aiIcon from '@icons/ai.png';
 
 const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
+	const [colorName, setColorName] = useState({ korName: '', engName: '' });
+	const [showPopup, setShowPopup] = useState(false);
 	const [imageDataUrl, setImageDataUrl] = useState(null);
-	const [colorName, setColorName] = useState('');
 
-	const [popupMessage, setPopupMessage] = useState(''); // 팝업 메시지 상태 추가
+	const { imageUri, selectImage } = useImagePicker();
 	const { getColorName } = useColorName();
 	const { getHtmlContent } = useImageWebview();
 
@@ -39,37 +39,21 @@ const ImageScreen = ({ navigation }) => {
 		selectImage();
 	}, []);
 
-	const selectImage = async () => {
+	useEffect(() => {
+		if (convertToBase64()) setShowPopup(true);
+	}, [imageUri]);
+
+	const convertToBase64 = async () => {
 		try {
-			const response = await launchImageLibrary({ mediaType: 'photo' });
-			if (response.didCancel && !imageDataUrl) {
-				navigation.goBack();
-				Alert.alert('알림', '사진을 선택 해주세요.');
-			} else if (response.error) {
-				Alert.alert('Error', response.error);
-			} else if (response.assets && response.assets[0].uri) {
-				const uri = response.assets[0].uri;
-				try {
-					const base64Image = await RNFS.readFile(uri, 'base64');
-					const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-					setImageDataUrl(dataUrl);
-
-					// 이미지 선택 후 팝업 메시지 설정
-					setPopupMessage(
-						'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행합니다!',
-					);
-				} catch (error) {
-					Alert.alert('Error', 'Failed to convert image to Base64');
-				}
-			}
+			const base64Image = await RNFS.readFile(imageUri, 'base64');
+			const dataUrl = `data:image/jpeg;base64,${base64Image}`;
+			setImageDataUrl(dataUrl);
 		} catch (error) {
-			Alert.alert(
-				'Error',
-				`An unexpected error occurred while picking the image: ${error.message}`,
-			);
+			Alert.alert('Error', '이미지를 Base64로 변환하는데 실패했습니다.');
+			return false;
 		}
+		return true;
 	};
-
 	const onMessage = useCallback(
 		_.throttle(event => {
 			setColor(event.nativeEvent.data);
@@ -88,14 +72,11 @@ const ImageScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		const { korean_name, name } = getColorName(color);
-		setColorName({
-			korName: korean_name,
-			engName: name,
-		});
+		setColorName({ korName: korean_name, engName: name });
 	}, [color]);
 
 	const handleClosePopup = () => {
-		setPopupMessage('');
+		setShowPopup(false);
 	};
 
 	return (
@@ -193,13 +174,14 @@ const ImageScreen = ({ navigation }) => {
 					</Pressable>
 				</View>
 
-				{/* CustomPopup 컴포넌트 */}
-				{popupMessage ? (
+				{showPopup && (
 					<CustomPopup
-						message={popupMessage}
+						message={
+							'조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행합니다!'
+						}
 						onClose={handleClosePopup}
 					/>
-				) : null}
+				)}
 			</View>
 		</SafeAreaView>
 	);
