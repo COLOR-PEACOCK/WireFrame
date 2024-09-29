@@ -1,73 +1,22 @@
-import React, { useState, useEffect } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
+import { useSearchModalState } from '@hooks/home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
 
-import { useColorName } from '@hooks';
-import {
-	isValidKorean,
-	INPUT_TYPES,
-	stringFormat,
-	colorConverter,
-} from '@utils/home';
-
-const initValue = {
-	part1: '',
-	part2: '',
-	part3: '',
-	part4: '',
-};
-
 const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
-	const [selectedLabel, setSelectedLabel] = useState('색상 이름');
-	const handlePressLabel = label => setSelectedLabel(label);
-	const [inputValues, setInputValues] = useState(initValue);
-	const [searchNameList, setSearchNameList] = useState([]);
-	const [isKeywordKor, setIsKeywordKor] = useState(false);
-	const { getSearchColorList } = useColorName();
-
-	// 검색어 입력 시 색상 리스트 업데이트
-	useEffect(() => {
-		const updateSearchList = () => {
-			const keyword = stringFormat(inputValues.part1);
-			if (!keyword) {
-				setSearchNameList([]);
-				return;
-			}
-			setIsKeywordKor(isValidKorean(keyword));
-			setSearchNameList(
-				getSearchColorList(isValidKorean(keyword), keyword),
-			);
-		};
-
-		if (selectedLabel === INPUT_TYPES.COLOR_NAME) {
-			updateSearchList();
-		} else {
-			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
-		}
-	}, [inputValues.part1, selectedLabel]);
-
-	useEffect(() => {
-		setInputValues(initValue);
-	}, [selectedLabel]);
-
-	// 검색 버튼 터치 시
-	const handlePressSearch = () => {
-		const convertValueToHex =
-			colorConverter[selectedLabel] || (values => values);
-		const hexValue = convertValueToHex(inputValues, searchNameList);
-		if (hexValue) onPressSearch(hexValue);
-		else console.log('fail');
-	};
-
-	// 자동완성 검색 리스트 터치 시
-	const handlePressSearchList = label => {
-		setInputValues({ ...{ part1: label } });
-		// 자동완성 터치하면 숨기기?
-	};
+	const {
+		selectedLabel,
+		inputValues,
+		setInputValues,
+		searchNameList,
+		isKeywordKor,
+		handlePressLabel,
+		handlePressSearch,
+		handlePressSearchList,
+	} = useSearchModalState(onPressSearch);
 
 	return (
 		<View>
@@ -115,7 +64,7 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 											: item.name;
 										return (
 											<ListValue
-												key={item.hex}
+												key={item.hex ?? 'list'}
 												label={currentKeyword}
 												onPressLabel={() =>
 													handlePressSearchList(
