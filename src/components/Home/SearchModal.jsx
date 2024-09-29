@@ -47,9 +47,12 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 			updateSearchList();
 		} else {
 			setSearchNameList([]); // 다른 검색 타입 선택 시 리스트 초기화
-			setInputValues(initValue);
 		}
 	}, [inputValues.part1, selectedLabel]);
+
+	useEffect(() => {
+		setInputValues(initValue);
+	}, [selectedLabel]);
 
 	// 검색 버튼 터치 시
 	const handlePressSearch = () => {
@@ -110,15 +113,17 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 										const currentKeyword = isKeywordKor
 											? item.korean_name
 											: item.name;
-										<ListValue
-											key={item.hex}
-											label={currentKeyword}
-											onPressLabel={() =>
-												handlePressSearchList(
-													currentKeyword,
-												)
-											}
-										/>;
+										return (
+											<ListValue
+												key={item.hex}
+												label={currentKeyword}
+												onPressLabel={() =>
+													handlePressSearchList(
+														currentKeyword,
+													)
+												}
+											/>
+										);
 									})}
 								</ScrollView>
 							)}
