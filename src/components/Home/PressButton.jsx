@@ -1,13 +1,14 @@
-import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
 import SVGIcon from '@components/common/SVGIcon';
-import usePressButtonState from '@hooks/home/usePressButtonState';
+import { usePressButtonState } from '@hooks/home';
+import { widthScale } from '@utils/scaling';
 
 const size = 48;
 const PressButton = ({ iconName, onPress, engText, text }) => {
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } = usePressButtonState();
-    
+	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+		usePressButtonState();
+
 	return (
 		<Pressable
 			onPress={onPress}
@@ -40,8 +41,7 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		width: '100%',
-		maxWidth: 376,
+		width: widthScale(376),
 		height: 84,
 		marginHorizontal: 18,
 		borderRadius: 8,
@@ -60,15 +60,14 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.2,
 	},
 	icon: {
-		marginLeft: 74,
+		marginLeft: widthScale(74),
 	},
 	buttonEngText: {
 		fontFamily: 'Pretendard-Medium',
 		fontSize: 12,
-        fontWeight: 500,
+		fontWeight: 500,
 		letterSpacing: 0.3,
-        textTransform: 'uppercase',
-
+		textTransform: 'uppercase',
 	},
 	buttonText: {
 		fontFamily: 'Pretendard-Bold',
