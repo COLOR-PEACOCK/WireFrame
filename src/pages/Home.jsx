@@ -70,7 +70,11 @@ const Home = ({ navigation }) => {
 				}}
 				style={[
 					styles.card,
-					{ width: pageWidth, backgroundColor: item.color },
+					{
+						width: pageWidth,
+						maxWidth: 376,
+						backgroundColor: item.color,
+					},
 				]}>
 				<OutlinedText
 					strokeColor={
@@ -88,39 +92,39 @@ const Home = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-				<View style={styles.container}>
-					<View style={styles.header}>
-						<View
-							style={{
-								flexDirection: 'row',
-								alignItems: 'center',
-								gap: 8,
-							}}>
-							<Pressable style={{ width: 48, height: 48 }}>
-								<Image
-									style={{ width: '100%', height: '100%' }}
-									source={logoIcon}
-								/>
-							</Pressable>
-							<Text style={styles.title}>COLOR PEACOCK</Text>
-							<SearchModal
-								visible={isModalVisible}
-								handleCloseModal={handleCloseModal}
-								onPressSearch={handleSearch}
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<View
+						style={{
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: 8,
+						}}>
+						<Pressable style={{ width: 48, height: 48 }}>
+							<Image
+								style={{ width: '100%', height: '100%' }}
+								source={logoIcon}
 							/>
-						</View>
-						<Pressable
-							style={[
-								styles.searchIconWrapper,
-								{ backgroundColor: buttonColor },
-							]}
-							onPressIn={handleTouchStart}
-							onPress={handleOpenModal}
-							onPressOut={handleTouchEnd}>
-							<SearchSVG color={contentColor} />
 						</Pressable>
+						<Text style={styles.title}>COLOR PEACOCK</Text>
+						<SearchModal
+							visible={isModalVisible}
+							handleCloseModal={handleCloseModal}
+							onPressSearch={handleSearch}
+						/>
 					</View>
-					<ScrollView contentContainerStyle={{ alignItems: 'center'}}>
+					<Pressable
+						style={[
+							styles.searchIconWrapper,
+							{ backgroundColor: buttonColor },
+						]}
+						onPressIn={handleTouchStart}
+						onPress={handleOpenModal}
+						onPressOut={handleTouchEnd}>
+						<SearchSVG color={contentColor} />
+					</Pressable>
+				</View>
+				<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
 					<View style={styles.buttonContainer}>
 						<PressButton
 							iconName={'camera'}
@@ -159,7 +163,7 @@ const Home = ({ navigation }) => {
 							mode={'horizontal-stack'}
 							modeConfig={{
 								snapDirection: 'left',
-								stackInterval: pageWidth + 4,
+								stackInterval: pageWidth > 376 ? 376 : pageWidth + 4,
 							}}
 							data={dummy_trendColor}
 							onProgressChange={progress}
@@ -176,9 +180,8 @@ const Home = ({ navigation }) => {
 							onPress={onPressPagination}
 						/>
 					</View>
-					</ScrollView>
-				</View>
-			
+				</ScrollView>
+			</View>
 		</SafeAreaView>
 	);
 };
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: 18,
+		paddingHorizontal: widthScale(18),
 		elevation: 5,
 	},
 	title: {
@@ -221,7 +224,6 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		paddingVertical: 38,
-		width: '100%',
 		gap: 18,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -234,7 +236,6 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_10,
 		fontSize: 16,
 		fontFamily: 'Pretendard-Bold',
-		paddingLeft: 3,
 	},
 	sectionEng: {
 		color: COLOR.GRAY_6,
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
 	carouselContainer: {
 		height: 300,
 		marginTop: 30,
-		marginLeft: 38,
+		marginLeft: widthScale(35),
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
