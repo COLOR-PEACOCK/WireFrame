@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
+		justifyContent: 'center',
 		backgroundColor: COLOR.WHITE,
 		// Android 그림자 설정
 		elevation: 4,
@@ -60,7 +61,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.2,
 	},
 	icon: {
-		marginLeft: widthScale(74),
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	buttonEngText: {
 		fontFamily: 'Pretendard-Medium',
