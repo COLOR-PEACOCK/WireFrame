@@ -5,7 +5,7 @@ import { COLOR } from '@styles/color';
 /**
  * 아래 example 참고
  *  * @example 상태 이름은 자유입니다.
- * `````````````````````````````````````````````
+ * ```
  * import CustomPopup from '경로';
  *
  * const [message, setMessage] = useState('');
@@ -15,7 +15,7 @@ import { COLOR } from '@styles/color';
  * }, []);
  *
  * <CustomPopup message={message} />
- * ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ * ```
  *  \n• : 줄바꿈
  */
 

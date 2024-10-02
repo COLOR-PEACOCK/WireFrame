@@ -5,7 +5,6 @@ import { COLOR } from '@styles/color';
 import { useInputState } from '@hooks/home';
 
 const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
-
 	const {
 		inputOption,
 		inputRef,
