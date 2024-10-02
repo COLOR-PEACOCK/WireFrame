@@ -2,46 +2,22 @@ import React, { useState, useEffect } from 'react';
 import {
 	View,
 	StyleSheet,
-	Alert,
 	TextInput,
 	Image,
 	TouchableOpacity,
 	KeyboardAvoidingView,
 	SafeAreaView,
 } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import { COLOR } from '@styles/color';
 import { BasicHeader, CustomText as Text } from '@components/common';
+import { useImagePicker } from '@hooks';
 import RunAi from '@icons/runAiIcon.svg';
 
 const AiScreen = ({ navigation }) => {
-	const [imageUri, setImageUri] = useState(null);
 	const [itemInImage, setItemInImage] = useState('');
 	const [itemToRecommend, setItemToRecommend] = useState('');
-
-	const selectImage = async () => {
-		try {
-			const response = await launchImageLibrary({ mediaType: 'photo' });
-			if (response.didCancel) {
-				console.log('User cancelled image picker');
-				Alert.alert('알림.', '사진을 선택해주세요.');
-				navigation.goBack();
-			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
-				Alert.alert('Error', response.error);
-			} else if (response.assets && response.assets[0].uri) {
-				const uri = response.assets[0].uri;
-				setImageUri(uri);
-			}
-		} catch (error) {
-			console.log('Error in selectImage:', error);
-			Alert.alert(
-				'Error',
-				`An unexpected error occurred while picking the image: ${error.message}`,
-			);
-		}
-	};
+	const { imageUri, selectImage } = useImagePicker();
 
 	useEffect(() => {
 		selectImage();

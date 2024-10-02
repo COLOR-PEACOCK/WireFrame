@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import { COLOR } from '@styles/color';
 import { ListValue } from '@components/Home';
-import useModal from '@hooks/useModal';
+import { useModal } from '@hooks';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const SCROLL_VIEW_MAX_HEIGHT = 240;

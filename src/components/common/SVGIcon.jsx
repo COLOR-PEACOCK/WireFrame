@@ -27,7 +27,7 @@ const iconMap = {
 <SVGIcon name={'camera'}
     width={25} height={25}
     color={COLOR.PRIMARY}
-/>+
+/>
  * ```
  * 
  */

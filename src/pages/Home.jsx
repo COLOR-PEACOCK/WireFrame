@@ -6,6 +6,7 @@ import {
 	SafeAreaView,
 	useWindowDimensions,
 	Image,
+	ScrollView,
 } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
@@ -17,6 +18,7 @@ import { PressButton, OutlinedText, SearchModal } from '@components/Home';
 import { useModal } from '@hooks';
 import { useBackHandler, usePressButtonState } from '@hooks/home';
 import { SearchSVG } from '@icons';
+import { widthScale } from '@utils/scaling';
 
 const logoIcon = require('@icons/logo.png');
 
@@ -68,7 +70,11 @@ const Home = ({ navigation }) => {
 				}}
 				style={[
 					styles.card,
-					{ width: pageWidth, backgroundColor: item.color },
+					{
+						width: pageWidth,
+						maxWidth: 376,
+						backgroundColor: item.color,
+					},
 				]}>
 				<OutlinedText
 					strokeColor={
@@ -118,62 +124,63 @@ const Home = ({ navigation }) => {
 						<SearchSVG color={contentColor} />
 					</Pressable>
 				</View>
-
-				<View style={styles.buttonContainer}>
-					<PressButton
-						iconName={'camera'}
-						onPress={handleSelectCamera}
-						engText={'SELECT FROM CAMERA'}
-						text={'카메라로 색상 추천 받기'}
-					/>
-					<PressButton
-						iconName={'image'}
-						onPress={handleSelectAlbum}
-						engText={'SELECT TO ALBUM'}
-						text={'이미지로 색상 추천 받기'}
-					/>
-					<PressButton
-						iconName={'AI'}
-						onPress={handleSelectAI}
-						engText={'SELECT TO AI'}
-						text={'AI로 색상 추천 받기'}
-					/>
-				</View>
-
-				<View style={styles.split}></View>
-
-				<View style={styles.carouselContainer}>
-					<View style={styles.section}>
-						<Text style={styles.sectionKor}>
-							올해의 즐겨찾는 색상
-						</Text>
-						<Text style={styles.sectionEng}>
-							Trend color palette
-						</Text>
+				<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+					<View style={styles.buttonContainer}>
+						<PressButton
+							iconName={'camera'}
+							onPress={handleSelectCamera}
+							engText={'SELECT FROM CAMERA'}
+							text={'카메라로 색상 추천 받기'}
+						/>
+						<PressButton
+							iconName={'image'}
+							onPress={handleSelectAlbum}
+							engText={'SELECT TO ALBUM'}
+							text={'이미지로 색상 추천 받기'}
+						/>
+						<PressButton
+							iconName={'AI'}
+							onPress={handleSelectAI}
+							engText={'SELECT TO AI'}
+							text={'AI로 색상 추천 받기'}
+						/>
 					</View>
-					<Carousel
-						ref={caroucelRef}
-						width={width}
-						mode={'horizontal-stack'}
-						modeConfig={{
-							snapDirection: 'left',
-							stackInterval: pageWidth + 4,
-						}}
-						data={dummy_trendColor}
-						onProgressChange={progress}
-						renderItem={renderItem}
-					/>
-				</View>
-				<View style={styles.indicator}>
-					<Pagination.Custom
-						progress={progress}
-						data={dummy_trendColor}
-						dotStyle={styles.dotStyle}
-						activeDotStyle={styles.activeDotStyle}
-						containerStyle={{ gap: 6 }}
-						onPress={onPressPagination}
-					/>
-				</View>
+
+					<View style={styles.split}></View>
+
+					<View style={styles.carouselContainer}>
+						<View style={styles.section}>
+							<Text style={styles.sectionKor}>
+								올해의 즐겨찾는 색상
+							</Text>
+							<Text style={styles.sectionEng}>
+								Trend color palette
+							</Text>
+						</View>
+						<Carousel
+							ref={caroucelRef}
+							width={width}
+							mode={'horizontal-stack'}
+							modeConfig={{
+								snapDirection: 'left',
+								stackInterval: pageWidth > 376 ? 376 : pageWidth + 4,
+							}}
+							data={dummy_trendColor}
+							onProgressChange={progress}
+							renderItem={renderItem}
+						/>
+					</View>
+					<View style={styles.indicator}>
+						<Pagination.Custom
+							progress={progress}
+							data={dummy_trendColor}
+							dotStyle={styles.dotStyle}
+							activeDotStyle={styles.activeDotStyle}
+							containerStyle={{ gap: 6 }}
+							onPress={onPressPagination}
+						/>
+					</View>
+				</ScrollView>
 			</View>
 		</SafeAreaView>
 	);
@@ -182,18 +189,16 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		justifyContent: 'flex-start',
 	},
 	header: {
 		width: '100%',
-		minWidth: 412,
 		height: 84,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: COLOR.WHITE,
-		paddingHorizontal: 18,
+		paddingHorizontal: widthScale(18),
 		elevation: 5,
 	},
 	title: {
@@ -213,13 +218,12 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 	split: {
-		width: '91%',
+		width: widthScale(376),
 		height: 4,
 		backgroundColor: COLOR.GRAY_1,
 	},
 	buttonContainer: {
 		paddingVertical: 38,
-		width: '100%',
 		gap: 18,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -232,7 +236,6 @@ const styles = StyleSheet.create({
 		color: COLOR.GRAY_10,
 		fontSize: 16,
 		fontFamily: 'Pretendard-Bold',
-		paddingLeft: 3,
 	},
 	sectionEng: {
 		color: COLOR.GRAY_6,
@@ -245,7 +248,7 @@ const styles = StyleSheet.create({
 	carouselContainer: {
 		height: 300,
 		marginTop: 30,
-		marginLeft: 38,
+		marginLeft: widthScale(35),
 		borderRadius: 5,
 		justifyContent: 'center',
 		gap: 8,
@@ -270,7 +273,6 @@ const styles = StyleSheet.create({
 		backgroundColor: COLOR.PRIMARY,
 		overflow: 'hidden',
 		borderRadius: 50,
-		marginTop: -68,
 	},
 });
 
