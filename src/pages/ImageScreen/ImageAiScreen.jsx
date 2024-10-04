@@ -76,7 +76,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 					<LoadingScreen />
 				</View>
 			) : (
-				<>
+				<ScrollView style={{ paddingHorizontal: 18 }}
+				showsVerticalScrollIndicator={false}
+				>
 					<View
 						style={[
 							styles.colorBox,
@@ -89,7 +91,7 @@ const ImageAiScreen = ({ route, navigation }) => {
 							setIsPickerVisible={null}
 						/>
 					</View>
-					<ScrollView style={{ paddingHorizontal: 18 }}>
+					<View style={{marginBottom: 18}}>
 						{data.recommended_themes_and_colors?.map(item => (
 							<ColorPalette
 								key={item.theme_name_kr}
@@ -102,8 +104,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 								description={item.colors}
 							/>
 						))}
+						</View>
 					</ScrollView>
-				</>
+				
 			)}
 		</SafeAreaView>
 	);
@@ -112,9 +115,8 @@ const ImageAiScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	colorBox: {
 		flexDirection: 'row',
-		width: 376,
+		width: '100%',
 		height: 214,
-		marginHorizontal: 18,
 		marginVertical: 24,
 		paddingHorizontal: 18,
 		paddingVertical: 12,
