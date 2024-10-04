@@ -20,7 +20,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 		cmykVal: '',
 	});
 	const { getKorColorName, getEngColorNameLocal } = useColorName();
-	const { run, isLoading } = useGemini();
+	const { run } = useGemini();
+	const [isLoading, setIsLoading] = useState(true);
+
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -40,7 +42,10 @@ const ImageAiScreen = ({ route, navigation }) => {
 	}, [data]);
 
 	const fetchData = async () => {
-		setData(await run(hexValue));
+		setIsLoading(true);
+		const result = await run(hexValue);
+		setData(result);
+		setIsLoading(false);
 	};
 
 	const textColor = tinycolor(hexValue).isLight()
