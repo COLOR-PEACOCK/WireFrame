@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { COLOR } from '@styles/color';
 import { BasicHeader, LoadingScreen, CustomPopup } from '@components/common';
-import { LeftCircle, RightCircle, Background } from '@components/AiRecommend';
+import { AiCircle, Background } from '@components/AiRecommend';
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
@@ -229,8 +229,9 @@ const AiResponseScreen = ({ route }) => {
 				) : (
 					<>
 						<View style={styles.responseContainer}>
-							<LeftCircle
-								left={DISTANCE}
+							<AiCircle
+								type={'left'}
+								distance={DISTANCE}
 								top={paddingVertical}
 								diameter={RADIUS}
 								number={0}
@@ -242,8 +243,9 @@ const AiResponseScreen = ({ route }) => {
 								isSelected={isSelected}
 								setIsSelected={setIsSelected}
 							/>
-							<RightCircle
-								right={DISTANCE}
+							<AiCircle
+								type={'right'}
+								distance={DISTANCE}
 								top={paddingVertical + circleUnitVertical}
 								diameter={RADIUS}
 								number={1}
@@ -255,8 +257,9 @@ const AiResponseScreen = ({ route }) => {
 								isSelected={isSelected}
 								setIsSelected={setIsSelected}
 							/>
-							<LeftCircle
-								left={DISTANCE}
+							<AiCircle
+								type={'left'}
+								distance={DISTANCE}
 								top={paddingVertical + circleUnitVertical * 2}
 								diameter={RADIUS}
 								number={2}
@@ -268,8 +271,9 @@ const AiResponseScreen = ({ route }) => {
 								isSelected={isSelected}
 								setIsSelected={setIsSelected}
 							/>
-							<RightCircle
-								right={DISTANCE}
+							<AiCircle
+								type={'right'}
+								distance={DISTANCE}
 								top={paddingVertical + circleUnitVertical * 3}
 								diameter={RADIUS}
 								number={3}
@@ -281,8 +285,9 @@ const AiResponseScreen = ({ route }) => {
 								isSelected={isSelected}
 								setIsSelected={setIsSelected}
 							/>
-							<LeftCircle
-								left={DISTANCE}
+							<AiCircle
+								type={'left'}
+								distance={DISTANCE}
 								top={paddingVertical + circleUnitVertical * 4}
 								diameter={RADIUS}
 								number={4}

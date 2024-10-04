@@ -9,8 +9,9 @@ import {
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
 
-const LeftCircle = ({
-	left,
+const AiCircle = ({
+	type,
+	distance,
 	top,
 	diameter,
 	number,
@@ -80,14 +81,27 @@ const LeftCircle = ({
 
 	const circleStyle = {
 		position: 'absolute',
-		left: animatedSize.interpolate({
-			inputRange: [0.5, 1, 1.6],
-			outputRange: [
-				left - SCREEN_WIDTH * 0.5,
-				-left - SCREEN_WIDTH * 0.5,
-				-left - SCREEN_WIDTH * 0.5,
-			],
-		}),
+		...(type == 'left'
+			? {
+					left: animatedSize.interpolate({
+						inputRange: [0.5, 1, 1.6],
+						outputRange: [
+							distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+						],
+					}),
+			  }
+			: {
+					right: animatedSize.interpolate({
+						inputRange: [0.5, 1, 1.6],
+						outputRange: [
+							distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+						],
+					}),
+			  }),
 		top: animatedSize.interpolate({
 			inputRange: [0.5, 1, 1.6],
 			outputRange: [top - 24 + diameter / 4, top - 24, top - 60 - 24],
@@ -159,4 +173,4 @@ const LeftCircle = ({
 	);
 };
 
-export default LeftCircle;
+export default AiCircle;
