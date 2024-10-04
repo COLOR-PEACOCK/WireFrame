@@ -71,7 +71,7 @@ const AiCircle = ({
 					index === number ? 'large' : 'small',
 				);
 			} else {
-				// medium누르면 자신은 large로 나머지는 small
+				// medium누르면 자신은 large로 나머지 small
 				return prevSelected.map((_, index) =>
 					index === number ? 'large' : 'small',
 				);
