@@ -8,12 +8,10 @@ import {
 } from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
+import { heightScale, widthScale } from '@utils/scaling';
 
 const AiCircle = ({
 	type,
-	distance,
-	top,
-	diameter,
 	number,
 	colorCode,
 	korColorName,
@@ -22,12 +20,19 @@ const AiCircle = ({
 	colorDescription,
 	isSelected,
 	setIsSelected,
+	containerHeight,
 }) => {
 	const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
 		useWindowDimensions();
 
 	const animatedSize = useRef(new Animated.Value(1)).current;
 	const animatedFontSize = useRef(new Animated.Value(0)).current;
+
+	const distance = 20;
+	const diameter = heightScale(205);
+	const beforeDivideLarge = containerHeight - 1.2 * diameter; // 큰 원끼리 간격 나누기 전의 길이(나중에 4로 나누게 됨)
+	const beforeDivideMiddle = containerHeight - 0.8 * diameter;
+	const beforeDivideSmall = containerHeight - diameter;
 
 	useEffect(() => {
 		Animated.parallel([
@@ -104,7 +109,11 @@ const AiCircle = ({
 			  }),
 		top: animatedSize.interpolate({
 			inputRange: [0.5, 1, 1.6],
-			outputRange: [top - 24 + diameter / 4, top - 24, top - 60 - 24],
+			outputRange: [
+				0.25 * diameter + (number * beforeDivideSmall) / 4,
+				-0.1 * diameter + (number * beforeDivideMiddle) / 4,
+				-0.2 * diameter + (number * beforeDivideLarge) / 4,
+			],
 		}),
 		width: animatedSize.interpolate({
 			inputRange: [0.5, 1, 1.6],
@@ -119,7 +128,6 @@ const AiCircle = ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		overflow: 'hidden',
-		zIndex: -1,
 	};
 
 	return (
@@ -133,9 +141,13 @@ const AiCircle = ({
 				<Animated.Text
 					style={{
 						fontFamily: 'Pretendard-Bold',
-						fontSize: animatedSize.interpolate({
-							inputRange: [0.5, 1, 1.6],
-							outputRange: [14, 20, 26],
+						fontSize: animatedFontSize.interpolate({
+							inputRange: [0, 0.5, 1],
+							outputRange: [
+								heightScale(14),
+								heightScale(20),
+								heightScale(26),
+							],
 						}),
 						color: korTextColor(colorCode[number]),
 					}}>
@@ -144,9 +156,13 @@ const AiCircle = ({
 				<Animated.Text
 					style={{
 						fontFamily: 'Pretendard-Medium',
-						fontSize: animatedSize.interpolate({
-							inputRange: [0.5, 1, 1.6],
-							outputRange: [12, 16, 20],
+						fontSize: animatedFontSize.interpolate({
+							inputRange: [0, 0.5, 1],
+							outputRange: [
+								heightScale(12),
+								heightScale(16),
+								heightScale(20),
+							],
 						}),
 						color: engTextColor(colorCode[number]),
 						marginTop: -2,
@@ -159,10 +175,10 @@ const AiCircle = ({
 						fontFamily: 'Pretendard-Regular',
 						fontSize: animatedFontSize.interpolate({
 							inputRange: [0, 0.5, 1],
-							outputRange: [0, 16, 18],
+							outputRange: [0, heightScale(16), heightScale(18)],
 						}),
 						color: korTextColor(colorCode[number]),
-						paddingHorizontal: 45,
+						paddingHorizontal: 30,
 					}}>
 					{isSelected[number] === 'large'
 						? colorDescription[number]
