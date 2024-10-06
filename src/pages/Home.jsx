@@ -22,6 +22,8 @@ import { widthScale } from '@utils/scaling';
 
 const logoIcon = require('@icons/logo.png');
 
+const DEFAULT_BUTTON_WIDTH = 376;
+
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
 	const pageWidth = width * 0.7;
@@ -72,7 +74,7 @@ const Home = ({ navigation }) => {
 					styles.card,
 					{
 						width: pageWidth,
-						maxWidth: 376,
+						maxWidth: DEFAULT_BUTTON_WIDTH,
 						backgroundColor: item.color,
 					},
 				]}>
@@ -163,7 +165,10 @@ const Home = ({ navigation }) => {
 							mode={'horizontal-stack'}
 							modeConfig={{
 								snapDirection: 'left',
-								stackInterval: pageWidth > 376 ? 376 : pageWidth + 4,
+								stackInterval:
+									pageWidth > DEFAULT_BUTTON_WIDTH
+										? DEFAULT_BUTTON_WIDTH
+										: pageWidth + 4,
 							}}
 							data={dummy_trendColor}
 							onProgressChange={progress}
@@ -218,11 +223,12 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 	split: {
-		width: widthScale(376),
+		width: widthScale(DEFAULT_BUTTON_WIDTH),
 		height: 4,
 		backgroundColor: COLOR.GRAY_1,
 	},
 	buttonContainer: {
+		width: widthScale(DEFAULT_BUTTON_WIDTH),
 		paddingVertical: 38,
 		gap: 18,
 		justifyContent: 'center',
