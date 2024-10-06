@@ -2,6 +2,7 @@ import { COLOR } from '@styles/color';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
+import { widthScale, heightScale } from '@utils/scaling';
 
 import {
 	ClothesTop,
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		gap: 4,
 		width: '43%',
-		height: '50%',
+		height: heightScale(60),
 		borderLeftWidth: 1,
 		borderBottomWidth: 1,
 		borderColor: COLOR.GRAY_5,
@@ -69,10 +70,11 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontFamily: 'Prentendard-Medium',
-		fontSize: 18,
+		fontSize: heightScale(18),
 		color: COLOR.GRAY_10,
 	},
 	subtitle: {
+		fontSize: heightScale(14),
 		color: COLOR.GRAY_7,
 	},
 });

@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import MaleBodySvg from '@images/objectitems/bodyimages/male_body.svg';
 import FeMaleBodySvg from '@images/objectitems/bodyimages/female__body.svg';
 import CanvasDroppedItem from '@components/ObjectPage/CanvasDroppedItem';
+import { heightScale, widthScale } from '@utils/scaling';
 
 const ObjectCanvas = ({
 	droppedItems,
@@ -78,20 +79,27 @@ const ObjectCanvas = ({
 	};
 	return (
 		<View style={styles.canvas}>
-			{gender ? (
-				<MaleBodySvg width={170} height={480} />
-			) : (
-				<FeMaleBodySvg width={170} height={480} />
-			)}
-			{droppedItems.map(item => (
-				<CanvasDroppedItem
-					key={item.id}
-					item={item}
-					isSelected={selectedItemId === item.id}
-					onSelect={() => handleItemSelect(item.id, item.category)}
-					onDelete={() => handleItemDelete(item.id, item.category)}
-				/>
-			))}
+			<View style={styles.avatarContainer}>
+				{gender ? (
+					<MaleBodySvg width="100%" height="100%" />
+				) : (
+					// <FeMaleBodySvg width={170} height={480} />
+					<FeMaleBodySvg width="100%" height="100%" />
+				)}
+				{droppedItems.map(item => (
+					<CanvasDroppedItem
+						key={item.id}
+						item={item}
+						isSelected={selectedItemId === item.id}
+						onSelect={() =>
+							handleItemSelect(item.id, item.category)
+						}
+						onDelete={() =>
+							handleItemDelete(item.id, item.category)
+						}
+					/>
+				))}
+			</View>
 		</View>
 	);
 };
@@ -100,7 +108,15 @@ const styles = StyleSheet.create({
 	canvas: {
 		flex: 1,
 		borderRadius: 10,
-		marginTop: 16,
+		marginTop: heightScale(18),
+		marginBottom: heightScale(70),
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	avatarContainer: {
+		width: 170,
+		height: 480,
+		justifyContent: 'center',
 		alignItems: 'center',
 	},
 });

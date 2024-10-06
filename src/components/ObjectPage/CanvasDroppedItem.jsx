@@ -15,6 +15,7 @@ import {
 	DisableSocks,
 	TrashIcon,
 } from '@icons/objecticon/objectIcon.js';
+import { heightScale, widthScale } from '@utils/scaling';
 
 const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 	const getItemPosition = item => ({
@@ -23,7 +24,17 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 		width: item.canvasWidth,
 		height: item.canvasHeight,
 		zIndex: item.zIndex,
+		// backgroundColor: 'red',
 	});
+
+	// const getItemPosition = item => ({
+	// 	left: item.canvasX,
+	// 	top: item.canvasY,
+	// 	width: item.canvasWidth,
+	// 	height: item.canvasHeight,
+	// 	zIndex: item.zIndex,
+	// 	backgroundColor: 'red',
+	// });
 
 	const getFocusButtonPosition = category => {
 		const positions = {
@@ -54,8 +65,8 @@ const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 					onPress={onSelect}
 					style={[styles.droppedItem, getItemPosition(item)]}>
 					{React.cloneElement(item.svg, {
-						width: item.canvasWidth,
-						height: item.canvasHeight,
+						width: '100%',
+						height: ' 100%',
 						fill: item.color || '#FBFBFB',
 					})}
 				</Pressable>
