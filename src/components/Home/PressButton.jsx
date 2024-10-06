@@ -2,7 +2,6 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { COLOR } from '@styles/color';
 import SVGIcon from '@components/common/SVGIcon';
 import { usePressButtonState } from '@hooks/home';
-import { widthScale } from '@utils/scaling';
 
 const size = 48;
 const PressButton = ({ iconName, onPress, engText, text }) => {
@@ -41,7 +40,7 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		width: widthScale(376),
+		width: '100%',
 		height: 84,
 		marginHorizontal: 18,
 		borderRadius: 8,
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	buttonEngText: {
 		fontFamily: 'Pretendard-Medium',
