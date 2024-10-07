@@ -7,6 +7,7 @@ import {
 	useWindowDimensions,
 	Image,
 	ScrollView,
+	Alert,
 } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
@@ -55,7 +56,11 @@ const Home = ({ navigation }) => {
 			});
 		}
 	};
-	const handleSelectCamera = () => navigation.navigate('CameraScreen');
+
+	const handleSelectCamera = () => {
+		// navigation.navigate('CameraScreen')
+		Alert.alert('알림', '카메라 기능은 추후 업데이트 예정입니다.');
+	};
 	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
 	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
@@ -126,13 +131,16 @@ const Home = ({ navigation }) => {
 						<SearchSVG color={contentColor} />
 					</Pressable>
 				</View>
-				<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+				<ScrollView
+					contentContainerStyle={{ alignItems: 'center' }}
+					showsVerticalScrollIndicator={false}>
 					<View style={styles.buttonContainer}>
 						<PressButton
 							iconName={'camera'}
 							onPress={handleSelectCamera}
 							engText={'SELECT FROM CAMERA'}
 							text={'카메라로 색상 추천 받기'}
+							enabled={false}
 						/>
 						<PressButton
 							iconName={'image'}
