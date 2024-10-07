@@ -4,9 +4,9 @@ import SVGIcon from '@components/common/SVGIcon';
 import { usePressButtonState } from '@hooks/home';
 
 const size = 48;
-const PressButton = ({ iconName, onPress, engText, text }) => {
+const PressButton = ({ iconName, onPress, engText, text, enabled = true }) => {
 	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
-		usePressButtonState();
+		usePressButtonState(enabled);
 
 	return (
 		<Pressable
@@ -14,7 +14,10 @@ const PressButton = ({ iconName, onPress, engText, text }) => {
 			onPressIn={handleTouchStart}
 			onPressOut={handleTouchEnd}
 			underlayColor={COLOR.PRIMARY}
-			style={[styles.button, { backgroundColor: buttonColor }]}>
+			style={[
+				styles.button,
+				{ backgroundColor: buttonColor, elevation: enabled ? 4 : 0 },
+			]}>
 			<SVGIcon
 				name={iconName}
 				width={size}
@@ -48,8 +51,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		backgroundColor: COLOR.WHITE,
-		// Android 그림자 설정
-		elevation: 4,
 		// iOS 그림자 설정
 		shadowOffset: {
 			width: 0,
