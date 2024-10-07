@@ -11,11 +11,14 @@ const ChangeGenderButton = ({ gender, genderChange }) => {
 			onPress={genderChange}
 			style={styles.genderChangeButton}>
 			{gender ? (
-				<Image source={GenderMale} style={{ width: 34, height: 34 }} />
+				<Image
+					source={GenderMale}
+					style={{ width: heightScale(34), height: heightScale(34) }}
+				/>
 			) : (
 				<Image
 					source={GenderFemale}
-					style={{ width: 34, height: 34 }}
+					style={{ width: heightScale(34), height: heightScale(34) }}
 				/>
 			)}
 
