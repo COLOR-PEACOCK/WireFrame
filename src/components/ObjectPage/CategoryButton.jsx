@@ -2,7 +2,7 @@ import { COLOR } from '@styles/color';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
-import { widthScale, heightScale } from '@utils/scaling';
+import { heightScale } from '@utils/scaling';
 
 import {
 	ClothesTop,
@@ -56,12 +56,15 @@ const CategoryButton = ({ setActiveTab }) => {
 };
 
 const styles = StyleSheet.create({
-	categoryContainer: { flexDirection: 'row', flexWrap: 'wrap' },
+	categoryContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
 	categoryWrapper: {
 		flexDirection: 'row',
 		gap: 4,
 		width: '43%',
-		height: heightScale(60),
+		height: '50%',
 		borderLeftWidth: 1,
 		borderBottomWidth: 1,
 		borderColor: COLOR.GRAY_5,
