@@ -15,26 +15,16 @@ import {
 	DisableSocks,
 	TrashIcon,
 } from '@icons/objecticon/objectIcon.js';
-import { heightScale, widthScale } from '@utils/scaling';
+import { heightScale } from '@utils/scaling';
 
 const CanvasDroppedItem = ({ item, isSelected, onSelect, onDelete }) => {
 	const getItemPosition = item => ({
-		left: item.canvasX,
-		top: item.canvasY,
-		width: item.canvasWidth,
-		height: item.canvasHeight,
+		left: heightScale(item.canvasX),
+		top: heightScale(item.canvasY),
+		width: heightScale(item.canvasWidth),
+		height: heightScale(item.canvasHeight),
 		zIndex: item.zIndex,
-		// backgroundColor: 'red',
 	});
-
-	// const getItemPosition = item => ({
-	// 	left: item.canvasX,
-	// 	top: item.canvasY,
-	// 	width: item.canvasWidth,
-	// 	height: item.canvasHeight,
-	// 	zIndex: item.zIndex,
-	// 	backgroundColor: 'red',
-	// });
 
 	const getFocusButtonPosition = category => {
 		const positions = {

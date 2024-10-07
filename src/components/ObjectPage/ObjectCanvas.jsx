@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	avatarContainer: {
-		width: 170,
-		height: 480,
+		width: heightScale(170),
+		height: heightScale(480),
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
