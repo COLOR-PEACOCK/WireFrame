@@ -5,6 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 	useWindowDimensions,
+	Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -270,31 +271,59 @@ const AiResponseScreen = ({ route }) => {
 						const objectHexCodes = responseJson.hexcode_list;
 						setColors(objectHexCodes);
 					} else {
-						console.error(
+						console.log(
 							'Invalid responseText format:',
 							responseJson,
 						);
-						setResponseExplanation('AI 응답이 올바르지 않습니다.');
+						// setResponseExplanation('AI 응답이 올바르지 않습니다.');
+						const explantion = 'AI 응답이 올바르지 않습니다.';
+						Alert.alert('오류', explantion, [
+							{
+								text: '확인',
+								onPress: () => {
+									navigation.goBack();
+								},
+							},
+						]);
 					}
 				} catch (error) {
-					console.error(
+					console.log(
 						'Error parsing JSON:',
 						error,
 						'with text:',
 						text,
 					);
-					setResponseExplanation(
-						'AI 응답을 처리하는 중 오류가 발생했습니다.',
-					);
-					setColors(defaultColors);
+					// setResponseExplanation(
+					// 	'AI 응답을 처리하는 중 오류가 발생했습니다.',
+					// );
+					// setColors(defaultColors);
+					const explantion =
+						'AI 응답을 처리하는 중 오류가 발생했습니다.';
+					Alert.alert('오류', explantion, [
+						{
+							text: '확인',
+							onPress: () => {
+								navigation.goBack();
+							},
+						},
+					]);
 				} finally {
 					setIsLoading(false);
 				}
 			} catch (error) {
-				console.error('Error generating content:', error);
-				setIsLoading(false);
-				setResponseExplanation('AI 응답 생성 중 오류가 발생했습니다.');
-				setColors(defaultColors);
+				console.log('Error generating content:', error);
+				// setIsLoading(false);
+				// setResponseExplanation('AI 응답 생성 중 오류가 발생했습니다.');
+				// setColors(defaultColors);
+				const explantion = 'AI 응답 생성 중 오류가 발생했습니다.';
+				Alert.alert('오류', explantion, [
+					{
+						text: '확인',
+						onPress: () => {
+							navigation.goBack();
+						},
+					},
+				]);
 			}
 		};
 
@@ -302,6 +331,7 @@ const AiResponseScreen = ({ route }) => {
 	}, [itemInImage, itemToRecommend, base64Image]);
 
 	// 배경 무늬 색상 컨트롤
+
 	useEffect(() => {
 		if (itemColor) {
 			const shouldUseWhiteColor = hexColor => {
