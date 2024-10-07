@@ -9,6 +9,7 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { COLOR } from '@styles/color';
+import { heightScale } from '@utils/scaling';
 
 const colorContainer = require('@images/objectitems/background/cricle__wrapper.png');
 
@@ -53,9 +54,17 @@ const ColorBottomSheet = ({
 				onPress={handlerTouchEvent}
 				style={[styles.customHandle]}>
 				{isColorPickerOpen ? (
-					<Icon name={'angle-down'} color={COLOR.PRIMARY} size={24} />
+					<Icon
+						name={'angle-down'}
+						color={COLOR.PRIMARY}
+						size={heightScale(24)}
+					/>
 				) : (
-					<Icon name={'angle-up'} color={COLOR.PRIMARY} size={24} />
+					<Icon
+						name={'angle-up'}
+						color={COLOR.PRIMARY}
+						size={heightScale(24)}
+					/>
 				)}
 			</TouchableOpacity>
 		</View>
@@ -65,7 +74,8 @@ const ColorBottomSheet = ({
 		<View style={styles.colorContainer}>
 			<BottomSheet
 				ref={bottomSheetRef}
-				snapPoints={[40, 150]}
+				snapPoints={[heightScale(40), heightScale(108)]}
+				enableHandlePanningGesture={false}
 				handleComponent={CustomHandle}
 				backgroundComponent={null}>
 				<ImageBackground
@@ -93,21 +103,23 @@ const ColorBottomSheet = ({
 
 const styles = StyleSheet.create({
 	customHandlerContainer: {
-		height: 40,
+		height: heightScale(40),
 		alignItems: 'center',
 	},
 	customHandle: {
-		width: 28,
-		height: 28,
+		width: heightScale(28),
+		height: heightScale(28),
 		backgroundColor: COLOR.GRAY_9,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 50,
-		marginTop: 1,
+		marginTop: heightScale(1),
 	},
 	colorContainer: {
 		position: 'absolute',
-		height: 105,
+		// height: 105,
+		height: '100%',
+		// backgroundColor: 'red',
 		width: '100%',
 		zIndex: 1000,
 	},
@@ -115,11 +127,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		paddingTop: 20,
+		paddingTop: heightScale(20),
 	},
 	colorBox: {
-		width: 60,
-		height: 24,
+		width: heightScale(60),
+		height: heightScale(24),
 		borderRadius: 4,
 	},
 });
