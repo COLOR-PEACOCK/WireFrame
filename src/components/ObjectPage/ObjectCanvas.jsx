@@ -83,7 +83,6 @@ const ObjectCanvas = ({
 				{gender ? (
 					<MaleBodySvg width="100%" height="100%" />
 				) : (
-					// <FeMaleBodySvg width={170} height={480} />
 					<FeMaleBodySvg width="100%" height="100%" />
 				)}
 				{droppedItems.map(item => (
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		borderRadius: 10,
 		marginTop: heightScale(18),
-		marginBottom: heightScale(70),
+		marginBottom: heightScale(88),
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
