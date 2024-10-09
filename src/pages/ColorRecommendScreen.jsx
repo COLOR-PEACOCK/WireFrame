@@ -129,7 +129,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 	);
 
 	const infoText =
-		'추출 색상을 기반하여 색상 추천 목록을 자세히 제공. 개체를 이용해 사용자에게 색상에 대해 미리보기 또한 선사합니다.';
+		'• 선택한 색상을 기반하여 색상 추천 목록을 제공합니다.\n• 원하는 색상을 터치해 색상의 자세한 정보를 확인하세요!';
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>

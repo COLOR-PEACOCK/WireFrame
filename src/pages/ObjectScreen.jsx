@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
-import ObjectCanvas from '@components/ObjectPage/ObjectCanvas.jsx';
-import BasicHeader from '@components/common/BasicHeader';
-import ObjectBottomCotainer from '@components/ObjectPage/ObjectBottomCotainer';
-import ColorBottomSheet from '@components/ObjectPage/ColorBottomSheet';
+
+import { BasicHeader } from '@components/common';
+import {
+	ObjectCanvas,
+	ObjectBottomCotainer,
+	ColorBottomSheet,
+} from '@components/ObjectPage';
+
 import { heightScale } from '@utils/scaling';
 
 const backgroundimg = require('@images/objectitems/background/background.png');

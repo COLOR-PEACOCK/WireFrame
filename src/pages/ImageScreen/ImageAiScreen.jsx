@@ -48,9 +48,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 	}, [data]);
 
 	const fetchData = async () => {
-    setIsLoading(true);
+		setIsLoading(true);
 		const response = await run(hexValue);
-    setIsLoading(false);
+		setIsLoading(false);
 		if (response) setData(response);
 		else
 			Alert.alert('알림', 'AI 분석중 오류가 발생했습니다.', [
@@ -70,8 +70,7 @@ const ImageAiScreen = ({ route, navigation }) => {
 	};
 
 	const infoText =
-		'선택하신 색상을 기반으로 AI가 테마를 선정해 각 테마에 어울리는 색상을 추천해 드립니다.';
-
+		'• 선택하신 색상을 기반으로 AI가 테마 선정해 색상을 추천해 드립니다. \n• 색상을 터치해 간단한 추천 이유와 함께 색상 정보를 확인하세요!';
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<BasicHeader

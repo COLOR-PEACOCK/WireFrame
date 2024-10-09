@@ -5,7 +5,7 @@ import { usePressButtonState } from '@hooks/home';
 
 const size = 48;
 const PressButton = ({ iconName, onPress, engText, text, enabled = true }) => {
-	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
+	const { contentColor, buttonColor, elevation ,handleTouchStart, handleTouchEnd } =
 		usePressButtonState(enabled);
 
 	return (
@@ -16,7 +16,7 @@ const PressButton = ({ iconName, onPress, engText, text, enabled = true }) => {
 			underlayColor={COLOR.PRIMARY}
 			style={[
 				styles.button,
-				{ backgroundColor: buttonColor, elevation: enabled ? 4 : 0 },
+				{ backgroundColor: buttonColor, elevation: elevation },
 			]}>
 			<SVGIcon
 				name={iconName}

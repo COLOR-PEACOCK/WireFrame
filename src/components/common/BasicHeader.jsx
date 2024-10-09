@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 	},
 	infoModalSquare: {
-		maxWidth: 215,
+		maxWidth: 240,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
 		borderRadius: 4,

@@ -26,7 +26,8 @@ import paletteIcon from '@icons/palette.png';
 import aiIcon from '@icons/ai.png';
 import { widthScale, heightScale } from '@utils/scaling';
 
-const ImageScreen = ({ navigation }) => {
+const ImageScreen = ({ navigation, route }) => {
+	const { visited } = route.params;
 	const [color, setColor] = useState('#000000');
 	const [colorName, setColorName] = useState({ korName: '', engName: '' });
 	const [showPopup, setShowPopup] = useState(false);
@@ -41,7 +42,7 @@ const ImageScreen = ({ navigation }) => {
 	}, []);
 
 	useEffect(() => {
-		if (convertToBase64()) setShowPopup(true);
+		if (imageUri && convertToBase64()) setShowPopup(!visited);
 	}, [imageUri]);
 
 	const convertToBase64 = async () => {
@@ -50,6 +51,7 @@ const ImageScreen = ({ navigation }) => {
 			const dataUrl = `data:image/jpeg;base64,${base64Image}`;
 			setImageDataUrl(dataUrl);
 		} catch (error) {
+			console.log(error)
 			Alert.alert('Error', '이미지를 Base64로 변환하는데 실패했습니다.');
 			return false;
 		}
@@ -88,7 +90,8 @@ const ImageScreen = ({ navigation }) => {
 						titleIcon={'image'}
 						title={'이미지'}
 						subTitle={'images'}
-						infoText={'infomation text'}
+						rightIcon={'info'}
+						infoText={'• 조준점을 잡아다 끌어서 이동시켜 보세요!\n• 선택하신 색상으로 추천을 진행합니다!'}
 					/>
 				</View>
 				<View style={styles.colorInfoBox}>
