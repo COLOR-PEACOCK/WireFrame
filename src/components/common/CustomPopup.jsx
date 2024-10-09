@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { COLOR } from '@styles/color';
+import { widthScale, heightScale } from '@utils/scaling';
 
 /**
  * 아래 example 참고
@@ -117,8 +118,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginHorizontal: 28,
-		paddingVertical: 28,
-		paddingHorizontal: 18,
+		paddingVertical: heightScale(28),
+		paddingHorizontal: widthScale(18),
 		backgroundColor: COLOR.PRIMARY,
 		borderWidth: 2,
 		borderColor: 'rgba(224, 224, 224, .5)',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
 	},
 	message: {
 		color: COLOR.GRAY_3,
-		fontSize: 18,
+		fontSize: heightScale(18),
 		fontFamily: 'Pretendard-Medium',
 		textAlign: 'center',
 	},

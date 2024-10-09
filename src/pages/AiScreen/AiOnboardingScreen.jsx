@@ -11,6 +11,7 @@ import Swiper from 'react-native-swiper';
 import { COLOR } from '@styles/color';
 import { BasicHeader } from '@components/common';
 import { OnboardingIcon } from '@components/AiRecommend';
+import { widthScale, heightScale } from '@utils/scaling';
 
 const AiOnboardingScreen = ({ navigation }) => {
 	const swiperRef = useRef(null);
@@ -136,14 +137,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingHorizontal: 18,
+		paddingHorizontal: widthScale(18),
 	},
 	backgroundImage: {
 		width: 412,
-		height: 426,
+		height: heightScale(426),
 	},
 	title: {
-		fontSize: 24,
+		fontSize: heightScale(24),
 		color: COLOR.GRAY_9,
 		opacity: 1,
 		fontFamily: 'Pretendard-Bold',
@@ -156,42 +157,42 @@ const styles = StyleSheet.create({
 	},
 	highlightImage: {
 		position: 'absolute',
-		width: 320,
-		height: 34,
+		width: widthScale(320),
+		height: heightScale(34),
 		top: 0,
 		opacity: 1,
 	},
 	titleWithBackground: {
-		fontSize: 24,
+		fontSize: heightScale(24),
 		color: COLOR.GRAY_9,
 		fontFamily: 'Pretendard-Bold',
 		zIndex: 1,
 	},
 	subtitle: {
-		fontSize: 16,
+		fontSize: heightScale(16),
 		color: COLOR.GRAY_6,
-		marginBottom: 10,
+		marginBottom: heightScale(10),
 		opacity: 1,
 		fontFamily: 'Pretendard-Regular',
 	},
 	dot: {
 		backgroundColor: 'rgba(135, 62, 241, 0.5)',
-		width: 8,
-		height: 8,
+		width: widthScale(8),
+		height: heightScale(8),
 		borderRadius: 4,
 		margin: 3,
 	},
 	activeDot: {
 		backgroundColor: COLOR.PRIMARY,
-		width: 20,
-		height: 8,
+		width: widthScale(20),
+		height: heightScale(8),
 		borderRadius: 25,
 		margin: 3,
 	},
 	nextButton: {
 		backgroundColor: COLOR.PRIMARY,
-		height: 98,
-		paddingVertical: 15,
+		height: heightScale(98),
+		paddingVertical: heightScale(15),
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
 	},
 	nextButtonText: {
 		color: COLOR.GRAY_1,
-		fontSize: 18,
+		fontSize: widthScale(18),
 		fontFamily: 'Pretendard-Bold',
 	},
 });
