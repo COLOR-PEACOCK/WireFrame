@@ -3601,7 +3601,7 @@
     },
     {
         "name": "Cinder",
-        "korean_name": "재",
+        "korean_name": "잿빛",
         "hex": "#242a2e"
     },
     {
@@ -4961,12 +4961,12 @@
     },
     {
         "name": "Deep Space Rodeo",
-        "korean_name": "심우주 로데오",
+        "korean_name": "딥 스페이스 로데오",
         "hex": "#332277"
     },
     {
         "name": "Deeply Embarrassed",
-        "korean_name": "엄청 부끄럼",
+        "korean_name": "부끄러움에 물든",
         "hex": "#ecb2b3"
     },
     {
@@ -10117,7 +10117,7 @@
     {
         "name": "It’s a Girl!",
         "hex": "#ffdae2",
-        "korean_name": "여자 아기예요!"
+        "korean_name": "딸이에요!"
     },
     {
         "name": "Italian Basil",
@@ -15192,52 +15192,52 @@
     {
         "name": "Peach Crème Brûlée",
         "hex": "#ffe19d",
-        "korean_name": "복숭아 크렘 브륄레"
+        "korean_name": "피치 크렘 브륄레"
     },
     {
         "name": "Peach Dunes",
         "hex": "#b3695f",
-        "korean_name": "복숭아 모래 언덕"
+        "korean_name": "피치 듄"
     },
     {
         "name": "Peach Fizz",
         "hex": "#ffa883",
-        "korean_name": "복숭아 피즈"
+        "korean_name": "피치 피즈"
     },
     {
         "name": "Peach Fury",
         "hex": "#f88435",
-        "korean_name": "복숭아 퓨리"
+        "korean_name": "피치 퓨리"
     },
     {
         "name": "Peach Fuzz",
         "hex": "#ffc7b9",
-        "korean_name": "복숭아 솜털"
+        "korean_name": "피치 솜털"
     },
     {
         "name": "Peach Puff",
         "hex": "#ffdab9",
-        "korean_name": "복숭아 퍼프"
+        "korean_name": "피치 퍼프"
     },
     {
         "name": "Peach Punch",
         "hex": "#f59997",
-        "korean_name": "복숭아 펀치"
+        "korean_name": "피치 펀치"
     },
     {
         "name": "Peach Scone",
         "hex": "#ffbcbc",
-        "korean_name": "복숭아 스콘"
+        "korean_name": "피치 스콘"
     },
     {
         "name": "Peach Taffy",
         "hex": "#f3b68e",
-        "korean_name": "복숭아 태피"
+        "korean_name": "피치 태피"
     },
     {
         "name": "Peach Velour",
         "hex": "#f7b28b",
-        "korean_name": "복숭아 벨루어"
+        "korean_name": "피치 벨루어"
     },
     {
         "name": "Peach’s Daydream",
@@ -17317,12 +17317,12 @@
     {
         "name": "Romanic Scene",
         "hex": "#3b0346",
-        "korean_name": "로맨틱 장면"
+        "korean_name": "로맨틱한 장면"
     },
     {
         "name": "Romantic Embers",
         "hex": "#b23e4f",
-        "korean_name": "로맨틱 불씨"
+        "korean_name": "로맨틱 앰버"
     },
     {
         "name": "Romantic Thriller",
@@ -17357,7 +17357,7 @@
     {
         "name": "Rose Ashes",
         "hex": "#b5acab",
-        "korean_name": "장미 재"
+        "korean_name": "로즈 애쉬"
     },
     {
         "name": "Rose Elegance",
@@ -17397,7 +17397,7 @@
     {
         "name": "Roses are Red",
         "hex": "#aa3646",
-        "korean_name": "장미는 붉다"
+        "korean_name": "장미는 붉은꽃"
     },
     {
         "name": "Roses in the Snow",
@@ -21187,17 +21187,17 @@
     {
         "name": "Violet",
         "hex": "#9a0eea",
-        "korean_name": "보라색"
+        "korean_name": "바이올렛"
     },
     {
         "name": "Violet Heaven",
         "hex": "#cdb7fa",
-        "korean_name": "보라색 천국"
+        "korean_name": "바이올렛 헤븐"
     },
     {
         "name": "Violet Kiss",
         "hex": "#f0a0d1",
-        "korean_name": "보라색 키스"
+        "korean_name": "바이올렛 키스"
     },
     {
         "name": "Violet Pink",
@@ -21207,7 +21207,7 @@
     {
         "name": "Violet Poison",
         "hex": "#8601bf",
-        "korean_name": "보라색 독"
+        "korean_name": "바이올렛 포이즌"
     },
     {
         "name": "Violet Vapor",
@@ -21217,17 +21217,17 @@
     {
         "name": "Violet Velvet",
         "hex": "#b19cd9",
-        "korean_name": "보라색 벨벳"
+        "korean_name": "바이올렛 벨벳"
     },
     {
         "name": "Violet Vision",
         "hex": "#b7bdd1",
-        "korean_name": "보라색 시야"
+        "korean_name": "바이올렛 비전"
     },
     {
         "name": "Violet Vixen",
         "hex": "#883377",
-        "korean_name": "보라색 요부"
+        "korean_name": "바이올렛 빅슨"
     },
     {
         "name": "Violet Vogue",
