@@ -9,10 +9,13 @@ const usePressButtonState = (enabled = true) => {
 		enabled ? COLOR.WHITE : COLOR.GRAY_3,
 	);
 
+	const [elevation, setElevation] = useState(enabled ? 4 : 0)
+
 	const handleTouchStart = () => {
 		if (enabled) {
 			setContentColor(COLOR.GRAY_1);
 			setButtonColor(COLOR.PRIMARY);
+			setElevation(0)
 		}
 	};
 
@@ -20,10 +23,11 @@ const usePressButtonState = (enabled = true) => {
 		if (enabled) {
 			setContentColor(COLOR.GRAY_10);
 			setButtonColor(COLOR.WHITE);
+			setElevation(4)
 		}
 	};
 
-	return { contentColor, buttonColor, handleTouchStart, handleTouchEnd };
+	return { contentColor, buttonColor, elevation, handleTouchStart, handleTouchEnd };
 };
 
 export default usePressButtonState;
