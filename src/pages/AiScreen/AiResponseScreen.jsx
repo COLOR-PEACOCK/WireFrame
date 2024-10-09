@@ -353,7 +353,7 @@ const AiResponseScreen = ({ route }) => {
 
 	// 헤더 인포 텍스트
 	const infotext =
-		'분석한 색상들의 원을 터치해 보세요! 각 색상에 대해서 자세히 알려드립니다!';
+		'• 분석한 색상들의 원을 터치해 보세요!\n• 각 색상에 대해서 자세히 알려드립니다!';
 
 	// 팝업 메세지
 	const popupMessage =
