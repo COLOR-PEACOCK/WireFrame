@@ -49,7 +49,7 @@ const AiScreen = ({ navigation }) => {
 					title={'AI 추천'}
 					subTitle={'ai recs'}
 					rightIcon={'info'}
-					onPressRight={() => navigation.goBack()}
+					onPressRight={() => navigation.navigate('AiOnboardingScreen')}
 				/>
 				<View style={styles.imageContainer}>
 					{imageUri ? (
