@@ -4,6 +4,7 @@ import ObjectCanvas from '@components/ObjectPage/ObjectCanvas.jsx';
 import BasicHeader from '@components/common/BasicHeader';
 import ObjectBottomCotainer from '@components/ObjectPage/ObjectBottomCotainer';
 import ColorBottomSheet from '@components/ObjectPage/ColorBottomSheet';
+import { heightScale } from '@utils/scaling';
 
 const backgroundimg = require('@images/objectitems/background/background.png');
 
@@ -27,8 +28,8 @@ const ObjectScreen = ({ route }) => {
 		console.log(droppedItems);
 	}, [droppedItems, gender, selectedItemId, isColorPickerOpen]);
 
-    	const infoText =
-			'추천 및 분석에서 얻은 색상들을 캐릭터에게 입혀 사전에 색상의 분위기를 직접적으로 체험할 수 있습니다.';
+	const infoText =
+		'추천 및 분석에서 얻은 색상들을 캐릭터에게 입혀 사전에 색상의 분위기를 직접적으로 체험할 수 있습니다.';
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -66,7 +67,7 @@ const ObjectScreen = ({ route }) => {
 				/>
 			</ImageBackground>
 
-			<View style={{ height: 162 }}>
+			<View style={{ height: heightScale(164) }}>
 				{/* 바텀 컨테이너 */}
 				<ObjectBottomCotainer
 					setDroppedItems={setDroppedItems}

@@ -11,6 +11,7 @@ import {
 } from '@images/objectitems/female/clothesBottom/clothesBottom.js';
 import { Shoes, Slippers } from '@images/objectitems/female/shoes/shoes.js';
 import { Socks } from '@images/objectitems/female/socks/socks.js';
+import { widthScale, heightScale } from '@utils/scaling';
 
 const femaleItemData = {
 	clothesTop: [
@@ -22,7 +23,7 @@ const femaleItemData = {
 			canvasX: -42,
 			canvasY: -384,
 			zIndex: 300,
-			svg: <DefaultTop width={100} height={100} />,
+			svg: <DefaultTop width={widthScale(80)} height={heightScale(80)} />,
 			isDefault: true,
 		},
 		{
@@ -33,7 +34,7 @@ const femaleItemData = {
 			canvasX: -59,
 			canvasY: -383,
 			zIndex: 300,
-			svg: <ShortSleeveshirt width={100} height={100} />,
+			svg: <ShortSleeveshirt width={80} height={heightScale(80)} />,
 		},
 		{
 			id: '3',
@@ -43,7 +44,7 @@ const femaleItemData = {
 			canvasX: -86,
 			canvasY: -381,
 			zIndex: 300,
-			svg: <LongSleevShirt width={100} height={100} />,
+			svg: <LongSleevShirt width={80} height={heightScale(80)} />,
 		},
 	],
 	clothesBottom: [
@@ -55,7 +56,7 @@ const femaleItemData = {
 			canvasX: -56,
 			canvasY: -284,
 			zIndex: 200,
-			svg: <DefaultBottom width={90} height={90} />,
+			svg: <DefaultBottom width={80} height={heightScale(80)} />,
 			isDefault: true,
 		},
 		{
@@ -66,7 +67,7 @@ const femaleItemData = {
 			canvasX: -85,
 			canvasY: -297,
 			zIndex: 200,
-			svg: <WideShorts width={90} height={90} />,
+			svg: <WideShorts width={80} height={heightScale(80)} />,
 		},
 		{
 			id: '6',
@@ -76,7 +77,7 @@ const femaleItemData = {
 			canvasX: -68,
 			canvasY: -299,
 			zIndex: 200,
-			svg: <WideLongPants width={90} height={100} />,
+			svg: <WideLongPants width={80} height={heightScale(80)} />,
 		},
 	],
 	shoes: [
@@ -88,7 +89,7 @@ const femaleItemData = {
 			canvasX: -52,
 			canvasY: -65,
 			zIndex: 100,
-			svg: <Shoes width={100} height={80} />,
+			svg: <Shoes width={heightScale(100)} height={heightScale(80)} />,
 		},
 		{
 			id: '8',
@@ -98,7 +99,7 @@ const femaleItemData = {
 			canvasX: -46,
 			canvasY: -50,
 			zIndex: 100,
-			svg: <Slippers width={100} height={80} />,
+			svg: <Slippers width={heightScale(100)} height={heightScale(80)} />,
 		},
 	],
 	socks: [

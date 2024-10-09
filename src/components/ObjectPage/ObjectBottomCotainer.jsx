@@ -3,6 +3,7 @@ import { FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common/CustomText';
+import { heightScale, widthScale } from '@utils/scaling';
 
 import { BackButton } from '@icons/objecticon/objectIcon.js';
 import ChangeGenderButton from './ChangeGenderButton.jsx';
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	backButtonWrapper: {
-		width: 64,
+		width: widthScale(64),
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRightWidth: 1,

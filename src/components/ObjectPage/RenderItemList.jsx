@@ -2,6 +2,7 @@ import { COLOR } from '@styles/color';
 import React from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CustomText as Text } from '@components/common/CustomText';
+import { widthScale, heightScale } from '@utils/scaling';
 
 const RenderItemList = ({
 	setDroppedItems,
@@ -72,13 +73,14 @@ const styles = StyleSheet.create({
 		height: '100%',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginHorizontal: 5,
+		// marginHorizontal: 5,
 		borderRightWidth: 1,
 		borderRightColor: COLOR.GRAY_5,
-		gap: 4,
+		gap: heightScale(4),
 	},
 	applyText: {
 		fontFamily: 'Pretendard-Medium',
+		fontSize: heightScale(14),
 		color: COLOR.GRAY_7,
 	},
 });
