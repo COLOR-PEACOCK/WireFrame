@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, StyleSheet, ScrollView } from 'react-native';
+import {
+	SafeAreaView,
+	View,
+	StyleSheet,
+	ScrollView,
+	Alert,
+} from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
 import { BasicHeader, LoadingScreen } from '@components/common';
@@ -10,7 +16,7 @@ import { getColorInfo } from '@utils/colorRecommendUtils';
 const ImageAiScreen = ({ route, navigation }) => {
 	const { mainColor } = route.params;
 	const hexValue = mainColor.hexVal;
-	const [data, setData] = useState([]);
+	const [data, setData] = useState(null);
 	const [colorInfo, setColorInfo] = useState({
 		engName: '',
 		korName: '',
@@ -42,10 +48,14 @@ const ImageAiScreen = ({ route, navigation }) => {
 	}, [data]);
 
 	const fetchData = async () => {
-		setIsLoading(true);
-		const result = await run(hexValue);
-		setData(result);
-		setIsLoading(false);
+    setIsLoading(true);
+		const response = await run(hexValue);
+    setIsLoading(false);
+		if (response) setData(response);
+		else
+			Alert.alert('알림', 'AI 분석중 오류가 발생했습니다.', [
+				{ text: '확인', onPress: () => navigation.goBack() },
+			]);
 	};
 
 	const textColor = tinycolor(hexValue).isLight()
@@ -81,7 +91,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 					<LoadingScreen />
 				</View>
 			) : (
-				<>
+				<ScrollView
+					style={{ paddingHorizontal: 18 }}
+					showsVerticalScrollIndicator={false}>
 					<View
 						style={[
 							styles.colorBox,
@@ -94,21 +106,22 @@ const ImageAiScreen = ({ route, navigation }) => {
 							setIsPickerVisible={null}
 						/>
 					</View>
-					<ScrollView style={{ paddingHorizontal: 18 }}>
-						{data.recommended_themes_and_colors?.map(item => (
-							<ColorPalette
-								key={item.theme_name_kr}
-								titleKor={item.theme_name_kr}
-								titleEng={item.theme_name_eng}
-								colors={[data?.base_color[0].hexCode].concat(
-									item.theme_hexCode_list,
-								)}
-								onColorSelect={handleColorSelect}
-								description={item.colors}
-							/>
-						))}
-					</ScrollView>
-				</>
+					<View style={{ marginBottom: 18 }}>
+						{data &&
+							data.recommended_themes_and_colors?.map(item => (
+								<ColorPalette
+									key={item.theme_name_kr}
+									titleKor={item.theme_name_kr}
+									titleEng={item.theme_name_eng}
+									colors={[
+										data?.base_color[0].hexCode,
+									].concat(item.theme_hexCode_list)}
+									onColorSelect={handleColorSelect}
+									description={item.colors}
+								/>
+							))}
+					</View>
+				</ScrollView>
 			)}
 		</SafeAreaView>
 	);
@@ -117,9 +130,8 @@ const ImageAiScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	colorBox: {
 		flexDirection: 'row',
-		width: 376,
+		width: '100%',
 		height: 214,
-		marginHorizontal: 18,
 		marginVertical: 24,
 		paddingHorizontal: 18,
 		paddingVertical: 12,

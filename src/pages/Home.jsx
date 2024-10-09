@@ -7,6 +7,7 @@ import {
 	useWindowDimensions,
 	Image,
 	ScrollView,
+	Alert,
 } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-reanimated-carousel';
@@ -16,11 +17,17 @@ import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common';
 import { PressButton, OutlinedText, SearchModal } from '@components/Home';
 import { useModal } from '@hooks';
-import { useBackHandler, usePressButtonState } from '@hooks/home';
+import {
+	useAsyncStorage,
+	useBackHandler,
+	usePressButtonState,
+} from '@hooks/home';
 import { SearchSVG } from '@icons';
 import { widthScale } from '@utils/scaling';
 
 const logoIcon = require('@icons/logo.png');
+
+const DEFAULT_BUTTON_WIDTH = 376;
 
 const Home = ({ navigation }) => {
 	const { width } = useWindowDimensions();
@@ -29,6 +36,7 @@ const Home = ({ navigation }) => {
 	const progress = useSharedValue(0);
 	const { contentColor, buttonColor, handleTouchStart, handleTouchEnd } =
 		usePressButtonState();
+	const { storeData, getData, clearData } = useAsyncStorage();
 
 	const onPressPagination = useCallback(
 		index => {
@@ -53,10 +61,33 @@ const Home = ({ navigation }) => {
 			});
 		}
 	};
-	const handleSelectCamera = () => navigation.navigate('CameraScreen');
-	const handleSelectAlbum = () => navigation.navigate('ImageScreen');
-	const handleSelectAI = () => navigation.navigate('AiOnboardingScreen');
 
+	const handleSelectCamera = () => {
+		// navigation.navigate('CameraScreen')
+		Alert.alert('알림', '카메라 기능은 추후 업데이트 예정입니다.');
+	};
+	const handleSelectAlbum = async () => {
+		const pageName = 'ImageScreen';
+		const isVisited = await isVisitedPage(pageName);
+		navigation.navigate(pageName, { visited: isVisited });
+	};
+	const handleSelectAI = async () => {
+		const pageName = 'AiScreen';
+		const isVisited = await isVisitedPage(pageName);
+		if (isVisited) navigation.navigate(pageName);
+		else navigation.navigate('AiOnboardingScreen');
+	};
+
+	const isVisitedPage = async pageName => {
+		const visitedKey = `${pageName}_visited`;
+		const data = await getData(visitedKey);
+
+		if (!data) {
+			await storeData(visitedKey, 'true');
+			return false;
+		}
+		return true;
+	};
 	// splash로 뒤로가기 방지 및 앱종료 모달
 	useBackHandler();
 
@@ -72,7 +103,7 @@ const Home = ({ navigation }) => {
 					styles.card,
 					{
 						width: pageWidth,
-						maxWidth: 376,
+						maxWidth: DEFAULT_BUTTON_WIDTH,
 						backgroundColor: item.color,
 					},
 				]}>
@@ -124,13 +155,16 @@ const Home = ({ navigation }) => {
 						<SearchSVG color={contentColor} />
 					</Pressable>
 				</View>
-				<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+				<ScrollView
+					contentContainerStyle={{ alignItems: 'center' }}
+					showsVerticalScrollIndicator={false}>
 					<View style={styles.buttonContainer}>
 						<PressButton
 							iconName={'camera'}
 							onPress={handleSelectCamera}
 							engText={'SELECT FROM CAMERA'}
 							text={'카메라로 색상 추천 받기'}
+							enabled={false}
 						/>
 						<PressButton
 							iconName={'image'}
@@ -163,7 +197,10 @@ const Home = ({ navigation }) => {
 							mode={'horizontal-stack'}
 							modeConfig={{
 								snapDirection: 'left',
-								stackInterval: pageWidth > 376 ? 376 : pageWidth + 4,
+								stackInterval:
+									pageWidth > DEFAULT_BUTTON_WIDTH
+										? DEFAULT_BUTTON_WIDTH
+										: pageWidth + 4,
 							}}
 							data={dummy_trendColor}
 							onProgressChange={progress}
@@ -218,11 +255,12 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 	split: {
-		width: widthScale(376),
+		width: widthScale(DEFAULT_BUTTON_WIDTH),
 		height: 4,
 		backgroundColor: COLOR.GRAY_1,
 	},
 	buttonContainer: {
+		width: widthScale(DEFAULT_BUTTON_WIDTH),
 		paddingVertical: 38,
 		gap: 18,
 		justifyContent: 'center',

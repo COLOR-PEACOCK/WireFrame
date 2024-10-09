@@ -142,6 +142,9 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 			/>
 
 			<View style={styles.container}>
+				<ScrollView style={styles.colorPaletteWrap}
+				showsVerticalScrollIndicator={false}
+				>
 				<View style={[styles.colorBox, { backgroundColor: tempColor }]}>
 					<MainColorInfo
 						colorInfo={colorInfo}
@@ -151,9 +154,8 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 					/>
 				</View>
 
-				<View style={styles.split}></View>
-
-				<ScrollView style={styles.colorPaletteWrap}>
+				<View style={styles.split}/>
+				<View style={{marginBottom: 18}}>
 					<ColorPalette
 						titleKor="단색"
 						titleEng="Monochromatic color"
@@ -202,6 +204,7 @@ const ColorRecommendScreen = ({ route, navigation }) => {
 						colors={tetradicColors}
 						onColorSelect={handleColorSelect}
 					/>
+					</View>
 				</ScrollView>
 
 				<ColorPickerModal

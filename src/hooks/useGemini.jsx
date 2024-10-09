@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { useState } from 'react';
+import { Alert } from 'react-native';
 
 const useGemini = () => {
 	const apiKey = process.env.API_KEY;
@@ -47,10 +48,15 @@ const useGemini = () => {
                 }]
             }`;
 
-		const result = await chatSession.sendMessage(prompt);
-		const data = JSON.parse(result.response.text());
-		setIsLoading(false);
-		return data;
+		try {
+			const result = await chatSession.sendMessage(prompt);
+			const data = JSON.parse(result.response.text());
+			setIsLoading(false);
+			return data;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
 	}
 	return { run, isLoading };
 };

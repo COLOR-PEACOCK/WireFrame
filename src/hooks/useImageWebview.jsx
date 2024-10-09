@@ -232,6 +232,7 @@ const useImageWebview = () => {
                 betweenbg.style.borderColor = color;
                 window.ReactNativeWebView.postMessage(color);
             }
+            updateColor()
         }
     </script>
 </body>

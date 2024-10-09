@@ -4,7 +4,12 @@ import { CustomText as Text } from '@components/common';
 import { COLOR } from '@styles/color';
 import { useInputState } from '@hooks/home';
 
-const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
+const SearchInputForm = ({
+	selectedLabel,
+	inputValues,
+	setInputValues,
+	onSubmit,
+}) => {
 	const {
 		inputOption,
 		inputRef,
@@ -37,7 +42,11 @@ const SearchInputForm = ({ selectedLabel, inputValues, setInputValues }) => {
 						handleTextChange(index, text);
 						handleAutoFocus(index, text);
 					}}
-					onSubmitEditing={() => handleFocusNext(index)}
+					onSubmitEditing={() => {
+						if (inputOption.labels.length - 1 < index)
+							handleFocusNext(index);
+						else onSubmit();
+					}}
 					keyboardType={inputOption.keyboardType}
 					returnKeyType={'next'}
 				/>

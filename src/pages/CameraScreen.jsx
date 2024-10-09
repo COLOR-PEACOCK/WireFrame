@@ -16,7 +16,7 @@ import {
 	ColorInfo,
 	CrossHair,
 	ExtColorModal,
-} from '@components/camerapage/CameraRender';
+} from '@components/camerapage';
 
 import { useFocusEffect } from '@react-navigation/native';
 

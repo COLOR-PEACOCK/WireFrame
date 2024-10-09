@@ -1,18 +1,26 @@
 import { COLOR } from '@styles/color';
 import { useState } from 'react';
 
-const usePressButtonState = () => {
-	const [contentColor, setContentColor] = useState(COLOR.GRAY_10);
-	const [buttonColor, setButtonColor] = useState(COLOR.WHITE);
+const usePressButtonState = (enabled = true) => {
+	const [contentColor, setContentColor] = useState(
+		enabled ? COLOR.GRAY_10 : COLOR.GRAY_7,
+	);
+	const [buttonColor, setButtonColor] = useState(
+		enabled ? COLOR.WHITE : COLOR.GRAY_3,
+	);
 
 	const handleTouchStart = () => {
-		setContentColor(COLOR.GRAY_1);
-		setButtonColor(COLOR.PRIMARY);
+		if (enabled) {
+			setContentColor(COLOR.GRAY_1);
+			setButtonColor(COLOR.PRIMARY);
+		}
 	};
 
 	const handleTouchEnd = () => {
-		setContentColor(COLOR.GRAY_10);
-		setButtonColor(COLOR.WHITE);
+		if (enabled) {
+			setContentColor(COLOR.GRAY_10);
+			setButtonColor(COLOR.WHITE);
+		}
 	};
 
 	return { contentColor, buttonColor, handleTouchStart, handleTouchEnd };

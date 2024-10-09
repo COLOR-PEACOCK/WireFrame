@@ -1,10 +1,19 @@
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+	Dimensions,
+	Modal,
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	View,
+} from 'react-native';
 
 import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common';
 import { SearchInputForm, ListValue, Dropdown } from '@components/Home';
 import { useSearchModalState } from '@hooks/home';
 import { ArrowGoBackSVG, FormkitSubmitSVG } from '@icons';
+import { BASE_HEIGHT, heightScale } from '@utils/scaling';
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 	const {
@@ -51,12 +60,12 @@ const SearchModal = ({ visible, handleCloseModal, onPressSearch }) => {
 								selectedLabel={selectedLabel}
 								inputValues={inputValues}
 								setInputValues={setInputValues}
+								onSubmit={handlePressSearch}
 							/>
 							{/* 자동완성 검색어 리스트 */}
 							{searchNameList.length > 0 && (
 								<ScrollView
 									style={styles.searchResults}
-									showsVerticalScrollIndicator={false}
 									keyboardShouldPersistTaps="always">
 									{searchNameList.map(item => {
 										const currentKeyword = isKeywordKor
@@ -122,7 +131,7 @@ const dummy_list = ['색상 이름', 'HEX', 'RGB', 'HSL', 'CMYK'];
 const styles = StyleSheet.create({
 	modalView: {
 		width: '85%',
-		marginTop: 100,
+		marginTop: DEVICE_HEIGHT >= BASE_HEIGHT - 1 ? heightScale(50) : 5,
 		marginHorizontal: 'auto',
 		paddingTop: 18,
 		zIndex: 5,
@@ -155,9 +164,10 @@ const styles = StyleSheet.create({
 	},
 	modalBody: {
 		marginHorizontal: 18,
-		gap: 18,
+		gap: 10,
 	},
 	searchResults: {
+		maxHeight: DEVICE_HEIGHT >= BASE_HEIGHT - 1 ? 'auto' : heightScale(150),
 		borderColor: COLOR.GRAY_6,
 		borderRadius: 8,
 		borderWidth: 1,
