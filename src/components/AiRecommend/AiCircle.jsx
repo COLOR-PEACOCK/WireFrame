@@ -8,11 +8,10 @@ import {
 } from 'react-native';
 import tinycolor from 'tinycolor2';
 import { COLOR } from '@styles/color';
+import { heightScale, widthScale } from '@utils/scaling';
 
-const LeftCircle = ({
-	left,
-	top,
-	diameter,
+const AiCircle = ({
+	type,
 	number,
 	colorCode,
 	korColorName,
@@ -21,12 +20,19 @@ const LeftCircle = ({
 	colorDescription,
 	isSelected,
 	setIsSelected,
+	containerHeight,
 }) => {
 	const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
 		useWindowDimensions();
 
 	const animatedSize = useRef(new Animated.Value(1)).current;
 	const animatedFontSize = useRef(new Animated.Value(0)).current;
+
+	const distance = 20;
+	const diameter = heightScale(205);
+	const beforeDivideLarge = containerHeight - 1.2 * diameter; // 큰 원끼리 간격 나누기 전의 길이(나중에 4로 나누게 됨)
+	const beforeDivideMiddle = containerHeight - 0.8 * diameter;
+	const beforeDivideSmall = containerHeight - diameter;
 
 	useEffect(() => {
 		Animated.parallel([
@@ -70,7 +76,7 @@ const LeftCircle = ({
 					index === number ? 'large' : 'small',
 				);
 			} else {
-				// medium누르면 자신은 large로 나머지는 small
+				// medium누르면 자신은 large로 나머지 small
 				return prevSelected.map((_, index) =>
 					index === number ? 'large' : 'small',
 				);
@@ -80,17 +86,34 @@ const LeftCircle = ({
 
 	const circleStyle = {
 		position: 'absolute',
-		left: animatedSize.interpolate({
-			inputRange: [0.5, 1, 1.6],
-			outputRange: [
-				left - SCREEN_WIDTH * 0.5,
-				-left - SCREEN_WIDTH * 0.5,
-				-left - SCREEN_WIDTH * 0.5,
-			],
-		}),
+		...(type == 'left'
+			? {
+					left: animatedSize.interpolate({
+						inputRange: [0.5, 1, 1.6],
+						outputRange: [
+							distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+						],
+					}),
+			  }
+			: {
+					right: animatedSize.interpolate({
+						inputRange: [0.5, 1, 1.6],
+						outputRange: [
+							distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+							-distance - SCREEN_WIDTH * 0.5,
+						],
+					}),
+			  }),
 		top: animatedSize.interpolate({
 			inputRange: [0.5, 1, 1.6],
-			outputRange: [top - 24 + diameter / 4, top - 24, top - 60 - 24],
+			outputRange: [
+				0.25 * diameter + (number * beforeDivideSmall) / 4,
+				-0.1 * diameter + (number * beforeDivideMiddle) / 4,
+				-0.2 * diameter + (number * beforeDivideLarge) / 4,
+			],
 		}),
 		width: animatedSize.interpolate({
 			inputRange: [0.5, 1, 1.6],
@@ -105,7 +128,6 @@ const LeftCircle = ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		overflow: 'hidden',
-		zIndex: -1,
 	};
 
 	return (
@@ -119,9 +141,13 @@ const LeftCircle = ({
 				<Animated.Text
 					style={{
 						fontFamily: 'Pretendard-Bold',
-						fontSize: animatedSize.interpolate({
-							inputRange: [0.5, 1, 1.6],
-							outputRange: [14, 20, 26],
+						fontSize: animatedFontSize.interpolate({
+							inputRange: [0, 0.5, 1],
+							outputRange: [
+								heightScale(14),
+								heightScale(20),
+								heightScale(26),
+							],
 						}),
 						color: korTextColor(colorCode[number]),
 					}}>
@@ -130,9 +156,13 @@ const LeftCircle = ({
 				<Animated.Text
 					style={{
 						fontFamily: 'Pretendard-Medium',
-						fontSize: animatedSize.interpolate({
-							inputRange: [0.5, 1, 1.6],
-							outputRange: [12, 16, 20],
+						fontSize: animatedFontSize.interpolate({
+							inputRange: [0, 0.5, 1],
+							outputRange: [
+								heightScale(12),
+								heightScale(16),
+								heightScale(20),
+							],
 						}),
 						color: engTextColor(colorCode[number]),
 						marginTop: -2,
@@ -145,10 +175,10 @@ const LeftCircle = ({
 						fontFamily: 'Pretendard-Regular',
 						fontSize: animatedFontSize.interpolate({
 							inputRange: [0, 0.5, 1],
-							outputRange: [0, 16, 18],
+							outputRange: [0, heightScale(16), heightScale(18)],
 						}),
 						color: korTextColor(colorCode[number]),
-						paddingHorizontal: 45,
+						paddingHorizontal: 30,
 					}}>
 					{isSelected[number] === 'large'
 						? colorDescription[number]
@@ -159,4 +189,4 @@ const LeftCircle = ({
 	);
 };
 
-export default LeftCircle;
+export default AiCircle;
