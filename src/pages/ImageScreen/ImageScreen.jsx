@@ -24,6 +24,7 @@ import { useColorName, useImageWebview, useImagePicker } from '@hooks';
 import imageIcon from '@icons/image.png';
 import paletteIcon from '@icons/palette.png';
 import aiIcon from '@icons/ai.png';
+import { widthScale, heightScale } from '@utils/scaling';
 
 const ImageScreen = ({ navigation }) => {
 	const [color, setColor] = useState('#000000');
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 	},
 	buttonContainer: {
-		height: 124,
+		height: heightScale(124),
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -281,8 +282,8 @@ const styles = StyleSheet.create({
 		gap: 6,
 	},
 	buttonIcon: {
-		width: 26,
-		height: 26,
+		width: widthScale(26),
+		height: heightScale(26),
 	},
 	aiButton: {
 		backgroundColor: COLOR.GRAY_10,
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
 	},
 	ButtonText: {
 		color: COLOR.WHITE,
-		fontSize: 18,
+		fontSize: widthScale(18),
 		fontFamily: 'Pretendard-Bold',
 	},
 	recommendationButton: {

@@ -26,7 +26,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 		cmykVal: '',
 	});
 	const { getKorColorName, getEngColorNameLocal } = useColorName();
-	const { run, isLoading } = useGemini();
+	const { run } = useGemini();
+	const [isLoading, setIsLoading] = useState(true);
+
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -46,7 +48,9 @@ const ImageAiScreen = ({ route, navigation }) => {
 	}, [data]);
 
 	const fetchData = async () => {
+    setIsLoading(true);
 		const response = await run(hexValue);
+    setIsLoading(false);
 		if (response) setData(response);
 		else
 			Alert.alert('알림', 'AI 분석중 오류가 발생했습니다.', [
