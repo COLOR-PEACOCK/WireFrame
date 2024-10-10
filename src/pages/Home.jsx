@@ -17,11 +17,7 @@ import { COLOR } from '@styles/color';
 import { CustomText as Text } from '@components/common';
 import { PressButton, OutlinedText, SearchModal } from '@components/Home';
 import { useModal } from '@hooks/index';
-import {
-	useBackHandler,
-	useHomeState,
-	usePressButtonState,
-} from '@hooks/home';
+import { useBackHandler, useHomeState, usePressButtonState } from '@hooks/home';
 import { SearchSVG } from '@icons';
 import { widthScale } from '@utils/scaling';
 
@@ -38,12 +34,17 @@ const Home = ({ navigation }) => {
 		usePressButtonState();
 
 	const { isModalVisible, handleOpenModal, handleCloseModal } = useModal();
-	const {
-		handleSearch,
-		handleSelectCamera,
-		handleSelectAlbum,
-		handleSelectAI,
-	} = useHomeState();
+	const { handleSelectCamera, handleSelectAlbum, handleSelectAI } =
+		useHomeState();
+
+	const handleSearch = hexValue => {
+		if (hexValue) {
+			handleCloseModal();
+			navigation.navigate('ColorRecommendScreen', {
+				mainColor: { hexVal: hexValue },
+			});
+		}
+	};
 
 	const onPressPagination = useCallback(
 		index => {

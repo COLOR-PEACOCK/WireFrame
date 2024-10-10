@@ -6,15 +6,6 @@ const useHomeState = () => {
 	const navigation = useNavigation();
 	const { storeData, getData, clearData } = useAsyncStorage();
 
-	const handleSearch = hexValue => {
-		if (hexValue) {
-			handleCloseModal();
-			navigation.navigate('ColorRecommendScreen', {
-				mainColor: { hexVal: hexValue },
-			});
-		}
-	};
-
 	const handleSelectCamera = () => {
 		// navigation.navigate('CameraScreen')
 		Alert.alert('알림', '카메라 기능은 추후 업데이트 예정입니다.');
@@ -43,7 +34,6 @@ const useHomeState = () => {
 	};
 
 	return {
-		handleSearch,
 		handleSelectCamera,
 		handleSelectAlbum,
 		handleSelectAI,
