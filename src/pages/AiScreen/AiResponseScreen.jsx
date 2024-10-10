@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	View,
-	TouchableOpacity,
-	useWindowDimensions,
-	Alert,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLOR } from '@styles/color';
@@ -44,6 +37,7 @@ const AiResponseScreen = ({ route }) => {
 		'medium',
 	]);
 
+	// AI 실행
 	useEffect(() => {
 		runAIModel(itemInImage, itemToRecommend, base64Image);
 	}, [itemInImage, itemToRecommend, base64Image]);
@@ -83,6 +77,23 @@ const AiResponseScreen = ({ route }) => {
 		setContainerHeight(height); // 세로 길이를 상태에 저장
 	};
 
+	// AiCircle 배열 생성
+	const aiCircles = Array.from({ length: 5 }, (_, index) => (
+		<AiCircle
+			key={index}
+			type={index % 2 === 0 ? 'left' : 'right'}
+			number={index}
+			colorCode={colorCodeList}
+			korColorName={korColorNameList}
+			engColorName={engColorNameList}
+			colorShort={colorShortList}
+			colorDescription={colorDescriptionList}
+			isSelected={isSelected}
+			setIsSelected={setIsSelected}
+			containerHeight={containerHeight}
+		/>
+	));
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: itemColor }}>
@@ -107,66 +118,7 @@ const AiResponseScreen = ({ route }) => {
 						<View
 							style={styles.responseContainer}
 							onLayout={handleLayout}>
-							<AiCircle
-								type={'left'}
-								number={0}
-								colorCode={colorCodeList}
-								korColorName={korColorNameList}
-								engColorName={engColorNameList}
-								colorShort={colorShortList}
-								colorDescription={colorDescriptionList}
-								isSelected={isSelected}
-								setIsSelected={setIsSelected}
-								containerHeight={containerHeight}
-							/>
-							<AiCircle
-								type={'right'}
-								number={1}
-								colorCode={colorCodeList}
-								korColorName={korColorNameList}
-								engColorName={engColorNameList}
-								colorShort={colorShortList}
-								colorDescription={colorDescriptionList}
-								isSelected={isSelected}
-								setIsSelected={setIsSelected}
-								containerHeight={containerHeight}
-							/>
-							<AiCircle
-								type={'left'}
-								number={2}
-								colorCode={colorCodeList}
-								korColorName={korColorNameList}
-								engColorName={engColorNameList}
-								colorShort={colorShortList}
-								colorDescription={colorDescriptionList}
-								isSelected={isSelected}
-								setIsSelected={setIsSelected}
-								containerHeight={containerHeight}
-							/>
-							<AiCircle
-								type={'right'}
-								number={3}
-								colorCode={colorCodeList}
-								korColorName={korColorNameList}
-								engColorName={engColorNameList}
-								colorShort={colorShortList}
-								colorDescription={colorDescriptionList}
-								isSelected={isSelected}
-								setIsSelected={setIsSelected}
-								containerHeight={containerHeight}
-							/>
-							<AiCircle
-								type={'left'}
-								number={4}
-								colorCode={colorCodeList}
-								korColorName={korColorNameList}
-								engColorName={engColorNameList}
-								colorShort={colorShortList}
-								colorDescription={colorDescriptionList}
-								isSelected={isSelected}
-								setIsSelected={setIsSelected}
-								containerHeight={containerHeight}
-							/>
+							{aiCircles}
 
 							<Background
 								color={background ? '#ffffff' : COLOR.GRAY_3}
